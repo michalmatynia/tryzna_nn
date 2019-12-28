@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 
-import FormField from '../../utils/Form/formfield';
-import { update, generateData, isFormValid, resetFields } from '../../utils/Form/formActions';
+import FormField from '../../../utils/Form/formfield';
+import { update, generateData, isFormValid, resetFields } from '../../../utils/Form/formActions';
 
 import { connect } from 'react-redux';
-import { getBrands, addBrand } from '../../../redux/actions/products_actions';
+import { getBrands, addBrand } from '../../../../redux/actions/products_actions';
 
 class ManageBrands extends Component {
     state = {

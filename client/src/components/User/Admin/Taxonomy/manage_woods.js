@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 
-import FormField from '../../utils/Form/formfield';
-import { update, generateData, isFormValid, resetFields } from '../../utils/Form/formActions';
+import FormField from '../../../utils/Form/formfield';
+import { update, generateData, isFormValid, resetFields } from '../../../utils/Form/formActions';
 
 import { connect } from 'react-redux';
-import { getWoods, addWood } from '../../../redux/actions/products_actions';
+import { getWoods, addWood } from '../../../../redux/actions/products_actions';
 
 class ManageWoods extends Component {
     state = {

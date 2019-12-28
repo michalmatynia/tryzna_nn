@@ -15,12 +15,15 @@ import ResetPass from './components/Reset_user/reset_pass';
 import UserDashboard from './components/User';
 import AddProduct from './components/User/Admin/add_product';
 
-import ManageCategories from './components/User/Admin/manage_categories';
+import ManageCategories from './components/User/Admin/Taxonomy/manage_categories';
 import UserCart from './components/User/cart';
 import UpdateProfile from './components/User/update_profile';
 
 import ManageSite from './components/User/Admin/manage_site';
 import AddFile from './components/User/Admin/add_file';
+
+// CMS Managment
+import AddSlider from './components/User/Admin/CMS/add_slider';
 
 import PageNotFound from './components/utils/page_not_found';
 
@@ -31,12 +34,14 @@ const Routes = () => {
 
         <Route path="/user/dashboard" exact component={Auth(UserDashboard, true)} />
         <Route path="/user/cart" exact component={Auth(UserCart, true)} />
-        <Route path="/user/user_profile" exact component={Auth(UpdateProfile,true)}/>
+        <Route path="/user/user_profile" exact component={Auth(UpdateProfile, true)} />
 
-        <Route path="/admin/add_product" exact component={Auth(AddProduct,true)}/>
-        <Route path="/admin/manage_categories" exact component={Auth(ManageCategories,true)}/>
-        <Route path="/admin/site_info" exact component={Auth(ManageSite,true)}/>
-        <Route path="/admin/add_file" exact component={Auth(AddFile,true)}/>
+        <Route path="/admin/add_product" exact component={Auth(AddProduct, true)} />
+        <Route path="/admin/manage_categories" exact component={Auth(ManageCategories, true)} />
+        <Route path="/admin/site_info" exact component={Auth(ManageSite, true)} />
+        <Route path="/admin/add_file" exact component={Auth(AddFile, true)} />
+
+        <Route path="/admin/add_slider" exact component={Auth(AddSlider, true)} />
 
         <Route path="/reset_password/:token" exact component={Auth(ResetPass, false)} />
         <Route path="/reset_user" exact component={Auth(ResetUser, false)} />
