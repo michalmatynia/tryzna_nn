@@ -19,7 +19,6 @@ export const ADD_WOOD = 'add_wood';
 
 export const GET_PRODUCTS_TO_SHOP = 'get_products_to_shop';
 export const ADD_PRODUCT = 'add_product';
-
 export const CLEAR_PRODUCT = 'clear_product';
 
 export const GET_PRODUCT_DETAIL = 'get_product_detail';
@@ -30,6 +29,7 @@ export const UPDATE_SITE_DATA = 'update_site_data';
 
 // CMS
 // - Slider
-export const ADD_SLIDER = 'add_slider';
-
+export const ADD_SLIDE = 'add_slide';
+export const CLEAR_SLIDE = 'clear_slide';
+export const GET_SLIDES_TO_BANNER = 'get_slides_to_banner';
 

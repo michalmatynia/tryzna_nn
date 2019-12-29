@@ -8,6 +8,8 @@ import { getSiteData } from '../redux/actions/site_actions';
 class Layout extends Component {
 
 componentDidMount(){
+    // console.log(this.props)
+
     if(Object.keys(this.props.site).length === 0){
         this.props.dispatch(getSiteData())
     }

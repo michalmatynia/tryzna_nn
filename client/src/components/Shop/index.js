@@ -30,6 +30,7 @@ class Shop extends Component {
     }
 
     componentDidMount() {
+
         this.props.dispatch(getBrands());
         this.props.dispatch(getWoods());
 

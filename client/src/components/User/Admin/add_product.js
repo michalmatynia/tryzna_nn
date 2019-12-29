@@ -263,6 +263,7 @@ class AddProduct extends Component {
 
 
     componentDidMount() {
+
         const formdata = this.state.formdata;
 
         this.props.dispatch(getBrands())

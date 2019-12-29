@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import UserLayout from '../../../../hoc/user';
 
 import FormField from '../../../utils/Form/formfield';
 import { update, generateData, isFormValid, resetFields } from '../../../utils/Form/formActions';
 import FileUpload from '../../../utils/Form/fileupload'
 
+import { act_addSlide, act_clearSlide } from '../../../../redux/actions/slides_actions';
 
-import { connect } from 'react-redux';
-import { addSlide, clearSlide } from '../../../../redux/actions/cms_actions';
-
-class addSlider extends Component {
+class AddSlide extends Component {
 
     state = {
         formError: false,
@@ -25,7 +24,7 @@ class addSlider extends Component {
                     placeholder: 'Enter text for Line One'
                 },
                 validation: {
-                    required: true
+                    required: false
                 },
                 valid: false,
                 touched: false,
@@ -43,7 +42,7 @@ class addSlider extends Component {
                     placeholder: 'Enter text for Line Two'
                 },
                 validation: {
-                    required: true
+                    required: false
                 },
                 valid: false,
                 touched: false,
@@ -88,8 +87,15 @@ class addSlider extends Component {
         }
     }
 
+
+    updateFields = (newFormData) => {
+        this.setState({
+            formdata: newFormData
+        })
+    }
+
     updateForm = (element) => {
-        const newFormdata = update(element, this.state.formdata, 'add_slider');
+        const newFormdata = update(element, this.state.formdata, 'slides');
         this.setState({
             formError: false,
             formdata: newFormdata
@@ -98,7 +104,7 @@ class addSlider extends Component {
 
     resetFieldHandler = () => {
 
-        const newFormData = resetFields(this.state.formdata, 'add_slider');
+        const newFormData = resetFields(this.state.formdata, 'slides');
 
         this.setState({
             formdata: newFormData,
@@ -108,7 +114,7 @@ class addSlider extends Component {
             this.setState({
                 formSuccess: false
             }, () => {
-                this.props.dispatch(clearSlide('add_slider'))
+                this.props.dispatch(act_clearSlide('slides'))
             })
         }, 3000)
     }
@@ -116,13 +122,13 @@ class addSlider extends Component {
     submitForm = (event) => {
         event.preventDefault();
 
-        let dataToSubmit = generateData(this.state.formdata, 'add_slider');
-        let formIsValid = isFormValid(this.state.formdata, 'add_slider');
+        let dataToSubmit = generateData(this.state.formdata, 'slides');
+        let formIsValid = isFormValid(this.state.formdata, 'slides');
 
         if (formIsValid) {
-            this.props.dispatch(addSlider(dataToSubmit))
+            this.props.dispatch(act_addSlide(dataToSubmit))
                 .then(() => {
-                    if (this.props.products.adminAddProduct.success) {
+                    if (this.props.slides.adminAddSlide.success) {
                         this.resetFieldHandler();
                     } else {
                         this.setState({ formError: true })
@@ -148,11 +154,13 @@ class addSlider extends Component {
         })
     }
 
+
+
     render() {
         return (
             <UserLayout>
-<div>
-                    <h1>Add slider</h1>
+                <div>
+                    <h1>Add slides</h1>
                     <form onSubmit={(event) => this.SubmitForm(event)}>
                         <FileUpload
                             imagesHandler={(images) => this.imagesHandler(images)}
@@ -160,12 +168,12 @@ class addSlider extends Component {
                         />
                         <FormField
                             id={'lineOne'}
-                            formdata={this.state.formdata.name}
+                            formdata={this.state.formdata.lineOne}
                             change={(element) => this.updateForm(element)}
                         />
                         <FormField
                             id={'lineTwo'}
-                            formdata={this.state.formdata.name}
+                            formdata={this.state.formdata.lineTwo}
                             change={(element) => this.updateForm(element)}
                         />
                         <div className="form_divider"></div>
@@ -184,7 +192,7 @@ class addSlider extends Component {
                         {this.state.formError ?
                             <div className="error_label">Please check your data</div>
                             : null}
-                        <button onClick={(event) => this.submitForm(event)}>Add Slider</button>
+                        <button onClick={(event) => this.submitForm(event)}>Add Slide</button>
                     </form>
                 </div>
             </UserLayout>
@@ -193,4 +201,10 @@ class addSlider extends Component {
     }
 }
 
-export default addSlider;
+const mapStateToProps = (state) => {
+    return {
+        slides: state.slides
+    }
+}
+
+export default connect(mapStateToProps)(AddSlide);

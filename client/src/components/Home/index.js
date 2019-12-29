@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import HomeSlider from './home_slider';
+// import HomeSlider from './home_slider';
 import HomePromotion from './home_promotion';
 import CardBlock from '../utils/card_block';
 
@@ -8,6 +8,8 @@ import { getProductsBySell, getProductsByArrival} from '../../redux/actions/prod
 class Home extends Component {
 
 componentDidMount(){
+ // console.log(this.props)
+
     this.props.dispatch(getProductsBySell());
     this.props.dispatch(getProductsByArrival());
 
@@ -16,7 +18,7 @@ componentDidMount(){
     render() {
         return (
             <div>
-                <HomeSlider/>
+                {/* <HomeSlider/> */}
                 <CardBlock
                 list={this.props.products.bySell}
                 title="Best selling guitars"
@@ -33,7 +35,8 @@ componentDidMount(){
 
 const mapStateToProps = (state) => {
     return {
-        products: state.products
+        products: state.products,
+        slides: state.slides
     }
 }
 

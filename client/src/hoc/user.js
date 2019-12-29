@@ -38,8 +38,8 @@ const admin = [
 
 const cms_links = [
     {
-        name: 'Add slider',
-        linkTo: '/admin/add_slider'
+        name: 'Add slides',
+        linkTo: '/admin/add_slide'
     }
 ]
 

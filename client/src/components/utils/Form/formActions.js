@@ -87,8 +87,8 @@ export const populateOptionFields = (formdata, arrayData = [], field) => {
 }
 
 export const resetFields = (formdata, formName) => {
-    const newFormdata = { ...formdata };
 
+    const newFormdata = { ...formdata };
     for (let key in newFormdata) {
         if (key === 'images') {
             newFormdata[key].value = [];
@@ -96,8 +96,8 @@ export const resetFields = (formdata, formName) => {
             newFormdata[key].value = '';
         }
 
-            newFormdata[key].value = '';
-        newFormdata[key].value = false;
+        newFormdata[key].value = '';
+        newFormdata[key].touched = false;
         newFormdata[key].validationMessage = '';
     }
 

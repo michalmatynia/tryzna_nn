@@ -43,6 +43,7 @@ const { Wood } = require('./models/wood');
 const { Product } = require('./models/product');
 const { Payment } = require('./models/payment');
 const { Site } = require('./models/site');
+const { Slide } = require('./models/slide');
 
 // Middlewares
 const { auth } = require('./middleware/auth');
@@ -101,6 +102,62 @@ app.get('/api/user/admin_files', auth, admin, (req, res) => {
 app.get('api/user/download/:id', auth, admin, (req, res) => {
     const file = path.resolve('.') + `/uploads/${req.params.id}`;
     res.download(file)
+})
+// ======================
+//          SLIDES
+//=======================
+
+// app.post('/api/product/article', auth, admin, (req, res) => {
+//     const product = new Product(req.body);
+
+//     product.save((err, doc) => {
+//         if (err) return res.json({ success: false, err });
+//         res.status(200).json({
+//             success: true,
+//             article: doc
+//         })
+//     })
+// })
+
+// Add new Slide
+
+app.post('/api/slide/article', auth, admin, (req, res) => {
+
+    const slide = new Slide(req.body);
+    console.log(slide);
+
+    slide.save((err, doc) => {
+        if (err) return res.json({ success: false, err });
+        res.status(200).json({
+            success: true,
+            article: doc
+        })
+    })
+})
+
+app.post('/api/slide/banner', (req, res) => {
+    let order = req.body.order ? req.body.order : 'desc';
+    let sortBy = req.body.sortBy ? req.body.sortBy : "_id";
+
+    let limit = req.body.limit ? parseInt(req.body.limit) : 100;
+    let skip = parseInt(req.body.skip);
+    let findArgs = {};
+
+    findArgs['publish'] = true;
+
+    Slide.
+        find(findArgs)
+        .sort([[sortBy, order]])
+        .skip(skip)
+        .limit(limit)
+        .exec((err, slide_items) => {
+            if (err) return res.status(400).send(err);
+            res.status(200).json({
+                size: slide_items.length,
+                slide_items
+            })
+
+        })
 })
 
 // ======================
