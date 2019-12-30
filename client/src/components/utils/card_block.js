@@ -3,6 +3,8 @@ import Card from './card'
 
 const CardBlock = (props) => {
     
+// console.log(props)
+
     const renderCards = () => (
         props.list ?
             props.list.map((card, i) => (

@@ -1,5 +1,5 @@
 import {
-    GET_SLIDES_TO_BANNER,
+    GET_SLIDES_BY_ARRIVAL,
     ADD_SLIDE,
     CLEAR_SLIDE
 
@@ -7,12 +7,8 @@ import {
 
 export default function (state = {}, action) {
     switch (action.type) {
-        case GET_SLIDES_TO_BANNER:
-            return {
-                ...state,
-                toBanner: action.payload.slide_items,
-                toBannerSize: action.payload.size
-            }
+        case GET_SLIDES_BY_ARRIVAL:
+            return { ...state, byArrival: action.payload }
         case ADD_SLIDE:
             return {
                 ...state, adminAddSlide: action.payload

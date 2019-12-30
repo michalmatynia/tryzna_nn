@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {
-    GET_SLIDES_TO_BANNER,
+    GET_SLIDES_BY_ARRIVAL,
     ADD_SLIDE,
     CLEAR_SLIDE
 
@@ -35,26 +35,35 @@ export function act_clearSlide(currentType) {
 
 }
 
-export function getSlidesToBanner(skip, limit, filters = [], previousState = []) {
-    const data = {
-        limit,
-        skip,
-        filters
-    }
+// export function act_getSlidesByArrival(skip, limit, filters = [], previousState = []) {
+//     const data = {
+//         limit,
+//         skip,
+//         filters
+//     }
 
-    const request = axios.post(`${SLIDE_SERVER}/banner`, data)
-        .then(response => {
-            let newState = [
-                ...previousState,
-                ...response.data.items
-            ];
-            return {
-                size: response.data.size,
-                items: newState
-            }
-        });
+//     const request = axios.post(`${SLIDE_SERVER}/article`, data)
+//         .then(response => {
+//             let newState = [
+//                 ...previousState,
+//                 ...response.data.articles
+//             ];
+//             return {
+//                 size: response.data.size,
+//                 articles: newState
+//             }
+//         });
+//     return {
+//         type: GET_SLIDES_BY_ARRIVAL,
+//         payload: request
+//     }
+// }
+
+export function act_getSlidesByArrival() {
+    const request = axios.get(`${SLIDE_SERVER}/articles?sortBy=createdAdd&order=desc&limit=4`)
+        .then(response => response.data);
     return {
-        type: GET_SLIDES_TO_BANNER,
+        type: GET_SLIDES_BY_ARRIVAL,
         payload: request
     }
 }

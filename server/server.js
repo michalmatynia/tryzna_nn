@@ -107,24 +107,9 @@ app.get('api/user/download/:id', auth, admin, (req, res) => {
 //          SLIDES
 //=======================
 
-// app.post('/api/product/article', auth, admin, (req, res) => {
-//     const product = new Product(req.body);
-
-//     product.save((err, doc) => {
-//         if (err) return res.json({ success: false, err });
-//         res.status(200).json({
-//             success: true,
-//             article: doc
-//         })
-//     })
-// })
-
-// Add new Slide
-
 app.post('/api/slide/article', auth, admin, (req, res) => {
 
     const slide = new Slide(req.body);
-    console.log(slide);
 
     slide.save((err, doc) => {
         if (err) return res.json({ success: false, err });
@@ -135,30 +120,50 @@ app.post('/api/slide/article', auth, admin, (req, res) => {
     })
 })
 
-app.post('/api/slide/banner', (req, res) => {
-    let order = req.body.order ? req.body.order : 'desc';
-    let sortBy = req.body.sortBy ? req.body.sortBy : "_id";
+app.get('/api/slide/articles', (req, res) => {
+    let order = req.query.order ? req.query.order : "asc";
+    let sortBy = req.query.sortBy ? req.query.sortBy : "_id";
+    let limit = req.query.limit ? parseInt(req.query.limit) : 100;
 
-    let limit = req.body.limit ? parseInt(req.body.limit) : 100;
-    let skip = parseInt(req.body.skip);
-    let findArgs = {};
+//     let findArgs = {};
 
-    findArgs['publish'] = true;
+//     findArgs['publish'] = true;
 
     Slide.
-        find(findArgs)
+        find()
         .sort([[sortBy, order]])
-        .skip(skip)
         .limit(limit)
-        .exec((err, slide_items) => {
+        .exec((err, articles) => {
             if (err) return res.status(400).send(err);
-            res.status(200).json({
-                size: slide_items.length,
-                slide_items
-            })
-
+            res.send(articles)
         })
+
 })
+
+// app.post('/api/slide/banner', (req, res) => {
+//     let order = req.body.order ? req.body.order : 'desc';
+//     let sortBy = req.body.sortBy ? req.body.sortBy : "_id";
+
+//     let limit = req.body.limit ? parseInt(req.body.limit) : 100;
+//     let skip = parseInt(req.body.skip);
+//     let findArgs = {};
+
+//     findArgs['publish'] = true;
+
+//     Slide.
+//         find(findArgs)
+//         .sort([[sortBy, order]])
+//         .skip(skip)
+//         .limit(limit)
+//         .exec((err, articles) => {
+//             if (err) return res.status(400).send(err);
+//             res.status(200).json({
+//                 size: articles.length,
+//                 articles
+//             })
+
+//         })
+// })
 
 // ======================
 //          PRODUCTS
