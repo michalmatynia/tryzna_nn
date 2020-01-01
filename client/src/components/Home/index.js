@@ -1,13 +1,22 @@
 import React, { Component } from 'react'
-// import HomeSlider from './home_slider';
 import HomePromotion from './home_promotion';
 import CardBlock from '../utils/card_block';
 import BannerBlock from '../utils/Blocks/banner_block';
 
 import { connect } from 'react-redux';
 import { getProductsBySell, getProductsByArrival } from '../../redux/actions/products_actions';
-import { act_getSlidesByArrival } from '../../redux/actions/slides_actions';
+import { act_getSlides } from '../../redux/actions/slides_actions';
 class Home extends Component {
+
+    state = {
+        get_slides:
+        {
+            sortBy: 'createdAdd',
+            order: 'desc',
+            limit: '4',
+            publish: true
+        }
+    }
 
     componentDidMount() {
         // console.log(this.props)
@@ -16,8 +25,8 @@ class Home extends Component {
         this.props.dispatch(getProductsByArrival());
 
         // Get Slides
-        
-        this.props.dispatch(act_getSlidesByArrival());
+        const args = this.state.get_slides
+        this.props.dispatch(act_getSlides(args));
         // console.log(this.props.products)
     }
 
@@ -25,8 +34,8 @@ class Home extends Component {
         return (
             <div>
                 <BannerBlock
-                list={this.props.slides.byArrival}
-                title="Banner"
+                    list={this.props.slides.adminGetSlides}
+                    title="Banner"
                 />
                 <CardBlock
                     list={this.props.products.bySell}

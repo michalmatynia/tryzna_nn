@@ -4,8 +4,6 @@ import Banner from './banner';
 
 const BannerBlock = (props) => {
     
-console.log(props.list)
-
 const settings = {
     dots: false,
     infinite: true,

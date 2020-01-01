@@ -228,6 +228,7 @@ select {
     margin-top: 10px;
 }
 
+
 /*============================
         PAGE TOP
 ==============================*/
@@ -892,57 +893,4 @@ footer .business_nfo .nfo {
     background-size: contain !important;
     background-position: center center !important;
     border: 1px solid #eaeaea;
-}
-
-.admin_list_block {
-    display: flex;
-    flex-wrap: wrap;
-    background: white;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ebebeb;
-}
-
-.admin_list_block .item {
-    flex-grow: 1;
-}
-
-.admin_list_block .item .image{
-    height: 125px;
-    background-size: contain !important;
-    background-repeat: no-repeat !important;
-    background-position: center center !important;
-    margin-right: 10px;
-}
-.admin_list_block .item.btn {
-    width: 0px;
-}
-
-/*============================
-        ADMIN BUTTONS
-==============================*/
-
-.list_btn {
-    cursor: pointer;
-    background: #F44336;
-    display: inline-block;
-    padding: 5px 10px;
-    margin-left: 5px;
-    margin-right: 5px;
-    color: #ffffff;
-    margin-top: 50px;
-    transition: all 200ms ease-in;
-}
-.list_btn_remove {
-    background: #F44336;
-}
-.list_btn_remove:hover {
-    background: rgb(223, 83, 73);
-}
-
-.list_btn_edit {
-    background: rgb(169, 174, 79);
-}
-.list_btn_edit:hover {
-    background: rgb(166, 170, 88);
 }

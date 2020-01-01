@@ -40,6 +40,10 @@ const cms_links = [
     {
         name: 'Add slides',
         linkTo: '/admin/add_slide'
+    },
+    {
+        name: 'List slides',
+        linkTo: '/admin/list_slides'
     }
 ]
 
@@ -59,18 +63,6 @@ const UserLayout = (props) => {
             <div className="user_container">
                 <div className="user_left_nav">
                     <h2>My account</h2>
-                    <div className="links">
-                        {generateLinks(links)}
-                    </div>
-                    {props.user.userData.isAdmin ?
-                        <div>
-                            <h2>Admin</h2>
-                            <div className="links">
-                                {generateLinks(admin)}
-                            </div>
-                        </div>
-                        : null
-                    }
                     {props.user.userData.isAdmin ?
                         <div>
                             <h2>CMS</h2>
@@ -80,6 +72,18 @@ const UserLayout = (props) => {
                         </div>
                         : null
                     }
+                    {props.user.userData.isAdmin ?
+                        <div>
+                            <h2>Admin</h2>
+                            <div className="links">
+                                {generateLinks(admin)}
+                            </div>
+                        </div>
+                        : null
+                    }
+                    <div className="links">
+                        {generateLinks(links)}
+                    </div>
                 </div>
                 <div className="user_right">
                     {props.children}

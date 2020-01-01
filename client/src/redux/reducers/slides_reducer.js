@@ -1,14 +1,15 @@
 import {
-    GET_SLIDES_BY_ARRIVAL,
+    GET_SLIDES,
     ADD_SLIDE,
-    CLEAR_SLIDE
+    CLEAR_SLIDE,
+    REMOVE_SLIDE_ITEM
 
 } from '../actions/types';
 
 export default function (state = {}, action) {
     switch (action.type) {
-        case GET_SLIDES_BY_ARRIVAL:
-            return { ...state, byArrival: action.payload }
+        case GET_SLIDES:
+            return { ...state, adminGetSlides: action.payload }
         case ADD_SLIDE:
             return {
                 ...state, adminAddSlide: action.payload
@@ -16,6 +17,11 @@ export default function (state = {}, action) {
         case CLEAR_SLIDE:
             return {
                 ...state, adminAddSlide: action.payload
+            }
+        case REMOVE_SLIDE_ITEM:
+            return {
+                ...state,
+                adminRemoveSlide: action.payload,
             }
         default:
             return state;

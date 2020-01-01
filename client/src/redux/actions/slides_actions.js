@@ -1,8 +1,9 @@
 import axios from 'axios';
 import {
-    GET_SLIDES_BY_ARRIVAL,
+    GET_SLIDES,
     ADD_SLIDE,
-    CLEAR_SLIDE
+    CLEAR_SLIDE,
+    REMOVE_SLIDE_ITEM
 
 } from './types';
 
@@ -35,35 +36,40 @@ export function act_clearSlide(currentType) {
 
 }
 
-// export function act_getSlidesByArrival(skip, limit, filters = [], previousState = []) {
-//     const data = {
-//         limit,
-//         skip,
-//         filters
-//     }
+export function act_getSlides(args) {
 
-//     const request = axios.post(`${SLIDE_SERVER}/article`, data)
-//         .then(response => {
-//             let newState = [
-//                 ...previousState,
-//                 ...response.data.articles
-//             ];
-//             return {
-//                 size: response.data.size,
-//                 articles: newState
-//             }
-//         });
-//     return {
-//         type: GET_SLIDES_BY_ARRIVAL,
-//         payload: request
-//     }
-// }
+    let listOfArgs = '';
+    let i = 0;
+    // console.log(args);
 
-export function act_getSlidesByArrival() {
-    const request = axios.get(`${SLIDE_SERVER}/articles?sortBy=createdAdd&order=desc&limit=4`)
+    for (const [key, value] of Object.entries(args)) {
+        i++;
+        if (i === 1) { listOfArgs += '?'; } else { listOfArgs += '&'; }
+
+        if (value) {
+            listOfArgs += key + '=' + value;
+        }
+    }
+
+
+
+    const request = axios.get(`/${SLIDE_SERVER}/articles${listOfArgs}`)
         .then(response => response.data);
     return {
-        type: GET_SLIDES_BY_ARRIVAL,
+        type: GET_SLIDES,
+        payload: request
+    }
+}
+
+export function act_removeSlideItem(id) {
+
+    const request = axios.get(`${SLIDE_SERVER}/removeSlideItem?_id=${id}`)
+        .then(response => {
+            return response.data;
+        })
+
+    return {
+        type: REMOVE_SLIDE_ITEM,
         payload: request
     }
 }

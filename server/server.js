@@ -125,12 +125,13 @@ app.get('/api/slide/articles', (req, res) => {
     let sortBy = req.query.sortBy ? req.query.sortBy : "_id";
     let limit = req.query.limit ? parseInt(req.query.limit) : 100;
 
-//     let findArgs = {};
+    let findArgs = {};
+    // console.log(req.query)
+    if (req.query.publish) { findArgs['publish'] = req.query.publish }
 
-//     findArgs['publish'] = true;
 
     Slide.
-        find()
+        find(findArgs)
         .sort([[sortBy, order]])
         .limit(limit)
         .exec((err, articles) => {
@@ -140,30 +141,19 @@ app.get('/api/slide/articles', (req, res) => {
 
 })
 
-// app.post('/api/slide/banner', (req, res) => {
-//     let order = req.body.order ? req.body.order : 'desc';
-//     let sortBy = req.body.sortBy ? req.body.sortBy : "_id";
+app.get('/api/user/removeSlideItem', auth, (req, res) => {
 
-//     let limit = req.body.limit ? parseInt(req.body.limit) : 100;
-//     let skip = parseInt(req.body.skip);
-//     let findArgs = {};
 
-//     findArgs['publish'] = true;
+    Slide.findOneAndUpdate({
+        $pull: { "_id": mongoose.Types.ObjectId(req.query._id) }
+    })
+        .catch((err) => {
+            if (err) return res.json({ success: false, err });
+            res.status(200).send('ok');
+        });
 
-//     Slide.
-//         find(findArgs)
-//         .sort([[sortBy, order]])
-//         .skip(skip)
-//         .limit(limit)
-//         .exec((err, articles) => {
-//             if (err) return res.status(400).send(err);
-//             res.status(200).json({
-//                 size: articles.length,
-//                 articles
-//             })
+})
 
-//         })
-// })
 
 // ======================
 //          PRODUCTS

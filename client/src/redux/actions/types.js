@@ -31,5 +31,6 @@ export const UPDATE_SITE_DATA = 'update_site_data';
 // - Slider
 export const ADD_SLIDE = 'add_slide';
 export const CLEAR_SLIDE = 'clear_slide';
-export const GET_SLIDES_BY_ARRIVAL = 'get_slides_by_arrival';
-
+export const GET_SLIDES = 'get_slides';
+// export const GET_SLIDES_BY_ARRIVAL_ALL = 'get_slides_by_arrival_all';
+export const REMOVE_SLIDE_ITEM = 'remove_slide_item';

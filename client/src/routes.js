@@ -24,6 +24,7 @@ import AddFile from './components/User/Admin/add_file';
 
 // CMS Managment
 import AddSlide from './components/User/Admin/CMS/add_slide';
+import ListSlides from './components/User/Admin/CMS/list_slides';
 
 import PageNotFound from './components/utils/page_not_found';
 
@@ -42,6 +43,7 @@ const Routes = () => {
         <Route path="/admin/add_file" exact component={Auth(AddFile, true)} />
 
         <Route path="/admin/add_slide" exact component={Auth(AddSlide, true)} />
+        <Route path="/admin/list_slides" exact component={Auth(ListSlides, true)} />
 
         <Route path="/reset_password/:token" exact component={Auth(ResetPass, false)} />
         <Route path="/reset_user" exact component={Auth(ResetUser, false)} />
