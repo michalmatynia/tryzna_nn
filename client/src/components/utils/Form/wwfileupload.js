@@ -12,7 +12,6 @@ class Fileupload extends Component {
         uploading: false,
     }
 
-
     onRemove = (id) => {
         axios.get(`/api/users/removeimage?public_id=${id}`)
             .then(response => {
@@ -27,7 +26,6 @@ class Fileupload extends Component {
                 })
             })
     }
-
     showUploadedImages = () => (
         this.state.uploadedFiles.map(item => (
             <div className="dropzone_box"
@@ -57,6 +55,8 @@ class Fileupload extends Component {
         axios.post('/api/users/uploadimage', formData, config)
             .then(response => {
 
+                // console.log(response.data)
+
                 this.setState({
                     uploading: false,
                     uploadedFiles: [
@@ -69,20 +69,14 @@ class Fileupload extends Component {
             })
     }
 
-    static getDerivedStateFromProps(props, state) {
-        if (props.reset) {
-            return state = {
-                uploadedFiles: []
-            }
+static getDerivedStateFromProps(props, state) {
+    if(props.reset){
+        return state = {
+            uploadedFiles:[]
         }
-        if (props.list) {
-            return state = {
-                uploadedFiles: props.list.images,
-            }
-        }
-
-        return null
     }
+    return null
+}
 
     render() {
         return (
@@ -98,11 +92,11 @@ class Fileupload extends Component {
                                 <section >
                                     <div className="dropzone_box" {...getRootProps()}>
                                         <div className="wrap">
-                                            <FontAwesomeIcon
-                                                icon={faPlusCircle}
-
-                                            />
-                                            <input {...getInputProps()} />
+                                        <FontAwesomeIcon
+                                            icon={faPlusCircle}
+                                            
+                                        />
+                                        <input {...getInputProps()} />
                                         </div>
                                     </div>
                                 </section>
