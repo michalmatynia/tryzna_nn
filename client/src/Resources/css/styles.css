@@ -946,3 +946,14 @@ footer .business_nfo .nfo {
 .list_btn_edit:hover {
     background: rgb(166, 170, 88);
 }
+
+/* New controlling buttons */
+.delete_overlay {
+    opacity: 0.0;
+    transition: all 200ms ease-in;
+}
+
+.delete_overlay:hover {
+    background: rgb(255, 255, 255);
+    opacity: 1;
+}

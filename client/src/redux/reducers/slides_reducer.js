@@ -3,6 +3,7 @@ import {
     ADD_SLIDE,
     CLEAR_SLIDE,
     REMOVE_SLIDE_ITEM,
+    REMOVE_SLIDE_IMAGE,
     GET_SLIDE_DETAIL,
     UPDATE_SLIDE_DETAIL
 
@@ -28,6 +29,8 @@ export default function (state = {}, action) {
         case GET_SLIDE_DETAIL:
             return { ...state, slideDetail: action.payload }
         case UPDATE_SLIDE_DETAIL:
+            return { ...state, slideDetail: action.payload }
+        case REMOVE_SLIDE_IMAGE:
             return { ...state, slideDetail: action.payload }
         default:
             return state;

@@ -4,6 +4,7 @@ import {
     ADD_SLIDE,
     CLEAR_SLIDE,
     REMOVE_SLIDE_ITEM,
+    REMOVE_SLIDE_IMAGE,
     GET_SLIDE_DETAIL,
     UPDATE_SLIDE_DETAIL
 
@@ -70,6 +71,19 @@ export function act_removeSlideItem(id) {
 
     return {
         type: REMOVE_SLIDE_ITEM,
+        payload: request
+    }
+}
+
+export function act_removeSlideImage(image_id, entity_id) {
+
+    const request = axios.get(`/${SLIDE_SERVER}/removeimage?_id=${image_id}&entity_id=${entity_id}`)
+        .then(response => {
+            return response.data;
+        })
+
+    return {
+        type: REMOVE_SLIDE_IMAGE,
         payload: request
     }
 }

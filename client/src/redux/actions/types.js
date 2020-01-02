@@ -36,3 +36,4 @@ export const GET_SLIDES = 'get_slides';
 export const REMOVE_SLIDE_ITEM = 'remove_slide_item';
 export const GET_SLIDE_DETAIL = 'get_slide_detail';
 export const UPDATE_SLIDE_DETAIL = 'update_slide_detail';
+export const REMOVE_SLIDE_IMAGE = 'remove_slide_image';

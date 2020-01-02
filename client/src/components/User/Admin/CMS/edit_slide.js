@@ -90,21 +90,17 @@ class EditSlide extends Component {
     }
 
     componentDidMount() {
-
         
         const id = this.props.match.params.id;
 
         this.props.dispatch(act_getDetail_Slide(id))
         .then(() => {
             const newFormData = populateFields(this.state.formdata, this.props.slides.slideDetail);
+            // console.log(this.props);
             this.setState({
                 formdata: newFormData
             });
         })
-    }
-
-    componentWillUnmount() {
-        // this.props.dispatch(clearProductDetail())
     }
 
     updateForm = (element) => {

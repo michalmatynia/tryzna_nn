@@ -4,6 +4,7 @@ import axios from 'axios';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import CircularProgrees from '@material-ui/core/CircularProgress';
 
 class Fileupload extends Component {
@@ -13,11 +14,14 @@ class Fileupload extends Component {
     }
 
 
-    onRemove = (id) => {
-        axios.get(`/api/users/removeimage?public_id=${id}`)
+    onRemove = (image_id, entity_id) => {
+        // console.log(id)
+        axios.get(`/api/slide/removeimage?public_id=${image_id}&entity_id=${entity_id}`)
             .then(response => {
+
+                // console.log(response)
                 let images = this.state.uploadedFiles.filter(item => {
-                    return item.public_id !== id;
+                    return item.public_id !== image_id;
                 })
 
                 this.setState({
@@ -29,16 +33,21 @@ class Fileupload extends Component {
     }
 
     showUploadedImages = () => (
+
         this.state.uploadedFiles.map(item => (
             <div className="dropzone_box"
                 key={item.public_id}
-                onClick={() => this.onRemove(item.public_id)}
             >
+
                 <div
                     className="wrap"
                     style={{ background: `url(${item.url}) no-repeat` }}
-                >
-
+                ><div className="delete_overlay">
+                        <FontAwesomeIcon
+                            icon={faTrash}
+                            onClick={() => this.onRemove(item.public_id, this.props.list._id)}
+                        />
+                    </div>
                 </div>
             </div>
         ))

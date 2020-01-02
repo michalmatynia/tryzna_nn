@@ -152,7 +152,7 @@ app.get('/api/slide/remove_slide', auth, (req, res) => {
             })
     }
     )
- 
+
 })
 
 // Fetch Product by ID (Query String)
@@ -175,6 +175,38 @@ app.get('/api/slide/articles_by_id', (req, res) => {
             return res.status(200).send(docs)
         })
 });
+
+app.get('/api/slide/removeimage', auth, admin, (req, res) => {
+    // console.log(req.query)
+    console.log('hehrhehre')
+    
+
+    Slide.findOneAndUpdate(
+
+        { _id: mongoose.Types.ObjectId(req.query.entity_id) },
+        {
+            "$pull":
+                { "images": { "public_id": req.query.public_id } }
+
+        },
+        { new: true },
+        (err, doc) => {
+            let image_id = req.query.public_id;
+            cloudinary.uploader.destroy(image_id, options = {
+                invalidate: true
+            }, (error, result) => {
+                if (error) return res.json({ success: false, error });
+        
+                // res.status(200).send('ok');
+            })
+            // return console.log(doc)
+        })
+
+
+
+
+
+})
 // ======================
 //          PRODUCTS
 //=======================
@@ -474,13 +506,18 @@ app.post('/api/users/uploadimage', auth, admin, formidable(), (req, res) => {
     })
 })
 
-app.get('/api/users/removeimage', auth, admin, (req, res) => {
-    let image_id = req.query.public_id;
-    cloudinary.uploader.destroy(image_id, (error, result) => {
-        if (error) return res.json({ success: false, error });
-        res.status(200).send('ok');
-    })
-})
+// app.get('/api/users/removeimage', auth, admin, (req, res) => {
+//     //console.log(req.query)
+
+//     let image_id = req.query.public_id;
+//     cloudinary.uploader.destroy(image_id, options={
+//         invalidate: true
+//     }, (error, result) => {
+//         if (error) return res.json({ success: false, error });
+
+//         // res.status(200).send('ok');
+//     })
+// })
 
 app.post('/api/user/addToCart', auth, (req, res) => {
     User.findOne({ _id: req.user._id }, (err, doc) => {
