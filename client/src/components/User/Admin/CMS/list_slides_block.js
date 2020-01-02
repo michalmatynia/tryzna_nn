@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import Switch from '@material-ui/core/Switch';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
-const ListSlidesBlock = (props, { removeItem }) => {
+const ListSlidesBlock = ({ list, removeItem }) => {
 
-    console.log(props)
+    // console.log(list)
 
     const [publish, setPublish] = useState({
         checkedA: true,
@@ -12,7 +13,7 @@ const ListSlidesBlock = (props, { removeItem }) => {
 
 
     const handleChange = name => event => {
-console.log('here')
+        // console.log('here')
 
         setPublish({ ...publish, [name]: event.target.checked });
     };
@@ -28,16 +29,11 @@ console.log('here')
         }
     }
 
-
-    // const test = () => {
-    //     console.log(list)
-    // }
-
     const renderItems = () => (
 
 
-        props.list ?
-            props.list.map((slide, i) => (
+        list ?
+            list.map((slide, i) => (
                 <div className="admin_list_block" key={slide._id}>
                     <div className="item">
                         <div
@@ -56,24 +52,32 @@ console.log('here')
                         </div>
                     </div>
                     <div className="item btn">
-                        <Switch
-                            checked={publish.checkedA}
-                            // onChange={handleChange('checkedA')}
-                            onClick={() => handleChange('checkedA')}
-                            value="checkedA"
-                            inputProps={{ 'aria-label': 'secondary checkbox' }}
-                            color="primary"
+                        <FormControlLabel
+                            control={
+                                <Switch
+                                    checked={publish.checkedA}
+                                    // onChange={handleChange('checkedA')}
+                                    onClick={() => handleChange('checkedA')}
+                                    value="checkedA"
+                                    // inputProps={{ 'aria-label': 'secondary checkbox' }}
+                                    color="primary"
+                                />
+                            }
+                            label="Published"
+                            size="small"
+                            labelPlacement="top"
                         />
-                        <div className="list_btn list_btn_edit"
-                            onClick={() => removeItem(slide._id)} >
-                            Edit
-                </div>
+                        <a href={`/admin/edit_slide/${slide._id}`}>
+                            <div className="list_btn list_btn_edit"
+                            >
+                                Edit
+                </div></a>
                         <div className="list_btn list_btn_remove"
                             onClick={() => removeItem(slide._id)} >
                             Remove
                 </div>
                     </div>
-                </div>
+                </div >
             ))
             : null
     )

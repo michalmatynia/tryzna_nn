@@ -12,6 +12,21 @@ class Fileupload extends Component {
         uploading: false,
     }
 
+getImagesFromProps = () => {
+console.log('fewf')
+    if (this.props.list) {
+        let images = this.props.list.images
+
+        this.setState({
+            uploadedFiles: images
+        }, () => {
+            this.props.imagesHandler(images)
+        })
+    }
+}
+
+
+
     onRemove = (id) => {
         axios.get(`/api/users/removeimage?public_id=${id}`)
             .then(response => {
@@ -26,7 +41,18 @@ class Fileupload extends Component {
                 })
             })
     }
+
+nestedFunctions = () => {
+    this.getImagesFromProps(),
+    this.showUploadedImages()
+}
+
     showUploadedImages = () => (
+        // ({ length: lengthFooBArX }) => lengthFooBArX);
+        // console.log(this.props.list),
+        // this.getImagesFromProps(),
+        
+        
         this.state.uploadedFiles.map(item => (
             <div className="dropzone_box"
                 key={item.public_id}
@@ -78,6 +104,22 @@ static getDerivedStateFromProps(props, state) {
     return null
 }
 
+static getImagesFromProps(){
+
+    console.log('fewf')
+
+
+    // if (this.props.list) {
+    //     let images = this.props.list.images
+
+    //     this.setState({
+    //         uploadedFiles: images
+    //     }, () => {
+    //         this.props.imagesHandler(images)
+    //     })
+    // }
+}
+
     render() {
         return (
             <div>
@@ -102,7 +144,7 @@ static getDerivedStateFromProps(props, state) {
                                 </section>
                             )}
                         </Dropzone>
-                        {this.showUploadedImages()}
+                        {this.nestedFunctions()}
                         {
                             this.state.uploading ?
                                 <div className="dropzone_box" style={{

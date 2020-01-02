@@ -34,3 +34,5 @@ export const CLEAR_SLIDE = 'clear_slide';
 export const GET_SLIDES = 'get_slides';
 // export const GET_SLIDES_BY_ARRIVAL_ALL = 'get_slides_by_arrival_all';
 export const REMOVE_SLIDE_ITEM = 'remove_slide_item';
+export const GET_SLIDE_DETAIL = 'get_slide_detail';
+export const UPDATE_SLIDE_DETAIL = 'update_slide_detail';

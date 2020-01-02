@@ -5,7 +5,7 @@ import BannerBlock from '../utils/Blocks/banner_block';
 
 import { connect } from 'react-redux';
 import { getProductsBySell, getProductsByArrival } from '../../redux/actions/products_actions';
-import { act_getSlides } from '../../redux/actions/slides_actions';
+import { act_getData_Slides } from '../../redux/actions/slides_actions';
 class Home extends Component {
 
     state = {
@@ -26,7 +26,7 @@ class Home extends Component {
 
         // Get Slides
         const args = this.state.get_slides
-        this.props.dispatch(act_getSlides(args));
+        this.props.dispatch(act_getData_Slides(args));
         // console.log(this.props.products)
     }
 
@@ -52,6 +52,7 @@ class Home extends Component {
 }
 
 const mapStateToProps = (state) => {
+
     return {
         products: state.products,
         slides: state.slides

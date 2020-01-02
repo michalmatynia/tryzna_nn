@@ -11,7 +11,7 @@ import ListSlidesBlock from '../CMS/list_slides_block';
 // import { faSmile } from '@fortawesome/free-solid-svg-icons';
 
 import { connect } from 'react-redux';
-import { act_getSlides, act_removeSlideItem } from '../../../../redux/actions/slides_actions';
+import { act_getData_Slides, act_removeSlideItem } from '../../../../redux/actions/slides_actions';
 
 class ListSlides extends Component {
 
@@ -26,15 +26,15 @@ class ListSlides extends Component {
     componentDidMount() {
 
         const args = this.state.get_slides
-        this.props.dispatch(act_getSlides(args));
+        this.props.dispatch(act_getData_Slides(args));
         
     }
 
     removeSlideFromDb = (id) => {
 
-        console.log('refrefre')
+// console.log(id)
         this.props.dispatch(act_removeSlideItem(id))
-        .then(()=>{})
+  
     }
 
     render() {

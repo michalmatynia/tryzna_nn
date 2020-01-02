@@ -3,7 +3,9 @@ import {
     GET_SLIDES,
     ADD_SLIDE,
     CLEAR_SLIDE,
-    REMOVE_SLIDE_ITEM
+    REMOVE_SLIDE_ITEM,
+    GET_SLIDE_DETAIL,
+    UPDATE_SLIDE_DETAIL
 
 } from './types';
 
@@ -36,7 +38,7 @@ export function act_clearSlide(currentType) {
 
 }
 
-export function act_getSlides(args) {
+export function act_getData_Slides(args) {
 
     let listOfArgs = '';
     let i = 0;
@@ -51,8 +53,6 @@ export function act_getSlides(args) {
         }
     }
 
-
-
     const request = axios.get(`/${SLIDE_SERVER}/articles${listOfArgs}`)
         .then(response => response.data);
     return {
@@ -63,13 +63,35 @@ export function act_getSlides(args) {
 
 export function act_removeSlideItem(id) {
 
-    const request = axios.get(`${SLIDE_SERVER}/removeSlideItem?_id=${id}`)
+    const request = axios.get(`/${SLIDE_SERVER}/remove_slide?_id=${id}`)
         .then(response => {
             return response.data;
         })
 
     return {
         type: REMOVE_SLIDE_ITEM,
+        payload: request
+    }
+}
+
+export function act_getDetail_Slide(id) {
+    const request = axios.get(`/${SLIDE_SERVER}/articles_by_id?_id=${id}&type=single`)
+    .then(response=>{
+        return response.data[0]
+    });
+
+    return {
+        type: GET_SLIDE_DETAIL,
+        payload: request
+    }
+}
+
+export function act_updateDetail_Slide(dataToSubmit){
+    const request = axios.post(`/${SLIDE_SERVER}/slide_data`, dataToSubmit)
+    .then(response => response.data);
+
+    return {
+        type: UPDATE_SLIDE_DETAIL,
         payload: request
     }
 }

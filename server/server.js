@@ -141,20 +141,40 @@ app.get('/api/slide/articles', (req, res) => {
 
 })
 
-app.get('/api/user/removeSlideItem', auth, (req, res) => {
+app.get('/api/slide/remove_slide', auth, (req, res) => {
 
-
-    Slide.findOneAndUpdate({
-        $pull: { "_id": mongoose.Types.ObjectId(req.query._id) }
-    })
-        .catch((err) => {
-            if (err) return res.json({ success: false, err });
-            res.status(200).send('ok');
-        });
-
+    // console.log(req.query._id)
+    Slide.findOneAndDelete({ _id: req.query._id }, (err, docs) => {
+        Slide.
+            find()
+            .exec((err, docs) => {
+                res.send(docs)
+            })
+    }
+    )
+ 
 })
 
+// Fetch Product by ID (Query String)
+app.get('/api/slide/articles_by_id', (req, res) => {
+    let type = req.query.type;
 
+    let items = req.query._id;
+
+    if (type === "array") {
+        let ids = req.query._id.split(',');
+        items = [];
+        items = ids.map(item => {
+            return mongoose.Types.ObjectId(item)
+        })
+    }
+
+    Slide.
+        find({ '_id': { $in: items } })
+        .exec((err, docs) => {
+            return res.status(200).send(docs)
+        })
+});
 // ======================
 //          PRODUCTS
 //=======================

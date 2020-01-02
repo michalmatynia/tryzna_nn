@@ -2,6 +2,8 @@ import React from 'react';
 
 const UserProductBlock = ({ products, removeItem }) => {
 
+//console.log(products)
+
     const renderCartImage = (images) => {
         if (images.length > 0) {
             return images[0].url

@@ -369,6 +369,7 @@ class AddProduct extends Component {
 }
 
 const mapStateToProps = (state) => {
+
     return {
         products: state.products
     }
