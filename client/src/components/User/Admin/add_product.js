@@ -3,7 +3,7 @@ import UserLayout from '../../../hoc/user';
 
 import FormField from '../../utils/Form/formfield';
 import { update, generateData, isFormValid, populateOptionFields, resetFields } from '../../utils/Form/formActions';
-import FileUpload from '../../utils/Form/fileupload'
+import FileUpload from '../../utils/Form/fileupload_product'
 
 
 import { connect } from 'react-redux';

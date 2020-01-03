@@ -5,7 +5,8 @@ import {
     REMOVE_SLIDE_ITEM,
     REMOVE_SLIDE_IMAGE,
     GET_SLIDE_DETAIL,
-    UPDATE_SLIDE_DETAIL
+    UPDATE_SLIDE_DETAIL,
+    UPLOAD_SLIDE_IMAGE
 
 } from '../actions/types';
 
@@ -31,6 +32,8 @@ export default function (state = {}, action) {
         case UPDATE_SLIDE_DETAIL:
             return { ...state, slideDetail: action.payload }
         case REMOVE_SLIDE_IMAGE:
+            return { ...state, slideDetail: action.payload }
+        case UPLOAD_SLIDE_IMAGE:
             return { ...state, slideDetail: action.payload }
         default:
             return state;

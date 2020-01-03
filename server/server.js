@@ -194,12 +194,50 @@ app.get('/api/slide/removeimage', auth, admin, (req, res) => {
                 invalidate: false
             }, (error, result) => {
                 if (error) return res.json({ success: false, error });
-                 // return res.send(result)
+                // return res.send(result)
                 // res.status(200).send('ok');
             })
             return res.send(doc)
         })
 
+})
+
+app.post('/api/slide/uploadimage', auth, admin, formidable(), (req, res) => {
+
+console.log('fewfewffewfwefew')
+
+    cloudinary.uploader.upload(req.files.file.path, (result) => {
+
+        // Add here the enriry id to upload for the Edit Slide
+
+        console.log(result);
+
+        // If Entity ID Exists
+
+        Slide.findOneAndUpdate(
+
+            { _id: mongoose.Types.ObjectId(req.query.entity_id) },
+            {
+                "$push":
+                    { "images": { "public_id": result.public_id, "url": result.url } }
+    
+            },
+            { new: true },
+            (err, doc) => {
+                return res.send(doc)
+            })
+
+
+        // res.status(200).send({
+        //     public_id: result.public_id,
+        //     url: result.url
+        // })
+    }, {
+        public_id: `${Date.now()}`,
+        resource_type: 'auto',
+        folder: 'Tryzna'
+        // ,transform: '200px'
+    })
 })
 // ======================
 //          PRODUCTS
@@ -499,19 +537,6 @@ app.post('/api/users/uploadimage', auth, admin, formidable(), (req, res) => {
         // ,transform: '200px'
     })
 })
-
-// app.get('/api/users/removeimage', auth, admin, (req, res) => {
-//     //console.log(req.query)
-
-//     let image_id = req.query.public_id;
-//     cloudinary.uploader.destroy(image_id, options={
-//         invalidate: true
-//     }, (error, result) => {
-//         if (error) return res.json({ success: false, error });
-
-//         // res.status(200).send('ok');
-//     })
-// })
 
 app.post('/api/user/addToCart', auth, (req, res) => {
     User.findOne({ _id: req.user._id }, (err, doc) => {

@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import Dropzone from 'react-dropzone';
 import axios from 'axios';
+import { connect } from 'react-redux';
+import { act_uploadSlideImage } from '../../../redux/actions/slides_actions';
+
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
@@ -13,10 +16,9 @@ class Fileupload extends Component {
         uploading: false,
     }
 
-
-    onRemove = (image_id, entity_id) => {
+    onRemove = (image_id) => {
         // console.log(id)
-        axios.get(`/api/slide/removeimage?public_id=${image_id}&entity_id=${entity_id}`)
+        axios.get(`/api/slide/removeimage?public_id=${image_id}&entity_id=${this.props.list._id}`)
             .then(response => {
 
                 this.setState({
@@ -52,25 +54,43 @@ class Fileupload extends Component {
     onDrop = (files) => {
         this.setState({ uploading: true });
         let formData = new FormData();
-        const config = {
+        const axiosconfig = {
             header: { 'content-type': 'multipart/form-data' }
         }
 
         formData.append("file", files[0]);
 
-        axios.post('/api/users/uploadimage', formData, config)
-            .then(response => {
+        const entity_id = this.props.list._id;
+        
 
+        // Structure to Props
+        this.props.dispatch(act_uploadSlideImage(formData, axiosconfig, entity_id))
+            .then(response => {
+                //console.log(this.state.uploadedFiles)
                 this.setState({
                     uploading: false,
                     uploadedFiles: [
                         ...this.state.uploadedFiles,
-                        response.data
+                        response.payload.images
                     ]
                 }, () => {
                     this.props.imagesHandler(this.state.uploadedFiles)
                 })
             })
+
+        // axios.post('/api/slide/uploadimage', formData, config)
+        //     .then(response => {
+
+        //         this.setState({
+        //             uploading: false,
+        //             uploadedFiles: [
+        //                 ...this.state.uploadedFiles,
+        //                 response.data
+        //             ]
+        //         }, () => {
+        //             this.props.imagesHandler(this.state.uploadedFiles)
+        //         })
+        //     })
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -136,4 +156,11 @@ class Fileupload extends Component {
     }
 }
 
-export default Fileupload;
+const mapStateToProps = (state) => {
+
+    return {
+        slides: state.slides
+    }
+}
+
+export default connect(mapStateToProps)(Fileupload);

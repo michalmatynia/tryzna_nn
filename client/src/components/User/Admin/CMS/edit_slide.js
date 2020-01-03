@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 
 // import { getSiteData, updateSiteData } from '../../../redux/actions/site_actions';
 import { act_getDetail_Slide, act_updateDetail_Slide } from '../../../../redux/actions/slides_actions';
-import FileUpload from '../../../utils/Form/fileupload'
+import FileUpload from '../../../utils/Form/fileupload_slide'
 
 class EditSlide extends Component {
 
@@ -167,6 +167,7 @@ class EditSlide extends Component {
                         imagesHandler={(images) => this.imagesHandler(images)}
                         reset={this.state.formSuccess}
                         list={this.props.slides.slideDetail}
+                        
                     />
                     <FormField
                         id={'lineOne'}

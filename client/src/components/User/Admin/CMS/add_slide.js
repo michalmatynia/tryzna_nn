@@ -4,7 +4,7 @@ import UserLayout from '../../../../hoc/user';
 
 import FormField from '../../../utils/Form/formfield';
 import { update, generateData, isFormValid, resetFields } from '../../../utils/Form/formActions';
-import FileUpload from '../../../utils/Form/fileupload'
+import FileUpload from '../../../utils/Form/fileupload_slide'
 
 import { act_addSlide, act_clearSlide } from '../../../../redux/actions/slides_actions';
 

@@ -6,7 +6,8 @@ import {
     REMOVE_SLIDE_ITEM,
     REMOVE_SLIDE_IMAGE,
     GET_SLIDE_DETAIL,
-    UPDATE_SLIDE_DETAIL
+    UPDATE_SLIDE_DETAIL,
+    UPLOAD_SLIDE_IMAGE
 
 } from './types';
 
@@ -84,6 +85,19 @@ export function act_removeSlideImage(image_id, entity_id) {
 
     return {
         type: REMOVE_SLIDE_IMAGE,
+        payload: request
+    }
+}
+
+export function act_uploadSlideImage(formData, axiosconfig, entity_id) {
+
+    const request = axios.post(`/${SLIDE_SERVER}/uploadimage?entity_id=${entity_id}`, formData, axiosconfig)
+        .then(response => {
+            return response.data;
+        })
+
+    return {
+        type: UPLOAD_SLIDE_IMAGE,
         payload: request
     }
 }
