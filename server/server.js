@@ -177,9 +177,7 @@ app.get('/api/slide/articles_by_id', (req, res) => {
 });
 
 app.get('/api/slide/removeimage', auth, admin, (req, res) => {
-    // console.log(req.query)
-    console.log('hehrhehre')
-    
+    // console.log(req.query)    
 
     Slide.findOneAndUpdate(
 
@@ -193,18 +191,14 @@ app.get('/api/slide/removeimage', auth, admin, (req, res) => {
         (err, doc) => {
             let image_id = req.query.public_id;
             cloudinary.uploader.destroy(image_id, options = {
-                invalidate: true
+                invalidate: false
             }, (error, result) => {
                 if (error) return res.json({ success: false, error });
-        
+                 // return res.send(result)
                 // res.status(200).send('ok');
             })
-            // return console.log(doc)
+            return res.send(doc)
         })
-
-
-
-
 
 })
 // ======================

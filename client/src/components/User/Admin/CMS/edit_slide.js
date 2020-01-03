@@ -94,9 +94,9 @@ class EditSlide extends Component {
         const id = this.props.match.params.id;
 
         this.props.dispatch(act_getDetail_Slide(id))
-        .then(() => {
+        .then(() => {    
             const newFormData = populateFields(this.state.formdata, this.props.slides.slideDetail);
-            // console.log(this.props);
+            // console.log(this.props.slides)
             this.setState({
                 formdata: newFormData
             });
@@ -140,6 +140,10 @@ class EditSlide extends Component {
     }
 
     imagesHandler = (images) => {
+
+        // console.log('fefesfcs')
+        // console.log(this)
+
         const newFormData = {
             ...this.state.formdata
         }
@@ -148,7 +152,9 @@ class EditSlide extends Component {
 
         this.setState({
             formdata: newFormData
-        })
+        }
+        , ()=> {this.props.dispatch(act_getDetail_Slide(this.props.match.params.id))}
+        )
     }
 
     render() {

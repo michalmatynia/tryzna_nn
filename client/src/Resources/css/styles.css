@@ -956,4 +956,6 @@ footer .business_nfo .nfo {
 .delete_overlay:hover {
     background: rgb(255, 255, 255);
     opacity: 1;
+    cursor: pointer;
+
 }
