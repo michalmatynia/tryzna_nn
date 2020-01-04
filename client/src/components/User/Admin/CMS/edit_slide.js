@@ -95,7 +95,6 @@ class EditSlide extends Component {
         this.props.dispatch(act_getDetail_Slide(id))
         .then(() => {    
             const newFormData = populateFields(this.state.formdata, this.props.slides.slideDetail);
-            // console.log(this.props.slides)
             this.setState({
                 formdata: newFormData
             });
@@ -166,7 +165,8 @@ class EditSlide extends Component {
                         imagesHandler={(images) => this.imagesHandler(images)}
                         reset={this.state.formSuccess}
                         list={this.props.slides.slideDetail}
-                        
+                        linktype='Edit'
+                        parent_id={this.props.match.params.id}
                     />
                     <FormField
                         id={'lineOne'}
@@ -204,8 +204,6 @@ class EditSlide extends Component {
 }
 
 const mapStateToProps = (state) => {
-        
-    console.log(state)
 
     return {
         slides: state.slides

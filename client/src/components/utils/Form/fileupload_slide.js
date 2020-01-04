@@ -9,34 +9,18 @@ import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import CircularProgrees from '@material-ui/core/CircularProgress';
 
-let entity_id = ''
 
 class Fileupload extends Component {
     state = {
         uploadedFiles: [],
-        uploading: false,
+        uploading: false
     }
 
-    
-
-    componentDidMount(){
-
-        // console.log('fileupload componentDidMount')
-        // console.log(this.state)
-        
-        console.log(this.props)
-    }
     
         onRemove = (image_id) => {
     
-            if (this.props.list !== undefined) {
     
-                // console.log(this.props)
-                entity_id = this.props.slides.slideDetail._id;
-            }
-
-    
-            this.props.dispatch(act_removeSlideImage(image_id, entity_id))
+            this.props.dispatch(act_removeSlideImage(image_id, this.props.parent_id))
                 .then(response => {
                     // console.log(response)
                     this.setState({
@@ -82,10 +66,11 @@ class Fileupload extends Component {
     
             formData.append("file", files[0]);
     
-            if (this.props.slides.slideDetail !== undefined) {
-                entity_id = this.props.slides.slideDetail._id;
-            }
-        this.props.dispatch(act_uploadSlideImage(formData, axiosconfig, entity_id))
+            // if (this.props.slides.slideDetail !== undefined) {
+            //     entity_id = this.props.slides.slideDetail._id;
+            // }
+
+        this.props.dispatch(act_uploadSlideImage(formData, axiosconfig, this.props.parent_id))
             .then(response => {
                 //console.log(this.state.uploadedFiles)
                 this.setState({
@@ -106,10 +91,11 @@ class Fileupload extends Component {
                 uploadedFiles: []
             }
         }
-        if (props.list !== undefined) {
-            // console.log('herere', props.list)
+        if (props.parent_id && props.slides.slideDetail !== undefined) {
+            // console.log(props)
             return state = {
-                uploadedFiles: props.list.images,
+                // entity_id: props.slides.slideDetail._id
+                uploadedFiles: props.slides.slideDetail.images,
             }
         }
 
