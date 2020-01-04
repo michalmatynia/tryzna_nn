@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Dropzone from 'react-dropzone';
 import { connect } from 'react-redux';
 import { act_uploadSlideImage, act_removeSlideImage } from '../../../redux/actions/slides_actions';
-
+import axios from 'axios';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
@@ -19,14 +19,21 @@ class Fileupload extends Component {
     
         onRemove = (image_id) => {
     
-    
-            this.props.dispatch(act_removeSlideImage(image_id, this.props.parent_id))
+            console.log(this.state.uploadedFiles)
+            console.log(image_id)
+
+            // this.props.dispatch(act_removeSlideImage(image_id, this.props.parent_id))
+            axios.get(`/api/slide/removeimage?image_id=${image_id}`)
                 .then(response => {
-                    // console.log(response)
+                    
+                    let images = this.state.uploadedFiles.filter(item => {
+                        return item.public_id !== image_id;
+                    })
+                    console.log(images)
                     this.setState({
-                        uploadedFiles: response.payload.images
+                        uploadedFiles: images
                     }, () => {
-                        this.props.imagesHandler(response.payload.images)
+                        this.props.imagesHandler(images)
                     })
                 })
         }

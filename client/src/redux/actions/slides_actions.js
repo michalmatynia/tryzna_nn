@@ -76,12 +76,12 @@ export function act_removeSlideItem(id) {
     }
 }
 
-export function act_removeSlideImage(image_id, entity_id) {
+export function act_removeSlideImage(image_id, parent_id) {
 
 // console.log(image_id)
 //     image_id = {image_id: image_id}
 
-    const request = axios.post(`/${SLIDE_SERVER}/removeimage`, {image_id: image_id, entity_id: entity_id})
+    const request = axios.get(`/${SLIDE_SERVER}/removeimage?image_id=${image_id}&parent_id=${parent_id}`)
         .then(response => {
             return response.data;
         })
