@@ -90,17 +90,17 @@ class EditSlide extends Component {
     }
 
     componentDidMount() {
-        
+
         const id = this.props.match.params.id;
 
         this.props.dispatch(act_getDetail_Slide(id))
-        .then(() => {    
-            const newFormData = populateFields(this.state.formdata, this.props.slides.slideDetail);
-            // console.log(this.props.slides)
-            this.setState({
-                formdata: newFormData
-            });
-        })
+            .then(() => {
+                const newFormData = populateFields(this.state.formdata, this.props.slides.slideDetail);
+                // console.log(this.props.slides)
+                this.setState({
+                    formdata: newFormData
+                });
+            })
     }
 
     updateForm = (element) => {
@@ -117,9 +117,11 @@ class EditSlide extends Component {
         let dataToSubmit = generateData(this.state.formdata, 'slides');
         let formIsValid = isFormValid(this.state.formdata, 'slides');
 
+
         if (formIsValid) {
-            this.props.dispatch(act_updateDetail_Slide(dataToSubmit))
-                .then(() => {
+            this.props.dispatch(act_updateDetail_Slide(dataToSubmit, this.props.match.params.id))
+                .then((result) => {
+                    // console.log(result)
                     this.setState({
                         formSuccess: true
                     }, () => {
@@ -127,8 +129,11 @@ class EditSlide extends Component {
                             this.setState({
                                 formSuccess: false
                             })
-                        }, 2000)
+                        }, 1000)
                     })
+                })
+                .catch((err) => {
+                    // console.log(err)
                 })
 
         } else {
@@ -141,8 +146,8 @@ class EditSlide extends Component {
 
     imagesHandler = (images) => {
 
-        // console.log('fefesfcs')
-        // console.log(this)
+        console.log('fefesfcs')
+        console.log(images)
 
         const newFormData = {
             ...this.state.formdata
@@ -152,60 +157,61 @@ class EditSlide extends Component {
 
         this.setState({
             formdata: newFormData
-        }
-        , ()=> {this.props.dispatch(act_getDetail_Slide(this.props.match.params.id))}
+        }, () => {
+                this.props.dispatch(act_getDetail_Slide(this.props.match.params.id))
+            }
         )
     }
 
     render() {
         return (
             <UserLayout>
-            <div>
-                <form onSubmit={(event) => this.submitForm()}>
-                    <h1>Edit Slide</h1>
-                    <FileUpload
-                        imagesHandler={(images) => this.imagesHandler(images)}
-                        reset={this.state.formSuccess}
-                        list={this.props.slides.slideDetail}
-                        
-                    />
-                    <FormField
-                        id={'lineOne'}
-                        formdata={this.state.formdata.lineOne}
-                        change={(element) => this.updateForm(element)}
-                    />
-                    <FormField
-                        id={'lineTwo'}
-                        formdata={this.state.formdata.lineTwo}
-                        change={(element) => this.updateForm(element)}
-                    />
-                    <div className="form_divider"></div>
-                    <FormField
-                        id={'publish'}
-                        formdata={this.state.formdata.publish}
-                        change={(element) => this.updateForm(element)}
-                    />
-                    <div>
-                        {
-                            this.state.formSuccess ?
-                                <div className="form_success">success</div>
-                                : null
-                        }
-                        {this.state.formError ?
-                            <div className="error_label">Please check your data</div>
-                            : null}
-                        <button onClick={(event) => this.submitForm(event)}>Update</button>
+                <div>
+                    <form onSubmit={(event) => this.submitForm()}>
+                        <h1>Edit Slide</h1>
+                        <FileUpload
+                            imagesHandler={(images) => this.imagesHandler(images)}
+                            reset={this.state.formSuccess}
+                            list={this.props.slides.slideDetail}
 
-                    </div>
-                </form>
-            </div>
+                        />
+                        <FormField
+                            id={'lineOne'}
+                            formdata={this.state.formdata.lineOne}
+                            change={(element) => this.updateForm(element)}
+                        />
+                        <FormField
+                            id={'lineTwo'}
+                            formdata={this.state.formdata.lineTwo}
+                            change={(element) => this.updateForm(element)}
+                        />
+                        <div className="form_divider"></div>
+                        <FormField
+                            id={'publish'}
+                            formdata={this.state.formdata.publish}
+                            change={(element) => this.updateForm(element)}
+                        />
+                        <div>
+                            {
+                                this.state.formSuccess ?
+                                    <div className="form_success">success</div>
+                                    : null
+                            }
+                            {this.state.formError ?
+                                <div className="error_label">Please check your data</div>
+                                : null}
+                            <button onClick={(event) => this.submitForm(event)}>Update</button>
+
+                        </div>
+                    </form>
+                </div>
             </UserLayout>
         );
     }
 }
 
 const mapStateToProps = (state) => {
-// I may not need it
+    // I may not need it
 
     return {
         slides: state.slides

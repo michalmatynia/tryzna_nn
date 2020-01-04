@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import Dropzone from 'react-dropzone';
-import axios from 'axios';
 import { connect } from 'react-redux';
-import { act_uploadSlideImage } from '../../../redux/actions/slides_actions';
+import { act_uploadSlideImage, act_removeSlideImage } from '../../../redux/actions/slides_actions';
 
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -10,26 +9,42 @@ import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import CircularProgrees from '@material-ui/core/CircularProgress';
 
+let entity_id = '';
+
 class Fileupload extends Component {
     state = {
         uploadedFiles: [],
         uploading: false,
     }
 
-    onRemove = (image_id) => {
-        // console.log(id)
-        axios.get(`/api/slide/removeimage?public_id=${image_id}&entity_id=${this.props.list._id}`)
-            .then(response => {
+componentDidMount(){
+    console.log('componentDidMount')
+    console.log(this.state)
+}
 
+    onRemove = (image_id) => {
+
+        if (this.props.list !== undefined) {
+            entity_id = this.props.list._id;
+        }
+
+        
+
+        this.props.dispatch(act_removeSlideImage(image_id, entity_id))
+            .then(response => {
+                console.log(response)
                 this.setState({
-                    uploadedFiles: response.data.images
+                    uploadedFiles: response.payload.images
                 }, () => {
-                    this.props.imagesHandler(response.data.images)
+                    this.props.imagesHandler(response.payload.images)
                 })
             })
     }
 
     showUploadedImages = () => (
+
+        console.log('Show Uploaded Images'),
+        console.log(this.state),
 
         this.state.uploadedFiles.map(item => (
             <div className="dropzone_box"
@@ -42,7 +57,7 @@ class Fileupload extends Component {
                 ><div className="delete_overlay">
                         <FontAwesomeIcon
                             icon={faTrash}
-                            onClick={() => this.onRemove(item.public_id, this.props.list._id)}
+                            onClick={() => this.onRemove(item.public_id)}
                         />
                     </div>
                 </div>
@@ -52,6 +67,7 @@ class Fileupload extends Component {
     )
 
     onDrop = (files) => {
+
         this.setState({ uploading: true });
         let formData = new FormData();
         const axiosconfig = {
@@ -60,40 +76,30 @@ class Fileupload extends Component {
 
         formData.append("file", files[0]);
 
-        const entity_id = this.props.list._id;
-        
-
+        if (this.props.list !== undefined) {
+            entity_id = this.props.list._id;
+        }
         // Structure to Props
         this.props.dispatch(act_uploadSlideImage(formData, axiosconfig, entity_id))
             .then(response => {
-                //console.log(this.state.uploadedFiles)
+                console.log('upload Slide Image')
+                console.log(this.state)
+                console.log(response.payload)
                 this.setState({
                     uploading: false,
                     uploadedFiles: [
                         ...this.state.uploadedFiles,
-                        response.payload.images
+                        response.payload
                     ]
                 }, () => {
                     this.props.imagesHandler(this.state.uploadedFiles)
                 })
             })
-
-        // axios.post('/api/slide/uploadimage', formData, config)
-        //     .then(response => {
-
-        //         this.setState({
-        //             uploading: false,
-        //             uploadedFiles: [
-        //                 ...this.state.uploadedFiles,
-        //                 response.data
-        //             ]
-        //         }, () => {
-        //             this.props.imagesHandler(this.state.uploadedFiles)
-        //         })
-        //     })
     }
 
     static getDerivedStateFromProps(props, state) {
+        // console.log(props)
+
         if (props.reset) {
             return state = {
                 uploadedFiles: []
@@ -101,7 +107,7 @@ class Fileupload extends Component {
         }
         if (props.list) {
             return state = {
-                uploadedFiles: props.list.images,
+                uploadedFiles: props.list.images
             }
         }
 

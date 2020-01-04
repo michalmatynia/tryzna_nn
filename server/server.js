@@ -176,68 +176,113 @@ app.get('/api/slide/articles_by_id', (req, res) => {
         })
 });
 
-app.get('/api/slide/removeimage', auth, admin, (req, res) => {
-    // console.log(req.query)    
+app.post('/api/slide/removeimage', auth, admin, (req, res) => {
+      
+    
+   //  console.log(req.body.entity_id) 
 
-    Slide.findOneAndUpdate(
+    if (req.body.entity_id) {
+        Slide.findOneAndUpdate(
 
-        { _id: mongoose.Types.ObjectId(req.query.entity_id) },
-        {
-            "$pull":
-                { "images": { "public_id": req.query.public_id } }
+            { _id: mongoose.Types.ObjectId(req.body.entity_id) },
+            {
+                "$pull":
+                    { "images": { "public_id": req.body.image_id } }
 
-        },
-        { new: true },
-        (err, doc) => {
-            let image_id = req.query.public_id;
-            cloudinary.uploader.destroy(image_id, options = {
-                invalidate: false
-            }, (error, result) => {
-                if (error) return res.json({ success: false, error });
-                // return res.send(result)
-                // res.status(200).send('ok');
+            },
+            { new: true },
+            (err, doc) => {
+                cloudinary.uploader.destroy(req.body.image_id, options = {
+                    invalidate: false
+                }, (error, result) => {
+                    if (error) return res.json({ success: false, error });
+                    // return res.send(result)
+                    // res.status(200).send('ok');
+                })
+                return res.send(doc)
             })
-            return res.send(doc)
+    } else {
+        console.log('fsfcsc')
+        cloudinary.uploader.destroy(req.body.image_id, options = {
+            invalidate: false
+        }, (error, result) => {
+            if (error) return res.json({ success: false, error });
+            // return res.send(result)
+            // res.status(200).send('ok');
         })
+    }
 
 })
 
 app.post('/api/slide/uploadimage', auth, admin, formidable(), (req, res) => {
 
-console.log('fewfewffewfwefew')
+// console.log(req)
 
     cloudinary.uploader.upload(req.files.file.path, (result) => {
 
-        // Add here the enriry id to upload for the Edit Slide
-
-        console.log(result);
-
         // If Entity ID Exists
+        if (req.query.entity_id && result.public_id) {
 
-        Slide.findOneAndUpdate(
+            Slide.findOneAndUpdate(
 
-            { _id: mongoose.Types.ObjectId(req.query.entity_id) },
-            {
-                "$push":
-                    { "images": { "public_id": result.public_id, "url": result.url } }
-    
-            },
-            { new: true },
-            (err, doc) => {
-                return res.send(doc)
-            })
+                { _id: mongoose.Types.ObjectId(req.query.entity_id) },
+                {
+                    "$push":
+                        { "images": { "public_id": result.public_id, "url": result.url } }
 
+                },
+                { new: true },
+                (err, doc) => {
+                    console.log('when edit is uploaded')
+                    console.log(doc)
+                    res.send(
+                        {doc
+                            // public_id: result.public_id,
+                            // url: result.url
+                    })
+                })
 
-        // res.status(200).send({
-        //     public_id: result.public_id,
-        //     url: result.url
-        // })
+        } else if (result.public_id) {
+            console.log('when add is uploaded')
+            console.log(result)
+
+            res.send(
+                {
+                public_id: result.public_id,
+                url: result.url
+            }
+            )
+            // return res.send(result)
+
+        } else {
+            return res.status(400).send(err);
+        }
     }, {
         public_id: `${Date.now()}`,
         resource_type: 'auto',
         folder: 'Tryzna'
         // ,transform: '200px'
     })
+})
+
+
+app.post('/api/slide/slide_update', auth, (req, res) => {
+
+    Slide.findOneAndUpdate(
+        { _id: req.query.entity_id },
+        {
+            "$set": req.body
+        },
+        { new: true },
+        (err, doc) => {
+            // console.log(doc)
+            if (err) return res.json({ success: false, err });
+            res.send(doc)
+            // return res.status(200).send({
+            //     success: true
+            // })
+        }
+    );
 })
 // ======================
 //          PRODUCTS
@@ -526,7 +571,6 @@ app.get('/api/user/logout', auth, (req, res) => {
 
 app.post('/api/users/uploadimage', auth, admin, formidable(), (req, res) => {
     cloudinary.uploader.upload(req.files.file.path, (result) => {
-        console.log(result);
         res.status(200).send({
             public_id: result.public_id,
             url: result.url

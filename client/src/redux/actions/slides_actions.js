@@ -78,7 +78,10 @@ export function act_removeSlideItem(id) {
 
 export function act_removeSlideImage(image_id, entity_id) {
 
-    const request = axios.get(`/${SLIDE_SERVER}/removeimage?_id=${image_id}&entity_id=${entity_id}`)
+// console.log(image_id)
+//     image_id = {image_id: image_id}
+
+    const request = axios.post(`/${SLIDE_SERVER}/removeimage`, {image_id: image_id, entity_id: entity_id})
         .then(response => {
             return response.data;
         })
@@ -89,10 +92,11 @@ export function act_removeSlideImage(image_id, entity_id) {
     }
 }
 
-export function act_uploadSlideImage(formData, axiosconfig, entity_id) {
-
-    const request = axios.post(`/${SLIDE_SERVER}/uploadimage?entity_id=${entity_id}`, formData, axiosconfig)
+export function act_uploadSlideImage(formData, axiosheaders, entity_id) {
+    // console.log(entity_id)
+    const request = axios.post(`/${SLIDE_SERVER}/uploadimage?entity_id=${entity_id}`, formData, axiosheaders)
         .then(response => {
+            // console.log(response)
             return response.data;
         })
 
@@ -114,8 +118,9 @@ export function act_getDetail_Slide(id) {
     }
 }
 
-export function act_updateDetail_Slide(dataToSubmit){
-    const request = axios.post(`/${SLIDE_SERVER}/slide_data`, dataToSubmit)
+export function act_updateDetail_Slide(dataToSubmit, entity_id){
+
+    const request = axios.post(`/${SLIDE_SERVER}/slide_update?entity_id=${entity_id}`, dataToSubmit )
     .then(response => response.data);
 
     return {
