@@ -177,9 +177,8 @@ app.get('/api/slide/articles_by_id', (req, res) => {
 });
 
 app.post('/api/slide/removeimage', auth, admin, (req, res) => {
-      
-    
-   //  console.log(req.body.entity_id) 
+
+    //  console.log(req.body.entity_id) 
 
     if (req.body.entity_id) {
         Slide.findOneAndUpdate(
@@ -202,7 +201,7 @@ app.post('/api/slide/removeimage', auth, admin, (req, res) => {
                 return res.send(doc)
             })
     } else {
-        console.log('fsfcsc')
+        console.log('remove in add slide')
         cloudinary.uploader.destroy(req.body.image_id, options = {
             invalidate: false
         }, (error, result) => {
@@ -216,7 +215,7 @@ app.post('/api/slide/removeimage', auth, admin, (req, res) => {
 
 app.post('/api/slide/uploadimage', auth, admin, formidable(), (req, res) => {
 
-// console.log(req)
+    // console.log(req)
 
     cloudinary.uploader.upload(req.files.file.path, (result) => {
 
@@ -236,10 +235,12 @@ app.post('/api/slide/uploadimage', auth, admin, formidable(), (req, res) => {
                     console.log('when edit is uploaded')
                     console.log(doc)
                     res.send(
-                        {doc
-                            // public_id: result.public_id,
-                            // url: result.url
-                    })
+                        {
+                            public_id: result.public_id,
+                            url: result.url
+                        }
+
+                    )
                 })
 
         } else if (result.public_id) {
@@ -248,9 +249,9 @@ app.post('/api/slide/uploadimage', auth, admin, formidable(), (req, res) => {
 
             res.send(
                 {
-                public_id: result.public_id,
-                url: result.url
-            }
+                    public_id: result.public_id,
+                    url: result.url
+                }
             )
             // return res.send(result)
 
@@ -263,26 +264,6 @@ app.post('/api/slide/uploadimage', auth, admin, formidable(), (req, res) => {
         folder: 'Tryzna'
         // ,transform: '200px'
     })
-})
-
-
-app.post('/api/slide/slide_update', auth, (req, res) => {
-
-    Slide.findOneAndUpdate(
-        { _id: req.query.entity_id },
-        {
-            "$set": req.body
-        },
-        { new: true },
-        (err, doc) => {
-            // console.log(doc)
-            if (err) return res.json({ success: false, err });
-            res.send(doc)
-            // return res.status(200).send({
-            //     success: true
-            // })
-        }
-    );
 })
 // ======================
 //          PRODUCTS
@@ -571,6 +552,7 @@ app.get('/api/user/logout', auth, (req, res) => {
 
 app.post('/api/users/uploadimage', auth, admin, formidable(), (req, res) => {
     cloudinary.uploader.upload(req.files.file.path, (result) => {
+        console.log(result);
         res.status(200).send({
             public_id: result.public_id,
             url: result.url

@@ -9,7 +9,7 @@ import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import CircularProgrees from '@material-ui/core/CircularProgress';
 
-let entity_id = '';
+let entity_id = ''
 
 class Fileupload extends Component {
     state = {
@@ -17,74 +17,75 @@ class Fileupload extends Component {
         uploading: false,
     }
 
-componentDidMount(){
-    console.log('componentDidMount')
-    console.log(this.state)
-}
+    
 
-    onRemove = (image_id) => {
-
-        if (this.props.list !== undefined) {
-            entity_id = this.props.list._id;
-        }
-
-        
-
-        this.props.dispatch(act_removeSlideImage(image_id, entity_id))
-            .then(response => {
-                console.log(response)
-                this.setState({
-                    uploadedFiles: response.payload.images
-                }, () => {
-                    this.props.imagesHandler(response.payload.images)
-                })
-            })
+    componentDidMount(){
+        // console.log('fileupload componentDidMount')
+        // console.log(this.state)
+        // console.log(this.props)
     }
+    
+        onRemove = (image_id) => {
+    
+            if (this.props.list !== undefined) {
+    
+                // console.log(this.props)
+                entity_id = this.props.slides.slideDetail._id;
+            }
 
-    showUploadedImages = () => (
-
-        console.log('Show Uploaded Images'),
-        console.log(this.state),
-
-        this.state.uploadedFiles.map(item => (
-            <div className="dropzone_box"
-                key={item.public_id}
-            >
-
-                <div
-                    className="wrap"
-                    style={{ background: `url(${item.url}) no-repeat` }}
-                ><div className="delete_overlay">
-                        <FontAwesomeIcon
-                            icon={faTrash}
-                            onClick={() => this.onRemove(item.public_id)}
-                        />
+    
+            this.props.dispatch(act_removeSlideImage(image_id, entity_id))
+                .then(response => {
+                    // console.log(response)
+                    this.setState({
+                        uploadedFiles: response.payload.images
+                    }, () => {
+                        this.props.imagesHandler(response.payload.images)
+                    })
+                })
+        }
+    
+        showUploadedImages = () => (
+    
+            // console.log('Show Uploaded Images'),
+            console.log(this.state),
+    
+            this.state.uploadedFiles.map(item => (
+                <div className="dropzone_box"
+                    key={item.public_id}
+                >
+    
+                    <div
+                        className="wrap"
+                        style={{ background: `url(${item.url}) no-repeat` }}
+                    ><div className="delete_overlay">
+                            <FontAwesomeIcon
+                                icon={faTrash}
+                                onClick={() => this.onRemove(item.public_id)}
+                            />
+                        </div>
                     </div>
                 </div>
-            </div>
-        ))
-
-    )
-
-    onDrop = (files) => {
-
-        this.setState({ uploading: true });
-        let formData = new FormData();
-        const axiosconfig = {
-            header: { 'content-type': 'multipart/form-data' }
-        }
-
-        formData.append("file", files[0]);
-
-        if (this.props.list !== undefined) {
-            entity_id = this.props.list._id;
-        }
-        // Structure to Props
+            ))
+    
+        )
+    
+        onDrop = (files) => {
+    
+            this.setState({ uploading: true });
+            let formData = new FormData();
+            const axiosconfig = {
+                header: { 'content-type': 'multipart/form-data' }
+            }
+    
+            formData.append("file", files[0]);
+    
+            if (this.props.slides.slideDetail !== undefined) {
+                entity_id = this.props.slides.slideDetail._id;
+            }
         this.props.dispatch(act_uploadSlideImage(formData, axiosconfig, entity_id))
             .then(response => {
-                console.log('upload Slide Image')
-                console.log(this.state)
-                console.log(response.payload)
+                //console.log(this.state.uploadedFiles)
                 this.setState({
                     uploading: false,
                     uploadedFiles: [
@@ -98,16 +99,15 @@ componentDidMount(){
     }
 
     static getDerivedStateFromProps(props, state) {
-        // console.log(props)
-
         if (props.reset) {
             return state = {
                 uploadedFiles: []
             }
         }
-        if (props.list) {
+        if (props.list !== undefined) {
+            // console.log('herere', props.list)
             return state = {
-                uploadedFiles: props.list.images
+                uploadedFiles: props.list.images,
             }
         }
 

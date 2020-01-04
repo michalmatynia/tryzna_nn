@@ -34,7 +34,7 @@ export default function (state = {}, action) {
         case REMOVE_SLIDE_IMAGE:
             return { ...state, slideDetail: action.payload }
         case UPLOAD_SLIDE_IMAGE:
-            return { ...state, slideDetail: action.payload }
+            return { ...state, uploadedImage: action.payload }
         default:
             return state;
     }
