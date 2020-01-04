@@ -164,7 +164,7 @@ class AddSlide extends Component {
                         <FileUpload
                             imagesHandler={(images) => this.imagesHandler(images)}
                             reset={this.state.formSuccess}
-                            linktype='Add'
+                            parent_id = ''
                         />
                         <FormField
                             id={'lineOne'}

@@ -92,9 +92,9 @@ export function act_removeSlideImage(image_id, entity_id) {
     }
 }
 
-export function act_uploadSlideImage(formData, axiosheaders, entity_id) {
+export function act_uploadSlideImage(formData, axiosheaders, parent_id) {
     // console.log(entity_id)
-    const request = axios.post(`/${SLIDE_SERVER}/uploadimage?entity_id=${entity_id}`, formData, axiosheaders)
+    const request = axios.post(`/${SLIDE_SERVER}/uploadimage?parent_id=${parent_id}`, formData, axiosheaders)
         .then(response => {
             // console.log(response)
             return response.data;
@@ -119,9 +119,9 @@ export function act_getDetail_Slide(id) {
     }
 }
 
-export function act_updateDetail_Slide(dataToSubmit, entity_id){
+export function act_updateDetail_Slide(dataToSubmit, parent_id){
 
-    const request = axios.post(`/${SLIDE_SERVER}/slide_update?entity_id=${entity_id}`, dataToSubmit )
+    const request = axios.post(`/${SLIDE_SERVER}/slide_update?parent_id=${parent_id}`, dataToSubmit )
     .then(response => response.data);
 
     return {

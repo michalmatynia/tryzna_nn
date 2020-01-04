@@ -164,8 +164,6 @@ class EditSlide extends Component {
                     <FileUpload
                         imagesHandler={(images) => this.imagesHandler(images)}
                         reset={this.state.formSuccess}
-                        list={this.props.slides.slideDetail}
-                        linktype='Edit'
                         parent_id={this.props.match.params.id}
                     />
                     <FormField

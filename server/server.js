@@ -220,11 +220,11 @@ app.post('/api/slide/uploadimage', auth, admin, formidable(), (req, res) => {
     cloudinary.uploader.upload(req.files.file.path, (result) => {
 
         // If Entity ID Exists
-        if (req.query.entity_id && result.public_id) {
+        if (req.query.parent_id && result.public_id) {
 
             Slide.findOneAndUpdate(
 
-                { _id: mongoose.Types.ObjectId(req.query.entity_id) },
+                { _id: mongoose.Types.ObjectId(req.query.parent_id) },
                 {
                     "$push":
                         { "images": { "public_id": result.public_id, "url": result.url } }
