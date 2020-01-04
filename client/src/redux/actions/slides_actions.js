@@ -107,7 +107,6 @@ export function act_uploadSlideImage(formData, axiosheaders, entity_id) {
 }
 
 export function act_getDetail_Slide(id) {
-console.log('action getDetail Slide ')
 
     const request = axios.get(`/${SLIDE_SERVER}/articles_by_id?_id=${id}&type=single`)
     .then(response=>{

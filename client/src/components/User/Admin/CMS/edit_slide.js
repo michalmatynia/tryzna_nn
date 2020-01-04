@@ -6,7 +6,6 @@ import { update, generateData, isFormValid, populateFields } from '../../../util
 
 import { connect } from 'react-redux';
 
-// import { getSiteData, updateSiteData } from '../../../redux/actions/site_actions';
 import { act_getDetail_Slide, act_updateDetail_Slide } from '../../../../redux/actions/slides_actions';
 import FileUpload from '../../../utils/Form/fileupload_slide'
 
@@ -90,7 +89,7 @@ class EditSlide extends Component {
     }
 
     componentDidMount() {
-        
+
         const id = this.props.match.params.id;
 
         this.props.dispatch(act_getDetail_Slide(id))
@@ -205,6 +204,9 @@ class EditSlide extends Component {
 }
 
 const mapStateToProps = (state) => {
+        
+    console.log(state)
+
     return {
         slides: state.slides
     }

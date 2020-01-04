@@ -20,9 +20,11 @@ class Fileupload extends Component {
     
 
     componentDidMount(){
+
         // console.log('fileupload componentDidMount')
         // console.log(this.state)
-        // console.log(this.props)
+        
+        console.log(this.props)
     }
     
         onRemove = (image_id) => {
@@ -48,7 +50,7 @@ class Fileupload extends Component {
         showUploadedImages = () => (
     
             // console.log('Show Uploaded Images'),
-            console.log(this.state),
+            // console.log(this.state),
     
             this.state.uploadedFiles.map(item => (
                 <div className="dropzone_box"
