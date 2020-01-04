@@ -178,43 +178,38 @@ app.get('/api/slide/articles_by_id', (req, res) => {
 
 app.get('/api/slide/removeimage', auth, admin, (req, res) => {
 
-    //  console.log(req.body.entity_id) 
-    cloudinary.uploader.destroy(req.query.image_id, (error, result) => {
-        if (error) return res.json({ success: false, error });
-        res.status(200).send('ok');
-        // res.status(200).send('ok');
-    })
+    // //  console.log(req.body.entity_id) 
+    // cloudinary.uploader.destroy(req.query.image_id, (error, result) => {
+    //     if (error) return res.json({ success: false, error });
+    //     res.status(200).send('ok');
+    //     // res.status(200).send('ok');
+    // })
 
-    // if (req.query.parent_id) {
-    //     Slide.findOneAndUpdate(
+    if (req.query.parent_id) {
+        Slide.findOneAndUpdate(
 
-    //         { _id: mongoose.Types.ObjectId(req.query.parent_id) },
-    //         {
-    //             "$pull":
-    //                 { "images": { "public_id": req.query.image_id } }
+            { _id: mongoose.Types.ObjectId(req.query.parent_id) },
+            {
+                "$pull":
+                    { "images": { "public_id": req.query.image_id } }
 
-    //         },
-    //         { new: true },
-    //         (err, doc) => {
-    //             cloudinary.uploader.destroy(req.query.image_id, options = {
-    //                 invalidate: false
-    //             }, (error, result) => {
-    //                 if (error) return res.json({ success: false, error });
-    //                 res.status(200).send('ok');
-    //                 // return res.send(result)
-    //             })
-    //             // return res.send(doc)
-    //         })
-    // } else {
-    //     console.log('remove in add slide')
-    //     cloudinary.uploader.destroy(req.query.image_id, options = {
-    //         invalidate: false
-    //     }, (error, result) => {
-    //         if (error) return res.json({ success: false, error });
-    //         res.status(200).send('ok');
-    //         // res.status(200).send('ok');
-    //     })
-    // }
+            },
+            { new: true },
+            (err, doc) => {
+                cloudinary.uploader.destroy(req.query.image_id, (error, result) => {
+                    if (error) return res.json({ success: false, error });
+                    // res.status(200).send('ok');
+                    // return res.send(result)
+                })
+                res.send(doc)
+            })
+    } else {
+        cloudinary.uploader.destroy(req.query.image_id, (error, result) => {
+            if (error) return res.json({ success: false, error });
+            res.status(200).send('ok');
+            // res.status(200).send('ok');
+        })
+    }
 
 })
 
