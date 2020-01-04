@@ -93,12 +93,12 @@ class EditSlide extends Component {
         const id = this.props.match.params.id;
 
         this.props.dispatch(act_getDetail_Slide(id))
-        .then(() => {    
-            const newFormData = populateFields(this.state.formdata, this.props.slides.slideDetail);
-            this.setState({
-                formdata: newFormData
-            });
-        })
+            .then(() => {
+                const newFormData = populateFields(this.state.formdata, this.props.slides.slideDetail);
+                this.setState({
+                    formdata: newFormData
+                });
+            })
     }
 
     updateForm = (element) => {
@@ -116,7 +116,7 @@ class EditSlide extends Component {
         let formIsValid = isFormValid(this.state.formdata, 'slides');
 
         if (formIsValid) {
-            this.props.dispatch(act_updateDetail_Slide(dataToSubmit))
+            this.props.dispatch(act_updateDetail_Slide(dataToSubmit, this.props.match.params.id))
                 .then(() => {
                     this.setState({
                         formSuccess: true
@@ -139,9 +139,6 @@ class EditSlide extends Component {
 
     imagesHandler = (images) => {
 
-        // console.log('fefesfcs')
-        // console.log(this)
-
         const newFormData = {
             ...this.state.formdata
         }
@@ -151,51 +148,51 @@ class EditSlide extends Component {
         this.setState({
             formdata: newFormData
         }
-        , ()=> {this.props.dispatch(act_getDetail_Slide(this.props.match.params.id))}
+             , () => { this.props.dispatch(act_getDetail_Slide(this.props.match.params.id)) }
         )
     }
 
     render() {
         return (
             <UserLayout>
-            <div>
-                <form onSubmit={(event) => this.submitForm()}>
-                    <h1>Edit Slide</h1>
-                    <FileUpload
-                        imagesHandler={(images) => this.imagesHandler(images)}
-                        reset={this.state.formSuccess}
-                        parent_id={this.props.match.params.id}
-                    />
-                    <FormField
-                        id={'lineOne'}
-                        formdata={this.state.formdata.lineOne}
-                        change={(element) => this.updateForm(element)}
-                    />
-                    <FormField
-                        id={'lineTwo'}
-                        formdata={this.state.formdata.lineTwo}
-                        change={(element) => this.updateForm(element)}
-                    />
-                    <div className="form_divider"></div>
-                    <FormField
-                        id={'publish'}
-                        formdata={this.state.formdata.publish}
-                        change={(element) => this.updateForm(element)}
-                    />
-                    <div>
-                        {
-                            this.state.formSuccess ?
-                                <div className="form_success">success</div>
-                                : null
-                        }
-                        {this.state.formError ?
-                            <div className="error_label">Please check your data</div>
-                            : null}
-                        <button onClick={(event) => this.submitForm(event)}>Update</button>
+                <div>
+                    <form onSubmit={(event) => this.submitForm()}>
+                        <h1>Edit Slide</h1>
+                        <FileUpload
+                            imagesHandler={(images) => this.imagesHandler(images)}
+                            reset={this.state.formSuccess}
+                            parent_id={this.props.match.params.id}
+                        />
+                        <FormField
+                            id={'lineOne'}
+                            formdata={this.state.formdata.lineOne}
+                            change={(element) => this.updateForm(element)}
+                        />
+                        <FormField
+                            id={'lineTwo'}
+                            formdata={this.state.formdata.lineTwo}
+                            change={(element) => this.updateForm(element)}
+                        />
+                        <div className="form_divider"></div>
+                        <FormField
+                            id={'publish'}
+                            formdata={this.state.formdata.publish}
+                            change={(element) => this.updateForm(element)}
+                        />
+                        <div>
+                            {
+                                this.state.formSuccess ?
+                                    <div className="form_success">success</div>
+                                    : null
+                            }
+                            {this.state.formError ?
+                                <div className="error_label">Please check your data</div>
+                                : null}
+                            <button onClick={(event) => this.submitForm(event)}>Update</button>
 
-                    </div>
-                </form>
-            </div>
+                        </div>
+                    </form>
+                </div>
             </UserLayout>
         );
     }

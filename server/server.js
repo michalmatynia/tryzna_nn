@@ -176,6 +176,24 @@ app.get('/api/slide/articles_by_id', (req, res) => {
         })
 });
 
+app.post('/api/slide/slide_update', auth, (req, res) => {
+
+    console.log(req.query.parent_id)
+    Slide.findOneAndUpdate(
+        { _id: req.query.parent_id },
+        {
+            "$set": req.body
+        },
+        { new: true },
+        (err, doc) => {
+            if (err) return res.json({ success: false, err });
+            return res.status(200).send({
+                success: true
+            })
+        }
+    );
+})
+
 app.get('/api/slide/removeimage', auth, admin, (req, res) => {
 
     // //  console.log(req.body.entity_id) 
@@ -196,12 +214,17 @@ app.get('/api/slide/removeimage', auth, admin, (req, res) => {
             },
             { new: true },
             (err, doc) => {
-                cloudinary.uploader.destroy(req.query.image_id, (error, result) => {
+                cloudinary.uploader.destroy(req.query.image_id, (error) => {
                     if (error) return res.json({ success: false, error });
-                    // res.status(200).send('ok');
+                    res.status(200).send('ok');
                     // return res.send(result)
+                    // console.log(res)
+                    // return res.send(doc)
                 })
-                res.send(doc)
+                // Z tym dziala ale zawiesza wpke
+                // console.log(res)
+                // return res.send(doc)
+                // res.status(200).send('ok');
             })
     } else {
         cloudinary.uploader.destroy(req.query.image_id, (error, result) => {

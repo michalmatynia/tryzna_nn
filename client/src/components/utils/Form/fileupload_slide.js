@@ -25,11 +25,12 @@ class Fileupload extends Component {
             this.props.dispatch(act_removeSlideImage(image_id, this.props.parent_id))
             // axios.get(`/api/slide/removeimage?image_id=${image_id}`)
                 .then(response => {
-                    console.log(response)
+                    
                     let images = this.state.uploadedFiles.filter(item => {
                         return item.public_id !== image_id;
                     })
-                    // console.log(images)
+                    console.log(response)
+                    console.log(images)
                     this.setState({
                         uploadedFiles: images
                     }, () => {

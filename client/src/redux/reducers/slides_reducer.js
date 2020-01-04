@@ -30,9 +30,9 @@ export default function (state = {}, action) {
         case GET_SLIDE_DETAIL:
             return { ...state, slideDetail: action.payload }
         case UPDATE_SLIDE_DETAIL:
-            return { ...state, slideDetail: action.payload }
+            return { ...state }
         case REMOVE_SLIDE_IMAGE:
-            return { ...state, slideDetail: action.payload }
+            return { ...state}
         case UPLOAD_SLIDE_IMAGE:
             return { ...state, uploadedImage: action.payload }
         default:
