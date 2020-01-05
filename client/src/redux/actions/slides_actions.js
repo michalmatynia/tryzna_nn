@@ -7,7 +7,8 @@ import {
     REMOVE_SLIDE_IMAGE,
     GET_SLIDE_DETAIL,
     UPDATE_SLIDE_DETAIL,
-    UPLOAD_SLIDE_IMAGE
+    UPLOAD_SLIDE_IMAGE,
+    SET_PUBLISH_SLIDE
 
 } from './types';
 
@@ -78,9 +79,6 @@ export function act_removeSlideItem(id) {
 
 export function act_removeSlideImage(image_id, parent_id) {
 
-// console.log(image_id)
-//     image_id = {image_id: image_id}
-
     const request = axios.get(`/${SLIDE_SERVER}/removeimage?image_id=${image_id}&parent_id=${parent_id}`)
         .then(response => {
             return response.data;
@@ -126,6 +124,17 @@ export function act_updateDetail_Slide(dataToSubmit, parent_id){
 
     return {
         type: UPDATE_SLIDE_DETAIL,
+        payload: request
+    }
+}
+
+export function act_setPublishSlide(id, checked){
+
+    const request = axios.post(`/${SLIDE_SERVER}/set_publish?id=${id}&checked=${checked}`)
+    .then(response => response.data);
+
+    return {
+        type: SET_PUBLISH_SLIDE,
         payload: request
     }
 }

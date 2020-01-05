@@ -1,25 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
-const ListSlidesBlock = ({ list, removeItem }) => {
+const ListSlidesBlock = ({ list, removeItem, handlePublish }) => {
 
-    // console.log(list)
-
-    const [publish, setPublish] = useState({
-        checkedA: true,
-        checkedB: true,
-    })
+    // const [publish, setPublish] = useState({
+    //     checkedA: true,
+    //     checkedB: true,
+    // })
 
 
-    const handleChange = name => event => {
-        // console.log('here')
+    // const handleChange = name => event => {
 
-        setPublish({ ...publish, [name]: event.target.checked });
-    };
+    //     setPublish({ ...publish, [name]: event.target.checked });
+    // };
 
     const renderSlideImage = (list) => {
-
         // console.log(list)
         if (list.images.length > 0) {
             return list.images[0].url
@@ -55,15 +51,15 @@ const ListSlidesBlock = ({ list, removeItem }) => {
                         <FormControlLabel
                             control={
                                 <Switch
-                                    checked={publish.checkedA}
+                                    checked={slide.publish}
                                     // onChange={handleChange('checkedA')}
-                                    onClick={() => handleChange('checkedA')}
-                                    value="checkedA"
+                                    onClick={() => handlePublish(slide._id, slide.publish)}
+                                    // value="checkedA"
                                     // inputProps={{ 'aria-label': 'secondary checkbox' }}
                                     color="primary"
                                 />
                             }
-                            label="Published"
+                            label={slide.publish ? "Published" : "Unpublished"}
                             size="small"
                             labelPlacement="top"
                         />

@@ -143,8 +143,6 @@ app.get('/api/slide/articles', (req, res) => {
 
 app.get('/api/slide/remove_slide', auth, (req, res) => {
 
-    // console.log(req.query._id)
-
     Slide.findOne({ _id: req.query._id }, (err, doc) => {
 
 
@@ -159,7 +157,7 @@ app.get('/api/slide/remove_slide', auth, (req, res) => {
             .exec((err, docs) => {
                 res.send(docs)
             })
-        })
+    })
 })
 
 // Fetch Product by ID (Query String)
@@ -232,11 +230,8 @@ app.get('/api/slide/removeimage', auth, admin, (req, res) => {
 
 app.post('/api/slide/uploadimage', auth, admin, formidable(), (req, res) => {
 
-    // console.log(req)
-
     cloudinary.uploader.upload(req.files.file.path, (result) => {
 
-        // If Entity ID Exists
         if (req.query.parent_id && result.public_id) {
 
             Slide.findOneAndUpdate(
@@ -249,20 +244,15 @@ app.post('/api/slide/uploadimage', auth, admin, formidable(), (req, res) => {
                 },
                 { new: true },
                 (err, doc) => {
-                    console.log('when edit is uploaded')
-                    console.log(doc)
                     res.send(
                         {
                             public_id: result.public_id,
                             url: result.url
                         }
-
                     )
                 })
 
         } else if (result.public_id) {
-            console.log('when add is uploaded')
-            console.log(result)
 
             res.send(
                 {
@@ -270,8 +260,6 @@ app.post('/api/slide/uploadimage', auth, admin, formidable(), (req, res) => {
                     url: result.url
                 }
             )
-            // return res.send(result)
-
         } else {
             return res.status(400).send(err);
         }
@@ -282,6 +270,40 @@ app.post('/api/slide/uploadimage', auth, admin, formidable(), (req, res) => {
         // ,transform: '200px'
     })
 })
+
+app.post('/api/slide/set_publish', auth, (req, res) => {
+ 
+    let checked = null
+    
+    if(req.query.checked === 'true' ) {
+        checked = false } else {
+            checked = true 
+        }
+
+    Slide.findOneAndUpdate(
+        { _id: req.query.id },
+        {
+            "$set": {
+                publish: checked}
+        },
+        { new: true },
+        (err, doc) => {
+
+    Slide.
+        find()
+        .exec((err, articles) => {
+            if (err) return res.status(400).send(err);
+            res.send(articles)
+        })
+            
+            // if (err) return res.json({ success: false, err });
+            // return res.status(200).send({
+            //     success: true
+            // })
+        }
+    );
+})
+
 // ======================
 //          PRODUCTS
 //=======================

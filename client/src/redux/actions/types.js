@@ -38,3 +38,4 @@ export const GET_SLIDE_DETAIL = 'get_slide_detail';
 export const UPDATE_SLIDE_DETAIL = 'update_slide_detail';
 export const REMOVE_SLIDE_IMAGE = 'remove_slide_image';
 export const UPLOAD_SLIDE_IMAGE = 'upload_slide_image';
+export const SET_PUBLISH_SLIDE = 'set_publish_slide';
