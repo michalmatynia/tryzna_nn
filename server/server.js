@@ -144,15 +144,22 @@ app.get('/api/slide/articles', (req, res) => {
 app.get('/api/slide/remove_slide', auth, (req, res) => {
 
     // console.log(req.query._id)
+
+    Slide.findOne({ _id: req.query._id }, (err, doc) => {
+
+
+        image_ids = []
+        images_ids = doc['images'].map(item => {
+            cloudinary.uploader.destroy(item.public_id)
+        })
+    })
     Slide.findOneAndDelete({ _id: req.query._id }, (err, docs) => {
         Slide.
             find()
             .exec((err, docs) => {
                 res.send(docs)
             })
-    }
-    )
-
+        })
 })
 
 // Fetch Product by ID (Query String)
@@ -178,7 +185,7 @@ app.get('/api/slide/articles_by_id', (req, res) => {
 
 app.post('/api/slide/slide_update', auth, (req, res) => {
 
-    console.log(req.query.parent_id)
+    // console.log(req.query.parent_id)
     Slide.findOneAndUpdate(
         { _id: req.query.parent_id },
         {
@@ -196,13 +203,6 @@ app.post('/api/slide/slide_update', auth, (req, res) => {
 
 app.get('/api/slide/removeimage', auth, admin, (req, res) => {
 
-    // //  console.log(req.body.entity_id) 
-    // cloudinary.uploader.destroy(req.query.image_id, (error, result) => {
-    //     if (error) return res.json({ success: false, error });
-    //     res.status(200).send('ok');
-    //     // res.status(200).send('ok');
-    // })
-
     if (req.query.parent_id) {
         Slide.findOneAndUpdate(
 
@@ -217,14 +217,8 @@ app.get('/api/slide/removeimage', auth, admin, (req, res) => {
                 cloudinary.uploader.destroy(req.query.image_id, (error) => {
                     if (error) return res.json({ success: false, error });
                     res.status(200).send('ok');
-                    // return res.send(result)
-                    // console.log(res)
-                    // return res.send(doc)
                 })
-                // Z tym dziala ale zawiesza wpke
-                // console.log(res)
-                // return res.send(doc)
-                // res.status(200).send('ok');
+
             })
     } else {
         cloudinary.uploader.destroy(req.query.image_id, (error, result) => {
