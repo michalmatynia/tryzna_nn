@@ -9,7 +9,9 @@ import {
     REMOVE_CART_ITEM_USER,
     ON_SUCCESS_BUY_USER,
     UPDATE_DATA_USER,
-    CLEAR_UPDATE_USER_DATA
+    CLEAR_UPDATE_USER_DATA,
+    SET_COOKIE_USER,
+    SET_SITELOCALISATION_USER
 
 } from '../actions/types';
 
@@ -35,6 +37,38 @@ export function loginUser(dataToSubmit) {
     return {
         type: LOGIN_USER,
         payload: request
+    }
+
+}
+
+
+// GUEST USER ACTIONS
+export function setCookie() {
+    const request = axios.get('https://ipapi.co/json/')
+        .then((response) => response.data)
+        .catch((error) => {
+            console.log(error);
+        });
+    return {
+        type: SET_COOKIE_USER,
+        payload: request
+    }
+
+}
+
+export function setLocalisation(user_lg, user_currency) {
+
+let localisation = {
+    languages: user_lg,
+    currency: user_currency
+}
+
+// console.log(user_lg)
+// console.log(site_lg)
+
+    return {
+        type: SET_SITELOCALISATION_USER,
+        payload: localisation
     }
 
 }
@@ -102,7 +136,7 @@ export function removeCartItem(id) {
             response.data.cart.forEach(item => {
 
 
-                
+
                 response.data.cartDetail.forEach((k, i) => {
 
                     if (item.id === k._id) {
@@ -120,10 +154,10 @@ export function removeCartItem(id) {
 
 }
 
-export function onSuccessBuy(data){ 
+export function onSuccessBuy(data) {
 
-    const request = axios.post(`${USER_SERVER}/successBuy`,data)
-                    .then(response => response.data);
+    const request = axios.post(`${USER_SERVER}/successBuy`, data)
+        .then(response => response.data);
 
     return {
         type: ON_SUCCESS_BUY_USER,
@@ -131,11 +165,11 @@ export function onSuccessBuy(data){
     }
 }
 
-export function updateUserData(dataToSubmit){
-    const request = axios.post(`${USER_SERVER}/update_profile`,dataToSubmit)
-    .then(response=>{
-        return response.data
-    });
+export function updateUserData(dataToSubmit) {
+    const request = axios.post(`${USER_SERVER}/update_profile`, dataToSubmit)
+        .then(response => {
+            return response.data
+        });
 
     return {
         type: UPDATE_DATA_USER,
@@ -143,7 +177,7 @@ export function updateUserData(dataToSubmit){
     }
 }
 
-export function clearUpdateUser(){
+export function clearUpdateUser() {
     return {
         type: CLEAR_UPDATE_USER_DATA,
         payload: ''

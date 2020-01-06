@@ -23,9 +23,13 @@ import ManageSite from './components/User/Admin/manage_site';
 import AddFile from './components/User/Admin/add_file';
 
 // CMS Managment
+// Slider
 import AddSlide from './components/User/Admin/CMS/add_slide';
 import EditSlide from './components/User/Admin/CMS/edit_slide';
 import ListSlides from './components/User/Admin/CMS/list_slides';
+// Description
+import EditDesc from './components/User/Admin/CMS/edit_desc';
+
 
 import PageNotFound from './components/utils/page_not_found';
 
@@ -46,6 +50,8 @@ const Routes = () => {
         <Route path="/admin/add_slide" exact component={Auth(AddSlide, true)} />
         <Route path="/admin/edit_slide/:id" exact component={Auth(EditSlide, true)} />
         <Route path="/admin/list_slides" exact component={Auth(ListSlides, true)} />
+
+        <Route path="/admin/edit_desc" exact component={Auth(EditDesc, true)} />
 
         <Route path="/reset_password/:token" exact component={Auth(ResetPass, false)} />
         <Route path="/reset_user" exact component={Auth(ResetUser, false)} />

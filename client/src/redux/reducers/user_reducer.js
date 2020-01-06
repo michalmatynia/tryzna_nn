@@ -8,7 +8,9 @@ import {
     REMOVE_CART_ITEM_USER,
     ON_SUCCESS_BUY_USER,
     UPDATE_DATA_USER,
-    CLEAR_UPDATE_USER_DATA
+    CLEAR_UPDATE_USER_DATA,
+    SET_COOKIE_USER,
+    SET_SITELOCALISATION_USER
 
 } from '../actions/types';
 
@@ -53,10 +55,14 @@ export default function (state = {}, action) {
                 },
                 cartDetail: action.payload.cartDetail
             }
-            case UPDATE_DATA_USER:
-                return {...state,updateUser: action.payload}
-            case CLEAR_UPDATE_USER_DATA:
-                return {...state, updateUser: action.payload}
+        case UPDATE_DATA_USER:
+            return { ...state, updateUser: action.payload }
+        case CLEAR_UPDATE_USER_DATA:
+            return { ...state, updateUser: action.payload }
+        case SET_COOKIE_USER:
+            return { ...state, cookieUser: action.payload }
+        case SET_SITELOCALISATION_USER:
+            return { ...state, siteLocalisation: action.payload }
         default:
             return state;
     }

@@ -9,7 +9,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
 import Collapse from '@material-ui/core/Collapse';
 
-export default class CollapseCheckbox extends Component {
+export default class DropdownLanguage extends Component {
 
     state = {
         open: false,

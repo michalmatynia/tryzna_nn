@@ -44,6 +44,7 @@ const { Product } = require('./models/product');
 const { Payment } = require('./models/payment');
 const { Site } = require('./models/site');
 const { Slide } = require('./models/slide');
+const { Desc } = require('./models/desc');
 
 // Middlewares
 const { auth } = require('./middleware/auth');
@@ -272,7 +273,7 @@ app.post('/api/slide/uploadimage', auth, admin, formidable(), (req, res) => {
 })
 
 app.post('/api/slide/set_publish', auth, (req, res) => {
- 
+
     let checked = null
     
     if(req.query.checked === 'true' ) {
@@ -791,6 +792,37 @@ app.get('/api/site/site_data', (req, res) => {
 });
 
 app.post('/api/site/site_data', auth, admin, (req, res) => {
+
+    Site.findOneAndUpdate(
+        { name: 'Site' },
+        { "$set": { siteInfo: req.body } },
+        { new: true },
+        (err, doc) => {
+            if (err) return res.json({ success: false, err });
+            return res.status(200).send({
+                success: true,
+                siteInfo: doc.siteInfo
+            })
+        }
+    )
+});
+
+// ======================
+//          Description
+//=======================
+
+app.get('/api/desc/get_entity', (req, res) => {
+
+// Find by Language
+// if find is empty, save the new 
+
+    Desc.find({}, (err, result) => {
+        if (err) return res.status(400).send(err);
+        res.status(200).send(result)
+    });
+});
+
+app.post('/api/desc/update_entity', auth, admin, (req, res) => {
 
     Site.findOneAndUpdate(
         { name: 'Site' },

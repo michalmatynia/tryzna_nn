@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
-import { auth } from '../redux/actions/user_actions';
+import { auth, setCookie, setLocalisation } from '../redux/actions/user_actions';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 export default function (ComposedClass, reload, adminRoute = null) {
@@ -12,10 +12,25 @@ export default function (ComposedClass, reload, adminRoute = null) {
         }
 
         componentDidMount() {
+
+            this.props.dispatch(setCookie())
+
+            let user_lg = null
+            let user_currency = null
+
+            if (this.props.user.cookieUser !== undefined) {
+                user_lg = this.props.user.cookieUser.languages
+                user_currency = this.props.user.cookieUser.currency
+            } else { 
+                user_lg = 'en';
+                user_currency = 'EUR'
+            }
+            
+            this.props.dispatch(setLocalisation(user_lg, user_currency))
+
             this.props.dispatch(auth())
                 .then(response => {
                     let user = this.props.user.userData;
-// console.log(this.props)
                     if (!user.isAuth) {
                         if (reload) {
                             this.props.history.push('/register_login')

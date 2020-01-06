@@ -59,7 +59,7 @@ const ListSlidesBlock = ({ list, removeItem, handlePublish }) => {
                                     color="primary"
                                 />
                             }
-                            label={slide.publish ? "Published" : "Unpublished"}
+                            label={slide.publish ? "On" : "Off"}
                             size="small"
                             labelPlacement="top"
                         />

@@ -27,7 +27,6 @@ class Login extends Component {
                 valid: false,
                 touched: false,
                 validationMessage: ''
-
             },
             password: {
                 element: 'input',
@@ -61,8 +60,6 @@ class Login extends Component {
         let dataToSubmit = generateData(this.state.formdata, 'login');
         let formIsValid = isFormValid(this.state.formdata, 'login');
 
- 
-
         if (formIsValid) {
             this.props.dispatch(loginUser(dataToSubmit))
                 .then(response => {
@@ -70,7 +67,7 @@ class Login extends Component {
                         this.props.history.push('/user/dashboard')
 
                     } else {
-                        console.log(response)
+                        
                         this.setState({ formError: true, formErrorMessage: response.payload.message })
                     }
                 });

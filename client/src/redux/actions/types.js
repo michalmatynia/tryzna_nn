@@ -9,6 +9,10 @@ export const ON_SUCCESS_BUY_USER = 'on_success_buy_user';
 export const UPDATE_DATA_USER = 'update_data_user';
 export const CLEAR_UPDATE_USER_DATA = 'clear_update_user_data';
 
+// Language
+export const SET_COOKIE_USER = 'set_cookie_user';
+export const SET_SITELOCALISATION_USER = 'set_sitelocalisation_user';
+
 export const GET_PRODUCTS_BY_SELL = 'get_products_by_sell';
 export const GET_PRODUCTS_BY_ARRIVAL = 'get_products_by_arrival';
 export const GET_BRANDS = 'get_brands';
@@ -39,3 +43,7 @@ export const UPDATE_SLIDE_DETAIL = 'update_slide_detail';
 export const REMOVE_SLIDE_IMAGE = 'remove_slide_image';
 export const UPLOAD_SLIDE_IMAGE = 'upload_slide_image';
 export const SET_PUBLISH_SLIDE = 'set_publish_slide';
+
+// - Description
+export const GET_DESCRIPTION_DETAIL = 'get_description_detail';
+export const UPDATE_DESCRIPTION_DETAIL = 'update_description_detail';

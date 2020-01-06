@@ -44,6 +44,10 @@ const cms_links = [
     {
         name: 'List slides',
         linkTo: '/admin/list_slides'
+    },
+    {
+        name: 'Edit Description',
+        linkTo: '/admin/edit_desc'
     }
 ]
 
