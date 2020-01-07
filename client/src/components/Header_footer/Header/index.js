@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import { Link, withRouter} from 'react-router-dom';
 
+import { languages } from '../../utils/Form/Fixed_categories/languages';
 import { connect } from 'react-redux';
 import { logoutUser } from '../../../redux/actions/user_actions';
+import DropdownLanguage from './dropdownLanguage';
+
+// let siteLocalisation = ''
 
 class Header extends Component {
 
@@ -40,8 +44,30 @@ class Header extends Component {
                 linkTo:'/user/logout',
                 public: false
             },
-        ]
+        ],
+        siteLocalisation:{
+            sitelang: this.props.user
+        }
     }
+
+    componentDidUpdate(){
+
+        console.log(this.props)
+
+// if (this.props.user.siteLocalisation !== undefined) {
+//     siteLocalisation = this.props.user.siteLocalisation
+// }
+
+}
+
+componentDidMount(){
+
+// grab current state
+// const state = store.getState();
+
+   //  console.log(state)
+}
+
 
 
     logoutHandler = () => {
@@ -122,12 +148,18 @@ class Header extends Component {
                     </div>
                     <div className="right">
                         <div className="top">
+                        
                             {this.showLinks(this.state.user)}
+                            
                         </div>
                         <div className="bottom">
                             {this.showLinks(this.state.page)}
                         </div>
                     </div>
+                    <DropdownLanguage
+                    lg_list = {languages}
+                    site_lg = {this.props}
+                    />
                 </div>
             </header>
         );

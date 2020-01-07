@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Header from '../components/Header_footer/Header';
 import Footer from '../components/Header_footer/Footer';
+// import { setCookie, setLocalisation } from '../redux/actions/user_actions';
 
 import { connect } from 'react-redux';
 import { getSiteData } from '../redux/actions/site_actions';
@@ -8,17 +9,20 @@ import { getSiteData } from '../redux/actions/site_actions';
 class Layout extends Component {
 
 componentDidMount(){
-    // console.log(this.props)
+
+
 
     if(Object.keys(this.props.site).length === 0){
         this.props.dispatch(getSiteData())
     }
+
+    
 }
 
     render() {
         return (
             <div>
-                <Header />
+                <Header/>
                 <div className="page_container">
                     {this.props.children}
                 </div>
@@ -30,7 +34,10 @@ componentDidMount(){
 
 const mapStateToProps = (state) => {
     return {
-        site: state.site
+        site: state.site,
+        user: state.user
     }
 }
+
+
 export default connect(mapStateToProps)(Layout);

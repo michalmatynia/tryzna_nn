@@ -28,6 +28,8 @@ export default function (ComposedClass, reload, adminRoute = null) {
             
             this.props.dispatch(setLocalisation(user_lg, user_currency))
 
+            // ---------
+
             this.props.dispatch(auth())
                 .then(response => {
                     let user = this.props.user.userData;

@@ -1,13 +1,6 @@
 import React, { Component } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
-
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import ListItemText from '@material-ui/core/ListItemText';
-import Checkbox from '@material-ui/core/Checkbox';
-import Collapse from '@material-ui/core/Collapse';
+import FormControl from '@material-ui/core/FormControl';
+import NativeSelect from '@material-ui/core/NativeSelect';
 
 export default class DropdownLanguage extends Component {
 
@@ -17,6 +10,8 @@ export default class DropdownLanguage extends Component {
     }
 
     componentDidMount() {
+console.log(this.props)
+
         if (this.props.initState) {
             this.setState({
                 open: this.props.initState
@@ -28,32 +23,21 @@ export default class DropdownLanguage extends Component {
         this.setState({ open: !this.state.open })
     }
 
-    handleAngle = () => (
-        this.state.open ?
-            <FontAwesomeIcon
-                icon={faAngleUp}
-                className="icon"
-            />
-            :
-            <FontAwesomeIcon
-                icon={faAngleDown}
-                className="icon" />
-    )
     renderList = () => (
-        this.props.list ?
-            this.props.list.map((value) => (
-                <ListItem key={value._id} style={{ padding: '10px 0' }}>
-                    <ListItemText primary={value.name} />
-                    <ListItemSecondaryAction>
-                        <Checkbox
-                            color="primary"
-                            onChange={this.handleToggle(value._id)}
-                            checked={this.state.checked.indexOf(value._id) !== -1}
-                        />
-                    </ListItemSecondaryAction>
-                </ListItem>
-            ))
-            : null
+
+        <FormControl>
+            <NativeSelect
+                onChange={this.handleChange('age')}
+                name="lang"
+            >
+                {this.props.lg_list ?
+                    this.props.lg_list.map((value) => (
+                        <option value={value.id} >{value.name}</option>
+
+                    ))
+                    : null}
+            </NativeSelect>
+        </FormControl>
     )
 
     handleToggle = value => () => {
@@ -75,29 +59,17 @@ export default class DropdownLanguage extends Component {
 
     }
 
+    handleChange = name => event => {
+        this.setState({
+            ...this.state,
+            [name]: event.target.value,
+        });
+    };
+
     render() {
         return (
-            <div className="collapse_items_wrapper">
-                <List style={{ borderBottom: '1px solid #dbdbdb' }}>
-                    <ListItem onClick={this.handleClick} style={{ padding: '10px 23px 10px 0' }}>
-                        <ListItemText
-                            primary={this.props.title}
-                            className="collapse_title"
-                        />
-                        {this.handleAngle()}
-                    </ListItem>
-                    <Collapse
-                        in={this.state.open}
-                        timeout="auto"
-                        unmountOnExit
-                    >
-                        <List component="div" disablePadding>
-                            {this.renderList()}
-
-                        </List>
-                    </Collapse>
-                </List>
-
+            <div>
+                {this.renderList()}
             </div>
         )
     }

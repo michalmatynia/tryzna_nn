@@ -959,3 +959,9 @@ footer .business_nfo .nfo {
     cursor: pointer;
 
 }
+
+.lg_dropdown {
+
+    text-transform: capitalize;
+    color: #c3c0b1;
+}
