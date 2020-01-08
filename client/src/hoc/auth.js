@@ -14,23 +14,21 @@ export default function (ComposedClass, reload, adminRoute = null) {
         componentDidMount() {
 
             let user_lg = null
-            let user_currency = null
+            // let user_currency = null
 
             this.props.dispatch(setCookie())
             .then(response => {
 
-                
-
                 if (response.payload) {
                     user_lg = response.payload.languages
-                user_currency = response.payload.currency
+                 // user_currency = response.payload.currency
                     
                 } else { 
                     user_lg = 'en';
-                    user_currency = 'EUR'
+                    // user_currency = 'EUR'
                 }
 
-                this.props.dispatch(setLocalisation(user_lg, user_currency))
+                this.props.dispatch(setLocalisation(user_lg))
             })
 
             // if(user_lg) {

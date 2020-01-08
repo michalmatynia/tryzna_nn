@@ -19,6 +19,8 @@ import {
 import { USER_SERVER } from '../../components/utils/misc';
 import { PRODUCT_SERVER } from '../../components/utils/misc';
 
+import { languages } from '../../components/utils/Form/Fixed_categories/languages';
+
 export function registerUser(dataToSubmit) {
     const request = axios.post(`${USER_SERVER}/register`, dataToSubmit)
         .then(response => response.data);
@@ -56,19 +58,23 @@ export function setCookie() {
 
 }
 
-export function setLocalisation(user_lg, user_currency) {
+export function setLocalisation(user_lg) {
 
-let localisation = {
-    languages: user_lg,
-    currency: user_currency
-}
+    console.log('frf')
+    console.log(user_lg)
+    let localisation = ''
 
-// console.log(user_lg)
-// console.log(site_lg)
+    localisation = languages.filter(value => {
+        return user_lg === value.name ? localisation = {
+            languages: value.name,
+            currency: value.currency
+        } : null;
+    })
+
 
     return {
         type: SET_SITELOCALISATION_USER,
-        payload: localisation
+        payload: localisation[0]
     }
 
 }

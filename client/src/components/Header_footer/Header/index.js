@@ -54,7 +54,7 @@ if(this.props.user.siteLocalisation) {
     return (
         <DropdownLanguage
         lg_list = {languages}
-        site_lg = {this.props.user.siteLocalisation}
+        site_lg = {this.props.user.siteLocalisation.name}
         />
     )
 }

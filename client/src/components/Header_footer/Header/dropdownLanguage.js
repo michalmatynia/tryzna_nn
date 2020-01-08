@@ -1,17 +1,21 @@
 import React, { Component } from 'react';
 import FormControl from '@material-ui/core/FormControl';
 import NativeSelect from '@material-ui/core/NativeSelect';
+import { setLocalisation } from '../../../redux/actions/user_actions';
+import { connect } from 'react-redux';
 
-export default class DropdownLanguage extends Component {
+class DropdownLanguage extends Component {
 
     state = {
         open: false,
-        checked: []
-    }
+        checked: []    }
 
+        componentDidUpdate(){
+           // console.log(this.props)
+        }
     componentDidMount() {
         // if(value.name)
-console.log(this.props.site_lg.languages)
+        
 
         if (this.props.initState) {
             this.setState({
@@ -25,21 +29,29 @@ console.log(this.props.site_lg.languages)
     }
 
     renderList = () => (
-// {...this.props.site_lg.languages === value.name? 'selected' : null}
+
         <FormControl>
             <NativeSelect
-                onChange={this.handleChange('age')}
-                name="lang"
+                // onChange={(value)=>this.handleChange(value)}
+                // name="lang"
+                // value={this.state.age}
+                defaultValue={this.props.site_lg}
+                onChange={e => this.handleChange(e.target.value)}
+            // onChange={this.handleChange('age')}
+            // name="age"
+            // inputProps={{
+            //   id: 'name-native-error',
+            // }}
             >
                 {this.props.lg_list ?
-                    this.props.lg_list.map((value, i) => {
-                    // <option value={value.id} key={i}  >{value.name} {this.props.site_lg.languages}</option>
-                    if(this.props.site_lg.languages === value.name){
-                        return <option value={value.id} key={i} selected >{value.name}</option>
-                    } else {
-                        return <option value={value.id} key={i} >{value.name}</option>
-                    }
-                    })
+                    this.props.lg_list.map((value, i) => (
+                        <option
+                            value={value.name}
+                            key={i}
+                        // onChange={this.handleChange('checkedA')}
+                        >{value.name}</option>
+
+                    ))
                     : null}
             </NativeSelect>
         </FormControl>
@@ -64,11 +76,18 @@ console.log(this.props.site_lg.languages)
 
     }
 
-    handleChange = name => event => {
-        this.setState({
-            ...this.state,
-            [name]: event.target.value,
-        });
+    handleChange = event => {
+
+        // this.setState({
+        //     ...this.state,
+        //     [name]: event.target.value,
+        //   });
+        console.log(event)
+
+        this.props.dispatch(setLocalisation(event))
+
+        
+
     };
 
     render() {
@@ -78,4 +97,15 @@ console.log(this.props.site_lg.languages)
             </div>
         )
     }
+
+
+
 }
+
+const mapStateToProps = (state) => {
+    return {
+        site: state.site
+    }
+}
+
+export default connect(mapStateToProps)(DropdownLanguage);

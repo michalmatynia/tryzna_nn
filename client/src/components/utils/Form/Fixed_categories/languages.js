@@ -1,18 +1,22 @@
 const languages = [{
     "_id": 1,
-    "name": 'en'
+    "name": 'en',
+    "currency": 'EUR'
 },
 {
     "_id": 2,
-    "name": 'pl'
+    "name": 'pl',
+    "currency": 'PLN'
 },
 {
     "_id": 3,
-    "name": 'de'
+    "name": 'de',
+    "currency": 'EUR'
 },
 {
     "_id": 4,
-    "name": 'fr'
+    "name": 'fr',
+    "currency": 'EUR'
 }
 ]
 
