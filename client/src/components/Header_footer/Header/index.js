@@ -3,12 +3,13 @@ import { Link, withRouter} from 'react-router-dom';
 
 import { languages } from '../../utils/Form/Fixed_categories/languages';
 import { connect } from 'react-redux';
-import { logoutUser } from '../../../redux/actions/user_actions';
 import DropdownLanguage from './dropdownLanguage';
 
-// let siteLocalisation = ''
+// Getting current State
+import { logoutUser } from '../../../redux/actions/user_actions';
 
 class Header extends Component {
+
 
     state = {
         page:[
@@ -44,31 +45,23 @@ class Header extends Component {
                 linkTo:'/user/logout',
                 public: false
             },
-        ],
-        siteLocalisation:{
-            sitelang: this.props.user
-        }
+        ]
     }
 
-    componentDidUpdate(){
+renderLgDropdown = () => {
 
-        console.log(this.props)
-
-// if (this.props.user.siteLocalisation !== undefined) {
-//     siteLocalisation = this.props.user.siteLocalisation
-// }
-
-}
-
-componentDidMount(){
-
-// grab current state
-// const state = store.getState();
-
-   //  console.log(state)
+if(this.props.user.siteLocalisation) {
+    return (
+        <DropdownLanguage
+        lg_list = {languages}
+        site_lg = {this.props.user.siteLocalisation}
+        />
+    )
 }
 
 
+
+}
 
     logoutHandler = () => {
         this.props.dispatch(logoutUser()).then(response =>{
@@ -156,10 +149,7 @@ componentDidMount(){
                             {this.showLinks(this.state.page)}
                         </div>
                     </div>
-                    <DropdownLanguage
-                    lg_list = {languages}
-                    site_lg = {this.props}
-                    />
+                    {this.renderLgDropdown()}
                 </div>
             </header>
         );

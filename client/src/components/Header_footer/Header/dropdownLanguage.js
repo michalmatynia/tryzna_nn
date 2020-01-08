@@ -10,7 +10,8 @@ export default class DropdownLanguage extends Component {
     }
 
     componentDidMount() {
-console.log(this.props)
+        // if(value.name)
+console.log(this.props.site_lg.languages)
 
         if (this.props.initState) {
             this.setState({
@@ -24,17 +25,21 @@ console.log(this.props)
     }
 
     renderList = () => (
-
+// {...this.props.site_lg.languages === value.name? 'selected' : null}
         <FormControl>
             <NativeSelect
                 onChange={this.handleChange('age')}
                 name="lang"
             >
                 {this.props.lg_list ?
-                    this.props.lg_list.map((value) => (
-                        <option value={value.id} >{value.name}</option>
-
-                    ))
+                    this.props.lg_list.map((value, i) => {
+                    // <option value={value.id} key={i}  >{value.name} {this.props.site_lg.languages}</option>
+                    if(this.props.site_lg.languages === value.name){
+                        return <option value={value.id} key={i} selected >{value.name}</option>
+                    } else {
+                        return <option value={value.id} key={i} >{value.name}</option>
+                    }
+                    })
                     : null}
             </NativeSelect>
         </FormControl>

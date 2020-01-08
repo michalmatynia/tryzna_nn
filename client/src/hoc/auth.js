@@ -13,20 +13,43 @@ export default function (ComposedClass, reload, adminRoute = null) {
 
         componentDidMount() {
 
-            this.props.dispatch(setCookie())
-
             let user_lg = null
             let user_currency = null
 
-            if (this.props.user.cookieUser !== undefined) {
-                user_lg = this.props.user.cookieUser.languages
-                user_currency = this.props.user.cookieUser.currency
-            } else { 
-                user_lg = 'en';
-                user_currency = 'EUR'
-            }
+            this.props.dispatch(setCookie())
+            .then(response => {
+
+                
+
+                if (response.payload) {
+                    user_lg = response.payload.languages
+                user_currency = response.payload.currency
+                    
+                } else { 
+                    user_lg = 'en';
+                    user_currency = 'EUR'
+                }
+
+                this.props.dispatch(setLocalisation(user_lg, user_currency))
+            })
+
+            // if(user_lg) {
+            // console.log(user_lg)}
+
+
+            // if(this.props.user.cookieUser){
             
-            this.props.dispatch(setLocalisation(user_lg, user_currency))
+            // }
+            // if (this.props.user.cookieUser) {
+
+            //     user_lg = this.props.user.cookieUser.languages
+            //     user_currency = this.props.user.cookieUser.currency
+            // } else { 
+            //     user_lg = 'en';
+            //     user_currency = 'EUR'
+            // }
+            
+            
 
             // ---------
 
