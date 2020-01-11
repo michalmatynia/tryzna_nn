@@ -52,23 +52,41 @@ class EditSlide extends Component {
                 validationMessage: '',
                 showlabel: true
 
+            },
+            language: {
+                element: 'mylabel',
+                value: '',
+                config: {
+                    label: 'Language',
+                    name: 'language_input',
+                    type: 'text',
+                    placeholder: 'Language goes here',
+                },
+                validation: {
+                    required: true
+                },
+                valid: false,
+                touched: false,
+                validationMessage: '',
+                showlabel: true
+
             }
         }
     }
 
     componentDidUpdate(prevProps) {
-        if(prevProps.user.siteLocalisation.name !== this.props.user.siteLocalisation.name) {
-            
+        if (prevProps.user.siteLocalisation.name !== this.props.user.siteLocalisation.name) {
+
             this.props.dispatch(act_getDetail_Desc(this.props.user.siteLocalisation.name))
-            .then((response) => {
-                // console.log(response)
-                const newFormData = populateFields(this.state.formdata, this.props.description.descDetail);
-                this.setState({
-                    formdata: newFormData
-                });
-            })
+                .then((response) => {
+                    // console.log(response)
+                    const newFormData = populateFields(this.state.formdata, this.props.description.descDetail);
+                    this.setState({
+                        formdata: newFormData
+                    });
+                })
         }
-        
+
     }
 
     componentDidMount() {
@@ -76,7 +94,8 @@ class EditSlide extends Component {
 
             this.props.dispatch(act_getDetail_Desc(this.props.user.siteLocalisation.name))
                 .then((response) => {
-                    // console.log(response)
+                    // console.log(this.props.description.descDetail.payload.language)
+                    console.log(response)
                     const newFormData = populateFields(this.state.formdata, this.props.description.descDetail);
                     this.setState({
                         formdata: newFormData
@@ -127,7 +146,11 @@ class EditSlide extends Component {
             <UserLayout>
                 <div>
                     <form onSubmit={(event) => this.submitForm()}>
-                        <h1>Edit Description</h1>
+                        <h1><FormField
+                            id={'language'}
+                            formdata={this.state.formdata.language}
+                        />Edit Description</h1>
+                        
                         <FormField
                             id={'mainText'}
                             formdata={this.state.formdata.mainText}

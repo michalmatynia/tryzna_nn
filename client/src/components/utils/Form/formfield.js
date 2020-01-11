@@ -78,6 +78,17 @@ const FormField = ({ formdata, change, id }) => {
                     </div>
                 )
                 break;
+                case ('mylabel'):
+                    formTemplate = (
+                        <div className="formBlock">
+                            {formdata.showlabel ?
+                                <div className="label_inputs">{formdata.value}</div>
+                                : null}
+
+                            {showError()}
+                        </div>
+                    )
+                    break;
             default:
                 formTemplate = null;
         }
