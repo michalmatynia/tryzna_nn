@@ -20,14 +20,17 @@ export function act_getDetail_Desc(lg) {
            //  console.log('check')
             request = axios.post(`${DESC_SERVER}/add_entity?lg=${lg}`)
             .then(response2=>{
-                console.log(response2)
-                return response2.data
+                // console.log('rfefrefrefe')
+                // console.log(response2.data)
+                return response2.data.doc
             })
+
+            return request
         } else {
             // console.log(response)
             return response.data
         }
-        
+        // console.log(request)
     });
 
     return {
