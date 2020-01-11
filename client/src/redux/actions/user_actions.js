@@ -60,8 +60,8 @@ export function setCookie() {
 
 export function setLocalisation(user_lg) {
 
-    console.log('frf')
-    console.log(user_lg)
+    // console.log('frf')
+    // console.log(user_lg)
     let localisation = ''
 
     localisation = languages.filter(value => {

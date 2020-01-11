@@ -275,28 +275,30 @@ app.post('/api/slide/uploadimage', auth, admin, formidable(), (req, res) => {
 app.post('/api/slide/set_publish', auth, (req, res) => {
 
     let checked = null
-    
-    if(req.query.checked === 'true' ) {
-        checked = false } else {
-            checked = true 
-        }
+
+    if (req.query.checked === 'true') {
+        checked = false
+    } else {
+        checked = true
+    }
 
     Slide.findOneAndUpdate(
         { _id: req.query.id },
         {
             "$set": {
-                publish: checked}
+                publish: checked
+            }
         },
         { new: true },
         (err, doc) => {
 
-    Slide.
-        find()
-        .exec((err, articles) => {
-            if (err) return res.status(400).send(err);
-            res.send(articles)
-        })
-            
+            Slide.
+                find()
+                .exec((err, articles) => {
+                    if (err) return res.status(400).send(err);
+                    res.send(articles)
+                })
+
             // if (err) return res.json({ success: false, err });
             // return res.status(200).send({
             //     success: true
@@ -813,18 +815,51 @@ app.post('/api/site/site_data', auth, admin, (req, res) => {
 
 app.get('/api/desc/get_entity', (req, res) => {
 
-// Find by Language
-// if find is empty, save the new 
+    Desc.findOne({ language: req.query.lg }, (err, doc) => {
 
-    Desc.find({}, (err, result) => {
+        console.log(doc)
+        // if(err) {
+        //     return res.status(400).send(err);
+        // } else if(doc === null) {
+        //     return 
+        // }
+        // console.log(doc)
+
         if (err) return res.status(400).send(err);
-        res.status(200).send(result)
-    });
+        res.status(200).send(doc)
+
+    })
+    // Find by Language
+    // if find is empty, save the new 
+    // console.log(req.query.lg)
+
+    // Desc.findOne(
+    //     {
+    //         z: req.query.lg
+    //     }, (err, result) => {
+
+    //         if (err) return res.status(400).send(err);
+    //         res.status(200).send(result)
+    //     });
 });
+
+app.post('/api/desc/add_entity', (req, res) => {
+
+    // Find by Language
+    // if find is empty, save the new 
+    // console.log('oduweobeowbcoewbcob')
+
+    const desc = new Desc({mainText: 'Some Example Description', language: req.query.lg, publish:true});
+
+    desc.save((error, doc) => {
+        if (error) return res.json({ error });
+        res.status(200).json({ doc })
+    })
+})
 
 app.post('/api/desc/update_entity', auth, admin, (req, res) => {
 
-    Site.findOneAndUpdate(
+    Desc.findOneAndUpdate(
         { name: 'Site' },
         { "$set": { siteInfo: req.body } },
         { new: true },

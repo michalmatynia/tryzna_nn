@@ -6,7 +6,6 @@ const descSchema = mongoose.Schema({
     mainText: {
         required: true,
         type: String,
-        unique: 1,
         maxlength: 200
     },
     language:{
@@ -15,10 +14,6 @@ const descSchema = mongoose.Schema({
         maxlength: 4
     },
     publish:{
-        required: true,
-        type: Boolean
-    },
-    translate:{
         required: true,
         type: Boolean
     }

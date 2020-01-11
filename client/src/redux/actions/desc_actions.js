@@ -10,9 +10,24 @@ import { DESC_SERVER } from '../../components/utils/misc';
 
 export function act_getDetail_Desc(lg) {
 
-    const request = axios.get(`${DESC_SERVER}/get_entity?lg=${lg}`)
+
+// console.log(lg)
+
+    let request = axios.get(`${DESC_SERVER}/get_entity?lg=${lg}`)
     .then(response=>{
-        return response.data
+        
+        if (response.data === '' || response.data.error) {
+           //  console.log('check')
+            request = axios.post(`${DESC_SERVER}/add_entity?lg=${lg}`)
+            .then(response2=>{
+                console.log(response2)
+                return response2.data
+            })
+        } else {
+            // console.log(response)
+            return response.data
+        }
+        
     });
 
     return {

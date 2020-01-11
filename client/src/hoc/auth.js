@@ -15,7 +15,7 @@ export default function (ComposedClass, reload, adminRoute = null) {
 
             let user_lg = null
             // let user_currency = null
-
+            if(this.props.user.siteLocalisation === undefined){
             this.props.dispatch(setCookie())
             .then(response => {
 
@@ -27,28 +27,15 @@ export default function (ComposedClass, reload, adminRoute = null) {
                     user_lg = 'en';
                     // user_currency = 'EUR'
                 }
-
                 this.props.dispatch(setLocalisation(user_lg))
+                
             })
-
-            // if(user_lg) {
-            // console.log(user_lg)}
-
-
-            // if(this.props.user.cookieUser){
             
-            // }
-            // if (this.props.user.cookieUser) {
+        } else {
+            this.props.dispatch(setLocalisation(this.props.user.siteLocalisation.name ))
+        }
 
-            //     user_lg = this.props.user.cookieUser.languages
-            //     user_currency = this.props.user.cookieUser.currency
-            // } else { 
-            //     user_lg = 'en';
-            //     user_currency = 'EUR'
-            // }
-            
-            
-
+        
             // ---------
 
             this.props.dispatch(auth())

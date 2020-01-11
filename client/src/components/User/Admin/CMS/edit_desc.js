@@ -52,40 +52,37 @@ class EditSlide extends Component {
                 validationMessage: '',
                 showlabel: true
 
-            },
-            translate: {
-                element: 'select',
-                value: '',
-                config: {
-                    label: 'Translate',
-                    name: 'translate_input',
-                    options: [
-                        { key: true, value: 'yes' },
-                        { key: false, value: 'no' },
-                    ]
-
-                },
-                validation: {
-                    required: true
-                },
-                valid: false,
-                touched: false,
-                validationMessage: '',
-                showlabel: true
-
             }
         }
     }
 
-    componentDidMount() {
-
-        this.props.dispatch(act_getDetail_Desc())
-            .then(() => {
+    componentDidUpdate(prevProps) {
+        if(prevProps.user.siteLocalisation.name !== this.props.user.siteLocalisation.name) {
+            
+            this.props.dispatch(act_getDetail_Desc(this.props.user.siteLocalisation.name))
+            .then((response) => {
+                // console.log(response)
                 const newFormData = populateFields(this.state.formdata, this.props.description.descDetail);
                 this.setState({
                     formdata: newFormData
                 });
             })
+        }
+        
+    }
+
+    componentDidMount() {
+        if (this.props.user.siteLocalisation) {
+
+            this.props.dispatch(act_getDetail_Desc(this.props.user.siteLocalisation.name))
+                .then((response) => {
+                    // console.log(response)
+                    const newFormData = populateFields(this.state.formdata, this.props.description.descDetail);
+                    this.setState({
+                        formdata: newFormData
+                    });
+                })
+        }
     }
 
     updateForm = (element) => {
@@ -142,11 +139,6 @@ class EditSlide extends Component {
                             formdata={this.state.formdata.publish}
                             change={(element) => this.updateForm(element)}
                         />
-                        <FormField
-                            id={'translate'}
-                            formdata={this.state.formdata.translate}
-                            change={(element) => this.updateForm(element)}
-                        />
                         <div>
                             {
                                 this.state.formSuccess ?
@@ -169,7 +161,8 @@ class EditSlide extends Component {
 const mapStateToProps = (state) => {
 
     return {
-        description: state.description
+        description: state.description,
+        user: state.user
     }
 }
 
