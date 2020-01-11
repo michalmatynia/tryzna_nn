@@ -77,33 +77,37 @@ class EditSlide extends Component {
     componentDidUpdate(prevProps) {
         // console.log(prevProps)
         // console.log(this.props)
-        if(this.props.user.siteLocalisation !== undefined && prevProps.user.siteLocalisation !== undefined && this.props.user.siteLocalisation.name !== undefined && this.props.description !== undefined) {
-        
-           
-            if (prevProps.user.siteLocalisation.name !== this.props.user.siteLocalisation.name) {
-                console.log(this.props.user.siteLocalisation.name)
-            this.props.dispatch(act_getDetail_Desc(this.props.user.siteLocalisation.name))
-                .then((response) => {
-                    // console.log(response)
-                    // console.log(this.props.description.descDetail)
-                    const newFormData = populateFields(this.state.formdata, this.props.description.descDetail);
-                    this.setState({
-                        formdata: newFormData
-                    });
-                })
-        }
+        if (this.props.user.siteLocalisation !== undefined && prevProps.user.siteLocalisation !== undefined && this.props.user.siteLocalisation.name !== undefined && this.props.description !== undefined) {
 
+
+            if (prevProps.user.siteLocalisation.name !== this.props.user.siteLocalisation.name) {
+                // console.log(this.props.user.siteLocalisation.name)
+                this.props.dispatch(act_getDetail_Desc(this.props.user.siteLocalisation.name))
+                    .then((response) => {
+                        // console.log(response)
+                        // console.log(this.props.description.descDetail)
+                        const newFormData = populateFields(this.state.formdata, this.props.description.descDetail);
+                        this.setState({
+                            formdata: newFormData
+                        });
+                    })
+            }
+
+        }
     }
-}
     componentDidMount() {
+
+        // const id = this.props.match.params.id;
+
+        // console.log(id)
         // console.log(this.props.description.descDetail)
         if (this.props.user.siteLocalisation && this.props.description !== undefined) {
-            
+
             this.props.dispatch(act_getDetail_Desc(this.props.user.siteLocalisation.name))
                 .then((response) => {
                     // console.log(response)
                     // console.log(this.props.description.descDetail)
-                    
+
                     // const newFormData = populateFields(this.state.formdata, this.props.description.descDetail);
                     const newFormData = populateFields(this.state.formdata, response.payload);
                     this.setState({
@@ -127,26 +131,31 @@ class EditSlide extends Component {
         let dataToSubmit = generateData(this.state.formdata, 'description');
         let formIsValid = isFormValid(this.state.formdata, 'description');
 
-        if (formIsValid) {
-            this.props.dispatch(act_updateDetail_Desc(dataToSubmit, this.props.description.descDetail))
-                .then(() => {
-                    this.setState({
-                        formSuccess: true
-                    }, () => {
-                        setTimeout(() => {
-                            this.setState({
-                                formSuccess: false
-                            })
-                        }, 2000)
+        // console.log(this.props.description.descDetail)
+        
+
+            if (formIsValid) {
+                this.props.dispatch(act_updateDetail_Desc(dataToSubmit, this.props.user.siteLocalisation.name, this.props.description.descDetail._id))
+                    .then(() => {
+                        this.setState({
+                            formSuccess: true
+                        }, () => {
+                            setTimeout(() => {
+                                this.setState({
+                                    formSuccess: false
+                                })
+                            }, 2000)
+                        })
                     })
+
+            } else {
+                this.setState({
+                    formError: true
                 })
 
-        } else {
-            this.setState({
-                formError: true
-            })
+            }
+        
 
-        }
     }
 
 
@@ -159,7 +168,7 @@ class EditSlide extends Component {
                             id={'language'}
                             formdata={this.state.formdata.language}
                         />Edit Description</h1>
-                        
+
                         <FormField
                             id={'mainText'}
                             formdata={this.state.formdata.mainText}

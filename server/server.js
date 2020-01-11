@@ -817,30 +817,11 @@ app.get('/api/desc/get_entity', (req, res) => {
 
     Desc.findOne({ language: req.query.lg }, (err, doc) => {
 
-        console.log(doc)
-        // if(err) {
-        //     return res.status(400).send(err);
-        // } else if(doc === null) {
-        //     return 
-        // }
-        // console.log(doc)
-
         if (err) return res.status(400).send(err);
         res.status(200).send(doc)
 
     })
-    // Find by Language
-    // if find is empty, save the new 
-    // console.log(req.query.lg)
 
-    // Desc.findOne(
-    //     {
-    //         z: req.query.lg
-    //     }, (err, result) => {
-
-    //         if (err) return res.status(400).send(err);
-    //         res.status(200).send(result)
-    //     });
 });
 
 app.post('/api/desc/add_entity', (req, res) => {
@@ -860,15 +841,16 @@ app.post('/api/desc/add_entity', (req, res) => {
 app.post('/api/desc/update_entity', auth, admin, (req, res) => {
 
     Desc.findOneAndUpdate(
-        { name: 'Site' },
-        { "$set": { siteInfo: req.body } },
+        { language: req.query.lg, _id: req.query.parent_id },
+        {
+            "$set": req.body
+        },
         { new: true },
         (err, doc) => {
+
+            // console.log(doc)
             if (err) return res.json({ success: false, err });
-            return res.status(200).send({
-                success: true,
-                siteInfo: doc.siteInfo
-            })
+            return res.status(200).send({doc})
         }
     )
 });

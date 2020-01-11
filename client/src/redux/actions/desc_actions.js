@@ -40,10 +40,12 @@ export function act_getDetail_Desc(lg) {
 }
 
 
-export function act_updateDetail_Desc(dataToSubmit){
+export function act_updateDetail_Desc(dataToSubmit, lg, parent_id){
 
-    const request = axios.post(`${DESC_SERVER}/update_entity`, dataToSubmit )
-    .then(response => response.data);
+    // console.log(dataToSubmit)
+
+    const request = axios.post(`${DESC_SERVER}/update_entity?lg=${lg}&parent_id=${parent_id}`, dataToSubmit )
+    .then(response => response.data.doc);
 
     return {
         type: UPDATE_DESCRIPTION_DETAIL,
