@@ -7,12 +7,13 @@ import Desc from '../Description';
 import { connect } from 'react-redux';
 import { getProductsBySell, getProductsByArrival } from '../../redux/actions/products_actions';
 import { act_getData_Slides } from '../../redux/actions/slides_actions';
-import { act_getDetail_Desc } from '../../redux/actions/desc_actions';
+import { act_getDetail_Desc_Home } from '../../redux/actions/desc_actions';
 
 class Home extends Component {
 
     state = {
-        onepage_lg: 'en',
+        first_lg: 'en',
+        default_lg: 'en',
         get_slides:
         {
             sortBy: 'createdAdd',
@@ -30,18 +31,17 @@ class Home extends Component {
             && this.props.user.siteLocalisation.name !== undefined
             && prevProps.user.siteLocalisation !== undefined
             && prevProps.user.siteLocalisation.name !== undefined
-            && this.props.description !== undefined
-            // && this.props.description.descDetail !== undefined
+            // && this.props.description !== undefined
         ) {
 
-            if (prevProps.user.siteLocalisation.name !== this.props.user.siteLocalisation.name 
-                || this.props.user.siteLocalisation.name !== this.state.onepage_lg
-                ) {
+            if (prevProps.user.siteLocalisation.name !== this.props.user.siteLocalisation.name
+                || this.props.user.siteLocalisation.name !== this.state.first_lg
+            ) {
                 // console.log(this.props.user.siteLocalisation.name)
-                this.setState({ onepage_lg: this.props.user.siteLocalisation.name })
+                this.setState({ first_lg: this.props.user.siteLocalisation.name })
 
-                this.props.dispatch(act_getDetail_Desc(this.props.user.siteLocalisation.name))
-            } 
+                this.props.dispatch(act_getDetail_Desc_Home(this.props.user.siteLocalisation.name, this.state.default_lg))
+            }
         }
 
     }
@@ -56,8 +56,10 @@ class Home extends Component {
         const args = this.state.get_slides
         this.props.dispatch(act_getData_Slides(args));
         // console.log(this.props.products)
+        if (this.props.user.siteLocalisation !== undefined && this.props.user.siteLocalisation.name !== undefined ) {
+            this.props.dispatch(act_getDetail_Desc_Home(this.props.user.siteLocalisation.name, this.state.default_lg));
+        }
 
-        this.props.dispatch(act_getDetail_Desc(this.state.onepage_lg));
     }
 
     render() {

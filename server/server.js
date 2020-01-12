@@ -813,6 +813,17 @@ app.post('/api/site/site_data', auth, admin, (req, res) => {
 //          Description
 //=======================
 
+app.get('/api/desc/show_entity', (req, res) => {
+
+    Desc.findOne({ language: req.query.lg, publish: true }, (err, doc) => {
+
+        if (err) return res.status(400).send(err);
+        res.status(200).send(doc)
+
+    })
+
+});
+
 app.get('/api/desc/get_entity', (req, res) => {
 
     Desc.findOne({ language: req.query.lg }, (err, doc) => {

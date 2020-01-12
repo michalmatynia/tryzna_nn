@@ -1,7 +1,8 @@
 import axios from 'axios';
 import {
     GET_DESCRIPTION_DETAIL,
-    UPDATE_DESCRIPTION_DETAIL
+    UPDATE_DESCRIPTION_DETAIL,
+    SHOW_DESCRIPTION_DETAIL
 
 } from './types';
 
@@ -38,6 +39,33 @@ export function act_getDetail_Desc(lg) {
         payload: request
     }
 }
+
+export function act_getDetail_Desc_Home(current_lg, default_lg) {
+
+
+    // console.log(lg)
+    
+        let request = axios.get(`${DESC_SERVER}/show_entity?lg=${current_lg}&publish=true`)
+        .then(response=>{
+            
+            if (response.data === '' || response.data.error) {
+                request = axios.get(`${DESC_SERVER}/show_entity?lg=${default_lg}&publish=true`)
+                .then(response2=>{
+
+                    return response2.data
+                })
+    
+                return request
+            } else {
+                return response.data
+            }
+        });
+    
+        return {
+            type: SHOW_DESCRIPTION_DETAIL,
+            payload: request
+        }
+    }
 
 
 export function act_updateDetail_Desc(dataToSubmit, lg, parent_id){

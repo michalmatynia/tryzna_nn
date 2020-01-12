@@ -2,8 +2,8 @@ import React from 'react'
 
 const Desc = (props) => {
 
-    console.log('Description')
-    console.log(props._id)
+    // console.log('Description')
+    // console.log(props._id)
 
     // const description = {
 

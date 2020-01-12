@@ -47,3 +47,4 @@ export const SET_PUBLISH_SLIDE = 'set_publish_slide';
 // - Description
 export const GET_DESCRIPTION_DETAIL = 'get_description_detail';
 export const UPDATE_DESCRIPTION_DETAIL = 'update_description_detail';
+export const SHOW_DESCRIPTION_DETAIL = 'show_description_detail';
