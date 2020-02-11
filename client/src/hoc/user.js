@@ -38,6 +38,10 @@ const admin = [
 
 const cms_links = [
     {
+        name: 'Edit logo',
+        linkTo: '/admin/edit_logo'
+    },
+    {
         name: 'Add slides',
         linkTo: '/admin/add_slide'
     },
@@ -46,8 +50,44 @@ const cms_links = [
         linkTo: '/admin/list_slides'
     },
     {
-        name: 'Edit Description',
+        name: 'Edit description',
         linkTo: '/admin/edit_desc'
+    },
+    {
+        name: 'Add portfolio',
+        linkTo: '/admin/add_slide'
+    },
+    {
+        name: 'List portfolio',
+        linkTo: '/admin/list_slides'
+    },
+    {
+        name: 'Add album',
+        linkTo: '/admin/add_slide'
+    },
+    {
+        name: 'List album',
+        linkTo: '/admin/list_slides'
+    },
+    {
+        name: 'Add video',
+        linkTo: '/admin/add_slide'
+    },
+    {
+        name: 'List video',
+        linkTo: '/admin/list_slides'
+    },
+    {
+        name: 'Add team',
+        linkTo: '/admin/add_slide'
+    },
+    {
+        name: 'List team',
+        linkTo: '/admin/list_slides'
+    },
+    {
+        name: 'Edit footer',
+        linkTo: '/admin/edit_footer'
     }
 ]
 

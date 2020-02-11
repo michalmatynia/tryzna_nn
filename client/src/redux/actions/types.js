@@ -13,14 +13,18 @@ export const CLEAR_UPDATE_USER_DATA = 'clear_update_user_data';
 export const SET_COOKIE_USER = 'set_cookie_user';
 export const SET_SITELOCALISATION_USER = 'set_sitelocalisation_user';
 
+// Products Main Page visibility
 export const GET_PRODUCTS_BY_SELL = 'get_products_by_sell';
 export const GET_PRODUCTS_BY_ARRIVAL = 'get_products_by_arrival';
+
+// Taxonomy
 export const GET_BRANDS = 'get_brands';
 export const ADD_BRAND = 'add_brand';
 
 export const GET_WOODS = 'get_woods';
 export const ADD_WOOD = 'add_wood';
 
+// Products Shop
 export const GET_PRODUCTS_TO_SHOP = 'get_products_to_shop';
 export const ADD_PRODUCT = 'add_product';
 export const CLEAR_PRODUCT = 'clear_product';
@@ -28,10 +32,19 @@ export const CLEAR_PRODUCT = 'clear_product';
 export const GET_PRODUCT_DETAIL = 'get_product_detail';
 export const CLEAR_PRODUCT_DETAIL = 'clear_product_detail';
 
+// Site
 export const GET_SITE_DATA = 'get_site_data';
 export const UPDATE_SITE_DATA = 'update_site_data';
 
 // CMS
+// - Logo
+export const GET_LOGO_DETAIL = 'get_logo_detail';
+export const UPDATE_LOGO_DETAIL = 'update_logo_detail';
+export const SHOW_LOGO_DETAIL = 'show_logo_detail';
+// -- Logo Image Handler
+export const REMOVE_LOGO_IMAGE = 'remove_logo_image';
+export const UPLOAD_LOGO_IMAGE = 'upload_logo_image';
+
 // - Slider
 export const ADD_SLIDE = 'add_slide';
 export const CLEAR_SLIDE = 'clear_slide';
