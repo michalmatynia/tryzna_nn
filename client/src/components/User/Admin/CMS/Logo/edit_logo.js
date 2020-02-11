@@ -139,7 +139,7 @@ class EditSlide extends Component {
             <UserLayout>
                 <div>
                     <form onSubmit={(event) => this.submitForm()}>
-                        <h1>Edit Slide</h1>
+                        <h1>Edit Logo</h1>
                         <FileUpload
                             imagesHandler={(images) => this.imagesHandler(images)}
                             reset={this.state.formSuccess}
@@ -148,11 +148,6 @@ class EditSlide extends Component {
                         <FormField
                             id={'lineOne'}
                             formdata={this.state.formdata.lineOne}
-                            change={(element) => this.updateForm(element)}
-                        />
-                        <FormField
-                            id={'lineTwo'}
-                            formdata={this.state.formdata.lineTwo}
                             change={(element) => this.updateForm(element)}
                         />
                         <div className="form_divider"></div>

@@ -39,13 +39,15 @@ cloudinary.config({
 
 // Models
 const { User } = require('./models/user');
-const { Brand } = require('./models/brand');
-const { Wood } = require('./models/wood');
+const { Brand } = require('./models/taxonomy/brand');
+const { Wood } = require('./models/taxonomy/wood');
 const { Product } = require('./models/product');
 const { Payment } = require('./models/payment');
 const { Site } = require('./models/site');
-const { Slide } = require('./models/slide');
-const { Desc } = require('./models/desc');
+// Models - CMS
+const { Logo } = require('./models/logo');
+const { Slide } = require('./models/cms/slide');
+const { Desc } = require('./models/cms/desc');
 
 // Middlewares
 const { auth } = require('./middleware/auth');
