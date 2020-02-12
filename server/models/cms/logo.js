@@ -23,6 +23,6 @@ const logoSchema = mongoose.Schema({
     }
 },{timestamps:true});
 
-const Logo = mongoose.model('Description', logoSchema);
+const Logo = mongoose.model('Logo', logoSchema);
 
 module.exports = { Logo }

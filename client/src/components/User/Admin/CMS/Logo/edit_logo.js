@@ -6,7 +6,7 @@ import { update, generateData, isFormValid, populateFields } from '../../../../u
 
 import { connect } from 'react-redux';
 
-import { act_getDetail_Logo, act_updateDetail_Logo } from '../../../../../redux/actions/logo_actions';
+import { act_getDetail_Logo, act_updateDetail_Logo } from '../../../../../redux/actions/CMS/logo_actions';
 import FileUpload from '../../../../utils/Form/fileupload_logo'
 
 class EditSlide extends Component {
@@ -70,17 +70,37 @@ class EditSlide extends Component {
         }
     }
 
+    componentDidUpdate(prevProps) {
+
+        if (this.props.user.siteLocalisation !== undefined && prevProps.user.siteLocalisation !== undefined && this.props.user.siteLocalisation.name !== undefined && this.props.logo !== undefined) {
+
+            if (prevProps.user.siteLocalisation.name !== this.props.user.siteLocalisation.name) {
+
+                this.props.dispatch(act_getDetail_Logo(this.props.user.siteLocalisation.name))
+                    .then((response) => {
+
+                        const newFormData = populateFields(this.state.formdata, this.props.logo.logoDetail);
+                        this.setState({
+                            formdata: newFormData
+                        });
+                    })
+            }
+
+        }
+    }
     componentDidMount() {
 
-        const id = this.props.match.params.id;
+        if (this.props.user.siteLocalisation && this.props.logo !== undefined) {
 
-        this.props.dispatch(act_getDetail_Logo(id))
-            .then(() => {
-                const newFormData = populateFields(this.state.formdata, this.props.slides.slideDetail);
-                this.setState({
-                    formdata: newFormData
-                });
-            })
+            this.props.dispatch(act_getDetail_Logo(this.props.user.siteLocalisation.name))
+                .then((response) => {
+
+                    const newFormData = populateFields(this.state.formdata, response.payload);
+                    this.setState({
+                        formdata: newFormData
+                    });
+                })
+        }
     }
 
     updateForm = (element) => {

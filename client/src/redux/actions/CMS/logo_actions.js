@@ -6,15 +6,15 @@ import {
     UPLOAD_LOGO_IMAGE,
     REMOVE_LOGO_IMAGE
 
-} from './types';
+} from '../types';
 
-import { LOGO_SERVER } from '../../components/utils/misc';
+import { LOGO_SERVER } from '../../../components/utils/misc';
 
 export function act_getDetail_Logo(lg) {
 
     let request = axios.get(`${LOGO_SERVER}/get_entity?lg=${lg}`)
     .then(response=>{
-        
+        // console.log(response)
         if (response.data === '' || response.data.error) {
             request = axios.post(`${LOGO_SERVER}/add_entity?lg=${lg}`)
             .then(response2=>{

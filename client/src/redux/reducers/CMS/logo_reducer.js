@@ -6,7 +6,7 @@ import {
     REMOVE_LOGO_IMAGE
 
 
-} from '../actions/types';
+} from '../../actions/types';
 
 export default function (state = {}, action) {
     switch (action.type) {
