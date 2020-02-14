@@ -4,9 +4,9 @@ import {
     UPDATE_DESCRIPTION_DETAIL,
     SHOW_DESCRIPTION_DETAIL
 
-} from './types';
+} from '../types';
 
-import { DESC_SERVER } from '../../components/utils/misc';
+import { DESC_SERVER } from '../../../components/utils/misc';
 
 
 export function act_getDetail_Desc(lg) {

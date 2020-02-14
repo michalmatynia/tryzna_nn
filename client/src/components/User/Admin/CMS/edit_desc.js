@@ -6,7 +6,7 @@ import { update, generateData, isFormValid, populateFields } from '../../../util
 
 import { connect } from 'react-redux';
 
-import { act_getDetail_Desc, act_updateDetail_Desc } from '../../../../redux/actions/desc_actions';
+import { act_getDetail_Desc, act_updateDetail_Desc } from '../../../../redux/actions/CMS/desc_actions';
 
 class EditSlide extends Component {
 

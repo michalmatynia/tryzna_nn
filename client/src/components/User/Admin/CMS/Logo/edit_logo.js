@@ -7,7 +7,7 @@ import { update, generateData, isFormValid, populateFields } from '../../../../u
 import { connect } from 'react-redux';
 
 import { act_getDetail_Logo, act_updateDetail_Logo } from '../../../../../redux/actions/CMS/logo_actions';
-import FileUpload from '../../../../utils/Form/fileupload_logo'
+import FileUpload from '../../../../utils/Form/CMS/fileupload_logo'
 
 class EditSlide extends Component {
 
@@ -117,8 +117,13 @@ class EditSlide extends Component {
         let dataToSubmit = generateData(this.state.formdata, 'logo');
         let formIsValid = isFormValid(this.state.formdata, 'logo');
 
+        // console.log(this.props.description.descDetail)
+
+
         if (formIsValid) {
-            this.props.dispatch(act_updateDetail_Logo(dataToSubmit, this.props.match.params.id))
+            console.log(this.props)
+
+            this.props.dispatch(act_updateDetail_Logo(dataToSubmit, this.props.user.siteLocalisation.name, this.props.logo.logoDetail._id))
                 .then(() => {
                     this.setState({
                         formSuccess: true
@@ -137,7 +142,11 @@ class EditSlide extends Component {
             })
 
         }
+
+
     }
+
+
 
     imagesHandler = (images) => {
 
@@ -150,7 +159,7 @@ class EditSlide extends Component {
         this.setState({
             formdata: newFormData
         }
-             , () => { this.props.dispatch(act_getDetail_Logo(this.props.match.params.id)) }
+            , () => { this.props.dispatch(act_getDetail_Logo(this.props.match.params.id)) }
         )
     }
 

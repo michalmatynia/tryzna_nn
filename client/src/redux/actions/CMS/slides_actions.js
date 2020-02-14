@@ -10,9 +10,9 @@ import {
     UPLOAD_SLIDE_IMAGE,
     SET_PUBLISH_SLIDE
 
-} from './types';
+} from '../types';
 
-import { SLIDE_SERVER } from '../../components/utils/misc';
+import { SLIDE_SERVER } from '../../../components/utils/misc';
 
 export function act_addSlide(dataToSubmit) {
 

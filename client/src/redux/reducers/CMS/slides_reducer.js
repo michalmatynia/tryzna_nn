@@ -9,7 +9,7 @@ import {
     UPLOAD_SLIDE_IMAGE,
     SET_PUBLISH_SLIDE
 
-} from '../actions/types';
+} from '../../actions/types';
 
 export default function (state = {}, action) {
     switch (action.type) {

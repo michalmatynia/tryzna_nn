@@ -887,7 +887,6 @@ app.get('/api/logo/show_entity', (req, res) => {
 app.get('/api/logo/get_entity', (req, res) => {
 
     Logo.findOne({ language: req.query.lg }, (err, doc) => {
-
         if (err) return res.status(400).send(err);
         res.status(200).send(doc)
 
@@ -921,6 +920,80 @@ app.post('/api/logo/update_entity', auth, admin, (req, res) => {
         }
     )
 });
+
+// LOGO - Image Handler
+
+app.get('/api/logo/removeimage', auth, admin, (req, res) => {
+
+    if (req.query.parent_id) {
+        Slide.findOneAndUpdate(
+
+            { _id: mongoose.Types.ObjectId(req.query.parent_id) },
+            {
+                "$pull":
+                    { "images": { "public_id": req.query.image_id } }
+
+            },
+            { new: true },
+            (err, doc) => {
+                cloudinary.uploader.destroy(req.query.image_id, (error) => {
+                    if (error) return res.json({ success: false, error });
+                    res.status(200).send('ok');
+                })
+
+            })
+    } else {
+        cloudinary.uploader.destroy(req.query.image_id, (error, result) => {
+            if (error) return res.json({ success: false, error });
+            res.status(200).send('ok');
+            // res.status(200).send('ok');
+        })
+    }
+
+})
+
+app.post('/api/logo/uploadimage', auth, admin, formidable(), (req, res) => {
+
+    cloudinary.uploader.upload(req.files.file.path, (result) => {
+
+        if (req.query.parent_id && result.public_id) {
+
+            Slide.findOneAndUpdate(
+
+                { _id: mongoose.Types.ObjectId(req.query.parent_id) },
+                {
+                    "$push":
+                        { "images": { "public_id": result.public_id, "url": result.url } }
+
+                },
+                { new: true },
+                (err, doc) => {
+                    res.send(
+                        {
+                            public_id: result.public_id,
+                            url: result.url
+                        }
+                    )
+                })
+
+        } else if (result.public_id) {
+
+            res.send(
+                {
+                    public_id: result.public_id,
+                    url: result.url
+                }
+            )
+        } else {
+            return res.status(400).send(err);
+        }
+    }, {
+        public_id: `${Date.now()}`,
+        resource_type: 'auto',
+        folder: 'Tryzna'
+        // ,transform: '200px'
+    })
+})
 
 // ---
 

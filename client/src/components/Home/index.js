@@ -6,8 +6,8 @@ import Desc from '../Description';
 
 import { connect } from 'react-redux';
 import { getProductsBySell, getProductsByArrival } from '../../redux/actions/products_actions';
-import { act_getData_Slides } from '../../redux/actions/slides_actions';
-import { act_getDetail_Desc_Home } from '../../redux/actions/desc_actions';
+import { act_getData_Slides } from '../../redux/actions/CMS/slides_actions';
+import { act_getDetail_Desc_Home } from '../../redux/actions/CMS/desc_actions';
 
 class Home extends Component {
 

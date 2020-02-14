@@ -11,7 +11,7 @@ import ListSlidesBlock from '../CMS/list_slides_block';
 // import { faSmile } from '@fortawesome/free-solid-svg-icons';
 
 import { connect } from 'react-redux';
-import { act_getData_Slides, act_removeSlideItem, act_setPublishSlide } from '../../../../redux/actions/slides_actions';
+import { act_getData_Slides, act_removeSlideItem, act_setPublishSlide } from '../../../../redux/actions/CMS/slides_actions';
 
 class ListSlides extends Component {
 

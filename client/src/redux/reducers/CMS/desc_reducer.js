@@ -3,7 +3,7 @@ import {
     UPDATE_DESCRIPTION_DETAIL,
     SHOW_DESCRIPTION_DETAIL
 
-} from '../actions/types';
+} from '../../actions/types';
 
 export default function (state = {}, action) {
     switch (action.type) {

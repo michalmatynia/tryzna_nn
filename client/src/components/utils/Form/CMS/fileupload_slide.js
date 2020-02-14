@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Dropzone from 'react-dropzone';
 import { connect } from 'react-redux';
-import { act_uploadSlideImage, act_removeSlideImage } from '../../../redux/actions/slides_actions';
+import { act_uploadSlideImage, act_removeSlideImage } from '../../../../redux/actions/CMS/slides_actions';
 // import axios from 'axios';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
