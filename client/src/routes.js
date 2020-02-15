@@ -26,11 +26,11 @@ import AddFile from './components/User/Admin/add_file';
 // Logo
 import EditLogo from './components/User/Admin/CMS/Logo/edit_logo';
 // Slider
-import AddSlide from './components/User/Admin/CMS/add_slide';
-import EditSlide from './components/User/Admin/CMS/edit_slide';
-import ListSlides from './components/User/Admin/CMS/list_slides';
+import AddSlide from './components/User/Admin/CMS/Slides/add_slide';
+import EditSlide from './components/User/Admin/CMS/Slides/edit_slide';
+import ListSlides from './components/User/Admin/CMS/Slides/list_slides';
 // Description
-import EditDesc from './components/User/Admin/CMS/edit_desc';
+import EditDesc from './components/User/Admin/CMS/Description/edit_desc';
 
 
 import PageNotFound from './components/utils/page_not_found';

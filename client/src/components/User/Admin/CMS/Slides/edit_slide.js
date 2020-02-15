@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
+import UserLayout from '../../../../../hoc/user';
+
+import FormField from '../../../../utils/Form/formfield';
+import { update, generateData, isFormValid, populateFields } from '../../../../utils/Form/formActions';
+
 import { connect } from 'react-redux';
-import UserLayout from '../../../../hoc/user';
 
-import FormField from '../../../utils/Form/formfield';
-import { update, generateData, isFormValid, resetFields } from '../../../utils/Form/formActions';
-import FileUpload from '../../../utils/Form/CMS/fileupload_slide'
+import { act_getDetail_Slide, act_updateDetail_Slide } from '../../../../../redux/actions/CMS/slides_actions';
+import FileUpload from '../../../../utils/Form/CMS/fileupload_slide'
 
-import { act_addSlide, act_clearSlide } from '../../../../redux/actions/CMS/slides_actions';
-
-class AddSlide extends Component {
+class EditSlide extends Component {
 
     state = {
         formError: false,
@@ -87,10 +88,19 @@ class AddSlide extends Component {
         }
     }
 
-    updateFields = (newFormData) => {
-        this.setState({
-            formdata: newFormData
-        })
+    componentDidMount() {
+
+        // console.log(this.props)
+
+        const id = this.props.match.params.id;
+
+        this.props.dispatch(act_getDetail_Slide(id))
+            .then(() => {
+                const newFormData = populateFields(this.state.formdata, this.props.slides.slideDetail);
+                this.setState({
+                    formdata: newFormData
+                });
+            })
     }
 
     updateForm = (element) => {
@@ -101,23 +111,6 @@ class AddSlide extends Component {
         })
     }
 
-    resetFieldHandler = () => {
-
-        const newFormData = resetFields(this.state.formdata, 'slides');
-
-        this.setState({
-            formdata: newFormData,
-            formSuccess: true
-        });
-        setTimeout(() => {
-            this.setState({
-                formSuccess: false
-            }, () => {
-                this.props.dispatch(act_clearSlide('slides'))
-            })
-        }, 3000)
-    }
-
     submitForm = (event) => {
         event.preventDefault();
 
@@ -125,14 +118,19 @@ class AddSlide extends Component {
         let formIsValid = isFormValid(this.state.formdata, 'slides');
 
         if (formIsValid) {
-            this.props.dispatch(act_addSlide(dataToSubmit))
+            this.props.dispatch(act_updateDetail_Slide(dataToSubmit, this.props.match.params.id))
                 .then(() => {
-                    if (this.props.slides.adminAddSlide.success) {
-                        this.resetFieldHandler();
-                    } else {
-                        this.setState({ formError: true })
-                    }
+                    this.setState({
+                        formSuccess: true
+                    }, () => {
+                        setTimeout(() => {
+                            this.setState({
+                                formSuccess: false
+                            })
+                        }, 2000)
+                    })
                 })
+
         } else {
             this.setState({
                 formError: true
@@ -142,6 +140,7 @@ class AddSlide extends Component {
     }
 
     imagesHandler = (images) => {
+
         const newFormData = {
             ...this.state.formdata
         }
@@ -150,21 +149,21 @@ class AddSlide extends Component {
 
         this.setState({
             formdata: newFormData
-        })
+        }
+            , () => { this.props.dispatch(act_getDetail_Slide(this.props.match.params.id)) }
+        )
     }
-
-
 
     render() {
         return (
             <UserLayout>
                 <div>
-                    <h1>Add slides</h1>
-                    <form onSubmit={(event) => this.SubmitForm(event)}>
+                    <form onSubmit={(event) => this.submitForm()}>
+                        <h1>Edit Slide</h1>
                         <FileUpload
                             imagesHandler={(images) => this.imagesHandler(images)}
                             reset={this.state.formSuccess}
-                            parent_id = ''
+                            parent_id={this.props.match.params.id}
                         />
                         <FormField
                             id={'lineOne'}
@@ -182,21 +181,21 @@ class AddSlide extends Component {
                             formdata={this.state.formdata.publish}
                             change={(element) => this.updateForm(element)}
                         />
-                        {this.state.formSuccess ?
-                            <div className="form_success">
-                                Success
+                        <div>
+                            {
+                                this.state.formSuccess ?
+                                    <div className="form_success">success</div>
+                                    : null
+                            }
+                            {this.state.formError ?
+                                <div className="error_label">Please check your data</div>
+                                : null}
+                            <button onClick={(event) => this.submitForm(event)}>Update</button>
+
                         </div>
-                            : null}
-
-
-                        {this.state.formError ?
-                            <div className="error_label">Please check your data</div>
-                            : null}
-                        <button onClick={(event) => this.submitForm(event)}>Add Slide</button>
                     </form>
                 </div>
             </UserLayout>
-
         );
     }
 }
@@ -208,4 +207,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(AddSlide);
+export default connect(mapStateToProps)(EditSlide);

@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import { act_getDetail_Logo, act_updateDetail_Logo } from '../../../../../redux/actions/CMS/logo_actions';
 import FileUpload from '../../../../utils/Form/CMS/fileupload_logo'
 
-class EditSlide extends Component {
+class EditLogo extends Component {
 
     state = {
         formError: false,
@@ -90,11 +90,16 @@ class EditSlide extends Component {
     }
     componentDidMount() {
 
+
+        // const id = this.props.match.params.id;
+
         if (this.props.user.siteLocalisation && this.props.logo !== undefined) {
+
+            //  console.log(this.props.logo.logoDetail)
 
             this.props.dispatch(act_getDetail_Logo(this.props.user.siteLocalisation.name))
                 .then((response) => {
-
+                    // console.log(response.payload._id)
                     const newFormData = populateFields(this.state.formdata, response.payload);
                     this.setState({
                         formdata: newFormData
@@ -119,9 +124,7 @@ class EditSlide extends Component {
 
         // console.log(this.props.description.descDetail)
 
-
         if (formIsValid) {
-            console.log(this.props)
 
             this.props.dispatch(act_updateDetail_Logo(dataToSubmit, this.props.user.siteLocalisation.name, this.props.logo.logoDetail._id))
                 .then(() => {
@@ -142,13 +145,11 @@ class EditSlide extends Component {
             })
 
         }
-
-
     }
 
-
-
     imagesHandler = (images) => {
+
+        console.log(this.props.logo.logoDetail)
 
         const newFormData = {
             ...this.state.formdata
@@ -172,7 +173,7 @@ class EditSlide extends Component {
                         <FileUpload
                             imagesHandler={(images) => this.imagesHandler(images)}
                             reset={this.state.formSuccess}
-                            parent_id={this.props.match.params.id}
+                        // parent_id={this.props.logo.logoDetail._id}
                         />
                         <FormField
                             id={'lineOne'}
@@ -211,4 +212,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(EditSlide);
+export default connect(mapStateToProps)(EditLogo);

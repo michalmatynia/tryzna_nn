@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import UserLayout from '../../../../hoc/user';
+import UserLayout from '../../../../../hoc/user';
 
-import FormField from '../../../utils/Form/formfield';
-import { update, generateData, isFormValid, populateFields } from '../../../utils/Form/formActions';
+import FormField from '../../../../utils/Form/formfield';
+import { update, generateData, isFormValid, populateFields } from '../../../../utils/Form/formActions';
 
 import { connect } from 'react-redux';
 
-import { act_getDetail_Desc, act_updateDetail_Desc } from '../../../../redux/actions/CMS/desc_actions';
+import { act_getDetail_Desc, act_updateDetail_Desc } from '../../../../../redux/actions/CMS/desc_actions';
 
 class EditSlide extends Component {
 

@@ -12,13 +12,13 @@ import { LOGO_SERVER } from '../../../components/utils/misc';
 
 export function act_getDetail_Logo(lg) {
 
-    let request = axios.get(`${LOGO_SERVER}/get_entity?lg=${lg}`)
+    let request = axios.get(`/${LOGO_SERVER}/get_entity?lg=${lg}`)
         .then(response => {
             // console.log(response)
             if (response.data === '' || response.data.error) {
 
                 // Get entity of any language
-                request = axios.post(`${LOGO_SERVER}/add_entity?lg=${lg}`)
+                request = axios.post(`/${LOGO_SERVER}/add_entity?lg=${lg}`)
                     .then(response2 => {
                         return response2.data.doc
                     })
@@ -35,36 +35,40 @@ export function act_getDetail_Logo(lg) {
     }
 }
 
-export function act_getDetail_Logo_Home(current_lg, default_lg) {
+export function act_getDetail_Desc_Home(current_lg, default_lg) {
 
-    let request = axios.get(`${LOGO_SERVER}/show_entity?lg=${current_lg}&publish=true`)
-        .then(response => {
 
+    // console.log(lg)
+    
+        let request = axios.get(`/${LOGO_SERVER}/show_entity?lg=${current_lg}&publish=true`)
+        .then(response=>{
+            
             if (response.data === '' || response.data.error) {
-                request = axios.get(`${LOGO_SERVER}/show_entity?lg=${default_lg}&publish=true`)
-                    .then(response2 => {
+                request = axios.get(`/${LOGO_SERVER}/show_entity?lg=${default_lg}&publish=true`)
+                .then(response2=>{
 
-                        return response2.data
-                    })
-
+                    return response2.data
+                })
+    
                 return request
             } else {
                 return response.data
             }
         });
-
-    return {
-        type: SHOW_LOGO_DETAIL,
-        payload: request
+    
+        return {
+            type: SHOW_LOGO_DETAIL,
+            payload: request
+        }
     }
-}
+
 
 
 export function act_updateDetail_Logo(dataToSubmit, lg, parent_id) {
 
     console.log(parent_id)
 
-    const request = axios.post(`${LOGO_SERVER}/update_entity?lg=${lg}&parent_id=${parent_id}`, dataToSubmit)
+    const request = axios.post(`/${LOGO_SERVER}/update_entity?lg=${lg}&parent_id=${parent_id}`, dataToSubmit)
         .then(response => response.data.doc);
 
     return {
@@ -76,9 +80,9 @@ export function act_updateDetail_Logo(dataToSubmit, lg, parent_id) {
 
 // Image Handler
 
-export function act_uploadLogoImage(formData, axiosheaders, parent_id) {
+export function act_uploadLogoImage(formData, axiosheaders) {
     // console.log(entity_id)
-    const request = axios.post(`/${LOGO_SERVER}/uploadimage?parent_id=${parent_id}`, formData, axiosheaders)
+    const request = axios.post(`/${LOGO_SERVER}/uploadimage`, formData, axiosheaders)
         .then(response => {
             // console.log(response)
             return response.data;

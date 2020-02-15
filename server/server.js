@@ -955,12 +955,12 @@ app.get('/api/logo/removeimage', auth, admin, (req, res) => {
 app.post('/api/logo/uploadimage', auth, admin, formidable(), (req, res) => {
 
     cloudinary.uploader.upload(req.files.file.path, (result) => {
+console.log(result)
+        if (result.public_id) {
 
-        if (req.query.parent_id && result.public_id) {
+            Logo.updateMany(
 
-            Slide.findOneAndUpdate(
-
-                { _id: mongoose.Types.ObjectId(req.query.parent_id) },
+                { $exists: true },
                 {
                     "$push":
                         { "images": { "public_id": result.public_id, "url": result.url } }

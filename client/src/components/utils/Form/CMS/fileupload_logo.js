@@ -61,6 +61,7 @@ class Fileupload extends Component {
     
         onDrop = (files) => {
 
+
             this.setState({ uploading: true });
             let formData = new FormData();
             const axiosconfig = {
@@ -90,10 +91,9 @@ class Fileupload extends Component {
                 uploadedFiles: []
             }
         }
-        if (props.parent_id && props.slides.slideDetail !== undefined) {
-            //console.log(props)
+        if (props.parent_id && props.logo.logoDetail !== undefined) {
             return state = {
-                uploadedFiles: props.slides.slideDetail.images,
+                uploadedFiles: props.logo.logoDetail.images,
             }
         }
 
