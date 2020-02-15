@@ -16,59 +16,58 @@ class Fileupload extends Component {
         uploading: false
     }
 
-    
-        onRemove = (image_id) => {
 
-            this.props.dispatch(act_removeLogoImage(image_id, this.props.parent_id))
-                .then(response => {
-                    
-                    let images = this.state.uploadedFiles.filter(item => {
-                        return item.public_id !== image_id;
-                    })
+    onRemove = (image_id) => {
 
-                    this.setState({
-                        uploadedFiles: images
-                    }, () => {
-                        this.props.imagesHandler(images)
-                    })
+        this.props.dispatch(act_removeLogoImage(image_id))
+            .then(response => {
+
+                let images = this.state.uploadedFiles.filter(item => {
+                    return item.public_id !== image_id;
                 })
-        }
-    
-        showUploadedImages = () => (
-    
-            // console.log('Show Uploaded Images'),
-            // console.log(this.state),
-    
-            this.state.uploadedFiles.map(item => (
-                <div className="dropzone_box"
-                    key={item.public_id}
-                >
-    
-                    <div
-                        className="wrap"
-                        style={{ background: `url(${item.url}) no-repeat` }}
-                    ><div className="delete_overlay">
-                            <FontAwesomeIcon
-                                icon={faTrash}
-                                onClick={() => this.onRemove(item.public_id)}
-                            />
-                        </div>
+
+                this.setState({
+                    uploadedFiles: images
+                }, () => {
+                    this.props.imagesHandler(images)
+                })
+            })
+    }
+
+    showUploadedImages = () => (
+
+        // console.log('Show Uploaded Images'),
+
+        this.state.uploadedFiles.map(item => (
+            <div className="dropzone_box"
+                key={item.public_id}
+            >
+
+                <div
+                    className="wrap"
+                    style={{ background: `url(${item.url}) no-repeat` }}
+                ><div className="delete_overlay">
+                        <FontAwesomeIcon
+                            icon={faTrash}
+                            onClick={() => this.onRemove(item.public_id)}
+                        />
                     </div>
                 </div>
-            ))
-    
-        )
-    
-        onDrop = (files) => {
+            </div>
+        ))
+
+    )
+
+    onDrop = (files) => {
 
 
-            this.setState({ uploading: true });
-            let formData = new FormData();
-            const axiosconfig = {
-                header: { 'content-type': 'multipart/form-data' }
-            }
-    
-            formData.append("file", files[0]);
+        this.setState({ uploading: true });
+        let formData = new FormData();
+        const axiosconfig = {
+            header: { 'content-type': 'multipart/form-data' }
+        }
+
+        formData.append("file", files[0]);
 
         this.props.dispatch(act_uploadLogoImage(formData, axiosconfig, this.props.parent_id))
             .then(response => {
@@ -86,12 +85,14 @@ class Fileupload extends Component {
     }
 
     static getDerivedStateFromProps(props, state) {
+        // console.log(props)
+
         if (props.reset) {
             return state = {
                 uploadedFiles: []
             }
         }
-        if (props.parent_id && props.logo.logoDetail !== undefined) {
+        if (props.logo.logoDetail !== undefined) {
             return state = {
                 uploadedFiles: props.logo.logoDetail.images,
             }

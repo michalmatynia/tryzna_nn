@@ -844,7 +844,7 @@ app.post('/api/desc/add_entity', (req, res) => {
     // if find is empty, save the new 
     // console.log('oduweobeowbcoewbcob')
 
-    const desc = new Desc({mainText: 'Some Example Description', language: req.query.lg, publish:true});
+    const desc = new Desc({ mainText: 'Some Example Description', language: req.query.lg, publish: true });
 
     desc.save((error, doc) => {
         if (error) return res.json({ error });
@@ -864,7 +864,7 @@ app.post('/api/desc/update_entity', auth, admin, (req, res) => {
 
             // console.log(doc)
             if (err) return res.json({ success: false, err });
-            return res.status(200).send({doc})
+            return res.status(200).send({ doc })
         }
     )
 });
@@ -896,7 +896,7 @@ app.get('/api/logo/get_entity', (req, res) => {
 
 app.post('/api/logo/add_entity', (req, res) => {
 
-    const logo = new Logo({lineOne: 'Some Example Description', language: req.query.lg, publish:true});
+    const logo = new Logo({ lineOne: 'Some Example Description', language: req.query.lg, publish: true });
 
     logo.save((error, doc) => {
         if (error) return res.json({ error });
@@ -916,7 +916,7 @@ app.post('/api/logo/update_entity', auth, admin, (req, res) => {
 
             // console.log(doc)
             if (err) return res.json({ success: false, err });
-            return res.status(200).send({doc})
+            return res.status(200).send({ doc })
         }
     )
 });
@@ -925,10 +925,10 @@ app.post('/api/logo/update_entity', auth, admin, (req, res) => {
 
 app.get('/api/logo/removeimage', auth, admin, (req, res) => {
 
-    if (req.query.parent_id) {
-        Slide.findOneAndUpdate(
+        Logo.updateMany(
 
-            { _id: mongoose.Types.ObjectId(req.query.parent_id) },
+            { _id: {
+                $exists: true} },
             {
                 "$pull":
                     { "images": { "public_id": req.query.image_id } }
@@ -942,32 +942,29 @@ app.get('/api/logo/removeimage', auth, admin, (req, res) => {
                 })
 
             })
-    } else {
-        cloudinary.uploader.destroy(req.query.image_id, (error, result) => {
-            if (error) return res.json({ success: false, error });
-            res.status(200).send('ok');
-            // res.status(200).send('ok');
-        })
-    }
+    
 
 })
 
 app.post('/api/logo/uploadimage', auth, admin, formidable(), (req, res) => {
 
     cloudinary.uploader.upload(req.files.file.path, (result) => {
-console.log(result)
+
         if (result.public_id) {
 
             Logo.updateMany(
 
-                { $exists: true },
+                { _id: {
+                    $exists: true} },
                 {
                     "$push":
                         { "images": { "public_id": result.public_id, "url": result.url } }
 
                 },
+
                 { new: true },
                 (err, doc) => {
+                    // console.log(err)
                     res.send(
                         {
                             public_id: result.public_id,
@@ -976,21 +973,14 @@ console.log(result)
                     )
                 })
 
-        } else if (result.public_id) {
-
-            res.send(
-                {
-                    public_id: result.public_id,
-                    url: result.url
-                }
-            )
-        } else {
+        }
+         else {
             return res.status(400).send(err);
         }
     }, {
         public_id: `${Date.now()}`,
         resource_type: 'auto',
-        folder: 'Tryzna'
+        folder: 'Tryzna/Logo'
         // ,transform: '200px'
     })
 })

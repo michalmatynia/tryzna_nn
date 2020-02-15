@@ -35,7 +35,7 @@ export function act_getDetail_Logo(lg) {
     }
 }
 
-export function act_getDetail_Desc_Home(current_lg, default_lg) {
+export function act_getDetail_Logo_Home(current_lg, default_lg) {
 
 
     // console.log(lg)
@@ -66,7 +66,7 @@ export function act_getDetail_Desc_Home(current_lg, default_lg) {
 
 export function act_updateDetail_Logo(dataToSubmit, lg, parent_id) {
 
-    console.log(parent_id)
+   // console.log(parent_id)
 
     const request = axios.post(`/${LOGO_SERVER}/update_entity?lg=${lg}&parent_id=${parent_id}`, dataToSubmit)
         .then(response => response.data.doc);
@@ -94,9 +94,9 @@ export function act_uploadLogoImage(formData, axiosheaders) {
     }
 }
 
-export function act_removeLogoImage(image_id, parent_id) {
+export function act_removeLogoImage(image_id) {
 
-    const request = axios.get(`/${LOGO_SERVER}/removeimage?image_id=${image_id}&parent_id=${parent_id}`)
+    const request = axios.get(`/${LOGO_SERVER}/removeimage?image_id=${image_id}`)
         .then(response => {
             return response.data;
         })

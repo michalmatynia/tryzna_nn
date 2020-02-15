@@ -108,6 +108,7 @@ export function act_getDetail_Slide(id) {
 
     const request = axios.get(`/${SLIDE_SERVER}/articles_by_id?_id=${id}&type=single`)
     .then(response=>{
+       //  console.log(response.data[0])
         return response.data[0]
     });
 

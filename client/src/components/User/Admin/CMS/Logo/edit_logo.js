@@ -131,6 +131,7 @@ class EditLogo extends Component {
                     this.setState({
                         formSuccess: true
                     }, () => {
+
                         setTimeout(() => {
                             this.setState({
                                 formSuccess: false
@@ -149,7 +150,7 @@ class EditLogo extends Component {
 
     imagesHandler = (images) => {
 
-        console.log(this.props.logo.logoDetail)
+        // console.log(this.props)
 
         const newFormData = {
             ...this.state.formdata
@@ -160,7 +161,7 @@ class EditLogo extends Component {
         this.setState({
             formdata: newFormData
         }
-            , () => { this.props.dispatch(act_getDetail_Logo(this.props.match.params.id)) }
+            , () => { this.props.dispatch(act_getDetail_Logo(this.props.user.siteLocalisation.name)) }
         )
     }
 
