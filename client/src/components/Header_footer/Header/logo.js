@@ -6,7 +6,7 @@ class Logo extends Component {
 
     componentDidMount() {
         // const id = this.props.match.params.id;
-        this.props.dispatch(act_getDetail_Logo_Published())
+        // this.props.dispatch(act_getDetail_Logo_Published())
     }
 
     componentWillUnmount() {

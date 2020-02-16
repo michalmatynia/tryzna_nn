@@ -108,16 +108,11 @@ class EditLogo extends Component {
     }
     componentDidMount() {
 
-
-        // const id = this.props.match.params.id;
-
         if (this.props.user.siteLocalisation && this.props.logo !== undefined) {
-
-            //  console.log(this.props.logo.logoDetail)
 
             this.props.dispatch(act_getDetail_Logo(this.props.user.siteLocalisation.name))
                 .then((response) => {
-                    // console.log(response.payload._id)
+
                     const newFormData = populateFields(this.state.formdata, response.payload);
                     this.setState({
                         formdata: newFormData
@@ -139,8 +134,6 @@ class EditLogo extends Component {
 
         let dataToSubmit = generateData(this.state.formdata, 'logo');
         let formIsValid = isFormValid(this.state.formdata, 'logo');
-
-        // console.log(this.props.description.descDetail)
 
         if (formIsValid) {
 
@@ -168,7 +161,6 @@ class EditLogo extends Component {
 
     imagesHandler = (images) => {
 
-        // console.log(this.props)
 
         const newFormData = {
             ...this.state.formdata

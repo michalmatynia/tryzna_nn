@@ -18,9 +18,6 @@ class Fileupload extends Component {
 
     
         onRemove = (image_id) => {
-    
-            // console.log(this.state.uploadedFiles)
-            // console.log(image_id)
 
             this.props.dispatch(act_removeSlideImage(image_id, this.props.parent_id))
                 .then(response => {
@@ -28,8 +25,7 @@ class Fileupload extends Component {
                     let images = this.state.uploadedFiles.filter(item => {
                         return item.public_id !== image_id;
                     })
-                    // console.log(response)
-                    //console.log(images)
+  
                     this.setState({
                         uploadedFiles: images
                     }, () => {
@@ -39,10 +35,7 @@ class Fileupload extends Component {
         }
     
         showUploadedImages = () => (
-    
-            // console.log('Show Uploaded Images'),
-            // console.log(this.state),
-    
+
             this.state.uploadedFiles.map(item => (
                 <div className="dropzone_box"
                     key={item.public_id}

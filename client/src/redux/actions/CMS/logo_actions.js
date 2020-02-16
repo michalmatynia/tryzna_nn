@@ -36,7 +36,7 @@ export function act_getDetail_Logo(lg) {
     }
 }
 
-export function act_clearDetail_Logo(){
+export function act_clearDetail_Logo() {
     return {
         type: CLEAR_LOGO_DETAIL,
         payload: ''
@@ -45,35 +45,36 @@ export function act_clearDetail_Logo(){
 
 export function act_getDetail_Logo_Published(current_lg, default_lg) {
 
+
     // console.log(lg)
-    
-        let request = axios.get(`/${LOGO_SERVER}/show_entity?lg=${current_lg}&publish=true`)
-        .then(response=>{
-            
+
+    let request = axios.get(`/${LOGO_SERVER}/show_entity?lg=${current_lg}&publish=true`)
+        .then(response => {
+
             if (response.data === '' || response.data.error) {
                 request = axios.get(`/${LOGO_SERVER}/show_entity?lg=${default_lg}&publish=true`)
-                .then(response2=>{
+                    .then(response2 => {
 
-                    return response2.data
-                })
-    
+                        return response2.data
+                    })
+
                 return request
             } else {
                 return response.data
             }
         });
-    
-        return {
-            type: SHOW_LOGO_DETAIL,
-            payload: request
-        }
+
+    return {
+        type: SHOW_LOGO_DETAIL,
+        payload: request
     }
+}
 
 
 
 export function act_updateDetail_Logo(dataToSubmit, lg, parent_id) {
 
-   // console.log(parent_id)
+    // console.log(parent_id)
 
     const request = axios.post(`/${LOGO_SERVER}/update_entity?lg=${lg}&parent_id=${parent_id}`, dataToSubmit)
         .then(response => response.data.doc);

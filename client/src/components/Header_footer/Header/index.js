@@ -62,7 +62,6 @@ class Header extends Component {
     }
 
     renderLogo = () => {
-       console.log(this.props)
 
         if (this.props.user.siteLocalisation) {
             return (

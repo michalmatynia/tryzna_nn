@@ -35,8 +35,8 @@ class Fileupload extends Component {
     }
 
     showUploadedImages = () => (
-
-        // console.log('Show Uploaded Images'),
+        // console.log('frwouifnriwubfiu'),
+        // console.log(this.state),
 
         this.state.uploadedFiles.map(item => (
             <div className="dropzone_box"
@@ -85,7 +85,6 @@ class Fileupload extends Component {
     }
 
     static getDerivedStateFromProps(props, state) {
-        // console.log(props)
 
         if (props.reset) {
             return state = {

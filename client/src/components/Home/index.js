@@ -57,8 +57,7 @@ class Home extends Component {
         this.props.dispatch(act_getData_Slides(args));
         // console.log(this.props.products)
         if (this.props.user.siteLocalisation !== undefined && this.props.user.siteLocalisation.name !== undefined ) {
-            this.props.dispatch(
-                (this.props.user.siteLocalisation.name, this.state.default_lg));
+            this.props.dispatch(act_getDetail_Desc_Published(this.props.user.siteLocalisation.name, this.state.default_lg));
         }
 
     }
