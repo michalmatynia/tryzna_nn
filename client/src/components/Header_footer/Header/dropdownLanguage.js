@@ -43,8 +43,6 @@ class DropdownLanguage extends Component {
         )
     }
 
-
-
 }
 
 const mapStateToProps = (state) => {

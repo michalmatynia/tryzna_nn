@@ -7,7 +7,7 @@ import Desc from '../Description';
 import { connect } from 'react-redux';
 import { getProductsBySell, getProductsByArrival } from '../../redux/actions/products_actions';
 import { act_getData_Slides } from '../../redux/actions/CMS/slides_actions';
-import { act_getDetail_Desc_Home } from '../../redux/actions/CMS/desc_actions';
+import { act_getDetail_Desc_Published } from '../../redux/actions/CMS/desc_actions';
 
 class Home extends Component {
 
@@ -40,7 +40,7 @@ class Home extends Component {
                 // console.log(this.props.user.siteLocalisation.name)
                 this.setState({ first_lg: this.props.user.siteLocalisation.name })
 
-                this.props.dispatch(act_getDetail_Desc_Home(this.props.user.siteLocalisation.name, this.state.default_lg))
+                this.props.dispatch(act_getDetail_Desc_Published(this.props.user.siteLocalisation.name, this.state.default_lg))
             }
         }
 
@@ -57,7 +57,8 @@ class Home extends Component {
         this.props.dispatch(act_getData_Slides(args));
         // console.log(this.props.products)
         if (this.props.user.siteLocalisation !== undefined && this.props.user.siteLocalisation.name !== undefined ) {
-            this.props.dispatch(act_getDetail_Desc_Home(this.props.user.siteLocalisation.name, this.state.default_lg));
+            this.props.dispatch(
+                (this.props.user.siteLocalisation.name, this.state.default_lg));
         }
 
     }

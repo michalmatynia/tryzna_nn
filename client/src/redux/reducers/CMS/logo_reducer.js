@@ -1,5 +1,6 @@
 import {
     GET_LOGO_DETAIL,
+    CLEAR_LOGO_DETAIL,
     UPDATE_LOGO_DETAIL,
     SHOW_LOGO_DETAIL,
     UPLOAD_LOGO_IMAGE,
@@ -13,6 +14,8 @@ export default function (state = {}, action) {
         case SHOW_LOGO_DETAIL:
             return { ...state, logoDetail: action.payload }
         case GET_LOGO_DETAIL:
+            return { ...state, logoDetail: action.payload }
+        case CLEAR_LOGO_DETAIL:
             return { ...state, logoDetail: action.payload }
         case UPDATE_LOGO_DETAIL:
             return { ...state, logoDetail: action.payload }

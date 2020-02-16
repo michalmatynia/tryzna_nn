@@ -2,9 +2,6 @@ import React from 'react'
 
 const Desc = (props) => {
 
-    // console.log('Description')
-    // console.log(props._id)
-
     // const description = {
 
     //     img: '/images/featured/featured_home_3.jpg',

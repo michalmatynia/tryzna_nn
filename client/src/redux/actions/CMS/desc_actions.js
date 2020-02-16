@@ -40,7 +40,7 @@ export function act_getDetail_Desc(lg) {
     }
 }
 
-export function act_getDetail_Desc_Home(current_lg, default_lg) {
+export function act_getDetail_Desc_Published(current_lg, default_lg) {
 
 
     // console.log(lg)

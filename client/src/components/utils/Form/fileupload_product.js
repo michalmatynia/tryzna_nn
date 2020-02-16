@@ -16,7 +16,6 @@ class Fileupload extends Component {
         axios.get(`/api/users/removeimage?public_id=${id}`)
             .then(response => {
 
-                console.log(response)
                 let images = this.state.uploadedFiles.filter(item => {
                     return item.public_id !== id;
                 })

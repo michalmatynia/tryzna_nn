@@ -66,6 +66,24 @@ class EditLogo extends Component {
                 validationMessage: '',
                 showlabel: false
 
+            },
+            language: {
+                element: 'mylabel',
+                value: '',
+                config: {
+                    label: 'Language',
+                    name: 'language_input',
+                    type: 'text',
+                    placeholder: 'Language goes here',
+                },
+                validation: {
+                    required: true
+                },
+                valid: false,
+                touched: false,
+                validationMessage: '',
+                showlabel: true
+
             }
         }
     }
@@ -170,11 +188,13 @@ class EditLogo extends Component {
             <UserLayout>
                 <div>
                     <form onSubmit={(event) => this.submitForm()}>
-                        <h1>Edit Logo</h1>
+                        <h1><FormField
+                            id={'language'}
+                            formdata={this.state.formdata.language}
+                        />Edit Logo</h1>
                         <FileUpload
                             imagesHandler={(images) => this.imagesHandler(images)}
                             reset={this.state.formSuccess}
-                        // parent_id={this.props.logo.logoDetail._id}
                         />
                         <FormField
                             id={'lineOne'}

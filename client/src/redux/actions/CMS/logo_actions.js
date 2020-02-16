@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {
     GET_LOGO_DETAIL,
+    CLEAR_LOGO_DETAIL,
     UPDATE_LOGO_DETAIL,
     SHOW_LOGO_DETAIL,
     UPLOAD_LOGO_IMAGE,
@@ -35,8 +36,14 @@ export function act_getDetail_Logo(lg) {
     }
 }
 
-export function act_getDetail_Logo_Home(current_lg, default_lg) {
+export function act_clearDetail_Logo(){
+    return {
+        type: CLEAR_LOGO_DETAIL,
+        payload: ''
+    }
+}
 
+export function act_getDetail_Logo_Published(current_lg, default_lg) {
 
     // console.log(lg)
     
