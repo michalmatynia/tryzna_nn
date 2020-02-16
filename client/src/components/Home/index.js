@@ -47,7 +47,7 @@ class Home extends Component {
     }
 
     componentDidMount() {
-        // console.log(this.props.user.siteLocalisation.name)
+        //  console.log(this.props.user.siteLocalisation.name)
 
         this.props.dispatch(getProductsBySell());
         this.props.dispatch(getProductsByArrival());

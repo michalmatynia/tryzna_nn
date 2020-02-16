@@ -43,7 +43,7 @@ export function act_getDetail_Desc(lg) {
 export function act_getDetail_Desc_Published(current_lg, default_lg) {
 
 
-    // console.log(lg)
+   //  console.log(current_lg)
     
         let request = axios.get(`${DESC_SERVER}/show_entity?lg=${current_lg}&publish=true`)
         .then(response=>{

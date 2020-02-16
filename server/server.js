@@ -107,6 +107,12 @@ app.get('api/user/download/:id', auth, admin, (req, res) => {
     const file = path.resolve('.') + `/uploads/${req.params.id}`;
     res.download(file)
 })
+
+// ======================
+//     SITE SETTINGS
+//=======================
+
+
 // ======================
 //          SLIDES
 //=======================

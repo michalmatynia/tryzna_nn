@@ -50,7 +50,6 @@ class Header extends Component {
     }
 
     renderLgDropdown = () => {
-
         if (this.props.user.siteLocalisation) {
             return (
                 <DropdownLanguage
@@ -63,14 +62,14 @@ class Header extends Component {
 
     renderLogo = () => {
 
-        if (this.props.user.siteLocalisation) {
-            return (
-                <Logo
-                    site_lg={this.props.user.siteLocalisation.name}
-                    default_lg={this.props.user.siteLocalisation.name}
-                />
-            )
-        }
+        // if (this.props.user.siteLocalisation) {
+        //     return (
+        //         <Logo
+        //             site_lg={this.props.user.siteLocalisation.name}
+        //             default_lg={this.props.user.siteLocalisation.name}
+        //         />
+        //     )
+        // }
 
     }
 

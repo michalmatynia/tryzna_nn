@@ -28,6 +28,7 @@ export default function (ComposedClass, reload, adminRoute = null) {
                     // user_currency = 'EUR'
                 }
                 this.props.dispatch(setLocalisation(user_lg))
+
                 
             })
             

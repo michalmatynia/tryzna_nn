@@ -8,19 +8,18 @@ class DropdownLanguage extends Component {
 
 
     renderList = () => (
-
         <FormControl>
             <NativeSelect
                 defaultValue={this.props.site_lg}
                 onChange={e => this.handleChange(e.target.value)}
             >
                 {this.props.lg_list ?
-                    this.props.lg_list.map((value, i) => (
+                    this.props.lg_list.map((item, i) => (
                         <option
-                            value={value.name}
+                            value={item.value}
                             key={i}
                         // onChange={this.handleChange('checkedA')}
-                        >{value.name}</option>
+                        >{item.value}</option>
 
                     ))
                     : null}

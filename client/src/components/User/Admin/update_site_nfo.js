@@ -5,7 +5,9 @@ import { update, generateData, isFormValid, populateFields } from '../../utils/F
 
 import { connect } from 'react-redux';
 
-import { getSiteData, updateSiteData} from '../../../redux/actions/site_actions';
+import { getSiteData, updateSiteData } from '../../../redux/actions/site_actions';
+
+import { languages } from '../../utils/Form/Fixed_categories/languages';
 
 class UpdateSiteNfo extends Component {
 
@@ -85,6 +87,24 @@ class UpdateSiteNfo extends Component {
                 validationMessage: '',
                 showlabel: true
 
+            },
+            default_language: {
+                element: 'select',
+                value: '',
+                config: {
+                    label: 'Default Language',
+                    name: 'language_input',
+                    options: languages
+
+                },
+                validation: {
+                    required: true
+                },
+                valid: false,
+                touched: false,
+                validationMessage: '',
+                showlabel: true
+
             }
         }
     }
@@ -105,17 +125,17 @@ class UpdateSiteNfo extends Component {
 
         if (formIsValid) {
             this.props.dispatch(updateSiteData(dataToSubmit))
-            .then(()=>{
-                this.setState({
-                    formSuccess:true
-                },()=>{
-                    setTimeout(()=>{
-                        this.setState({
-                            formSuccess: false
-                        })
-                    }, 2000)
+                .then(() => {
+                    this.setState({
+                        formSuccess: true
+                    }, () => {
+                        setTimeout(() => {
+                            this.setState({
+                                formSuccess: false
+                            })
+                        }, 2000)
+                    })
                 })
-            })
 
         } else {
             this.setState({
@@ -125,16 +145,44 @@ class UpdateSiteNfo extends Component {
         }
     }
 
-componentDidMount(){
-    this.props.dispatch(getSiteData())
-    .then(()=>{
-        
-        const newFormData = populateFields(this.state.formdata, this.props.site.siteData[0]);
-        this.setState({
-            formdata: newFormData
-        });
-    })
-}
+    // default_languageList = () => (
+
+    //     <FormControl>
+    //         <NativeSelect
+    //             defaultValue={this.props.site_lg}
+    //             onChange={e => this.handleChange(e.target.value)}
+    //         >
+    //             {this.props.lg_list ?
+    //                 this.props.lg_list.map((value, i) => (
+    //                     <option
+    //                         value={value.name}
+    //                         key={i}
+    //                     // onChange={this.handleChange('checkedA')}
+    //                     >{value.name}</option>
+
+    //                 ))
+    //                 : null}
+    //         </NativeSelect>
+    //     </FormControl>
+    // )
+
+
+    componentDidMount() {
+
+        // const formdata = this.state.formdata;
+        // const newFormData = populateOptionFields(formdata, languages, 'default_language');
+
+
+        this.props.dispatch(getSiteData())
+            .then(() => {
+
+                const newFormData = populateFields(this.state.formdata, this.props.site.siteData[0]);
+                
+                this.setState({
+                    formdata: newFormData
+                });
+            })
+    }
 
     render() {
         return (
@@ -161,12 +209,17 @@ componentDidMount(){
                         formdata={this.state.formdata.email}
                         change={(element) => this.updateForm(element)}
                     />
+                    <FormField
+                        id={'default_language'}
+                        formdata={this.state.formdata.default_language}
+                        change={(element) => this.updateForm(element)}
+                    />
 
                     <div>
                         {
                             this.state.formSuccess ?
-                            <div className="form_success">success</div>
-                            :null
+                                <div className="form_success">success</div>
+                                : null
                         }
                         {this.state.formError ?
                             <div className="error_label">Please check your data</div>

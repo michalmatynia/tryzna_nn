@@ -75,17 +75,13 @@ class EditSlide extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        // console.log(prevProps)
-        // console.log(this.props)
+
         if (this.props.user.siteLocalisation !== undefined && prevProps.user.siteLocalisation !== undefined && this.props.user.siteLocalisation.name !== undefined && this.props.description !== undefined) {
 
 
             if (prevProps.user.siteLocalisation.name !== this.props.user.siteLocalisation.name) {
-                // console.log(this.props.user.siteLocalisation.name)
                 this.props.dispatch(act_getDetail_Desc(this.props.user.siteLocalisation.name))
                     .then((response) => {
-                        // console.log(response)
-                        // console.log(this.props.description.descDetail)
                         const newFormData = populateFields(this.state.formdata, this.props.description.descDetail);
                         this.setState({
                             formdata: newFormData
@@ -96,19 +92,11 @@ class EditSlide extends Component {
         }
     }
     componentDidMount() {
-
-        // const id = this.props.match.params.id;
-
-        // console.log(id)
-        // console.log(this.props.description.descDetail)
         if (this.props.user.siteLocalisation && this.props.description !== undefined) {
 
             this.props.dispatch(act_getDetail_Desc(this.props.user.siteLocalisation.name))
                 .then((response) => {
-                    // console.log(response)
-                    // console.log(this.props.description.descDetail)
 
-                    // const newFormData = populateFields(this.state.formdata, this.props.description.descDetail);
                     const newFormData = populateFields(this.state.formdata, response.payload);
                     this.setState({
                         formdata: newFormData

@@ -279,6 +279,7 @@ class AddProduct extends Component {
                 this.updateFields(newFormData)
             })
     }
+    
     imagesHandler = (images) => {
         const newFormData = {
             ...this.state.formdata

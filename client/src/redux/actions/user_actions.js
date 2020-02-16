@@ -59,15 +59,14 @@ export function setCookie() {
 }
 
 export function setLocalisation(user_lg) {
+    
 
-    // console.log('frf')
-    // console.log(user_lg)
     let localisation = ''
 
-    localisation = languages.filter(value => {
-        return user_lg === value.name ? localisation = {
-            languages: value.name,
-            currency: value.currency
+    localisation = languages.filter(item => {
+        return user_lg === item.value ? localisation = {
+            languages: item.value,
+            currency: item.currency
         } : null;
     })
 
