@@ -24,30 +24,26 @@ class Home extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        // console.log(prevProps)
         // console.log(this.props)
         if (
             this.props.user.siteLocalisation !== undefined
-            && this.props.user.siteLocalisation.name !== undefined
+            && this.props.user.siteLocalisation.value !== undefined
             && prevProps.user.siteLocalisation !== undefined
-            && prevProps.user.siteLocalisation.name !== undefined
+            && prevProps.user.siteLocalisation.value !== undefined
             // && this.props.description !== undefined
         ) {
 
-            if (prevProps.user.siteLocalisation.name !== this.props.user.siteLocalisation.name
-                || this.props.user.siteLocalisation.name !== this.state.first_lg
+            if (prevProps.user.siteLocalisation.value !== this.props.user.siteLocalisation.value
+                || this.props.user.siteLocalisation.value !== this.state.first_lg
             ) {
-                // console.log(this.props.user.siteLocalisation.name)
-                this.setState({ first_lg: this.props.user.siteLocalisation.name })
-
-                this.props.dispatch(act_getDetail_Desc_Published(this.props.user.siteLocalisation.name, this.state.default_lg))
+                this.setState({ first_lg: this.props.user.siteLocalisation.value })
+                this.props.dispatch(act_getDetail_Desc_Published(this.props.user.siteLocalisation.value, this.state.default_lg))
             }
         }
 
     }
 
     componentDidMount() {
-        //  console.log(this.props.user.siteLocalisation.name)
 
         this.props.dispatch(getProductsBySell());
         this.props.dispatch(getProductsByArrival());
@@ -56,8 +52,8 @@ class Home extends Component {
         const args = this.state.get_slides
         this.props.dispatch(act_getData_Slides(args));
         // console.log(this.props.products)
-        if (this.props.user.siteLocalisation !== undefined && this.props.user.siteLocalisation.name !== undefined ) {
-            this.props.dispatch(act_getDetail_Desc_Published(this.props.user.siteLocalisation.name, this.state.default_lg));
+        if (this.props.user.siteLocalisation !== undefined && this.props.user.siteLocalisation.value !== undefined ) {
+            this.props.dispatch(act_getDetail_Desc_Published(this.props.user.siteLocalisation.value, this.state.default_lg));
         }
 
     }

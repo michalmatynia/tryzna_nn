@@ -54,7 +54,7 @@ class Header extends Component {
             return (
                 <DropdownLanguage
                     lg_list={languages}
-                    site_lg={this.props.user.siteLocalisation.name}
+                    site_lg={this.props.user.siteLocalisation.value}
                 />
             )
         }
@@ -65,8 +65,8 @@ class Header extends Component {
         // if (this.props.user.siteLocalisation) {
         //     return (
         //         <Logo
-        //             site_lg={this.props.user.siteLocalisation.name}
-        //             default_lg={this.props.user.siteLocalisation.name}
+        //             site_lg={this.props.user.siteLocalisation.value}
+        //             default_lg={this.props.user.siteLocalisation.value}
         //         />
         //     )
         // }

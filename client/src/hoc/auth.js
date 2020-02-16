@@ -13,30 +13,32 @@ export default function (ComposedClass, reload, adminRoute = null) {
 
         componentDidMount() {
 
+  
             let user_lg = null
             // let user_currency = null
-            if(this.props.user.siteLocalisation === undefined){
-            this.props.dispatch(setCookie())
-            .then(response => {
+            if (this.props.user.siteLocalisation === undefined) {
+                this.props.dispatch(setCookie())
+                    .then(response => {
 
-                if (response.payload) {
-                    user_lg = response.payload.languages
-                 // user_currency = response.payload.currency
-                    
-                } else { 
-                    user_lg = 'en';
-                    // user_currency = 'EUR'
-                }
-                this.props.dispatch(setLocalisation(user_lg))
+                        if (response.payload) {
+                            user_lg = response.payload.languages
+                            // user_currency = response.payload.currency
 
-                
-            })
-            
-        } else {
-            this.props.dispatch(setLocalisation(this.props.user.siteLocalisation.name ))
-        }
+                        } else {
+                            user_lg = 'en';
+                            // user_currency = 'EUR'
+                        }
 
-        
+                        this.props.dispatch(setLocalisation(user_lg))
+
+
+                    })
+
+            } else {
+                this.props.dispatch(setLocalisation(this.props.user.siteLocalisation.value))
+            }
+
+
             // ---------
 
             this.props.dispatch(auth())

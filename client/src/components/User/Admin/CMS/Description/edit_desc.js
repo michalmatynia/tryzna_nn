@@ -76,11 +76,11 @@ class EditSlide extends Component {
 
     componentDidUpdate(prevProps) {
 
-        if (this.props.user.siteLocalisation !== undefined && prevProps.user.siteLocalisation !== undefined && this.props.user.siteLocalisation.name !== undefined && this.props.description !== undefined) {
+        if (this.props.user.siteLocalisation !== undefined && prevProps.user.siteLocalisation !== undefined && this.props.user.siteLocalisation.value !== undefined && this.props.description !== undefined) {
 
 
-            if (prevProps.user.siteLocalisation.name !== this.props.user.siteLocalisation.name) {
-                this.props.dispatch(act_getDetail_Desc(this.props.user.siteLocalisation.name))
+            if (prevProps.user.siteLocalisation.value !== this.props.user.siteLocalisation.value) {
+                this.props.dispatch(act_getDetail_Desc(this.props.user.siteLocalisation.value))
                     .then((response) => {
                         const newFormData = populateFields(this.state.formdata, this.props.description.descDetail);
                         this.setState({
@@ -94,7 +94,7 @@ class EditSlide extends Component {
     componentDidMount() {
         if (this.props.user.siteLocalisation && this.props.description !== undefined) {
 
-            this.props.dispatch(act_getDetail_Desc(this.props.user.siteLocalisation.name))
+            this.props.dispatch(act_getDetail_Desc(this.props.user.siteLocalisation.value))
                 .then((response) => {
 
                     const newFormData = populateFields(this.state.formdata, response.payload);
@@ -123,7 +123,7 @@ class EditSlide extends Component {
         
 
             if (formIsValid) {
-                this.props.dispatch(act_updateDetail_Desc(dataToSubmit, this.props.user.siteLocalisation.name, this.props.description.descDetail._id))
+                this.props.dispatch(act_updateDetail_Desc(dataToSubmit, this.props.user.siteLocalisation.value, this.props.description.descDetail._id))
                     .then(() => {
                         this.setState({
                             formSuccess: true

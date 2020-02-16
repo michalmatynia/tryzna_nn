@@ -59,7 +59,6 @@ export function setCookie() {
 }
 
 export function setLocalisation(user_lg) {
-    
 
     let localisation = ''
 
@@ -77,6 +76,7 @@ export function setLocalisation(user_lg) {
     }
 
 }
+
 
 export function auth() {
     const request = axios.get(`${USER_SERVER}/auth`)

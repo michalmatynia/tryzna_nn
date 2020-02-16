@@ -90,11 +90,11 @@ class EditLogo extends Component {
 
     componentDidUpdate(prevProps) {
 
-        if (this.props.user.siteLocalisation !== undefined && prevProps.user.siteLocalisation !== undefined && this.props.user.siteLocalisation.name !== undefined && this.props.logo !== undefined) {
+        if (this.props.user.siteLocalisation !== undefined && prevProps.user.siteLocalisation !== undefined && this.props.user.siteLocalisation.value !== undefined && this.props.logo !== undefined) {
 
-            if (prevProps.user.siteLocalisation.name !== this.props.user.siteLocalisation.name) {
+            if (prevProps.user.siteLocalisation.value !== this.props.user.siteLocalisation.value) {
 
-                this.props.dispatch(act_getDetail_Logo(this.props.user.siteLocalisation.name))
+                this.props.dispatch(act_getDetail_Logo(this.props.user.siteLocalisation.value))
                     .then((response) => {
 
                         const newFormData = populateFields(this.state.formdata, this.props.logo.logoDetail);
@@ -110,7 +110,7 @@ class EditLogo extends Component {
 
         if (this.props.user.siteLocalisation && this.props.logo !== undefined) {
 
-            this.props.dispatch(act_getDetail_Logo(this.props.user.siteLocalisation.name))
+            this.props.dispatch(act_getDetail_Logo(this.props.user.siteLocalisation.value))
                 .then((response) => {
 
                     const newFormData = populateFields(this.state.formdata, response.payload);
@@ -137,7 +137,7 @@ class EditLogo extends Component {
 
         if (formIsValid) {
 
-            this.props.dispatch(act_updateDetail_Logo(dataToSubmit, this.props.user.siteLocalisation.name, this.props.logo.logoDetail._id))
+            this.props.dispatch(act_updateDetail_Logo(dataToSubmit, this.props.user.siteLocalisation.value, this.props.logo.logoDetail._id))
                 .then(() => {
                     this.setState({
                         formSuccess: true
@@ -171,7 +171,7 @@ class EditLogo extends Component {
         this.setState({
             formdata: newFormData
         }
-            , () => { this.props.dispatch(act_getDetail_Logo(this.props.user.siteLocalisation.name)) }
+            , () => { this.props.dispatch(act_getDetail_Logo(this.props.user.siteLocalisation.value)) }
         )
     }
 
