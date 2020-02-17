@@ -24,27 +24,27 @@ class Home extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        // console.log(this.props)
-        if (
-            this.props.user.siteLocalisation !== undefined
-            && this.props.user.siteLocalisation.value !== undefined
-            && prevProps.user.siteLocalisation !== undefined
-            && prevProps.user.siteLocalisation.value !== undefined
-            // && this.props.description !== undefined
-        ) {
+        // // console.log(this.props)
+        // if (
+        //     this.props.user.siteLocalisation !== undefined
+        //     && this.props.user.siteLocalisation.value !== undefined
+        //     && prevProps.user.siteLocalisation !== undefined
+        //     && prevProps.user.siteLocalisation.value !== undefined
+        //     // && this.props.description !== undefined
+        // ) {
 
-            if (prevProps.user.siteLocalisation.value !== this.props.user.siteLocalisation.value
-                || this.props.user.siteLocalisation.value !== this.state.first_lg
-            ) {
-                this.setState({ first_lg: this.props.user.siteLocalisation.value })
-                this.props.dispatch(act_getDetail_Desc_Published(this.props.user.siteLocalisation.value, this.state.default_lg))
-            }
-        }
+        //     if (prevProps.user.siteLocalisation.value !== this.props.user.siteLocalisation.value
+        //         || this.props.user.siteLocalisation.value !== this.state.first_lg
+        //     ) {
+        //         this.setState({ first_lg: this.props.user.siteLocalisation.value })
+        //         this.props.dispatch(act_getDetail_Desc_Published(this.props.user.siteLocalisation.value, this.state.default_lg))
+        //     }
+        // }
 
     }
 
     componentDidMount() {
-
+console.log(this.props)
         this.props.dispatch(getProductsBySell());
         this.props.dispatch(getProductsByArrival());
 

@@ -1,30 +1,67 @@
 import React, { Component } from 'react'
 import Header from '../components/Header_footer/Header';
 import Footer from '../components/Header_footer/Footer';
+import Home from '../components/Home/index';
+
 // import { setCookie, setLocalisation } from '../redux/actions/user_actions';
 
 import { connect } from 'react-redux';
 import { getSiteData } from '../redux/actions/site_actions';
 
+import { languages } from '../components/utils/Form/Fixed_categories/languages';
+
 class Layout extends Component {
 
-componentDidMount(){
-
-    if(Object.keys(this.props.site).length === 0){
-        this.props.dispatch(getSiteData())
+    state = {
+        first_lg: 'en'
     }
 
-    
-}
+    componentDidUpdate(prevProps) {
+
+        if (Object.keys(this.props.site).length !== 0) {
+            //  set default language
+            let default_lg = ''
+
+            default_lg = languages.filter(item => parseInt(this.props.site.siteData[0].default_language) === item.key)
+
+            default_lg = (default_lg[0].value)
+            console.log(default_lg)
+
+            if (
+                this.props.user.siteLocalisation !== undefined
+                && this.props.user.siteLocalisation.value !== undefined
+                && prevProps.user.siteLocalisation !== undefined
+                && prevProps.user.siteLocalisation.value !== undefined
+            ) {
+
+                if (prevProps.user.siteLocalisation.value !== this.props.user.siteLocalisation.value
+                    || this.props.user.siteLocalisation.value !== this.state.first_lg
+                ) {
+                    this.setState({ first_lg: this.props.user.siteLocalisation.value })
+                }
+            }
+
+        }
+
+    }
+
+    componentDidMount() {
+
+console.log(this.props.children)
+
+        if (Object.keys(this.props.site).length === 0) {
+            this.props.dispatch(getSiteData())
+        }
+    }
 
     render() {
         return (
             <div>
-                <Header/>
+                <Header />
                 <div className="page_container">
                     {this.props.children}
                 </div>
-                <Footer data={this.props.site}/>
+                <Footer data={this.props.site} />
             </div>
         )
     }
