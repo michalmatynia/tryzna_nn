@@ -9,11 +9,13 @@ import { getProductsBySell, getProductsByArrival } from '../../redux/actions/pro
 import { act_getData_Slides } from '../../redux/actions/CMS/slides_actions';
 import { act_getDetail_Desc_Published } from '../../redux/actions/CMS/desc_actions';
 
+// Context
+import { LanguageContext } from '../../hoc/Context/mycontext'
+
 class Home extends Component {
 
     state = {
-        first_lg: 'en',
-        default_lg: 'en',
+        current_lg: '',
         get_slides:
         {
             sortBy: 'createdAdd',
@@ -23,7 +25,34 @@ class Home extends Component {
         }
     }
 
-    componentDidUpdate(prevProps) {
+    static contextType = LanguageContext;
+
+
+    componentDidUpdate(prevProps, prevState) {
+        
+
+        
+        if (this.context !== undefined
+            && this.context.value !== undefined
+            && Object.keys(this.context).length !== 0) {
+
+               //  console.log(this.context)
+
+            if (this.context.value !== this.state.current_lg) {
+                this.setState({ current_lg: this.context.value })
+            } else if (this.context.value === this.state.current_lg
+                && prevState.current_lg !== this.state.current_lg) {
+              // console.log(prevState.current_lg)
+
+               //console.log(this.state.current_lg)
+                this.props.dispatch(act_getDetail_Desc_Published(this.props.user.siteLocalisation.value, this.state.current_lg))
+            }
+        }
+
+        
+        
+        
+
         // // console.log(this.props)
         // if (
         //     this.props.user.siteLocalisation !== undefined
@@ -43,8 +72,14 @@ class Home extends Component {
 
     }
 
+
     componentDidMount() {
-console.log(this.props)
+        if (this.context !== undefined
+            && this.context.value !== undefined
+            && Object.keys(this.context).length !== 0) {
+            
+            }
+
         this.props.dispatch(getProductsBySell());
         this.props.dispatch(getProductsByArrival());
 
@@ -52,9 +87,9 @@ console.log(this.props)
         const args = this.state.get_slides
         this.props.dispatch(act_getData_Slides(args));
         // console.log(this.props.products)
-        if (this.props.user.siteLocalisation !== undefined && this.props.user.siteLocalisation.value !== undefined ) {
-            this.props.dispatch(act_getDetail_Desc_Published(this.props.user.siteLocalisation.value, this.state.default_lg));
-        }
+        // if (this.props.user.siteLocalisation !== undefined && this.props.user.siteLocalisation.value !== undefined) {
+        //     this.props.dispatch(act_getDetail_Desc_Published(this.props.user.siteLocalisation.value, this.state.default_lg));
+        // }
 
     }
 

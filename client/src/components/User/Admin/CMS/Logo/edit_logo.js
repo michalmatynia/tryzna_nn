@@ -41,7 +41,7 @@ class EditLogo extends Component {
                     name: 'publish_input',
                     options: [
                         { key: true, value: 'yes' },
-                        { key: false, value: 'no' },
+                        { key: false, value: 'no' }
                     ]
 
                 },
