@@ -35,11 +35,7 @@ class Home extends Component {
                 this.setState({ current_lg: this.context.value })
             } else if (this.context.value === this.state.current_lg
                 && prevState.current_lg !== this.state.current_lg) {
-                // console.log(this.context)
-                // console.log('this.state.current_lg')
-                // console.log(this.state.current_lg)
-                // console.log('prevState.current_lg')
-                // console.log(prevState.current_lg)
+
                 this.props.dispatch(act_getDetail_Desc_Published(this.state.current_lg))
             }
         }

@@ -50,11 +50,14 @@ class Header extends Component {
     }
 
 
-    renderLogo = (item, i) => (
-       console.log('')
+    renderLogo = () => {
         // <Logo/>
-        // <Logo current_lg={this.props.user.siteLocalisation.value} />
-    )
+        if (this.props.user.siteLocalisation) {
+            return (
+         <Logo />
+            )
+        }
+    }
 
     renderLgDropdown = () => {
         if (this.props.user.siteLocalisation) {
