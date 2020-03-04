@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import Header from '../components/Header_footer/Header';
 import Footer from '../components/Header_footer/Footer';
-import Home from '../components/Home/index';
 
 // import { setCookie, setLocalisation } from '../redux/actions/user_actions';
 
@@ -29,7 +28,6 @@ class Layout extends Component {
             default_lg = languages.filter(item => parseInt(this.props.site.siteData[0].default_language) === item.key)
             default_lg = (default_lg[0].value)
             
-
             if (
                 this.props.user.siteLocalisation !== undefined
                 && this.props.user.siteLocalisation.value !== undefined
@@ -41,19 +39,15 @@ class Layout extends Component {
                     || this.props.user.siteLocalisation.value !== this.state.first_lg
                 ) {
                     this.setState({ first_lg: this.props.user.siteLocalisation.value })
+                } else if (this.props.user.siteLocalisation.value === '') {
+                    this.setState({ first_lg: default_lg })
+
                 }
             }
 
         }
 
     }
-
-
-    // renderChildrenWithProps = () => (
-
-    //     // console.log(React.Children.map)
-    // )
-
     componentDidMount() {
 
         if (Object.keys(this.props.site).length === 0) {

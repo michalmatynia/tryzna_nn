@@ -43,25 +43,15 @@ export function act_clearDetail_Logo() {
     }
 }
 
-export function act_getDetail_Logo_Published(current_lg, default_lg) {
+export function act_getDetail_Logo_Published(current_lg) {
 
 
     // console.log(lg)
 
     let request = axios.get(`/${LOGO_SERVER}/show_entity?lg=${current_lg}&publish=true`)
         .then(response => {
+            return response.data
 
-            if (response.data === '' || response.data.error) {
-                request = axios.get(`/${LOGO_SERVER}/show_entity?lg=${default_lg}&publish=true`)
-                    .then(response2 => {
-
-                        return response2.data
-                    })
-
-                return request
-            } else {
-                return response.data
-            }
         });
 
     return {

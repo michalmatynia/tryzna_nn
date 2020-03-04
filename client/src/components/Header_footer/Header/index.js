@@ -49,6 +49,13 @@ class Header extends Component {
         ]
     }
 
+
+    renderLogo = (item, i) => (
+       console.log('')
+        // <Logo/>
+        // <Logo current_lg={this.props.user.siteLocalisation.value} />
+    )
+
     renderLgDropdown = () => {
         if (this.props.user.siteLocalisation) {
             return (
@@ -60,18 +67,7 @@ class Header extends Component {
         }
     }
 
-    renderLogo = () => {
 
-        // if (this.props.user.siteLocalisation) {
-        //     return (
-        //         <Logo
-        //             site_lg={this.props.user.siteLocalisation.value}
-        //             default_lg={this.props.user.siteLocalisation.value}
-        //         />
-        //     )
-        // }
-
-    }
 
     logoutHandler = () => {
         this.props.dispatch(logoutUser()).then(response => {
@@ -145,7 +141,7 @@ class Header extends Component {
                 <div className="container">
                     <div className="left">
                         <div className="logo">
-                        {this.renderLogo()}
+                            {this.renderLogo()}
                         </div>
                     </div>
                     <div className="right">

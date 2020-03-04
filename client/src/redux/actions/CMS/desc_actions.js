@@ -40,22 +40,12 @@ export function act_getDetail_Desc(lg) {
     }
 }
 
-export function act_getDetail_Desc_Published(current_lg, default_lg) {
+export function act_getDetail_Desc_Published(current_lg) {
     
         let request = axios.get(`${DESC_SERVER}/show_entity?lg=${current_lg}&publish=true`)
         .then(response=>{
             
-            if (response.data === '' || response.data.error) {
-                request = axios.get(`${DESC_SERVER}/show_entity?lg=${default_lg}&publish=true`)
-                .then(response2=>{
-
-                    return response2.data
-                })
-    
-                return request
-            } else {
-                return response.data
-            }
+            return response.data
         });
     
         return {
