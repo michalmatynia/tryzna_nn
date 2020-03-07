@@ -38,6 +38,14 @@ const admin = [
 
 const cms_links = [
     {
+        name: 'Add menu',
+        linkTo: '/admin/add_menu'
+    },
+    {
+        name: 'List menus',
+        linkTo: '/admin/list_menus'
+    },
+    {
         name: 'Edit logo',
         linkTo: '/admin/edit_logo'
     },

@@ -8,3 +8,4 @@ export const SITE_SERVER = '/api/site';
 export const SLIDE_SERVER = 'api/slide';
 export const DESC_SERVER = '/api/desc';
 export const LOGO_SERVER = 'api/logo';
+export const MENU_SERVER = '/api/menu';

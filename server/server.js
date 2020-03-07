@@ -45,6 +45,7 @@ const { Product } = require('./models/product');
 const { Payment } = require('./models/payment');
 const { Site } = require('./models/site');
 // Models - CMS
+const { Menu } = require('./models/cms/menu');
 const { Logo } = require('./models/cms/logo');
 const { Slide } = require('./models/cms/slide');
 const { Desc } = require('./models/cms/desc');
@@ -845,10 +846,6 @@ app.get('/api/desc/get_entity', (req, res) => {
 
 app.post('/api/desc/add_entity', (req, res) => {
 
-    // Find by Language
-    // if find is empty, save the new 
-    // console.log('oduweobeowbcoewbcob')
-
     const desc = new Desc({ mainText: 'Some Example Description', language: req.query.lg, publish: true });
 
     desc.save((error, doc) => {
@@ -989,6 +986,121 @@ app.post('/api/logo/uploadimage', auth, admin, formidable(), (req, res) => {
         // ,transform: '200px'
     })
 })
+
+// ======================
+//          Menu
+//=======================
+
+app.get('/api/product/articles', (req, res) => {
+    let order = req.query.order ? req.query.order : "asc";
+    let sortBy = req.query.sortBy ? req.query.sortBy : "_id";
+    let limit = req.query.limit ? parseInt(req.query.limit) : 100;
+
+    Product.find()
+        .populate('brand')
+        .populate('wood')
+        .sort([[sortBy, order]])
+        .limit(limit)
+        .exec((err, articles) => {
+            if (err) return res.status(400).send(err);
+            res.send(articles)
+        })
+
+})
+
+app.get('/api/menu/find_pos_entity', (req, res) => {
+    let sortBy = req.query.sortBy ? req.query.sortBy : "position";
+
+    let findArgs = {};
+    // console.log(req.query)
+    if (req.query.publish) { findArgs['publish'] = req.query.publish }
+    if (req.query.lg) { findArgs['language'] = req.query.lg }
+
+    Menu.
+        find(findArgs)
+        .sort([[sortBy]])
+        .exec((err, doc) => {
+            if (err) return res.status(400).send(err);
+            res.send(doc)
+        })
+
+})
+
+app.get('/api/slide/articles', (req, res) => {
+    let order = req.query.order ? req.query.order : "asc";
+    let sortBy = req.query.sortBy ? req.query.sortBy : "_id";
+    let limit = req.query.limit ? parseInt(req.query.limit) : 100;
+
+    let findArgs = {};
+    // console.log(req.query)
+    if (req.query.publish) { findArgs['publish'] = req.query.publish }
+
+
+    Slide.
+        find(findArgs)
+        .sort([[sortBy, order]])
+        .limit(limit)
+        .exec((err, articles) => {
+            if (err) return res.status(400).send(err);
+            res.send(articles)
+        })
+
+})
+
+app.get('/api/menu/show_entity', (req, res) => {
+
+    Desc.findOne({ language: req.query.lg, publish: true }, (err, doc) => {
+
+        if (err) return res.status(400).send(err);
+        res.status(200).send(doc)
+
+    })
+
+});
+
+// Here now
+
+app.get('/api/menu/get_entity', (req, res) => {
+
+    Desc.findOne({ language: req.query.lg }, (err, doc) => {
+
+        if (err) return res.status(400).send(err);
+        res.status(200).send(doc)
+
+    })
+
+});
+
+app.post('/api/desc/add_entity', (req, res) => {
+
+    // Find by Language
+    // if find is empty, save the new 
+
+    const desc = new Desc({ mainText: 'Some Example Description', language: req.query.lg, publish: true });
+
+    desc.save((error, doc) => {
+        if (error) return res.json({ error });
+        res.status(200).json({ doc })
+    })
+})
+
+app.post('/api/desc/update_entity', auth, admin, (req, res) => {
+
+    Desc.findOneAndUpdate(
+        { language: req.query.lg, _id: req.query.parent_id },
+        {
+            "$set": req.body
+        },
+        { new: true },
+        (err, doc) => {
+
+            // console.log(doc)
+            if (err) return res.json({ success: false, err });
+            return res.status(200).send({ doc })
+        }
+    )
+});
+
 
 // ---
 

@@ -37,6 +37,13 @@ export const GET_SITE_DATA = 'get_site_data';
 export const UPDATE_SITE_DATA = 'update_site_data';
 
 // CMS
+// Menu
+export const UPDATE_MENU_DETAIL = 'update_menu_detail';
+export const SHOW_MENU_DETAIL = 'show_menu_detail';
+export const GET_MENU_DETAIL = 'get_menu_detail';
+export const ADD_MENU = 'add_menu';
+export const CLEAR_MENU = 'clear_menu';
+export const POS_MENU = 'pos_menu';
 // - Logo
 export const GET_LOGO_DETAIL = 'get_logo_detail';
 export const CLEAR_LOGO_DETAIL = 'clear_logo_detail';

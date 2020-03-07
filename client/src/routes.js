@@ -23,6 +23,10 @@ import ManageSite from './components/User/Admin/manage_site';
 import AddFile from './components/User/Admin/add_file';
 
 // CMS Managment
+// Menu
+import AddMenu from './components/User/Admin/CMS/Menu/add_menu';
+import EditMenu from './components/User/Admin/CMS/Menu/edit_menu';
+import ListMenus from './components/User/Admin/CMS/Menu/list_menus';
 // Logo
 import EditLogo from './components/User/Admin/CMS/Logo/edit_logo';
 // Slider
@@ -48,6 +52,10 @@ const Routes = () => {
         <Route path="/admin/manage_categories" exact component={Auth(ManageCategories, true)} />
         <Route path="/admin/site_info" exact component={Auth(ManageSite, true)} />
         <Route path="/admin/add_file" exact component={Auth(AddFile, true)} />
+
+        <Route path="/admin/add_menu" exact component={Auth(AddMenu, true)} />
+        <Route path="/admin/edit_menu/:id" exact component={Auth(EditMenu, true)} />
+        <Route path="/admin/list_menus" exact component={Auth(ListMenus, true)} />
 
         <Route path="/admin/edit_logo" exact component={Auth(EditLogo, true)} />
 
