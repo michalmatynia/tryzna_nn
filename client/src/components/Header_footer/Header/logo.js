@@ -26,7 +26,9 @@ class Logo extends Component {
         }
 
     }
-
+componentDidMount(){
+    this.setState({ current_lg: this.props.user.siteLocalisation.value })
+}
     componentWillUnmount() {
         this.props.dispatch(act_clearDetail_Logo())
     }
