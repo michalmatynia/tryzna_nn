@@ -5,7 +5,8 @@ import UserLayout from '../../../../../hoc/user';
 import FormField from '../../../../utils/Form/formfield';
 import { update, generateData, isFormValid, resetFields } from '../../../../utils/Form/formActions';
 
-import { act_addMenu, act_positionMenu, act_clearMenu } from '../../../../../redux/actions/CMS/menu_actions';
+import { act_addMenu, act_clearMenu } from '../../../../../redux/actions/CMS/menu_actions';
+// act_positionMenu,
 
 class AddMenu extends Component {
 
@@ -62,7 +63,7 @@ class AddMenu extends Component {
 
                 },
                 validation: {
-                    required: true
+                    required: false
                 },
                 valid: false,
                 touched: false,
@@ -80,25 +81,7 @@ class AddMenu extends Component {
 
                 },
                 validation: {
-                    required: true
-                },
-                valid: false,
-                touched: false,
-                validationMessage: '',
-                showlabel: true
-
-            },
-            language: {
-                element: 'mylabel',
-                value: '',
-                config: {
-                    label: 'Language',
-                    name: 'language_input',
-                    type: 'text',
-                    placeholder: 'Language goes here',
-                },
-                validation: {
-                    required: true
+                    required: false
                 },
                 valid: false,
                 touched: false,
@@ -119,7 +102,46 @@ class AddMenu extends Component {
 
                 },
                 validation: {
-                    required: true
+                    required: false
+                },
+                valid: false,
+                touched: false,
+                validationMessage: '',
+                showlabel: true
+
+            },
+            language: {
+                element: 'mylabel',
+                value: '',
+                config: {
+                    label: 'Language',
+                    name: 'language_input',
+                    type: 'text',
+                    placeholder: 'Language goes here',
+                },
+                validation: {
+                    required: false
+                },
+                valid: false,
+                touched: false,
+                validationMessage: '',
+                showlabel: true
+
+            },
+            publish: {
+                element: 'select',
+                value: '',
+                config: {
+                    label: 'Publish',
+                    name: 'publish_input',
+                    options: [
+                        { key: true, value: 'yes' },
+                        { key: false, value: 'no' },
+                    ]
+
+                },
+                validation: {
+                    required: false
                 },
                 valid: false,
                 touched: false,
@@ -130,58 +152,71 @@ class AddMenu extends Component {
         }
     }
 
-    componentDidUpdate() {
-        if (Object.keys(this.state.formdata.position.config.options).length === 0) {
-            if (this.props.user.siteLocalisation !== undefined) {
+    componentDidUpdate(prevProps, prevState) {
+        console.log(this.state.formdata)
+        if (this.props.user.siteLocalisation !== undefined && prevState.formdata.language.value !== this.props.user.siteLocalisation.value) {
 
-                this.props.dispatch(act_positionMenu(this.props.user.siteLocalisation.value))
-                    .then(response => {
-                        let line = [];
-                        let totalPos = [];
-                        if (Object.keys(response.payload).length === 0) {
-                            totalPos = { key: 1, value: 1 }
-
-                            this.setState({
-                                formdata: {
-                                    position: {
-                                        config: {
-                                            options: totalPos
-                                        }
-                                    }
-                                }
-                            })
-
-                        } else {
-                            totalPos = { key: 1, value: 1 }
-                            response.payload.forEach((item, i) => {
-                                i = i + 1;
-                                line = { key: i, value: i }
-                                totalPos.push(line)
-
-                            })
-                        }
-
-                        // let listOfArgs = '';
-                        // let i = 0;
-
-                        // for (const [key, value] of Object.entries(response.payload)) {
-                        //     i++;                    
-                        //     if (value) {
-                        //         listOfArgs += key + '=' + value;
-                        //     }
-                        // }
-
-
-                        // ---------------------------
-
-                    })
-
+            const newFormData = {
+                ...this.state.formdata
             }
+            newFormData['language'].value = this.props.user.siteLocalisation.value;
+
+            this.setState({
+                formdata: newFormData
+            })
+
         }
+
+        // find position
+        
+        // if (Object.keys(this.state.formdata.position.config.options).length === 0) {
+        //     if (this.props.user.siteLocalisation !== undefined) {
+
+        //         this.props.dispatch(act_positionMenu(this.props.user.siteLocalisation.value))
+        //             .then(response => {
+        //                 let line = [];
+        //                 let totalPos = [];
+        //                 if (Object.keys(response.payload).length === 0) {
+        //                     totalPos = { key: 1, value: 1 }
+
+        //                     this.setState({
+        //                         formdata: {
+        //                             position: {
+        //                                 config: {
+        //                                     options: totalPos
+        //                                 }
+        //                             }
+        //                         }
+        //                     })
+
+        //                 } else {
+        //                     totalPos = { key: 1, value: 1 }
+        //                     response.payload.forEach((item, i) => {
+        //                         i = i + 1;
+        //                         line = { key: i, value: i }
+        //                         totalPos.push(line)
+
+        //                     })
+        //                 }
+
+        //             })
+
+        //     }
+        // }
     }
 
     componentDidMount() {
 
+        if (this.props.user.siteLocalisation !== undefined) {
+            const newFormData = {
+                ...this.state.formdata
+            }
+            newFormData['language'].value = this.props.user.siteLocalisation.value;
+
+            this.setState({
+                formdata: newFormData
+            })
+        }
     }
 
     updateFields = (newFormData) => {
@@ -222,7 +257,7 @@ class AddMenu extends Component {
         let formIsValid = isFormValid(this.state.formdata, 'menu');
 
         if (formIsValid) {
-            this.props.dispatch(act_addMenu(dataToSubmit))
+            this.props.dispatch(act_addMenu(this.props.user.siteLocalisation.value, dataToSubmit))
                 .then(() => {
                     if (this.props.menu.adminAddMenu.success) {
                         this.resetFieldHandler();
@@ -242,7 +277,10 @@ class AddMenu extends Component {
         return (
             <UserLayout>
                 <div>
-                    <h1>Add menu</h1>
+                    <h1><FormField
+                        id={'language'}
+                        formdata={this.state.formdata.language}
+                    />Add menu</h1>
                     <form onSubmit={(event) => this.SubmitForm(event)}>
                         <FormField
                             id={'name'}
@@ -261,14 +299,19 @@ class AddMenu extends Component {
                             change={(element) => this.updateForm(element)}
                         />
                         <FormField
+                            id={'public'}
+                            formdata={this.state.formdata.public}
+                            change={(element) => this.updateForm(element)}
+                        />
+                        <FormField
                             id={'position'}
                             formdata={this.state.formdata.position}
                             defaultValue={null}
                             change={(element) => this.updateForm(element)}
                         />
                         <FormField
-                            id={'public'}
-                            formdata={this.state.formdata.public}
+                            id={'publish'}
+                            formdata={this.state.formdata.publish}
                             change={(element) => this.updateForm(element)}
                         />
                         {this.state.formSuccess ?

@@ -23,12 +23,16 @@ const menuSchema = mongoose.Schema({
         type: Number,
         maxlength: 4
     },
+    public: {
+        required: true,
+        type: Boolean,
+    },
     language:{
         required: true,
         type: String,
         maxlength: 4
     },
-    public: {
+    publish: {
         required: true,
         type: Boolean,
     }

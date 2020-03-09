@@ -4,12 +4,22 @@ import {
     SHOW_MENU_DETAIL,
     ADD_MENU,
     CLEAR_MENU,
-    POS_MENU
+    POS_MENU,
+    GET_MENUS,
+    REMOVE_MENU_ITEM,
+    SET_PUBLISH_MENU
 
 } from '../../actions/types';
 
 export default function (state = {}, action) {
     switch (action.type) {
+        case GET_MENUS:
+            return { ...state, adminGetMenus: action.payload }
+        case REMOVE_MENU_ITEM:
+            return {
+                ...state,
+                adminGetMenus: action.payload,
+            }
         case SHOW_MENU_DETAIL:
             return { ...state, menuDetail: action.payload }
         case GET_MENU_DETAIL:
@@ -26,6 +36,8 @@ export default function (state = {}, action) {
             }
         case POS_MENU:
             return { ...state, menuDetail: action.payload }
+        case SET_PUBLISH_MENU:
+            return { ...state, adminGetMenus: action.payload }
         default:
             return state;
     }

@@ -44,6 +44,10 @@ export const GET_MENU_DETAIL = 'get_menu_detail';
 export const ADD_MENU = 'add_menu';
 export const CLEAR_MENU = 'clear_menu';
 export const POS_MENU = 'pos_menu';
+export const GET_MENUS = 'get_menus';
+export const REMOVE_MENU_ITEM = 'remove_menu_item';
+export const SET_PUBLISH_MENU = 'set_publish_menu';
+
 // - Logo
 export const GET_LOGO_DETAIL = 'get_logo_detail';
 export const CLEAR_LOGO_DETAIL = 'clear_logo_detail';

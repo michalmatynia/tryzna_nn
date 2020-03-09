@@ -1071,16 +1071,16 @@ app.get('/api/menu/get_entity', (req, res) => {
 
 });
 
-app.post('/api/desc/add_entity', (req, res) => {
+app.post('/api/menu/add_entity', (req, res) => {
 
-    // Find by Language
-    // if find is empty, save the new 
+    const menu = new Menu(req.body);
 
-    const desc = new Desc({ mainText: 'Some Example Description', language: req.query.lg, publish: true });
-
-    desc.save((error, doc) => {
-        if (error) return res.json({ error });
-        res.status(200).json({ doc })
+    menu.save((err, doc) => {
+        if (err) return res.json({ success: false, err });
+        res.status(200).json({
+            success: true,
+            article: doc
+        })
     })
 })
 
