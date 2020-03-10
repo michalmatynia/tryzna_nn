@@ -1101,51 +1101,53 @@ app.post('/api/menu/add_entity', (req, res) => {
     //         return res.status(200).send(docs)
     //     })
 
-
-
-
-    let findArgs = {};
-
-    // let limit = req.query.limit ? parseInt(req.query.limit) : 100;
-    let sortBy = req.query.sortBy ? req.query.sortBy : "position";
-
-    // console.log(req.query)
-    if (req.query.publish) { findArgs['publish'] = req.query.publish }
-    if (req.query.lg) { findArgs['language'] = req.query.lg }
-
-    Menu.
-        find(findArgs)
-        .sort([[sortBy]])
-        .exec((err, doc) => {
-            // if (err) return res.status(400).send(err);
-            // res.send(doc)
-
-            console.log(doc)
-
-        })
-
-    // Logo.updateMany(
-
-    //     { _id: {
-    //         $exists: true} },
+    // Product.updateOne(
+    //     { _id: item.id },
     //     {
-    //         "$push":
-    //             { "images": { "public_id": result.public_id, "url": result.url } }
-
+    //         $inc: {
+    //             "sold": item.quantity
+    //         }
     //     },
+    //     { new: false },
 
-    //     { new: true },
-    //     (err, doc) => {
-    //         // console.log(err)
-    //         res.send(
-    //             {
-    //                 public_id: result.public_id,
-    //                 url: result.url
-    //             }
-    //         )
-    //     })
 
     menu.save((err, doc) => {
+
+        let findArgs = {};
+
+        // console.log(req.query)
+        if (req.query.publish) { findArgs['publish'] = req.query.publish }
+        if (req.query.lg) { findArgs['language'] = req.query.lg }
+
+        Menu.
+            find(findArgs)
+            .sort({ position: 1, createdAt: 1 })
+            .exec((err2, doc2) => {
+                // if (err2) return res.status(400).send(err2);
+                // res.send(doc)
+                if (doc2.length > 1) {
+
+                    let i = 0;
+                    doc2.map(item => {
+                        i = i + 1;
+                        if (item._id.toString() === menu._id.toString() && item.position === menu.position) {
+
+                            Menu.updateOne(
+                                { _id: item.id },
+                                {
+                                    $inc: {
+                                        "position": 1
+                                    }
+                                }, { new: true }
+                            )
+
+                            console.log(i)
+                            console.log(item)
+                        }
+                    })
+                }
+            })
+
         if (err) return res.json({ success: false, err });
         res.status(200).json({
             success: true,
