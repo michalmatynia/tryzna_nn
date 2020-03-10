@@ -176,12 +176,6 @@ class AddMenu extends Component {
 
         }
 
-
-            console.log(prevProps)
-            console.log(this.props)
-            console.log(prevState)
-            console.log(this.state)
-
         if ((
             this.props.menu.adminGetMenus === undefined
             && this.props.user.siteLocalisation !== undefined
@@ -210,8 +204,7 @@ class AddMenu extends Component {
                 && prevState.formdata.language.value !== ''
                 && prevState.formdata.position.value === ''
             )) {
-            // console.log('dispatch listMenus')
-            // console.log(prevProps.user.siteLocalisation)
+
 
             this.props.dispatch(act_listMenus(this.props.user.siteLocalisation.value))
                 .then(response => {

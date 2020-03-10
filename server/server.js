@@ -927,24 +927,27 @@ app.post('/api/logo/update_entity', auth, admin, (req, res) => {
 
 app.get('/api/logo/removeimage', auth, admin, (req, res) => {
 
-        Logo.updateMany(
+    Logo.updateMany(
 
-            { _id: {
-                $exists: true} },
-            {
-                "$pull":
-                    { "images": { "public_id": req.query.image_id } }
+        {
+            _id: {
+                $exists: true
+            }
+        },
+        {
+            "$pull":
+                { "images": { "public_id": req.query.image_id } }
 
-            },
-            { new: true },
-            (err, doc) => {
-                cloudinary.uploader.destroy(req.query.image_id, (error) => {
-                    if (error) return res.json({ success: false, error });
-                    res.status(200).send('ok');
-                })
-
+        },
+        { new: true },
+        (err, doc) => {
+            cloudinary.uploader.destroy(req.query.image_id, (error) => {
+                if (error) return res.json({ success: false, error });
+                res.status(200).send('ok');
             })
-    
+
+        })
+
 
 })
 
@@ -956,8 +959,11 @@ app.post('/api/logo/uploadimage', auth, admin, formidable(), (req, res) => {
 
             Logo.updateMany(
 
-                { _id: {
-                    $exists: true} },
+                {
+                    _id: {
+                        $exists: true
+                    }
+                },
                 {
                     "$push":
                         { "images": { "public_id": result.public_id, "url": result.url } }
@@ -976,7 +982,7 @@ app.post('/api/logo/uploadimage', auth, admin, formidable(), (req, res) => {
                 })
 
         }
-         else {
+        else {
             return res.status(400).send(err);
         }
     }, {
@@ -1010,6 +1016,8 @@ app.get('/api/product/articles', (req, res) => {
 
 app.get('/api/menu/list_entities', (req, res) => {
     let sortBy = req.query.sortBy ? req.query.sortBy : "position";
+
+
 
     let findArgs = {};
     // console.log(req.query)
@@ -1058,7 +1066,6 @@ app.get('/api/menu/show_entity', (req, res) => {
 
 });
 
-// Here now
 
 app.get('/api/menu/get_entity', (req, res) => {
 
@@ -1074,6 +1081,69 @@ app.get('/api/menu/get_entity', (req, res) => {
 app.post('/api/menu/add_entity', (req, res) => {
 
     const menu = new Menu(req.body);
+
+    // console.log(req.body)
+    // console.log(menu._id)
+
+
+
+    // if (type === "array") {
+    //     let ids = req.query._id.split(',');
+    //     items = [];
+    //     items = ids.map(item => {
+    //         return mongoose.Types.ObjectId(item)
+    //     })
+    // }
+
+    // Slide.
+    //     find({ '_id': { $in: items } })
+    //     .exec((err, docs) => {
+    //         return res.status(200).send(docs)
+    //     })
+
+
+
+
+    let findArgs = {};
+
+    // let limit = req.query.limit ? parseInt(req.query.limit) : 100;
+    let sortBy = req.query.sortBy ? req.query.sortBy : "position";
+
+    // console.log(req.query)
+    if (req.query.publish) { findArgs['publish'] = req.query.publish }
+    if (req.query.lg) { findArgs['language'] = req.query.lg }
+
+    Menu.
+        find(findArgs)
+        .sort([[sortBy]])
+        .exec((err, doc) => {
+            // if (err) return res.status(400).send(err);
+            // res.send(doc)
+
+            console.log(doc)
+
+        })
+
+    // Logo.updateMany(
+
+    //     { _id: {
+    //         $exists: true} },
+    //     {
+    //         "$push":
+    //             { "images": { "public_id": result.public_id, "url": result.url } }
+
+    //     },
+
+    //     { new: true },
+    //     (err, doc) => {
+    //         // console.log(err)
+    //         res.send(
+    //             {
+    //                 public_id: result.public_id,
+    //                 url: result.url
+    //             }
+    //         )
+    //     })
 
     menu.save((err, doc) => {
         if (err) return res.json({ success: false, err });
