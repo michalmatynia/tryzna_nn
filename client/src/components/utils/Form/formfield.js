@@ -22,7 +22,6 @@ const FormField = ({ formdata, change, id }) => {
     }
 
     const renderTemplate = () => {
-
         let formTemplate = null;
 
         switch (formdata.element) {

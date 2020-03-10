@@ -4,7 +4,7 @@ import {
     SHOW_MENU_DETAIL,
     ADD_MENU,
     CLEAR_MENU,
-    POS_MENU,
+    LIST_MENUS,
     GET_MENUS,
     REMOVE_MENU_ITEM,
     SET_PUBLISH_MENU
@@ -34,8 +34,9 @@ export default function (state = {}, action) {
             return {
                 ...state, adminAddMenu: action.payload
             }
-        case POS_MENU:
-            return { ...state, menuDetail: action.payload }
+            
+        case LIST_MENUS:
+            return { ...state, adminGetMenus: action.payload }
         case SET_PUBLISH_MENU:
             return { ...state, adminGetMenus: action.payload }
         default:

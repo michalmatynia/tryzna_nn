@@ -1008,7 +1008,7 @@ app.get('/api/product/articles', (req, res) => {
 
 })
 
-app.get('/api/menu/find_pos_entity', (req, res) => {
+app.get('/api/menu/list_entities', (req, res) => {
     let sortBy = req.query.sortBy ? req.query.sortBy : "position";
 
     let findArgs = {};
@@ -1079,7 +1079,7 @@ app.post('/api/menu/add_entity', (req, res) => {
         if (err) return res.json({ success: false, err });
         res.status(200).json({
             success: true,
-            article: doc
+            entity: doc
         })
     })
 })

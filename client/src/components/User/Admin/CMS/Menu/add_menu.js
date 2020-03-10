@@ -5,8 +5,7 @@ import UserLayout from '../../../../../hoc/user';
 import FormField from '../../../../utils/Form/formfield';
 import { update, generateData, isFormValid, resetFields } from '../../../../utils/Form/formActions';
 
-import { act_addMenu, act_clearMenu } from '../../../../../redux/actions/CMS/menu_actions';
-// act_positionMenu,
+import { act_addMenu, act_positionMenu, act_clearMenu } from '../../../../../redux/actions/CMS/menu_actions';
 
 class AddMenu extends Component {
 
@@ -72,7 +71,7 @@ class AddMenu extends Component {
 
             },
             position: {
-                element: 'selectdefault',
+                element: 'select',
                 value: '',
                 config: {
                     label: 'Position',
@@ -81,7 +80,7 @@ class AddMenu extends Component {
 
                 },
                 validation: {
-                    required: false
+                    required: true
                 },
                 valid: false,
                 touched: false,
@@ -122,7 +121,7 @@ class AddMenu extends Component {
                 validation: {
                     required: false
                 },
-                valid: false,
+                valid: true,
                 touched: false,
                 validationMessage: '',
                 showlabel: true
@@ -153,9 +152,18 @@ class AddMenu extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        console.log(this.state.formdata)
-        if (this.props.user.siteLocalisation !== undefined && prevState.formdata.language.value !== this.props.user.siteLocalisation.value) {
+        // Set Language
+        if ((
+            this.props.user.siteLocalisation !== undefined
+            && !this.state.formdata.language.value
+        ) || (
+                this.props.user.siteLocalisation !== undefined
+                && prevProps.user.siteLocalisation !== undefined
+                && this.state.formdata.language.value
+                && prevProps.user.siteLocalisation.value !== this.props.user.siteLocalisation.value
+            )) {
 
+            console.log('set language state')
             const newFormData = {
                 ...this.state.formdata
             }
@@ -165,58 +173,99 @@ class AddMenu extends Component {
                 formdata: newFormData
             })
 
+
+        }
+
+        if ((
+            this.props.menu.adminGetMenus === undefined
+            && this.props.user.siteLocalisation !== undefined
+            && prevProps.user.siteLocalisation !== undefined
+            && this.props.user.siteLocalisation.value === prevProps.user.siteLocalisation.value
+            && this.state.formdata.language.value !== ''
+            && this.state.formdata.position.value === ''
+            )) {
+            console.log(this.props)
         }
 
         // find position
-        
-        // if (Object.keys(this.state.formdata.position.config.options).length === 0) {
-        //     if (this.props.user.siteLocalisation !== undefined) {
+        if ((
+            !this.state.formdata.position.value
+            && this.state.formdata.language.value
+            // && this.state.formdata.position.config.options.length === 0
+            && this.props.user.siteLocalisation !== undefined
+            && this.props.user.siteLocalisation.value === prevState.formdata.language.value
+            && this.props.menu.adminGetMenus === undefined
+            // && this.props.menu.adminGetMenus.length === this.state.formdata.position.value
+        )
+            || (this.state.formdata.position.value
+                && this.state.formdata.language.value !== prevState.formdata.language.value
+                && this.state.formdata.language.value === prevProps.user.siteLocalisation.value
+                && this.state.formdata.language.value !== ''
+                && prevState.formdata.language.value !== this.props.user.siteLocalisation.value
+                // && this.props.menu.adminGetMenus === undefined
+                // && prevProps.user.siteLocalisation.value === this.props.user.siteLocalisation.value 
+            )
+        ) {
 
-        //         this.props.dispatch(act_positionMenu(this.props.user.siteLocalisation.value))
-        //             .then(response => {
-        //                 let line = [];
-        //                 let totalPos = [];
-        //                 if (Object.keys(response.payload).length === 0) {
-        //                     totalPos = { key: 1, value: 1 }
+            //  console.log(this.state.formdata.position.config.options)
 
-        //                     this.setState({
-        //                         formdata: {
-        //                             position: {
-        //                                 config: {
-        //                                     options: totalPos
-        //                                 }
-        //                             }
-        //                         }
-        //                     })
+            // if (Object.keys(this.props.menu.adminGetMenus).length === this.state.formdata.position.value) {
+            //     console.log('inside')
+            // }
 
-        //                 } else {
-        //                     totalPos = { key: 1, value: 1 }
-        //                     response.payload.forEach((item, i) => {
-        //                         i = i + 1;
-        //                         line = { key: i, value: i }
-        //                         totalPos.push(line)
+            // console.log(prevProps)
+            // console.log(this.props)
+            // console.log(this.state)
 
-        //                     })
-        //                 }
+            // console.log(prevState)
 
-        //             })
+            this.props.dispatch(act_positionMenu(this.props.user.siteLocalisation.value))
+                .then(response => {
+                    console.log('dispatch actionsMenu')
+                    let line = [];
+                    let totalPos = [];
+                    if (Object.keys(response.payload).length !== 0) {
 
-        //     }
-        // }
+                        let i = 0
+                        response.payload.forEach((item, i) => {
+                            i = i + 1;
+                            line = { key: i, value: i }
+                            totalPos.push(line)
+
+                        })
+                        i = totalPos.length + 1;
+                        totalPos.push({ key: i, value: i })
+
+                        // console.log(totalPos.length)
+                        const newFormData = {
+                            ...this.state.formdata
+                        }
+                        newFormData['position'].config.options = totalPos;
+                        newFormData['position'].value = totalPos.length;
+                        this.setState({
+                            formdata: newFormData
+                        })
+                    }
+                })
+
+        }
+
+
+
     }
 
     componentDidMount() {
 
-        if (this.props.user.siteLocalisation !== undefined) {
-            const newFormData = {
-                ...this.state.formdata
-            }
-            newFormData['language'].value = this.props.user.siteLocalisation.value;
+        // if (this.props.user.siteLocalisation !== undefined) {
+        //     const newFormData = {
+        //         ...this.state.formdata
+        //     }
+        //     newFormData['language'].value = this.props.user.siteLocalisation.value;
 
-            this.setState({
-                formdata: newFormData
-            })
-        }
+        //     this.setState({
+        //         formdata: newFormData
+        //     })
+        // }
     }
 
     updateFields = (newFormData) => {
@@ -258,7 +307,9 @@ class AddMenu extends Component {
 
         if (formIsValid) {
             this.props.dispatch(act_addMenu(this.props.user.siteLocalisation.value, dataToSubmit))
-                .then(() => {
+                .then((response) => {
+                    console.log(response)
+
                     if (this.props.menu.adminAddMenu.success) {
                         this.resetFieldHandler();
                     } else {

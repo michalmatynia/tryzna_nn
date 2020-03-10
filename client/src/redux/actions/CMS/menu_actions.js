@@ -5,7 +5,7 @@ import {
     SHOW_MENU_DETAIL,
     ADD_MENU,
     CLEAR_MENU,
-    POS_MENU,
+    LIST_MENUS,
     GET_MENUS,
     REMOVE_MENU_ITEM,
     SET_PUBLISH_MENU
@@ -16,11 +16,11 @@ import { MENU_SERVER } from '../../../components/utils/misc';
 
 export function act_positionMenu(lg) {
 
-    const request = axios.get(`${MENU_SERVER}/find_pos_entity?lg=${lg}&publish=true`)
+    const request = axios.get(`${MENU_SERVER}/list_entities?lg=${lg}&publish=true`)
         .then(response => response.data);
 
     return {
-        type: POS_MENU,
+        type: LIST_MENUS,
         payload: request
     }
 }
@@ -91,10 +91,7 @@ export function act_setPublishMenu(id, checked) {
 export function act_addMenu(lg, dataToSubmit) {
 
     const request = axios.post(`${MENU_SERVER}/add_entity?lg=${lg}`, dataToSubmit)
-        .then(response => {
-            // response.data
-            console.log(response)
-        } );
+        .then(response => response.data);
 
     return {
         type: ADD_MENU,
