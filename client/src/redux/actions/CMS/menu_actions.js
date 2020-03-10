@@ -14,7 +14,7 @@ import {
 
 import { MENU_SERVER } from '../../../components/utils/misc';
 
-export function act_positionMenu(lg) {
+export function act_listMenus(lg) {
 
     const request = axios.get(`${MENU_SERVER}/list_entities?lg=${lg}&publish=true`)
         .then(response => response.data);

@@ -107,18 +107,34 @@ class EditLogo extends Component {
         }
     }
     componentDidMount() {
+        if (
+            this.props.user.siteLocalisation !== undefined
+            ) {
+            const newFormData = {
+                ...this.state.formdata
+            }
+            newFormData['language'].value = this.props.user.siteLocalisation.value;
 
-        if (this.props.user.siteLocalisation && this.props.logo !== undefined) {
-
-            this.props.dispatch(act_getDetail_Logo(this.props.user.siteLocalisation.value))
-                .then((response) => {
-
-                    const newFormData = populateFields(this.state.formdata, response.payload);
-                    this.setState({
-                        formdata: newFormData
-                    });
-                })
+            this.setState({
+                formdata: newFormData
+            })
         }
+
+
+        // if (
+        //     this.props.user.siteLocalisation !== undefined
+        //     && this.props.logo !== undefined
+        //     ) {
+
+        //     this.props.dispatch(act_getDetail_Logo(this.props.user.siteLocalisation.value))
+        //         .then((response) => {
+
+        //             const newFormData = populateFields(this.state.formdata, response.payload);
+        //             this.setState({
+        //                 formdata: newFormData
+        //             });
+        //         })
+        // }
     }
 
     updateForm = (element) => {
