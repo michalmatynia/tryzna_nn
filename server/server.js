@@ -1082,67 +1082,41 @@ app.post('/api/menu/add_entity', (req, res) => {
 
     const menu = new Menu(req.body);
 
-    // console.log(req.body)
-    // console.log(menu._id)
-
-
-
-    // if (type === "array") {
-    //     let ids = req.query._id.split(',');
-    //     items = [];
-    //     items = ids.map(item => {
-    //         return mongoose.Types.ObjectId(item)
-    //     })
-    // }
-
-    // Slide.
-    //     find({ '_id': { $in: items } })
-    //     .exec((err, docs) => {
-    //         return res.status(200).send(docs)
-    //     })
-
-    // Product.updateOne(
-    //     { _id: item.id },
-    //     {
-    //         $inc: {
-    //             "sold": item.quantity
-    //         }
-    //     },
-    //     { new: false },
-
-
     menu.save((err, doc) => {
 
         let findArgs = {};
 
-        // console.log(req.query)
         if (req.query.publish) { findArgs['publish'] = req.query.publish }
         if (req.query.lg) { findArgs['language'] = req.query.lg }
 
         Menu.
             find(findArgs)
-            .sort({ position: 1, createdAt: 1 })
+            .sort({ position: 1, createdAt: -1 })
             .exec((err2, doc2) => {
-                // if (err2) return res.status(400).send(err2);
-                // res.send(doc)
+
                 if (doc2.length > 1) {
 
                     let i = 0;
+                    let found = false;
                     doc2.map(item => {
                         i = i + 1;
-                        if (item._id.toString() === menu._id.toString() && item.position === menu.position) {
 
-                            Menu.updateOne(
-                                { _id: item.id },
+                        if (item._id.toString() === menu._id.toString() && item.position === menu.position && found === false) {
+
+                            found = true
+
+                        } else if (found === true) {
+
+                            Menu.findOneAndUpdate(
+                                { _id: mongoose.Types.ObjectId(item._id) },
                                 {
-                                    $inc: {
-                                        "position": 1
+                                    "$set": {
+                                        position: parseInt(i)
                                     }
-                                }, { new: true }
+                                }, { new: true },
+                                (err3, doc3) => {
+                                }
                             )
-
-                            console.log(i)
-                            console.log(item)
                         }
                     })
                 }

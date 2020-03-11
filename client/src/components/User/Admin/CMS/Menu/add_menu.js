@@ -25,7 +25,7 @@ class AddMenu extends Component {
                 validation: {
                     required: false
                 },
-                valid: false,
+                valid: true,
                 touched: false,
                 validationMessage: '',
                 showlabel: false
@@ -43,7 +43,7 @@ class AddMenu extends Component {
                 validation: {
                     required: false
                 },
-                valid: false,
+                valid: true,
                 touched: false,
                 validationMessage: '',
                 showlabel: false
@@ -64,7 +64,7 @@ class AddMenu extends Component {
                 validation: {
                     required: false
                 },
-                valid: false,
+                valid: true,
                 touched: false,
                 validationMessage: '',
                 showlabel: true
@@ -103,7 +103,7 @@ class AddMenu extends Component {
                 validation: {
                     required: false
                 },
-                valid: false,
+                valid: true,
                 touched: false,
                 validationMessage: '',
                 showlabel: true
