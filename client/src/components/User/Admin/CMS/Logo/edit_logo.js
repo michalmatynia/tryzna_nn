@@ -90,7 +90,12 @@ class EditLogo extends Component {
 
     componentDidUpdate(prevProps) {
 
-        if (this.props.user.siteLocalisation !== undefined && prevProps.user.siteLocalisation !== undefined && this.props.user.siteLocalisation.value !== undefined && this.props.logo !== undefined) {
+        if (
+            this.props.user.siteLocalisation !== undefined 
+            && prevProps.user.siteLocalisation !== undefined 
+            && this.props.user.siteLocalisation.value !== undefined 
+            && this.props.logo !== undefined
+            ) {
 
             if (prevProps.user.siteLocalisation.value !== this.props.user.siteLocalisation.value) {
 
@@ -109,32 +114,17 @@ class EditLogo extends Component {
     componentDidMount() {
         if (
             this.props.user.siteLocalisation !== undefined
-            ) {
-            const newFormData = {
-                ...this.state.formdata
-            }
-            newFormData['language'].value = this.props.user.siteLocalisation.value;
-
-            this.setState({
-                formdata: newFormData
+            && this.props.user.siteLocalisation.value !== undefined
+        ) {
+            this.props.dispatch(act_getDetail_Logo(this.props.user.siteLocalisation.value))
+            .then((response) => {
+                console.log(response)
+                const newFormData = populateFields(this.state.formdata, this.props.logo.logoDetail);
+                this.setState({
+                    formdata: newFormData
+                });
             })
         }
-
-
-        // if (
-        //     this.props.user.siteLocalisation !== undefined
-        //     && this.props.logo !== undefined
-        //     ) {
-
-        //     this.props.dispatch(act_getDetail_Logo(this.props.user.siteLocalisation.value))
-        //         .then((response) => {
-
-        //             const newFormData = populateFields(this.state.formdata, response.payload);
-        //             this.setState({
-        //                 formdata: newFormData
-        //             });
-        //         })
-        // }
     }
 
     updateForm = (element) => {

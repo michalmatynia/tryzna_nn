@@ -2,74 +2,43 @@ import React from 'react';
 import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
-const ListSlidesBlock = ({ list, removeItem, handlePublish }) => {
+const ListMenuBlock = ({ list, removeItem, handlePublish }) => {
 
-    // const [publish, setPublish] = useState({
-    //     checkedA: true,
-    //     checkedB: true,
-    // })
-
-
-    // const handleChange = name => event => {
-
-    //     setPublish({ ...publish, [name]: event.target.checked });
-    // };
-
-    const renderSlideImage = (list) => {
-        // console.log(list)
-        if (list.images.length > 0) {
-            return list.images[0].url
-        } else {
-            return '/images/image_not_availble.png'
-
-        }
-    }
 
     const renderItems = () => (
 
-
         list ?
-            list.map((slide, i) => (
-                <div className="admin_list_block" key={slide._id}>
-                    <div className="item">
-                        <div
-                            className="image"
-                            style={{ background: `url(${renderSlideImage(slide)}) no-repeat` }}
-                        >
-
-                        </div>
-                    </div>
+            list.map((item, i) => (
+                <div className="admin_list_block" key={item._id}>
                     <div className="item">
                         <div>
-                            {slide.lineOne}
+                            {item.position}
                         </div>
                         <div>
-                            {slide.lineTwo}
+                            {item.name}
                         </div>
+                        <div>{item.level}</div>
                     </div>
                     <div className="item btn">
                         <FormControlLabel
                             control={
                                 <Switch
-                                    checked={slide.publish}
-                                    // onChange={handleChange('checkedA')}
-                                    onClick={() => handlePublish(slide._id, slide.publish)}
-                                    // value="checkedA"
-                                    // inputProps={{ 'aria-label': 'secondary checkbox' }}
+                                    checked={item.publish}
+                                    onClick={() => handlePublish(item._id, item.publish)}
                                     color="primary"
                                 />
                             }
-                            label={slide.publish ? "On" : "Off"}
+                            label={item.publish ? "On" : "Off"}
                             size="small"
                             labelPlacement="top"
                         />
-                        <a href={`/admin/edit_slide/${slide._id}`}>
+                        <a href={`/admin/edit_menu/${item._id}`}>
                             <div className="list_btn list_btn_edit"
                             >
                                 Edit
                 </div></a>
                         <div className="list_btn list_btn_remove"
-                            onClick={() => removeItem(slide._id)} >
+                            onClick={() => removeItem(item._id)} >
                             Remove
                 </div>
                     </div>
@@ -86,4 +55,4 @@ const ListSlidesBlock = ({ list, removeItem, handlePublish }) => {
     );
 }
 
-export default ListSlidesBlock;
+export default ListMenuBlock;

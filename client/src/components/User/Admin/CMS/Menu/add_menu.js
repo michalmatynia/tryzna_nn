@@ -28,9 +28,9 @@ class AddMenu extends Component {
                     placeholder: 'Enter text for Name'
                 },
                 validation: {
-                    required: false
+                    required: true
                 },
-                valid: true,
+                valid: false,
                 touched: false,
                 validationMessage: '',
                 showlabel: false
@@ -46,9 +46,9 @@ class AddMenu extends Component {
                     placeholder: 'Enter text for Link'
                 },
                 validation: {
-                    required: false
+                    required: true
                 },
-                valid: true,
+                valid: false,
                 touched: false,
                 validationMessage: '',
                 showlabel: false
@@ -61,15 +61,15 @@ class AddMenu extends Component {
                     label: 'Level',
                     name: 'level_input',
                     options: [
-                        { key: true, value: 'top' },
-                        { key: false, value: 'bottom' },
+                        { key: 'top', value: 'top' },
+                        { key: 'bottom', value: 'bottom' },
                     ]
 
                 },
                 validation: {
-                    required: false
+                    required: true
                 },
-                valid: true,
+                valid: false,
                 touched: false,
                 validationMessage: '',
                 showlabel: true
@@ -85,9 +85,9 @@ class AddMenu extends Component {
 
                 },
                 validation: {
-                    required: true
+                    required: false
                 },
-                valid: false,
+                valid: true,
                 touched: false,
                 validationMessage: '',
                 showlabel: true
@@ -106,9 +106,9 @@ class AddMenu extends Component {
 
                 },
                 validation: {
-                    required: false
+                    required: true
                 },
-                valid: true,
+                valid: false,
                 touched: false,
                 validationMessage: '',
                 showlabel: true
@@ -145,7 +145,7 @@ class AddMenu extends Component {
 
                 },
                 validation: {
-                    required: false
+                    required: true
                 },
                 valid: false,
                 touched: false,
@@ -261,6 +261,11 @@ class AddMenu extends Component {
         }
     }
 
+    componentWillUnmount() {
+        this.props.dispatch(act_clearMenu('menu'))
+
+    }
+
     updateFields = (newFormData) => {
         this.setState({
             formdata: newFormData
@@ -301,7 +306,7 @@ class AddMenu extends Component {
         if (formIsValid) {
             this.props.dispatch(act_addMenu(this.props.user.siteLocalisation.value,  this.state.get_args, dataToSubmit))
                 .then((response) => {
-                    console.log(response)
+                   //  console.log(response)
 
                     if (this.props.menu.adminAddMenu.success) {
                         this.resetFieldHandler();

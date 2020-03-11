@@ -12,12 +12,6 @@ class ListMenus extends Component {
             {}
     }
     componentDidUpdate(prevProps, prevState) {
-
-        // let args = []
-        // console.log(this.state.get_args.language)
-        // console.log(typeof(this.state.get_args))
-        //  console.log('gregerg')
-        // Set Language
         if ((
             this.props.user.siteLocalisation !== undefined
             && prevProps.user.siteLocalisation === undefined
@@ -30,44 +24,19 @@ class ListMenus extends Component {
 
             )) {
 
-            //  if (this.state.get_args.language) {} else {}
-
-            // const newData = {
-            //     ...this.state.get_args
-            // }
-            // console.log(newData)
-            // newData['language'] = this.props.user.siteLocalisation.value;
-            // console.log(newData)
-            // this.setState({
-            //     get_args: newData
-            // })
-            // args = this.state.get_args
             this.props.dispatch(act_listMenus(this.props.user.siteLocalisation.value, this.state.get_args))
-                .then(response => {
-                    console.log(response)
-                });
 
 
         }
 
-        // else if ((
-        //     this.props.user.siteLocalisation !== undefined
-        //     && this.state.get_args.language !== undefined
-        //     && this.state.get_args.language
-        //     && prevState.state.get_args.language !== this.state.get_args.language
-        // ) || (
-        //     this.props.user.siteLocalisation !== undefined
-        //     && this.state.get_args.language
-        //     && prevProps.user.siteLocalisation.value !== this.props.user.siteLocalisation.value
-        //     )) {
+    }
 
-        //     // args = this.state.get_args
-        //     this.props.dispatch(act_listMenus(this.props.user.siteLocalisation.value, this.state.get_args))
-        //     .then(response => {
-        //         console.log(response)
-        //     });
-        // }
-
+    componentDidMount(){
+        if (
+            this.props.user.siteLocalisation !== undefined
+        ) {
+            this.props.dispatch(act_listMenus(this.props.user.siteLocalisation.value, this.state.get_args))
+        }
     }
 
     removeEntityFromDb = (id) => {
@@ -92,7 +61,7 @@ class ListMenus extends Component {
                     <div className="user_cart">
                         <ListMenusBlock
                             type="cart"
-                            list={this.props.menu.adminGetSlides}
+                            list={this.props.menu.adminGetMenus}
                             removeItem={(id) => this.removeEntityFromDb(id)}
                             handlePublish={(id, checked) => this.handlePublish(id, checked)}
                         />
