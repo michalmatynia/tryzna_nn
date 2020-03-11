@@ -14,10 +14,20 @@ import {
 
 import { MENU_SERVER } from '../../../components/utils/misc';
 
-export function act_listMenus(lg) {
+export function act_listMenus(lg, args) {
 
-    const request = axios.get(`${MENU_SERVER}/list_entities?lg=${lg}&publish=true`)
-        .then(response => response.data);
+    let listOfArgs = '';
+
+    for (const [key, value] of Object.entries(args)) {
+
+       listOfArgs += '&'; 
+        if (value) {
+            listOfArgs += key + '=' + value;
+        }
+    }
+
+    const request = axios.get(`${MENU_SERVER}/list_entities?language=${lg}${listOfArgs}`)
+        .then(response => response.data)
 
     return {
         type: LIST_MENUS,
@@ -37,6 +47,28 @@ export function act_clearMenu(currentType) {
     }
 }
 
+export function act_addMenu(lg, args, dataToSubmit) {
+
+    let listOfArgs = '';
+
+    for (const [key, value] of Object.entries(args)) {
+
+       listOfArgs += '&'; 
+        if (value) {
+            listOfArgs += key + '=' + value;
+        }
+    }
+
+    const request = axios.post(`${MENU_SERVER}/add_entity?language=${lg}${listOfArgs}`, dataToSubmit)
+        .then(response => response.data);
+
+    return {
+        type: ADD_MENU,
+        payload: request
+    }
+}
+
+// --------------------- BELOW NOT DEVELOPED YET
 // DEVELOPING
 
 export function act_removeMenuItem(id) {
@@ -86,18 +118,7 @@ export function act_setPublishMenu(id, checked) {
     }
 }
 
-// --------------------- BELOW NOT DEVELOPED YET
 
-export function act_addMenu(lg, dataToSubmit) {
-
-    const request = axios.post(`${MENU_SERVER}/add_entity?lg=${lg}`, dataToSubmit)
-        .then(response => response.data);
-
-    return {
-        type: ADD_MENU,
-        payload: request
-    }
-}
 
 export function act_getDetail_Menu(lg) {
 

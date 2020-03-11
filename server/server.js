@@ -997,42 +997,92 @@ app.post('/api/logo/uploadimage', auth, admin, formidable(), (req, res) => {
 //          Menu
 //=======================
 
-app.get('/api/product/articles', (req, res) => {
-    let order = req.query.order ? req.query.order : "asc";
-    let sortBy = req.query.sortBy ? req.query.sortBy : "_id";
-    let limit = req.query.limit ? parseInt(req.query.limit) : 100;
-
-    Product.find()
-        .populate('brand')
-        .populate('wood')
-        .sort([[sortBy, order]])
-        .limit(limit)
-        .exec((err, articles) => {
-            if (err) return res.status(400).send(err);
-            res.send(articles)
-        })
-
-})
-
 app.get('/api/menu/list_entities', (req, res) => {
     let sortBy = req.query.sortBy ? req.query.sortBy : "position";
+    let limit = req.query.limit ? parseInt(req.query.limit) : 1000;
 
+    let allArgs = {};
 
+    for (const [key, value] of Object.entries(req.query)) {
 
-    let findArgs = {};
-    // console.log(req.query)
-    if (req.query.publish) { findArgs['publish'] = req.query.publish }
-    if (req.query.lg) { findArgs['language'] = req.query.lg }
+        if (key !== 'sortBy') {
+            allArgs[key] = value
+        }
+    }
 
     Menu.
-        find(findArgs)
+        find(allArgs)
         .sort([[sortBy]])
+        .limit(limit)
         .exec((err, doc) => {
+
             if (err) return res.status(400).send(err);
             res.send(doc)
         })
 
 })
+
+app.post('/api/menu/add_entity', (req, res) => {
+
+    const menu = new Menu(req.body);
+
+    menu.save((err, doc) => {
+
+        // let findArgs = {};
+        // if (req.query.publish) { findArgs['publish'] = req.query.publish }
+        // if (req.query.lg) { findArgs['language'] = req.query.lg }
+
+        let allArgs = {};
+
+        for (const [key, value] of Object.entries(req.query)) {
+    
+            if (key !== 'sortBy') {
+                allArgs[key] = value
+            }
+        }
+
+        Menu.
+            find(allArgs)
+            .sort({ position: 1, createdAt: -1 })
+            .exec((err2, doc2) => {
+
+                if (doc2.length > 1) {
+
+                    let i = 0;
+                    let found = false;
+                    doc2.map(item => {
+                        i = i + 1;
+
+                        if (item._id.toString() === menu._id.toString() && item.position === menu.position && found === false) {
+
+                            found = true
+
+                        } else if (found === true) {
+
+                            Menu.findOneAndUpdate(
+                                { _id: mongoose.Types.ObjectId(item._id) },
+                                {
+                                    "$set": {
+                                        position: parseInt(i)
+                                    }
+                                }, { new: true },
+                                (err3, doc3) => {
+                                }
+                            )
+                        }
+                    })
+                }
+            })
+
+        if (err) return res.json({ success: false, err });
+        res.status(200).json({
+            success: true,
+            entity: doc
+        })
+    })
+})
+
+// ============================
 
 app.get('/api/slide/articles', (req, res) => {
     let order = req.query.order ? req.query.order : "asc";
@@ -1078,57 +1128,24 @@ app.get('/api/menu/get_entity', (req, res) => {
 
 });
 
-app.post('/api/menu/add_entity', (req, res) => {
+app.get('/api/product/articles', (req, res) => {
+    let order = req.query.order ? req.query.order : "asc";
+    let sortBy = req.query.sortBy ? req.query.sortBy : "_id";
+    let limit = req.query.limit ? parseInt(req.query.limit) : 100;
 
-    const menu = new Menu(req.body);
-
-    menu.save((err, doc) => {
-
-        let findArgs = {};
-
-        if (req.query.publish) { findArgs['publish'] = req.query.publish }
-        if (req.query.lg) { findArgs['language'] = req.query.lg }
-
-        Menu.
-            find(findArgs)
-            .sort({ position: 1, createdAt: -1 })
-            .exec((err2, doc2) => {
-
-                if (doc2.length > 1) {
-
-                    let i = 0;
-                    let found = false;
-                    doc2.map(item => {
-                        i = i + 1;
-
-                        if (item._id.toString() === menu._id.toString() && item.position === menu.position && found === false) {
-
-                            found = true
-
-                        } else if (found === true) {
-
-                            Menu.findOneAndUpdate(
-                                { _id: mongoose.Types.ObjectId(item._id) },
-                                {
-                                    "$set": {
-                                        position: parseInt(i)
-                                    }
-                                }, { new: true },
-                                (err3, doc3) => {
-                                }
-                            )
-                        }
-                    })
-                }
-            })
-
-        if (err) return res.json({ success: false, err });
-        res.status(200).json({
-            success: true,
-            entity: doc
+    Product.find()
+        .populate('brand')
+        .populate('wood')
+        .sort([[sortBy, order]])
+        .limit(limit)
+        .exec((err, articles) => {
+            if (err) return res.status(400).send(err);
+            res.send(articles)
         })
-    })
+
 })
+
+
 
 app.post('/api/desc/update_entity', auth, admin, (req, res) => {
 

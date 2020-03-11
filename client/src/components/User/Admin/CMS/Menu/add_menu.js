@@ -10,6 +10,11 @@ import { act_addMenu, act_listMenus, act_clearMenu } from '../../../../../redux/
 class AddMenu extends Component {
 
     state = {
+        get_args:
+        {
+            publish: true,
+            sortBy: 'position'
+        },
         formError: false,
         formSuccess: false,
         formdata: {
@@ -163,7 +168,6 @@ class AddMenu extends Component {
                 && prevProps.user.siteLocalisation.value !== this.props.user.siteLocalisation.value
             )) {
 
-            console.log('set language state')
             const newFormData = {
                 ...this.state.formdata
             }
@@ -206,14 +210,13 @@ class AddMenu extends Component {
             )) {
 
 
-            this.props.dispatch(act_listMenus(this.props.user.siteLocalisation.value))
+            this.props.dispatch(act_listMenus(this.props.user.siteLocalisation.value, this.state.get_args))
                 .then(response => {
-
+                    //  console.log(response)
                     let line = [];
                     let totalPos = [];
                     let i = 0
                     if (Object.keys(response.payload).length !== 0) {
-
 
                         response.payload.forEach((item, i) => {
                             i = i + 1;
@@ -246,7 +249,7 @@ class AddMenu extends Component {
 
         if (
             this.props.user.siteLocalisation !== undefined
-            ) {
+        ) {
             const newFormData = {
                 ...this.state.formdata
             }
@@ -296,7 +299,7 @@ class AddMenu extends Component {
         let formIsValid = isFormValid(this.state.formdata, 'menu');
 
         if (formIsValid) {
-            this.props.dispatch(act_addMenu(this.props.user.siteLocalisation.value, dataToSubmit))
+            this.props.dispatch(act_addMenu(this.props.user.siteLocalisation.value,  this.state.get_args, dataToSubmit))
                 .then((response) => {
                     console.log(response)
 

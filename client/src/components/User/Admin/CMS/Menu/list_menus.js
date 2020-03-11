@@ -3,23 +3,70 @@ import UserLayout from '../../../../../hoc/user';
 import ListMenusBlock from '../Menu/list_menus_block';
 
 import { connect } from 'react-redux';
-import { act_getData_Menus, act_removeMenuItem, act_setPublishMenu } from '../../../../../redux/actions/CMS/menu_actions';
+import { act_listMenus, act_removeMenuItem, act_setPublishMenu } from '../../../../../redux/actions/CMS/menu_actions';
 
 class ListMenus extends Component {
 
     state = {
-        get_menus:
-        {
-            sortBy: 'createdAdd',
-            order: 'desc',
-            limit: '10'
-        }
+        get_args:
+            {}
     }
+    componentDidUpdate(prevProps, prevState) {
 
-    componentDidMount() {
+        // let args = []
+        // console.log(this.state.get_args.language)
+        // console.log(typeof(this.state.get_args))
+        //  console.log('gregerg')
+        // Set Language
+        if ((
+            this.props.user.siteLocalisation !== undefined
+            && prevProps.user.siteLocalisation === undefined
+           // && !this.state.get_args.language
+        ) || (
+                this.props.user.siteLocalisation !== undefined
+                && prevProps.user.siteLocalisation !== undefined
+                // && this.state.get_args.language
+                && prevProps.user.siteLocalisation.value !== this.props.user.siteLocalisation.value
 
-        const args = this.state.get_menus
-        this.props.dispatch(act_getData_Menus(args));
+            )) {
+
+            //  if (this.state.get_args.language) {} else {}
+
+            // const newData = {
+            //     ...this.state.get_args
+            // }
+            // console.log(newData)
+            // newData['language'] = this.props.user.siteLocalisation.value;
+            // console.log(newData)
+            // this.setState({
+            //     get_args: newData
+            // })
+            // args = this.state.get_args
+            this.props.dispatch(act_listMenus(this.props.user.siteLocalisation.value, this.state.get_args))
+                .then(response => {
+                    console.log(response)
+                });
+
+
+        }
+
+        // else if ((
+        //     this.props.user.siteLocalisation !== undefined
+        //     && this.state.get_args.language !== undefined
+        //     && this.state.get_args.language
+        //     && prevState.state.get_args.language !== this.state.get_args.language
+        // ) || (
+        //     this.props.user.siteLocalisation !== undefined
+        //     && this.state.get_args.language
+        //     && prevProps.user.siteLocalisation.value !== this.props.user.siteLocalisation.value
+        //     )) {
+
+        //     // args = this.state.get_args
+        //     this.props.dispatch(act_listMenus(this.props.user.siteLocalisation.value, this.state.get_args))
+        //     .then(response => {
+        //         console.log(response)
+        //     });
+        // }
 
     }
 
@@ -41,7 +88,7 @@ class ListMenus extends Component {
         return (
             <UserLayout>
                 <div>
-                    <h1>List Slides</h1>
+                    <h1>List Menus</h1>
                     <div className="user_cart">
                         <ListMenusBlock
                             type="cart"
