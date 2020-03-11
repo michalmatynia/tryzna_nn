@@ -208,7 +208,6 @@ class AddMenu extends Component {
                 && prevState.formdata.position.value === ''
             )) {
 
-
             this.props.dispatch(act_listMenus(this.props.user.siteLocalisation.value, this.state.get_args))
                 .then(response => {
                     //  console.log(response)

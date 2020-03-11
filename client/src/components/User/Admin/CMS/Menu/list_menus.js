@@ -43,12 +43,9 @@ class ListMenus extends Component {
 
     removeEntityFromDb = (id) => {
 
-        // console.log(id)
         this.props.dispatch(act_removeMenuItem(id))
         .then(response => {
-            //console.log('foinfoneoi')
-            //console.log(response)
-            this.props.dispatch(act_listMenus(this.props.user.siteLocalisation.value, this.state.get_args))
+         this.props.dispatch(act_listMenus(this.props.user.siteLocalisation.value, this.state.get_args))
         })
 
     }

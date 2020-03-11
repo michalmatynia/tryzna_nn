@@ -2,14 +2,6 @@ import React, { Component } from 'react';
 import UserLayout from '../../../../../hoc/user';
 import ListSlidesBlock from '../Slides/list_slides_block';
 
-// import { connect } from 'react-redux';
-// import { getCartItems, removeCartItem, onSuccessBuy } from '../../redux/actions/user_actions';
-
-
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faFrown } from '@fortawesome/free-solid-svg-icons';
-// import { faSmile } from '@fortawesome/free-solid-svg-icons';
-
 import { connect } from 'react-redux';
 import { act_getData_Slides, act_removeSlideItem, act_setPublishSlide } from '../../../../../redux/actions/CMS/slides_actions';
 

@@ -1031,7 +1031,7 @@ app.post('/api/menu/add_entity', (req, res) => {
         let allArgs = {};
 
         for (const [key, value] of Object.entries(req.query)) {
-    
+
             if (key !== 'sortBy') {
                 allArgs[key] = value
             }
@@ -1081,17 +1081,43 @@ app.post('/api/menu/add_entity', (req, res) => {
 app.post('/api/menu/remove_entity', auth, (req, res) => {
 
     Menu.
-    findOneAndDelete({ _id: req.query._id }, (err, docs) => {
-        res.send(docs)
-        // console.log(docs)
+        findOneAndDelete({ _id: req.query._id }, (err, docs) => {
 
-        // Menu.
-        //     find()
-        //     .exec((err, docs) => {
-        //         res.send(docs)
-        //     })
-    })
-    
+            if (err) { return res.status(400).send(err); }
+            else {
+
+                Menu.
+                    find({language : docs.language})
+                    .sort({ position: 1, createdAt: -1 })
+                    .exec((err2, doc2) => {
+
+                        if (doc2.length >= 1) {
+
+                            let i = 0;
+                            doc2.map(item => {
+                                i = i + 1;
+
+                                    Menu.findOneAndUpdate(
+                                        { _id: mongoose.Types.ObjectId(item._id) },
+                                        {
+                                            "$set": {
+                                                position: parseInt(i)
+                                            }
+                                        }, { new: true },
+                                        (err3, doc3) => {
+                                            if (err3) { return res.status(400).send(err3); }
+                                        }
+                                    )
+                                
+                            })
+                        }
+                    })
+
+                res.send(docs)
+            }
+
+        })
+
 })
 // ============================
 
