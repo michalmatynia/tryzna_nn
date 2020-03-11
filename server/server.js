@@ -480,7 +480,7 @@ app.get('/api/product/brands', (req, res) => {
 })
 
 // ======================
-//          users
+//          USERS
 //=======================
 
 app.post('/api/user/reset_user', (req, res) => {
@@ -1028,10 +1028,6 @@ app.post('/api/menu/add_entity', (req, res) => {
 
     menu.save((err, doc) => {
 
-        // let findArgs = {};
-        // if (req.query.publish) { findArgs['publish'] = req.query.publish }
-        // if (req.query.lg) { findArgs['language'] = req.query.lg }
-
         let allArgs = {};
 
         for (const [key, value] of Object.entries(req.query)) {
@@ -1082,6 +1078,21 @@ app.post('/api/menu/add_entity', (req, res) => {
     })
 })
 
+app.post('/api/menu/remove_entity', auth, (req, res) => {
+
+    Menu.
+    findOneAndDelete({ _id: req.query._id }, (err, docs) => {
+        res.send(docs)
+        // console.log(docs)
+
+        // Menu.
+        //     find()
+        //     .exec((err, docs) => {
+        //         res.send(docs)
+        //     })
+    })
+    
+})
 // ============================
 
 app.get('/api/slide/articles', (req, res) => {

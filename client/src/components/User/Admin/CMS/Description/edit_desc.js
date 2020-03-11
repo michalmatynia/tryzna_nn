@@ -92,7 +92,10 @@ class EditSlide extends Component {
         }
     }
     componentDidMount() {
-        if (this.props.user.siteLocalisation && this.props.description !== undefined) {
+        if (
+            this.props.user.siteLocalisation !== undefined
+            && this.props.user.siteLocalisation.value !== undefined
+        ) {
 
             this.props.dispatch(act_getDetail_Desc(this.props.user.siteLocalisation.value))
                 .then((response) => {
@@ -120,29 +123,29 @@ class EditSlide extends Component {
         let formIsValid = isFormValid(this.state.formdata, 'description');
 
         // console.log(this.props.description.descDetail)
-        
 
-            if (formIsValid) {
-                this.props.dispatch(act_updateDetail_Desc(dataToSubmit, this.props.user.siteLocalisation.value, this.props.description.descDetail._id))
-                    .then(() => {
-                        this.setState({
-                            formSuccess: true
-                        }, () => {
-                            setTimeout(() => {
-                                this.setState({
-                                    formSuccess: false
-                                })
-                            }, 2000)
-                        })
+
+        if (formIsValid) {
+            this.props.dispatch(act_updateDetail_Desc(dataToSubmit, this.props.user.siteLocalisation.value, this.props.description.descDetail._id))
+                .then(() => {
+                    this.setState({
+                        formSuccess: true
+                    }, () => {
+                        setTimeout(() => {
+                            this.setState({
+                                formSuccess: false
+                            })
+                        }, 2000)
                     })
-
-            } else {
-                this.setState({
-                    formError: true
                 })
 
-            }
-        
+        } else {
+            this.setState({
+                formError: true
+            })
+
+        }
+
 
     }
 

@@ -118,8 +118,7 @@ class EditLogo extends Component {
         ) {
             this.props.dispatch(act_getDetail_Logo(this.props.user.siteLocalisation.value))
             .then((response) => {
-                console.log(response)
-                const newFormData = populateFields(this.state.formdata, this.props.logo.logoDetail);
+                const newFormData = populateFields(this.state.formdata, response.payload);
                 this.setState({
                     formdata: newFormData
                 });

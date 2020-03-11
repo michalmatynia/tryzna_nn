@@ -18,7 +18,6 @@ export default function (state = {}, action) {
         case REMOVE_MENU_ITEM:
             return {
                 ...state,
-                adminGetMenus: action.payload,
             }
         case SHOW_MENU_DETAIL:
             return { ...state, menuDetail: action.payload }

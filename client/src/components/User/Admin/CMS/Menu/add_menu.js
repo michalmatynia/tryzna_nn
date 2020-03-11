@@ -12,7 +12,6 @@ class AddMenu extends Component {
     state = {
         get_args:
         {
-            publish: true,
             sortBy: 'position'
         },
         formError: false,

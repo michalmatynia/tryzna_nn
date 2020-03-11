@@ -68,12 +68,9 @@ export function act_addMenu(lg, args, dataToSubmit) {
     }
 }
 
-// --------------------- BELOW NOT DEVELOPED YET
-// DEVELOPING
-
 export function act_removeMenuItem(id) {
 
-    const request = axios.get(`${MENU_SERVER}/remove_menu?_id=${id}`)
+    const request = axios.post(`${MENU_SERVER}/remove_entity?_id=${id}`)
         .then(response => {
             return response.data;
         })
@@ -83,6 +80,11 @@ export function act_removeMenuItem(id) {
         payload: request
     }
 }
+
+
+// --------------------- BELOW NOT DEVELOPED YET
+// DEVELOPING
+
 
 export function act_getData_Menus(args) {
 
