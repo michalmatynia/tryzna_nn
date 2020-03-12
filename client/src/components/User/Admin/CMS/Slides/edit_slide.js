@@ -90,6 +90,7 @@ class EditSlide extends Component {
 
     componentDidMount() {
 
+
         // console.log(this.props)
 
         const id = this.props.match.params.id;

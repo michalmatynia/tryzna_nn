@@ -47,7 +47,7 @@ export function act_clearMenu(currentType) {
     }
 }
 
-export function act_addMenu(lg, args, dataToSubmit) {
+export function act_addMenu(language, args, dataToSubmit) {
 
     let listOfArgs = '';
 
@@ -59,7 +59,7 @@ export function act_addMenu(lg, args, dataToSubmit) {
         }
     }
 
-    const request = axios.post(`${MENU_SERVER}/add_entity?language=${lg}${listOfArgs}`, dataToSubmit)
+    const request = axios.post(`${MENU_SERVER}/add_entity?language=${language}${listOfArgs}`, dataToSubmit)
         .then(response => response.data);
 
     return {
@@ -70,7 +70,7 @@ export function act_addMenu(lg, args, dataToSubmit) {
 
 export function act_removeMenuItem(id) {
 
-    const request = axios.post(`${MENU_SERVER}/remove_entity?_id=${id}`)
+    const request = axios.get(`${MENU_SERVER}/remove_entity?_id=${id}`)
         .then(response => {
             return response.data;
         })
@@ -81,7 +81,40 @@ export function act_removeMenuItem(id) {
     }
 }
 
+export function act_getDetail_Menu(id, language, args) {
 
+    let request = axios.get(`${MENU_SERVER}/get_entity?_id=${id}`)
+        .then(response => {
+            console.log(response)
+
+            if (response.data === '' || response.data.error) {
+
+                let listOfArgs = '';
+
+                for (const [key, value] of Object.entries(args)) {
+            
+                   listOfArgs += '&'; 
+                    if (value) {
+                        listOfArgs += key + '=' + value;
+                    }
+                }
+
+                request = axios.post(`${MENU_SERVER}/add_entity?language=${language}${listOfArgs}`)
+                    .then(response2 => {
+                        return response2.data.doc
+                    })
+
+                return request
+            } else {
+                return response.data
+            }
+        });
+
+    return {
+        type: GET_MENU_DETAIL,
+        payload: request
+    }
+}
 // --------------------- BELOW NOT DEVELOPED YET
 // DEVELOPING
 
@@ -122,28 +155,7 @@ export function act_setPublishMenu(id, checked) {
 
 
 
-export function act_getDetail_Menu(lg) {
 
-    let request = axios.get(`${MENU_SERVER}/get_entity?lg=${lg}`)
-        .then(response => {
-
-            if (response.data === '' || response.data.error) {
-                request = axios.post(`${MENU_SERVER}/add_entity?lg=${lg}`)
-                    .then(response2 => {
-                        return response2.data.doc
-                    })
-
-                return request
-            } else {
-                return response.data
-            }
-        });
-
-    return {
-        type: GET_MENU_DETAIL,
-        payload: request
-    }
-}
 
 export function act_getDetail_Menu_Published(current_lg) {
 
