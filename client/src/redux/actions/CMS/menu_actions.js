@@ -20,7 +20,7 @@ export function act_listMenus(lg, args) {
 
     for (const [key, value] of Object.entries(args)) {
 
-       listOfArgs += '&'; 
+        listOfArgs += '&';
         if (value) {
             listOfArgs += key + '=' + value;
         }
@@ -53,7 +53,7 @@ export function act_addMenu(language, args, dataToSubmit) {
 
     for (const [key, value] of Object.entries(args)) {
 
-       listOfArgs += '&'; 
+        listOfArgs += '&';
         if (value) {
             listOfArgs += key + '=' + value;
         }
@@ -81,34 +81,64 @@ export function act_removeMenuItem(id) {
     }
 }
 
-export function act_getDetail_Menu(id, language, args) {
+export function act_getDetail_Menu(id, site_language, args, dataToSubmit) {
 
-    let request = axios.get(`${MENU_SERVER}/get_entity?_id=${id}`)
-        .then(response => {
-            console.log(response)
+    // console.log(site_language)
+    console.log('inside actgetDetail')
+    console.log(dataToSubmit)
+    //
+    // let listOfArgs = '';
 
-            if (response.data === '' || response.data.error) {
+    // for (const [key, value] of Object.entries(args)) {
 
-                let listOfArgs = '';
+    //     listOfArgs += '&';
+    //     if (value) {
+    //         listOfArgs += key + '=' + value;
+    //     }
+    // }
 
-                for (const [key, value] of Object.entries(args)) {
-            
-                   listOfArgs += '&'; 
-                    if (value) {
-                        listOfArgs += key + '=' + value;
-                    }
-                }
+    let request = {}
 
-                request = axios.post(`${MENU_SERVER}/add_entity?language=${language}${listOfArgs}`)
-                    .then(response2 => {
-                        return response2.data.doc
-                    })
+    // Get a regular
+    if (!dataToSubmit) {
+       //  console.log('ffewfewf')
+       //  console.log(request)
 
-                return request
-            } else {
+        request = axios.get(`${MENU_SERVER}/get_entity_by_id?_id=${id}`)
+            .then(response => {
                 return response.data
-            }
-        });
+
+            })
+
+    } else if (dataToSubmit) {
+
+        request = axios.get(`${MENU_SERVER}/list_entities?language=${site_language}&linkTo=${dataToSubmit.linkTo}`)
+            .then(response => {
+
+                console.log('TUUUU')
+                console.log(response)
+
+                //  console.log(response)
+
+                if (Object.keys(response.data).length === 0) {
+
+                    dataToSubmit.language = site_language
+
+                    request = axios.post(`${MENU_SERVER}/add_entity?language=${site_language}&linkTo=${dataToSubmit.linkTo}`, dataToSubmit)
+                        .then(response2 => {
+                           
+                           
+                            return response2.data
+                            // console.log('froi')
+                            // console.log(response2.data)
+                        })
+
+                } else {
+                    return response.data[0]
+                }
+            })
+
+    }
 
     return {
         type: GET_MENU_DETAIL,

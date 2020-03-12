@@ -198,6 +198,8 @@ class AddMenu extends Component {
                 && prevState.formdata.language.value !== ''
                 && prevState.formdata.position.value !== ''
             ) || (
+
+                // When Language is changed
                 this.props.menu.adminGetMenus !== undefined
                 && this.props.user.siteLocalisation !== undefined
                 && prevProps.user.siteLocalisation !== undefined
@@ -302,7 +304,7 @@ class AddMenu extends Component {
         let formIsValid = isFormValid(this.state.formdata, 'menu');
 
         if (formIsValid) {
-            this.props.dispatch(act_addMenu(this.props.user.siteLocalisation.value,  this.state.get_args, dataToSubmit))
+            this.props.dispatch(act_addMenu(this.props.user.siteLocalisation.value, this.state.get_args, dataToSubmit))
                 .then((response) => {
                    //  console.log(response)
 
@@ -353,7 +355,6 @@ class AddMenu extends Component {
                         <FormField
                             id={'position'}
                             formdata={this.state.formdata.position}
-                            defaultValue={null}
                             change={(element) => this.updateForm(element)}
                         />
                         <FormField

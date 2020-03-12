@@ -158,92 +158,109 @@ class EditMenu extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if ((
-            this.props.menu.adminGetMenus === undefined
+
+        // I just get positions
+        console.log('componentDidUpdate')
+  
+        if (
+            this.props.menu.menuDetail === undefined
             && this.props.user.siteLocalisation !== undefined
-            && prevProps.user.siteLocalisation !== undefined
-            && this.props.user.siteLocalisation.value === prevProps.user.siteLocalisation.value
-            && this.state.formdata.language.value !== ''
+            && prevProps.user.siteLocalisation === undefined
+            // && this.props.user.siteLocalisation.value === prevProps.user.siteLocalisation.value
+            && this.state.formdata.language.value === ''
             && this.state.formdata.position.value === ''
-            && prevState.formdata.language.value !== ''
-            && prevState.formdata.position.value === ''
-        ) || (
-                this.props.menu.adminGetMenus !== undefined
-                && this.props.user.siteLocalisation !== undefined
-                && prevProps.user.siteLocalisation !== undefined
-                && this.props.user.siteLocalisation.value !== prevProps.user.siteLocalisation.value
-                && this.state.formdata.language.value !== ''
-                && this.state.formdata.position.value !== ''
-                && prevState.formdata.language.value !== ''
-                && prevState.formdata.position.value !== ''
-            ) || (
-                this.props.menu.adminGetMenus !== undefined
-                && this.props.user.siteLocalisation !== undefined
-                && prevProps.user.siteLocalisation !== undefined
-                && this.props.user.siteLocalisation.value === prevProps.user.siteLocalisation.value
-                && this.state.formdata.language.value !== ''
-                && this.state.formdata.position.value === ''
-                && prevState.formdata.language.value !== ''
-                && prevState.formdata.position.value === ''
-            )) {
+            // && prevState.formdata.language.value !== ''
+            // && prevState.formdata.position.value === ''
+        ) {
+
+            console.log('INSIDE')
+
+            this.props.dispatch(act_getDetail_Menu(this.props.match.params.id, this.props.user.siteLocalisation.value, this.state.get_args, null))
+                .then(response => {
+                    // console.log(response)
+                    const newFormData = populateFields(this.state.formdata, this.props.menu.menuDetail);
+                    this.setState({
+                        formdata: newFormData
+                    });
+                })
 
             this.props.dispatch(act_listMenus(this.props.user.siteLocalisation.value, this.state.get_args))
                 .then(response => {
-                    console.log(response)
+                    //  console.log(response)
+                    let line = [];
+                    let totalPos = [];
+                    // let i = 0
+                    if (Object.keys(response.payload).length !== 0) {
+
+                        response.payload.forEach((item, i) => {
+                            i = i + 1;
+                            line = { key: i, value: i }
+                            totalPos.push(line)
+
+                        })
+
+                    }
+
+                    // i = totalPos.length + 1;
+                    // totalPos.push({ key: i, value: i })
+                    // console.log(totalPos.length)
+                    const newFormData = {
+                        ...this.state.formdata
+                    }
+                    newFormData['position'].config.options = totalPos;
+                    // newFormData['position'].value = totalPos.length;
+
+                    this.setState({
+                        formdata: newFormData
+                    })
+
                 })
- 
-            //         let line = [];
-            //         let totalPos = [];
-            //         let i = 0
-            //         if (Object.keys(response.payload).length !== 0) {
+        }
 
-            //             response.payload.forEach((item, i) => {
-            //                 i = i + 1;
-            //                 line = { key: i, value: i }
-            //                 totalPos.push(line)
 
-            //             })
+        else if (
 
-            //         }
+            // LANGUAGE CHANGE
+            this.props.menu.menuDetail !== undefined
+            && this.props.user.siteLocalisation !== undefined
+            && prevProps.user.siteLocalisation !== undefined
+            && this.props.user.siteLocalisation.value !== prevProps.user.siteLocalisation.value
+            && this.state.formdata.language.value !== ''
+            && this.state.formdata.position.value !== ''
+            && prevState.formdata.language.value !== ''
+            && prevState.formdata.position.value !== ''
+        ) {
+            let dataToSubmit = generateData(this.state.formdata, 'menu');
 
-            //         i = totalPos.length + 1;
-            //         totalPos.push({ key: i, value: i })
-            //         // console.log(totalPos.length)
-            //         const newFormData = {
-            //             ...this.state.formdata
-            //         }
-            //         newFormData['position'].config.options = totalPos;
-            //         newFormData['position'].value = totalPos.length;
-            //         this.setState({
-            //             formdata: newFormData
-            //         })
+            // console.log(dataToSubmit)
+            console.log('Changed')
 
-            //     })
-
+            this.props.dispatch(act_getDetail_Menu(this.props.match.params.id, this.props.user.siteLocalisation.value, this.state.get_args, dataToSubmit))
+                .then(response => {
+                    const newFormData = populateFields(this.state.formdata, this.props.menu.menuDetail);
+                    this.setState({
+                        formdata: newFormData
+                    });
+                })
         }
 
     }
 
     componentDidMount() {
 
-        // const id = this.props.match.params.id;
-
         if (
             this.props.user.siteLocalisation !== undefined
         ) {
-            // console.log(this.props)
-            this.props.dispatch(act_getDetail_Menu(this.props.match.params.id, this.props.user.siteLocalisation.value, this.state.get_args))
-            .then((response) => {
-                const newFormData = populateFields(this.state.formdata, this.props.menu.menuDetail);
-                this.setState({
-                    formdata: newFormData
-                });
-            })
+            this.props.dispatch(act_getDetail_Menu(this.props.match.params.id, this.props.user.siteLocalisation.value, this.state.get_args, null))
+                .then((response) => {
+
+                    const newFormData = populateFields(this.state.formdata, this.props.menu.menuDetail);
+                    this.setState({
+                        formdata: newFormData
+                    });
+                })
         }
-        // console.log(this.props)
 
-
-  
     }
 
     updateForm = (element) => {
@@ -286,7 +303,7 @@ class EditMenu extends Component {
         return (
             <UserLayout>
                 <div>
-                <h1><FormField
+                    <h1><FormField
                         id={'language'}
                         formdata={this.state.formdata.language}
                     />Edit menu</h1>
@@ -315,7 +332,7 @@ class EditMenu extends Component {
                         <FormField
                             id={'position'}
                             formdata={this.state.formdata.position}
-                            defaultValue={null}
+                            // defaultValue={{ key: 1, value: 1 }}
                             change={(element) => this.updateForm(element)}
                         />
                         <FormField

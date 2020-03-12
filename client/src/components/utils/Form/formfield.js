@@ -5,6 +5,8 @@ import NativeSelect from '@material-ui/core/NativeSelect';
 
 const FormField = ({ formdata, change, id }) => {
 
+   // console.log(formdata)
+
     const showError = () => {
         let errorMessage = null;
 
@@ -48,6 +50,7 @@ const FormField = ({ formdata, change, id }) => {
                             <div className="label_inputs">{formdata.config.label}</div>
                             : null}
                         <select
+                            // defaultValue={defaultValue}
                             value={formdata.value}
                             onBlur={(event) => change({ event, id, blur: true })}
                             onChange={(event) => change({ event, id })}

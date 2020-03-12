@@ -1121,21 +1121,21 @@ app.get('/api/menu/remove_entity', auth, (req, res) => {
 })
 
 
-app.get('/api/menu/get_entity', (req, res) => {
+app.get('/api/menu/get_entity_by_id', (req, res) => {
 
     //console.log(req.query._id)
 
     Menu.findOne({
         _id: mongoose.Types.ObjectId(req.query._id)
     }, (err, doc) => {
-        // console.log(err)
-        // console.log(doc)
+
         if (err) return res.status(400).send(err);
         res.status(200).send(doc)
 
     })
 
 });
+
 
 // ============================
 
