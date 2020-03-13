@@ -159,9 +159,6 @@ class EditMenu extends Component {
 
     componentDidUpdate(prevProps, prevState) {
 
-        // I just get positions
-        console.log('componentDidUpdate')
-  
         if (
             this.props.menu.menuDetail === undefined
             && this.props.user.siteLocalisation !== undefined
@@ -173,7 +170,6 @@ class EditMenu extends Component {
             // && prevState.formdata.position.value === ''
         ) {
 
-            console.log('INSIDE')
 
             this.props.dispatch(act_getDetail_Menu(this.props.match.params.id, this.props.user.siteLocalisation.value, this.state.get_args, null))
                 .then(response => {
@@ -248,9 +244,15 @@ class EditMenu extends Component {
 
     componentDidMount() {
 
+
         if (
             this.props.user.siteLocalisation !== undefined
         ) {
+            // HERERERERERE
+            // znalezv baze dla site localization and save user preferred lg
+
+            console.log('refrefrefefref')
+            console.log(this.props.user.siteLocalisation)
             this.props.dispatch(act_getDetail_Menu(this.props.match.params.id, this.props.user.siteLocalisation.value, this.state.get_args, null))
                 .then((response) => {
 

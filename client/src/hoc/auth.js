@@ -11,9 +11,21 @@ export default function (ComposedClass, reload, adminRoute = null) {
             loading: true
         }
 
+        componentDidUpdate(prevProps) {
+
+            if (
+                this.props.user.siteLocalisation !== undefined
+                && this.props.user.siteLocalisation !== prevProps.user.siteLocalisation
+            ) {
+                console.log('HOC')
+                console.log(this.props.user.siteLocalisation)
+
+                this.props.dispatch(setLocalisation(this.props.user.siteLocalisation.value))
+            }
+        }
+
         componentDidMount() {
 
-  
             let user_lg = null
             // let user_currency = null
             if (this.props.user.siteLocalisation === undefined) {
@@ -35,6 +47,10 @@ export default function (ComposedClass, reload, adminRoute = null) {
                     })
 
             } else {
+
+                console.log('HOC')
+                console.log(this.props.user.siteLocalisation)
+
                 this.props.dispatch(setLocalisation(this.props.user.siteLocalisation.value))
             }
 

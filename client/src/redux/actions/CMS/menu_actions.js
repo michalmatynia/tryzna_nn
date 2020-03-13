@@ -86,6 +86,8 @@ export function act_getDetail_Menu(id, site_language, args, dataToSubmit) {
     // console.log(site_language)
     console.log('inside actgetDetail')
     console.log(dataToSubmit)
+    console.log(site_language)
+
     //
     // let listOfArgs = '';
 

@@ -9,7 +9,7 @@ import { getSiteData } from '../redux/actions/site_actions';
 
 import { languages } from '../components/utils/Form/Fixed_categories/languages';
 
-import {LanguageContext} from './Context/mycontext'
+import { LanguageContext } from './Context/mycontext'
 
 
 class Layout extends Component {
@@ -27,16 +27,29 @@ class Layout extends Component {
 
             default_lg = languages.filter(item => parseInt(this.props.site.siteData[0].default_language) === item.key)
             default_lg = (default_lg[0].value)
-            
+
+            // console.log('HOC')
+            // console.log(default_lg)
+            // console.log(prevProps.user.siteLocalisation)
+            // console.log(this.props.user.siteLocalisation)
+
             if (
-                this.props.user.siteLocalisation !== undefined
-                && this.props.user.siteLocalisation.value !== undefined
-                && prevProps.user.siteLocalisation !== undefined
-                && prevProps.user.siteLocalisation.value !== undefined
+                (this.props.user.siteLocalisation !== undefined
+                    && this.props.user.siteLocalisation.value !== undefined)
+                //  && prevProps.user.siteLocalisation !== undefined
+                //  && prevProps.user.siteLocalisation.value !== undefined
+                // && ( prevProps.user.siteLocalisation.value !== this.props.user.siteLocalisation.value
+                //  || this.props.user.siteLocalisation.value !== this.state.first_lg )
             ) {
 
-                if (prevProps.user.siteLocalisation.value !== this.props.user.siteLocalisation.value
-                    || this.props.user.siteLocalisation.value !== this.state.first_lg
+
+
+                if ((
+                    prevProps.user.siteLocalisation !== undefined
+                    && prevProps.user.siteLocalisation.value !== undefined
+                    && prevProps.user.siteLocalisation.value !== this.props.user.siteLocalisation.value
+                ) || (
+                    this.props.user.siteLocalisation.value !== this.state.first_lg)
                 ) {
                     this.setState({ first_lg: this.props.user.siteLocalisation.value })
                 } else if (this.props.user.siteLocalisation.value === '') {
@@ -58,15 +71,15 @@ class Layout extends Component {
     render() {
         return (
             <LanguageContext.Provider value={this.props.user.siteLocalisation}>
-            <div>
-                <Header />
-                <div className="page_container">
-                    {
-                    this.props.children
+                <div>
+                    <Header />
+                    <div className="page_container">
+                        {
+                            this.props.children
                     /* {this.renderChildrenWithProps()} */}
+                    </div>
+                    <Footer data={this.props.site} />
                 </div>
-                <Footer data={this.props.site} />
-            </div>
             </LanguageContext.Provider>
         )
     }
