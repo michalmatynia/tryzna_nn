@@ -60,8 +60,8 @@ const Routes = () => {
         <Route path="/admin/edit_logo" exact component={Auth(EditLogo, true)} />
 
         <Route path="/admin/add_slide" exact component={Auth(AddSlide, true)} />
-        <Route path="/admin/edit_slide/:id" exact component={Auth(EditSlide, true)} />
         <Route path="/admin/list_slides" exact component={Auth(ListSlides, true)} />
+        <Route path="/admin/edit_slide/:id" exact component={Auth(EditSlide, true)} />
 
         <Route path="/admin/edit_desc" exact component={Auth(EditDesc, true)} />
 

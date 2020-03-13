@@ -17,7 +17,7 @@ export default function (ComposedClass, reload, adminRoute = null) {
                 this.props.user.siteLocalisation !== undefined
                 && this.props.user.siteLocalisation !== prevProps.user.siteLocalisation
             ) {
-                console.log('HOC')
+                console.log('Component Did update - If siteLocalisation')
                 console.log(this.props.user.siteLocalisation)
 
                 this.props.dispatch(setLocalisation(this.props.user.siteLocalisation.value))
@@ -31,6 +31,10 @@ export default function (ComposedClass, reload, adminRoute = null) {
             if (this.props.user.siteLocalisation === undefined) {
                 this.props.dispatch(setCookie())
                     .then(response => {
+                        console.log('if Localisation is undefined')
+                        console.log('Auth Dispatch')
+                        console.log(response)
+
 
                         if (response.payload) {
                             user_lg = response.payload.languages
@@ -48,7 +52,7 @@ export default function (ComposedClass, reload, adminRoute = null) {
 
             } else {
 
-                console.log('HOC')
+                console.log('Localisation is defined - Auth')
                 console.log(this.props.user.siteLocalisation)
 
                 this.props.dispatch(setLocalisation(this.props.user.siteLocalisation.value))
@@ -61,6 +65,8 @@ export default function (ComposedClass, reload, adminRoute = null) {
                 .then(response => {
                     let user = this.props.user.userData;
                     if (!user.isAuth) {
+
+                        console.log('no user is Auth')
                         if (reload) {
                             this.props.history.push('/register_login')
                         }

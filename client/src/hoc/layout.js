@@ -28,10 +28,10 @@ class Layout extends Component {
             default_lg = languages.filter(item => parseInt(this.props.site.siteData[0].default_language) === item.key)
             default_lg = (default_lg[0].value)
 
-            // console.log('HOC')
-            // console.log(default_lg)
-            // console.log(prevProps.user.siteLocalisation)
-            // console.log(this.props.user.siteLocalisation)
+            console.log('Component did Update - Layout')
+            console.log(default_lg)
+            console.log(prevProps.user.siteLocalisation)
+            console.log(this.props.user.siteLocalisation)
 
             if (
                 (this.props.user.siteLocalisation !== undefined
