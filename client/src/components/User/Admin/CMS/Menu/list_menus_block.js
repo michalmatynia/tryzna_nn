@@ -1,4 +1,6 @@
 import React from 'react';
+import MyButton from '../../../../utils/button';
+
 import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
@@ -20,6 +22,15 @@ const ListMenuBlock = ({ list, removeItem, handlePublish }) => {
                         <div>{item.level}</div>
                     </div>
                     <div className="item btn">
+                        <MyButton
+                            type="default"
+                            altClass="card_link"
+                            title="Edit"
+                            linkTo={`/admin/edit_menu/${item._id}`}
+                            addStyles={{
+                                margin: '10px 0 0 0'
+                            }}
+                        />
                         <FormControlLabel
                             control={
                                 <Switch
@@ -32,11 +43,7 @@ const ListMenuBlock = ({ list, removeItem, handlePublish }) => {
                             size="small"
                             labelPlacement="top"
                         />
-                        <a href={`/admin/edit_menu/${item._id}`}>
-                            <div className="list_btn list_btn_edit"
-                            >
-                                Edit
-                </div></a>
+
                         <div className="list_btn list_btn_remove"
                             onClick={() => removeItem(item._id)} >
                             Remove

@@ -28,11 +28,6 @@ class Layout extends Component {
             default_lg = languages.filter(item => parseInt(this.props.site.siteData[0].default_language) === item.key)
             default_lg = (default_lg[0].value)
 
-            console.log('Component did Update - Layout')
-            console.log(default_lg)
-            console.log(prevProps.user.siteLocalisation)
-            console.log(this.props.user.siteLocalisation)
-
             if (
                 (this.props.user.siteLocalisation !== undefined
                     && this.props.user.siteLocalisation.value !== undefined)
@@ -49,7 +44,7 @@ class Layout extends Component {
                     && prevProps.user.siteLocalisation.value !== undefined
                     && prevProps.user.siteLocalisation.value !== this.props.user.siteLocalisation.value
                 ) || (
-                    this.props.user.siteLocalisation.value !== this.state.first_lg)
+                        this.props.user.siteLocalisation.value !== this.state.first_lg)
                 ) {
                     this.setState({ first_lg: this.props.user.siteLocalisation.value })
                 } else if (this.props.user.siteLocalisation.value === '') {
@@ -74,9 +69,7 @@ class Layout extends Component {
                 <div>
                     <Header />
                     <div className="page_container">
-                        {
-                            this.props.children
-                    /* {this.renderChildrenWithProps()} */}
+                        { this.props.children}
                     </div>
                     <Footer data={this.props.site} />
                 </div>

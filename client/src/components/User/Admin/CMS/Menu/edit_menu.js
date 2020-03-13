@@ -158,27 +158,32 @@ class EditMenu extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
+        
+        console.log('Component Did Update')
+        console.log(this.props)
+        console.log(prevProps)
+        console.log(this.state)
+        console.log(prevState)
 
         if (
-            this.props.menu.menuDetail === undefined
+            this.props.menu.menuDetail !== undefined
             && this.props.user.siteLocalisation !== undefined
-            && prevProps.user.siteLocalisation === undefined
-            // && this.props.user.siteLocalisation.value === prevProps.user.siteLocalisation.value
-            && this.state.formdata.language.value === ''
-            && this.state.formdata.position.value === ''
-            // && prevState.formdata.language.value !== ''
-            // && prevState.formdata.position.value === ''
+            && this.props.user.siteLocalisation.value === prevProps.user.siteLocalisation.value
+            && this.state.formdata.language.value === prevState.formdata.language.value
+            && this.state.formdata.position.config.options === prevState.formdata.position.config.options
+            && Object.keys(this.state.formdata.position.config.options).length === 0
         ) {
 
-
-            this.props.dispatch(act_getDetail_Menu(this.props.match.params.id, this.props.user.siteLocalisation.value, this.state.get_args, null))
-                .then(response => {
-                    // console.log(response)
-                    const newFormData = populateFields(this.state.formdata, this.props.menu.menuDetail);
-                    this.setState({
-                        formdata: newFormData
-                    });
-                })
+            console.log('Component Did Update - INSIDE')
+            // =======================================
+            // this.props.dispatch(act_getDetail_Menu(this.props.match.params.id, this.props.user.siteLocalisation.value, this.state.get_args, null))
+            //     .then(response => {
+            //         // console.log(response)
+            //         const newFormData = populateFields(this.state.formdata, this.props.menu.menuDetail);
+            //         this.setState({
+            //             formdata: newFormData
+            //         });
+            //     })
 
             this.props.dispatch(act_listMenus(this.props.user.siteLocalisation.value, this.state.get_args))
                 .then(response => {
@@ -233,6 +238,8 @@ class EditMenu extends Component {
 
             this.props.dispatch(act_getDetail_Menu(this.props.match.params.id, this.props.user.siteLocalisation.value, this.state.get_args, dataToSubmit))
                 .then(response => {
+                    console.log('aftergetDEtail')
+                    console.log(response)
                     const newFormData = populateFields(this.state.formdata, this.props.menu.menuDetail);
                     this.setState({
                         formdata: newFormData
@@ -245,16 +252,16 @@ class EditMenu extends Component {
     componentDidMount() {
 
 
+        console.log('Component Did Mount')
         if (
             this.props.user.siteLocalisation !== undefined
         ) {
-            // HERERERERERE
-            // znalezv baze dla site localization and save user preferred lg
+            console.log('Component Did Mount - INSIDE')
 
-            console.log('refrefrefefref')
-            console.log(this.props.user.siteLocalisation)
             this.props.dispatch(act_getDetail_Menu(this.props.match.params.id, this.props.user.siteLocalisation.value, this.state.get_args, null))
                 .then((response) => {
+
+                    console.log('fpwiefoeiwnfoiewnfoiewofnewofnoewifn')
 
                     const newFormData = populateFields(this.state.formdata, this.props.menu.menuDetail);
                     this.setState({

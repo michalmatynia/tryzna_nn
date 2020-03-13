@@ -1,19 +1,10 @@
 import React from 'react';
+import MyButton from '../../../../utils/button';
+
 import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 const ListSlidesBlock = ({ list, removeItem, handlePublish }) => {
-
-    // const [publish, setPublish] = useState({
-    //     checkedA: true,
-    //     checkedB: true,
-    // })
-
-
-    // const handleChange = name => event => {
-
-    //     setPublish({ ...publish, [name]: event.target.checked });
-    // };
 
     const renderSlideImage = (list) => {
         // console.log(list)
@@ -48,6 +39,15 @@ const ListSlidesBlock = ({ list, removeItem, handlePublish }) => {
                         </div>
                     </div>
                     <div className="item btn">
+                        <MyButton
+                            type="default"
+                            altClass="card_link"
+                            title="Edit"
+                            linkTo={`/admin/edit_slide/${slide._id}`}
+                            addStyles={{
+                                margin: '10px 0 0 0'
+                            }}
+                        />
                         <FormControlLabel
                             control={
                                 <Switch
@@ -63,11 +63,6 @@ const ListSlidesBlock = ({ list, removeItem, handlePublish }) => {
                             size="small"
                             labelPlacement="top"
                         />
-                        <a href={`/admin/edit_slide/${slide._id}`}>
-                            <div className="list_btn list_btn_edit"
-                            >
-                                Edit
-                </div></a>
                         <div className="list_btn list_btn_remove"
                             onClick={() => removeItem(slide._id)} >
                             Remove

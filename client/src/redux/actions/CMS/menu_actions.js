@@ -83,28 +83,12 @@ export function act_removeMenuItem(id) {
 
 export function act_getDetail_Menu(id, site_language, args, dataToSubmit) {
 
-    // console.log(site_language)
-    console.log('inside actgetDetail')
-    console.log(dataToSubmit)
-    console.log(site_language)
-
-    //
-    // let listOfArgs = '';
-
-    // for (const [key, value] of Object.entries(args)) {
-
-    //     listOfArgs += '&';
-    //     if (value) {
-    //         listOfArgs += key + '=' + value;
-    //     }
-    // }
-
     let request = {}
 
     // Get a regular
     if (!dataToSubmit) {
-       //  console.log('ffewfewf')
-       //  console.log(request)
+        //  console.log('ffewfewf')
+        //  console.log(request)
 
         request = axios.get(`${MENU_SERVER}/get_entity_by_id?_id=${id}`)
             .then(response => {
@@ -118,9 +102,9 @@ export function act_getDetail_Menu(id, site_language, args, dataToSubmit) {
             .then(response => {
 
                 console.log('TUUUU')
-                console.log(response)
+                //console.log(response)
 
-                //  console.log(response)
+                console.log(response)
 
                 if (Object.keys(response.data).length === 0) {
 
@@ -128,11 +112,11 @@ export function act_getDetail_Menu(id, site_language, args, dataToSubmit) {
 
                     request = axios.post(`${MENU_SERVER}/add_entity?language=${site_language}&linkTo=${dataToSubmit.linkTo}`, dataToSubmit)
                         .then(response2 => {
-                           
-                           
-                            return response2.data
-                            // console.log('froi')
-                            // console.log(response2.data)
+                            console.log(response2)
+
+                            console.log('froi')
+                            return response2.data.entity
+
                         })
 
                 } else {
