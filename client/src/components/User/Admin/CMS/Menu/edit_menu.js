@@ -166,7 +166,7 @@ class EditMenu extends Component {
         console.log(prevState)
         console.log(' ========')
         if (
-            this.props.menu.menuDetail.adminGetMenus !== undefined
+            this.props.menu.adminGetMenus !== undefined
             && this.props.menu.menuDetail !== undefined
             && this.props.user.siteLocalisation !== undefined
             && prevProps.user.siteLocalisation !== undefined
@@ -175,22 +175,15 @@ class EditMenu extends Component {
             && this.state.formdata.position.config.options === prevState.formdata.position.config.options
             && Object.keys(this.state.formdata.position.config.options).length === 0
         ) {
+            console.log('set position Options')
+            console.log(this.props.menu.adminGetMenus)
 
-            this.props.dispatch(act_listMenus(this.props.user.siteLocalisation.value, this.state.get_args))
-                .then(response => {
-
-                    console.log(this.props)
-                    console.log(prevProps)
-                    console.log(this.state)
-                    console.log(prevState)
-                    console.log('Dispatch List Menus')
-                    console.log(response)
                     let line = [];
                     let totalPos = [];
                     // let i = 0
-                    if (Object.keys(response.payload).length !== 0) {
+                    if (Object.keys(this.props.menu.adminGetMenus).length !== 0) {
 
-                        response.payload.forEach((item, i) => {
+                        this.props.menu.adminGetMenus.forEach((item, i) => {
                             i = i + 1;
                             line = { key: i, value: i }
                             totalPos.push(line)
@@ -209,19 +202,21 @@ class EditMenu extends Component {
                         formdata: newFormData
                     })
 
-                })
+            //     })
         }
 
 
         else if ((
+
+            /// HEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
             this.props.menu.menuDetail !== undefined
             && this.props.user.siteLocalisation !== undefined
             && prevProps.user.siteLocalisation !== undefined
             && this.props.user.siteLocalisation.value !== prevProps.user.siteLocalisation.value
             && this.state.formdata.language.value !== ''
             && this.state.formdata.position.value !== ''
-            && this.state.formdata.language.value === prevState.formdata.language.value
-            && this.state.formdata.position.config.options === prevState.formdata.position.config.options
+           // && this.state.formdata.language.value === prevState.formdata.language.value
+           // && this.state.formdata.position.config.options === prevState.formdata.position.config.options
             && Object.keys(this.state.formdata.position.config.options).length !== 0
 
             // LANGUAGE CHANGE
@@ -269,9 +264,10 @@ class EditMenu extends Component {
             this.props.dispatch(act_getDetail_Menu(this.props.match.params.id, this.props.user.siteLocalisation.value, this.state.get_args, null))
                 .then((response) => {
 
+                    // Run list entities here to extract the position information
 
                     console.log('component Did Mount - INSIDE - get Detail')
-                    console.log(this.props)                    
+                    console.log(this.props)
                     const newFormData = populateFields(this.state.formdata, this.props.menu.menuDetail);
                     this.setState({
                         formdata: newFormData
