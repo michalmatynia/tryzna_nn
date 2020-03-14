@@ -87,11 +87,12 @@ export function act_getDetail_Menu(id, site_language, args, dataToSubmit) {
 
     // Get a regular
     if (!dataToSubmit) {
-        //  console.log('ffewfewf')
-        //  console.log(request)
 
         request = axios.get(`${MENU_SERVER}/get_entity_by_id?_id=${id}`)
             .then(response => {
+                console.log('MENU ACTIONS - no Data to Submit')
+                console.log(response)
+
                 return response.data
 
             })
@@ -101,9 +102,7 @@ export function act_getDetail_Menu(id, site_language, args, dataToSubmit) {
         request = axios.get(`${MENU_SERVER}/list_entities?language=${site_language}&linkTo=${dataToSubmit.linkTo}`)
             .then(response => {
 
-                console.log('TUUUU')
-                //console.log(response)
-
+                console.log('List Entities')
                 console.log(response)
 
                 if (Object.keys(response.data).length === 0) {
@@ -112,14 +111,16 @@ export function act_getDetail_Menu(id, site_language, args, dataToSubmit) {
 
                     request = axios.post(`${MENU_SERVER}/add_entity?language=${site_language}&linkTo=${dataToSubmit.linkTo}`, dataToSubmit)
                         .then(response2 => {
+                            console.log('po add entity')
                             console.log(response2)
-
-                            console.log('froi')
                             return response2.data.entity
 
                         })
 
                 } else {
+
+                    console.log('chybatu')
+                    console.log(response)
                     return response.data[0]
                 }
             })
