@@ -160,33 +160,29 @@ class EditMenu extends Component {
     componentDidUpdate(prevProps, prevState) {
 
         console.log('Component Did Update')
-        // console.log(this.props)
-        // console.log(prevProps)
-        // console.log(this.state)
-        // console.log(prevState)
-
+        console.log(this.props)
+        console.log(prevProps)
+        console.log(this.state)
+        console.log(prevState)
+        console.log(' ========')
         if (
-            this.props.menu.menuDetail !== undefined
+            this.props.menu.menuDetail.adminGetMenus !== undefined
+            && this.props.menu.menuDetail !== undefined
             && this.props.user.siteLocalisation !== undefined
+            && prevProps.user.siteLocalisation !== undefined
             && this.props.user.siteLocalisation.value === prevProps.user.siteLocalisation.value
-            && this.state.formdata.language.value === prevState.formdata.language.value
+            // && this.state.formdata.language.value === prevState.formdata.language.value
             && this.state.formdata.position.config.options === prevState.formdata.position.config.options
             && Object.keys(this.state.formdata.position.config.options).length === 0
         ) {
 
-            console.log('Component Did Update - INSIDE')
-            // =======================================
-            // this.props.dispatch(act_getDetail_Menu(this.props.match.params.id, this.props.user.siteLocalisation.value, this.state.get_args, null))
-            //     .then(response => {
-            //         // console.log(response)
-            //         const newFormData = populateFields(this.state.formdata, this.props.menu.menuDetail);
-            //         this.setState({
-            //             formdata: newFormData
-            //         });
-            //     })
-
             this.props.dispatch(act_listMenus(this.props.user.siteLocalisation.value, this.state.get_args))
                 .then(response => {
+
+                    console.log(this.props)
+                    console.log(prevProps)
+                    console.log(this.state)
+                    console.log(prevState)
                     console.log('Dispatch List Menus')
                     console.log(response)
                     let line = [];
@@ -203,9 +199,6 @@ class EditMenu extends Component {
 
                     }
 
-                    // i = totalPos.length + 1;
-                    // totalPos.push({ key: i, value: i })
-                    // console.log(totalPos.length)
                     const newFormData = {
                         ...this.state.formdata
                     }
@@ -220,7 +213,7 @@ class EditMenu extends Component {
         }
 
 
-        else if (
+        else if ((
             this.props.menu.menuDetail !== undefined
             && this.props.user.siteLocalisation !== undefined
             && prevProps.user.siteLocalisation !== undefined
@@ -232,7 +225,12 @@ class EditMenu extends Component {
             && Object.keys(this.state.formdata.position.config.options).length !== 0
 
             // LANGUAGE CHANGE
-        ) {
+        ) || (
+                this.props.menu.menuDetail === undefined
+                && prevProps.menu.menuDetail === undefined
+                && this.props.user.siteLocalisation !== undefined
+                && this.state.formdata.language.value === ''
+            )) {
 
             console.log('Component Did Update - LG CHANGE')
 
@@ -271,8 +269,9 @@ class EditMenu extends Component {
             this.props.dispatch(act_getDetail_Menu(this.props.match.params.id, this.props.user.siteLocalisation.value, this.state.get_args, null))
                 .then((response) => {
 
-                    console.log('fpwiefoeiwnfoiewnfoiewofnewofnoewifn')
 
+                    console.log('component Did Mount - INSIDE - get Detail')
+                    console.log(this.props)                    
                     const newFormData = populateFields(this.state.formdata, this.props.menu.menuDetail);
                     this.setState({
                         formdata: newFormData
