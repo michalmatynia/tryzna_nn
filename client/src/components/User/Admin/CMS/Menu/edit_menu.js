@@ -160,10 +160,10 @@ class EditMenu extends Component {
     componentDidUpdate(prevProps, prevState) {
 
         console.log('Component Did Update')
-        console.log(this.props)
-        console.log(prevProps)
-        console.log(this.state)
-        console.log(prevState)
+        // console.log(this.props)
+        // console.log(prevProps)
+        // console.log(this.state)
+        // console.log(prevState)
         console.log(' ========')
         if (
             this.props.menu.adminGetMenus !== undefined
@@ -192,11 +192,12 @@ class EditMenu extends Component {
 
                     }
 
-                    const newFormData = {
-                        ...this.state.formdata
-                    }
+                    // const newFormData = {
+                    //     ...this.state.formdata
+                    // }
+                    
+                    const newFormData = populateFields(this.state.formdata, this.props.menu.menuDetail);
                     newFormData['position'].config.options = totalPos;
-                    // newFormData['position'].value = totalPos.length;
 
                     this.setState({
                         formdata: newFormData
@@ -208,7 +209,6 @@ class EditMenu extends Component {
 
         else if ((
 
-            /// HEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
             this.props.menu.menuDetail !== undefined
             && this.props.user.siteLocalisation !== undefined
             && prevProps.user.siteLocalisation !== undefined
@@ -266,12 +266,12 @@ class EditMenu extends Component {
 
                     // Run list entities here to extract the position information
 
-                    console.log('component Did Mount - INSIDE - get Detail')
-                    console.log(this.props)
-                    const newFormData = populateFields(this.state.formdata, this.props.menu.menuDetail);
-                    this.setState({
-                        formdata: newFormData
-                    });
+                    // console.log('component Did Mount - INSIDE - get Detail')
+                    // console.log(this.props)
+                    // const newFormData = populateFields(this.state.formdata, this.props.menu.menuDetail);
+                    // this.setState({
+                    //     formdata: newFormData
+                    // });
                 })
         }
 

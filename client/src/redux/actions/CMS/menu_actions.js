@@ -101,7 +101,7 @@ export function act_getDetail_Menu(id, site_language, args, dataToSubmit) {
 
         request = axios.get(`${MENU_SERVER}/list_entities?language=${site_language}&linkTo=${dataToSubmit.linkTo}`)
             .then(response => {
-
+                // HHEHEREHREHRHERH
                 console.log('List Entities')
                 console.log(response)
 
