@@ -10,7 +10,6 @@ import { act_getData_Slides } from '../../redux/actions/CMS/slides_actions';
 import { act_getDetail_Desc_Published } from '../../redux/actions/CMS/desc_actions';
 
 // Context
-import { LanguageContext } from '../../hoc/Context/mycontext'
 
 class Home extends Component {
 
@@ -24,9 +23,6 @@ class Home extends Component {
             publish: true
         }
     }
-
-    static contextType = LanguageContext;
-
 
     componentDidUpdate(prevProps, prevState) {
 

@@ -45,13 +45,8 @@ export function act_clearDetail_Logo() {
 
 export function act_getDetail_Logo_Published(lg) {
 
-    console.log('inside logo dispatch')
-    console.log(lg)
-
     let request = axios.get(`/${LOGO_SERVER}/show_entity?language=${lg}&publish=true`)
         .then(response => {
-            console.log(response)
-
             return response.data
 
         });
