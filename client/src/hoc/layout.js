@@ -9,7 +9,6 @@ import { getSiteData } from '../redux/actions/site_actions';
 
 import { languages } from '../components/utils/Form/Fixed_categories/languages';
 
-import { LanguageContext } from './Context/mycontext'
 
 
 class Layout extends Component {
@@ -20,7 +19,7 @@ class Layout extends Component {
 
     componentDidUpdate(prevProps) {
 
-        
+
 
         if (Object.keys(this.props.site).length !== 0) {
 
@@ -31,17 +30,9 @@ class Layout extends Component {
             default_lg = (default_lg[0].value)
 
             if (
-                (this.props.user.siteLocalisation !== undefined
-                    && this.props.user.siteLocalisation.value !== undefined
-                )
-                //  && prevProps.user.siteLocalisation !== undefined
-                //  && prevProps.user.siteLocalisation.value !== undefined
-                // && ( prevProps.user.siteLocalisation.value !== this.props.user.siteLocalisation.value
-                //  || this.props.user.siteLocalisation.value !== this.state.first_lg )
+                this.props.user.siteLocalisation !== undefined
+                && this.props.user.siteLocalisation.value !== undefined
             ) {
-
-                console.log('HOC PHASE II')
-                console.log(this.state.first_lg)
 
                 if ((
                     prevProps.user.siteLocalisation !== undefined
@@ -61,7 +52,7 @@ class Layout extends Component {
 
     }
     componentDidMount() {
-        console.log('HOC PHASE I')
+        console.log('HOC PHASE II')
 
         if (Object.keys(this.props.site).length === 0) {
             this.props.dispatch(getSiteData())
@@ -70,7 +61,6 @@ class Layout extends Component {
 
     render() {
         return (
-            <LanguageContext.Provider value={'en'}>
                 <div>
                     <Header />
                     <div className="page_container">
@@ -78,7 +68,6 @@ class Layout extends Component {
                     </div>
                     <Footer data={this.props.site} />
                 </div>
-            </LanguageContext.Provider>
         )
     }
 }

@@ -13,13 +13,13 @@ import { LOGO_SERVER } from '../../../components/utils/misc';
 
 export function act_getDetail_Logo(lg) {
 
-    let request = axios.get(`/${LOGO_SERVER}/get_entity?lg=${lg}`)
+    let request = axios.get(`/${LOGO_SERVER}/get_entity?language=${lg}`)
         .then(response => {
 
             if (response.data === '' || response.data.error) {
 
                 // Get entity of any language
-                request = axios.post(`/${LOGO_SERVER}/add_entity?lg=${lg}`)
+                request = axios.post(`/${LOGO_SERVER}/add_entity?language=${lg}`)
                     .then(response2 => {
                         return response2.data.doc
                     })

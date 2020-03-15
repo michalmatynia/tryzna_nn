@@ -43,9 +43,6 @@ export default function (ComposedClass, reload, adminRoute = null) {
 
                     })
 
-            } else {
-
-                this.props.dispatch(setLocalisation(this.props.user.siteLocalisation.value))
             }
 
             // ---------

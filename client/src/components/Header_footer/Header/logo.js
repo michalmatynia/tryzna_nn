@@ -3,62 +3,29 @@ import { act_getDetail_Logo_Published, act_clearDetail_Logo } from '../../../red
 import { connect } from 'react-redux';
 
 // Context
-import { LanguageContext } from '../../../hoc/Context/mycontext'
 
 class Logo extends Component {
 
     state = {
-        current_lg: '',
     }
 
-    static contextType = LanguageContext;
 
 
     componentDidUpdate(prevProps, prevState) {
 
-        console.log('LOGO PHASE I DidUpdate')
-        console.log(this.context.value)
-        console.log(this.state.current_lg)
-
-        if (
-            this.props.logo.logoDetail === undefined
-        ) {
-            if (this.context.value !== undefined) {
-
-                console.log('Before Dispatch')
-                console.log(this.context.value)
-
-                this.props.dispatch(act_getDetail_Logo_Published(this.context.value))
-                    .then(response => {
-                        console.log(response)
-                    })
-            }
-
-
-
-            // if (this.context.value !== this.state.current_lg) {
-            //     this.setState({ current_lg: this.context.value })
-            // } else if (this.context.value === this.state.current_lg
-            //     && prevState.current_lg !== this.state.current_lg) {
-
-            //     this.props.dispatch(act_getDetail_Logo_Published(this.state.current_lg))
-            // }
+        if ((
+            this.props.user.siteLocalisation !== undefined
+            && this.props.user.siteLocalisation !== prevProps.user.siteLocalisation
+        )) {
+            this.props.dispatch(act_getDetail_Logo_Published(this.props.user.siteLocalisation.value))
         }
 
     }
     componentDidMount() {
+        this.props.dispatch(act_getDetail_Logo_Published(this.props.user.siteLocalisation.value))
 
-        console.log('LOGO PHASE I DidMount')
-        console.log(this.context.value)
-        if (this.context.value !== undefined) {
-            this.setState({ current_lg: this.context.value })
-
-            // this.props.dispatch(act_getDetail_Logo_Published(this.context.value))
-        }
-
-
-        // this.setState({ current_lg: this.context.value })
     }
+    
     componentWillUnmount() {
         this.props.dispatch(act_clearDetail_Logo())
     }
@@ -68,7 +35,6 @@ class Logo extends Component {
         // console.log(this)
         if (
             this.props.logo.logoDetail !== undefined
-            && this.props.logo.logoDetail.images !== undefined
             && this.props.logo.logoDetail.images.length > 0) {
 
             return this.props.logo.logoDetail.images[0].url
