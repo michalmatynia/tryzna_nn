@@ -20,6 +20,8 @@ class Layout extends Component {
 
     componentDidUpdate(prevProps) {
 
+        
+
         if (Object.keys(this.props.site).length !== 0) {
 
             // console.log(this.props.user)
@@ -30,14 +32,16 @@ class Layout extends Component {
 
             if (
                 (this.props.user.siteLocalisation !== undefined
-                    && this.props.user.siteLocalisation.value !== undefined)
+                    && this.props.user.siteLocalisation.value !== undefined
+                )
                 //  && prevProps.user.siteLocalisation !== undefined
                 //  && prevProps.user.siteLocalisation.value !== undefined
                 // && ( prevProps.user.siteLocalisation.value !== this.props.user.siteLocalisation.value
                 //  || this.props.user.siteLocalisation.value !== this.state.first_lg )
             ) {
 
-
+                console.log('HOC PHASE II')
+                console.log(this.state.first_lg)
 
                 if ((
                     prevProps.user.siteLocalisation !== undefined
@@ -57,6 +61,7 @@ class Layout extends Component {
 
     }
     componentDidMount() {
+        console.log('HOC PHASE I')
 
         if (Object.keys(this.props.site).length === 0) {
             this.props.dispatch(getSiteData())
@@ -65,11 +70,11 @@ class Layout extends Component {
 
     render() {
         return (
-            <LanguageContext.Provider value={this.props.user.siteLocalisation}>
+            <LanguageContext.Provider value={'en'}>
                 <div>
                     <Header />
                     <div className="page_container">
-                        { this.props.children}
+                        {this.props.children}
                     </div>
                     <Footer data={this.props.site} />
                 </div>

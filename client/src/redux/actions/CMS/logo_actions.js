@@ -15,7 +15,7 @@ export function act_getDetail_Logo(lg) {
 
     let request = axios.get(`/${LOGO_SERVER}/get_entity?lg=${lg}`)
         .then(response => {
-            // console.log(response)
+
             if (response.data === '' || response.data.error) {
 
                 // Get entity of any language
@@ -43,13 +43,15 @@ export function act_clearDetail_Logo() {
     }
 }
 
-export function act_getDetail_Logo_Published(current_lg) {
+export function act_getDetail_Logo_Published(lg) {
 
+    console.log('inside logo dispatch')
+    console.log(lg)
 
-    // console.log(lg)
-
-    let request = axios.get(`/${LOGO_SERVER}/show_entity?lg=${current_lg}&publish=true`)
+    let request = axios.get(`/${LOGO_SERVER}/show_entity?language=${lg}&publish=true`)
         .then(response => {
+            console.log(response)
+
             return response.data
 
         });

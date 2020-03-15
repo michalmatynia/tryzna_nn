@@ -877,7 +877,7 @@ app.post('/api/desc/update_entity', auth, admin, (req, res) => {
 
 app.get('/api/logo/show_entity', (req, res) => {
 
-    Logo.findOne({ language: req.query.lg, publish: true }, (err, doc) => {
+    Logo.findOne({ language: req.query.language, publish: true }, (err, doc) => {
 
         if (err) return res.status(400).send(err);
         res.status(200).send(doc)
@@ -888,7 +888,7 @@ app.get('/api/logo/show_entity', (req, res) => {
 
 app.get('/api/logo/get_entity', (req, res) => {
 
-    Logo.findOne({ language: req.query.lg }, (err, doc) => {
+    Logo.findOne({ language: req.query.language }, (err, doc) => {
         if (err) return res.status(400).send(err);
         res.status(200).send(doc)
 
@@ -898,7 +898,7 @@ app.get('/api/logo/get_entity', (req, res) => {
 
 app.post('/api/logo/add_entity', (req, res) => {
 
-    const logo = new Logo({ lineOne: 'Some Example Description', language: req.query.lg, publish: true });
+    const logo = new Logo({ lineOne: 'Some Example Description', language: req.query.language, publish: true });
 
     logo.save((error, doc) => {
         if (error) return res.json({ error });

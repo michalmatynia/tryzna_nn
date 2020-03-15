@@ -14,16 +14,20 @@ import {
 
 import { MENU_SERVER } from '../../../components/utils/misc';
 
-export function act_listMenus(lg, args) {
+export function act_listMenus(lg, args = null) {
 
     let listOfArgs = '';
 
-    for (const [key, value] of Object.entries(args)) {
+    if (args) {
 
-        listOfArgs += '&';
-        if (value) {
-            listOfArgs += key + '=' + value;
+        for (const [key, value] of Object.entries(args)) {
+
+            listOfArgs += '&';
+            if (value) {
+                listOfArgs += key + '=' + value;
+            }
         }
+
     }
 
     const request = axios.get(`${MENU_SERVER}/list_entities?language=${lg}${listOfArgs}`)
@@ -47,7 +51,7 @@ export function act_clearMenu(currentType) {
     }
 }
 
-export function act_addMenu(language, args, dataToSubmit) {
+export function act_addMenu(language, args, dataToSubmit = null) {
 
     let listOfArgs = '';
 
@@ -81,51 +85,15 @@ export function act_removeMenuItem(id) {
     }
 }
 
-export function act_getDetail_Menu(id, site_language, args, dataToSubmit) {
+export function act_getDetail_Menu(id) {
 
-    let request = {}
+    const request = axios.get(`${MENU_SERVER}/get_entity_by_id?_id=${id}`)
+        .then(response => {
+            console.log(response)
 
-    // Get a regular
-    if (!dataToSubmit) {
+            return response.data
 
-        request = axios.get(`${MENU_SERVER}/get_entity_by_id?_id=${id}`)
-            .then(response => {
-                console.log('MENU ACTIONS - no Data to Submit')
-                console.log(response)
-
-                return response.data
-
-            })
-
-    } else if (dataToSubmit) {
-
-        request = axios.get(`${MENU_SERVER}/list_entities?language=${site_language}&linkTo=${dataToSubmit.linkTo}`)
-            .then(response => {
-                // HHEHEREHREHRHERH
-                console.log('List Entities')
-                console.log(response)
-
-                if (Object.keys(response.data).length === 0) {
-
-                    dataToSubmit.language = site_language
-
-                    request = axios.post(`${MENU_SERVER}/add_entity?language=${site_language}&linkTo=${dataToSubmit.linkTo}`, dataToSubmit)
-                        .then(response2 => {
-                            console.log('po add entity')
-                            console.log(response2)
-                            return response2.data.entity
-
-                        })
-
-                } else {
-
-                    console.log('chybatu')
-                    console.log(response)
-                    return response.data[0]
-                }
-            })
-
-    }
+        })
 
     return {
         type: GET_MENU_DETAIL,

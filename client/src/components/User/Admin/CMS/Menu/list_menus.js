@@ -8,45 +8,42 @@ import { act_listMenus, act_removeMenuItem, act_setPublishMenu } from '../../../
 class ListMenus extends Component {
 
     state = {
-        get_args:
-            {}
+
     }
     componentDidUpdate(prevProps, prevState) {
         if ((
             this.props.user.siteLocalisation !== undefined
             && prevProps.user.siteLocalisation === undefined
-           // && !this.state.get_args.language
         ) || (
                 this.props.user.siteLocalisation !== undefined
                 && prevProps.user.siteLocalisation !== undefined
-                // && this.state.get_args.language
                 && prevProps.user.siteLocalisation.value !== this.props.user.siteLocalisation.value
 
             )) {
 
-            this.props.dispatch(act_listMenus(this.props.user.siteLocalisation.value, this.state.get_args))
+            this.props.dispatch(act_listMenus(this.props.user.siteLocalisation.value))
 
 
         }
 
     }
 
-    componentDidMount(){
+    componentDidMount() {
 
-        
+
         if (
             this.props.user.siteLocalisation !== undefined
         ) {
-            this.props.dispatch(act_listMenus(this.props.user.siteLocalisation.value, this.state.get_args))
+            this.props.dispatch(act_listMenus(this.props.user.siteLocalisation.value))
         }
     }
 
     removeEntityFromDb = (id) => {
 
         this.props.dispatch(act_removeMenuItem(id))
-        .then(response => {
-         this.props.dispatch(act_listMenus(this.props.user.siteLocalisation.value, this.state.get_args))
-        })
+            .then(response => {
+                this.props.dispatch(act_listMenus(this.props.user.siteLocalisation.value, this.state.get_args))
+            })
 
     }
 

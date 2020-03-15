@@ -15,20 +15,50 @@ class Logo extends Component {
 
 
     componentDidUpdate(prevProps, prevState) {
-        if (this.context !== undefined) {
-            if (this.context.value !== this.state.current_lg) {
-                this.setState({ current_lg: this.context.value })
-            } else if (this.context.value === this.state.current_lg
-                && prevState.current_lg !== this.state.current_lg) {
 
-               this.props.dispatch(act_getDetail_Logo_Published(this.state.current_lg))
+        console.log('LOGO PHASE I DidUpdate')
+        console.log(this.context.value)
+        console.log(this.state.current_lg)
+
+        if (
+            this.props.logo.logoDetail === undefined
+        ) {
+            if (this.context.value !== undefined) {
+
+                console.log('Before Dispatch')
+                console.log(this.context.value)
+
+                this.props.dispatch(act_getDetail_Logo_Published(this.context.value))
+                    .then(response => {
+                        console.log(response)
+                    })
             }
+
+
+
+            // if (this.context.value !== this.state.current_lg) {
+            //     this.setState({ current_lg: this.context.value })
+            // } else if (this.context.value === this.state.current_lg
+            //     && prevState.current_lg !== this.state.current_lg) {
+
+            //     this.props.dispatch(act_getDetail_Logo_Published(this.state.current_lg))
+            // }
         }
 
     }
-componentDidMount(){
-    this.setState({ current_lg: this.props.user.siteLocalisation.value })
-}
+    componentDidMount() {
+
+        console.log('LOGO PHASE I DidMount')
+        console.log(this.context.value)
+        if (this.context.value !== undefined) {
+            this.setState({ current_lg: this.context.value })
+
+            // this.props.dispatch(act_getDetail_Logo_Published(this.context.value))
+        }
+
+
+        // this.setState({ current_lg: this.context.value })
+    }
     componentWillUnmount() {
         this.props.dispatch(act_clearDetail_Logo())
     }
@@ -36,7 +66,10 @@ componentDidMount(){
 
     renderLogo = () => {
         // console.log(this)
-        if (this.props.logo.logoDetail !== undefined && this.props.logo.logoDetail.images.length > 0) {
+        if (
+            this.props.logo.logoDetail !== undefined
+            && this.props.logo.logoDetail.images !== undefined
+            && this.props.logo.logoDetail.images.length > 0) {
 
             return this.props.logo.logoDetail.images[0].url
 
@@ -58,11 +91,11 @@ componentDidMount(){
     render() {
         return (
             <div className="featured_image"
-            style={{
-                background: `url(${this.renderLogo()}) no-repeat`,
-                height: `60px`
+                style={{
+                    background: `url(${this.renderLogo()}) no-repeat`,
+                    height: `60px`
 
-            }}>{this.renderLogoLine()}</div>
+                }}>{this.renderLogoLine()}</div>
         )
     }
 

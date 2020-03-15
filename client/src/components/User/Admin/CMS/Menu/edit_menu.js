@@ -6,16 +6,12 @@ import { update, generateData, isFormValid, populateFields } from '../../../../u
 
 import { connect } from 'react-redux';
 
-import { act_getDetail_Menu, act_updateDetail_Menu, act_listMenus } from '../../../../../redux/actions/CMS/menu_actions';
+import { act_getDetail_Menu, act_updateDetail_Menu, act_listMenus, act_addMenu } from '../../../../../redux/actions/CMS/menu_actions';
 // import FileUpload from '../../../../utils/Form/CMS/fileupload_slide'
 
 class EditMenu extends Component {
 
     state = {
-        get_args:
-        {
-            sortBy: 'position'
-        },
         formError: false,
         formSuccess: false,
         formdata: {
@@ -171,43 +167,42 @@ class EditMenu extends Component {
             && this.props.user.siteLocalisation !== undefined
             && prevProps.user.siteLocalisation !== undefined
             && this.props.user.siteLocalisation.value === prevProps.user.siteLocalisation.value
-            // && this.state.formdata.language.value === prevState.formdata.language.value
             && this.state.formdata.position.config.options === prevState.formdata.position.config.options
             && Object.keys(this.state.formdata.position.config.options).length === 0
         ) {
             console.log('set position Options')
             console.log(this.props.menu.adminGetMenus)
 
-                    let line = [];
-                    let totalPos = [];
-                    // let i = 0
-                    if (Object.keys(this.props.menu.adminGetMenus).length !== 0) {
+            let line = [];
+            let totalPos = [];
+            // let i = 0
+            if (Object.keys(this.props.menu.adminGetMenus).length !== 0) {
 
-                        this.props.menu.adminGetMenus.forEach((item, i) => {
-                            i = i + 1;
-                            line = { key: i, value: i }
-                            totalPos.push(line)
+                this.props.menu.adminGetMenus.forEach((item, i) => {
+                    i = i + 1;
+                    line = { key: i, value: i }
+                    totalPos.push(line)
 
-                        })
+                })
 
-                    }
+            }
 
-                    // const newFormData = {
-                    //     ...this.state.formdata
-                    // }
-                    
-                    const newFormData = populateFields(this.state.formdata, this.props.menu.menuDetail);
-                    newFormData['position'].config.options = totalPos;
+            // const newFormData = {
+            //     ...this.state.formdata
+            // }
 
-                    this.setState({
-                        formdata: newFormData
-                    })
+            const newFormData = populateFields(this.state.formdata, this.props.menu.menuDetail);
+            newFormData['position'].config.options = totalPos;
+
+            this.setState({
+                formdata: newFormData
+            })
 
             //     })
         }
 
 
-        else if ((
+        else if (
 
             this.props.menu.menuDetail !== undefined
             && this.props.user.siteLocalisation !== undefined
@@ -215,45 +210,73 @@ class EditMenu extends Component {
             && this.props.user.siteLocalisation.value !== prevProps.user.siteLocalisation.value
             && this.state.formdata.language.value !== ''
             && this.state.formdata.position.value !== ''
-           // && this.state.formdata.language.value === prevState.formdata.language.value
-           // && this.state.formdata.position.config.options === prevState.formdata.position.config.options
             && Object.keys(this.state.formdata.position.config.options).length !== 0
 
             // LANGUAGE CHANGE
-        ) || (
-                this.props.menu.menuDetail === undefined
-                && prevProps.menu.menuDetail === undefined
-                && this.props.user.siteLocalisation !== undefined
-                && this.state.formdata.language.value === ''
-            )) {
+        ) {
 
             console.log('Component Did Update - LG CHANGE')
 
-            let dataToSubmit = generateData(this.state.formdata, 'menu');
+            // 1. Check if there are any menus with the same link but changed language
+
+            // set up argument ?linkTo=
+
+            let args = {}
+            args['linkTo'] = this.props.menu.menuDetail.linkTo
+
+
+            this.props.dispatch(act_listMenus(this.props.user.siteLocalisation.value, args))
+                .then(response => {
+                    if (Object.keys(response.payload).length === 0) {
+
+                        // 2.a if there are not, add new
+                        let dataToSubmit = generateData(this.state.formdata, 'menu');
+                        dataToSubmit['language'] = this.props.user.siteLocalisation.value
+
+                        this.props.dispatch(act_addMenu(this.props.user.siteLocalisation.value, args, dataToSubmit))
+
+                    } else {
+
+                        // 2.b if there are just get detail 
+                        this.props.dispatch(act_getDetail_Menu(this.props.menu.menuDetail._id))
+
+                        console.log('we will get there')
+                        console.log(response)
+                    }
+
+
+                })
+
+
+
+            // 3. get detail (and position from the update)
+
 
             // console.log(dataToSubmit)
+            // console.log(this.props)
+            // console.log(prevProps)
+            // console.log(this.state)
+            // console.log(prevState)
 
-            this.props.dispatch(act_getDetail_Menu(this.props.match.params.id, this.props.user.siteLocalisation.value, this.state.get_args, dataToSubmit))
-                .then(response => {
+            console.log('LG CHANGE Get Detail Menu')
+            // console.log(response)
 
-                    console.log(this.props)
-                    console.log(prevProps)
-                    console.log(this.state)
-                    console.log(prevState)
+            const newFormData = populateFields(this.state.formdata, this.props.menu.menuDetail);
+            this.setState({
+                formdata: newFormData
+            });
 
-                    console.log('LG CHANGE Get Detail Menu')
-                    console.log(response)
-                    const newFormData = populateFields(this.state.formdata, this.props.menu.menuDetail);
-                    this.setState({
-                        formdata: newFormData
-                    });
-                })
+
+            // this.props.dispatch(act_getDetail_Menu(this.props.match.params.id, this.props.user.siteLocalisation.value, this.state.get_args, dataToSubmit))
+            //     .then(response => {
+
+            //     })
         }
 
     }
 
     componentDidMount() {
-
+console.log(this.props.user.siteLocalisation)
 
         console.log('Component Did Mount')
         if (
@@ -261,7 +284,7 @@ class EditMenu extends Component {
         ) {
             console.log('Component Did Mount - INSIDE')
 
-            this.props.dispatch(act_getDetail_Menu(this.props.match.params.id, this.props.user.siteLocalisation.value, this.state.get_args, null))
+            this.props.dispatch(act_getDetail_Menu(this.props.match.params.id))
                 .then((response) => {
 
                     // Run list entities here to extract the position information
