@@ -890,7 +890,7 @@ app.get('/api/logo/get_entity', (req, res) => {
 
     Logo.findOne({ language: req.query.language }, (err, doc) => {
         if (err) return res.status(400).send(err);
-        res.status(200).send(doc)
+        res.send(doc)
 
     })
 

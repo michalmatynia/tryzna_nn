@@ -167,7 +167,6 @@ class EditMenu extends Component {
             && this.props.user.siteLocalisation !== undefined
             && prevProps.user.siteLocalisation !== undefined
             && this.props.user.siteLocalisation.value === prevProps.user.siteLocalisation.value
-            // && this.state.formdata.position.config.options === prevState.formdata.position.config.options
             && Object.keys(this.state.formdata.position.config.options).length === 0
         ) {
             // console.log('set position Options')

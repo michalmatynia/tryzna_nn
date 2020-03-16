@@ -53,6 +53,8 @@ export const GET_LOGO_DETAIL = 'get_logo_detail';
 export const CLEAR_LOGO_DETAIL = 'clear_logo_detail';
 export const UPDATE_LOGO_DETAIL = 'update_logo_detail';
 export const SHOW_LOGO_DETAIL = 'show_logo_detail';
+export const ADD_LOGO = 'add_logo';
+
 // -- Logo Image Handler
 export const REMOVE_LOGO_IMAGE = 'remove_logo_image';
 export const UPLOAD_LOGO_IMAGE = 'upload_logo_image';

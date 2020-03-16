@@ -52,7 +52,6 @@ class Layout extends Component {
 
     }
     componentDidMount() {
-        console.log('HOC PHASE II')
 
         if (Object.keys(this.props.site).length === 0) {
             this.props.dispatch(getSiteData())

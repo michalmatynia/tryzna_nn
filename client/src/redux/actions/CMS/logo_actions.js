@@ -5,7 +5,8 @@ import {
     UPDATE_LOGO_DETAIL,
     SHOW_LOGO_DETAIL,
     UPLOAD_LOGO_IMAGE,
-    REMOVE_LOGO_IMAGE
+    REMOVE_LOGO_IMAGE,
+    ADD_LOGO
 
 } from '../types';
 
@@ -16,18 +17,13 @@ export function act_getDetail_Logo(lg) {
     let request = axios.get(`/${LOGO_SERVER}/get_entity?language=${lg}`)
         .then(response => {
 
-            if (response.data === '' || response.data.error) {
+            console.log('getDetailLogo')
+            console.log(lg)
+            console.log(response)
 
-                // Get entity of any language
-                request = axios.post(`/${LOGO_SERVER}/add_entity?language=${lg}`)
-                    .then(response2 => {
-                        return response2.data.doc
-                    })
+            return response.data
+            // if (response.data === '' || response.data.error) {
 
-                return request
-            } else {
-                return response.data
-            }
         });
 
     return {
@@ -42,6 +38,21 @@ export function act_clearDetail_Logo() {
         payload: ''
     }
 }
+
+export function act_addLogo(lg) {
+
+   const request = axios.post(`/${LOGO_SERVER}/add_entity?language=${lg}`)
+        .then(response => {
+            return response.data
+
+        });
+
+    return {
+        type: ADD_LOGO,
+        payload: request
+    }
+}
+
 
 export function act_getDetail_Logo_Published(lg) {
 

@@ -90,40 +90,75 @@ class EditLogo extends Component {
 
     componentDidUpdate(prevProps) {
 
-        if (
-            this.props.user.siteLocalisation !== undefined 
-            && prevProps.user.siteLocalisation !== undefined 
-            && this.props.user.siteLocalisation.value !== undefined 
-            && this.props.logo !== undefined
-            ) {
-
-            if (prevProps.user.siteLocalisation.value !== this.props.user.siteLocalisation.value) {
-
-                this.props.dispatch(act_getDetail_Logo(this.props.user.siteLocalisation.value))
-                    .then((response) => {
-
-                        const newFormData = populateFields(this.state.formdata, this.props.logo.logoDetail);
-                        this.setState({
-                            formdata: newFormData
-                        });
-                    })
-            }
-
-        }
-    }
-    componentDidMount() {
+        console.log('componentDidUpdate')
         if (
             this.props.user.siteLocalisation !== undefined
             && this.props.user.siteLocalisation.value !== undefined
+            && this.props.logo.logoDetail === undefined
+            && this.props.user.siteLocalisation.value === prevProps.user.siteLocalisation.value
+
         ) {
+
+            console.log('componentDidUpdate - OMSODEd')
+
+
             this.props.dispatch(act_getDetail_Logo(this.props.user.siteLocalisation.value))
-            .then((response) => {
-                const newFormData = populateFields(this.state.formdata, response.payload);
+            .then(response => {
+                console.log('act_getDetail_Logo')
+
+                const newFormData = populateFields(this.state.formdata, this.props.logo.logoDetail);
                 this.setState({
                     formdata: newFormData
                 });
             })
-        }
+        } 
+
+        // if (
+        //     this.props.logo.logoDetail !== undefined
+        //     && this.props.user.siteLocalisation !== undefined
+        //     && prevProps.user.siteLocalisation !== undefined
+        // ) {
+
+        //     if (
+        //         // LANGUAGE CHANGE
+        //         this.props.user.siteLocalisation.value !== prevProps.user.siteLocalisation.value
+        //     ) {
+
+        //         this.props.dispatch(act_getDetail_Logo(this.props.user.siteLocalisation.value))
+        //             .then(response => {
+        //                 console.log('dispatch response')
+
+        //                 console.log(response)
+        //                 console.log(this.props.logo.logoDetail)
+
+        //                 // const newFormData = populateFields(this.state.formdata, this.props.logo.logoDetail);
+        //                 // this.setState({
+        //                 //     formdata: newFormData
+        //                 // });
+        //             })
+        //     }
+
+
+
+        // }
+    }
+    componentDidMount() {
+
+        if (
+            this.props.user.siteLocalisation !== undefined
+        ) {
+
+            this.props.dispatch(act_getDetail_Logo(this.props.user.siteLocalisation.value))
+            // .then(response => {
+            //     console.log('act_getDetail_Logo')
+            //     console.log(response)
+            //     console.log(this.props.logo.logoDetail)
+            //     const newFormData = populateFields(this.state.formdata, this.props.logo.logoDetail);
+            //     this.setState({
+            //         formdata: newFormData
+            //     });
+            // })
+        } 
     }
 
     updateForm = (element) => {
