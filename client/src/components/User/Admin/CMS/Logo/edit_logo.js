@@ -91,27 +91,31 @@ class EditLogo extends Component {
     componentDidUpdate(prevProps) {
 
         console.log('componentDidUpdate')
-        if (
-            this.props.user.siteLocalisation !== undefined
-            && this.props.user.siteLocalisation.value !== undefined
-            && this.props.logo.logoDetail === undefined
-            && this.props.user.siteLocalisation.value === prevProps.user.siteLocalisation.value
+        // if (
+        //     this.props.user.siteLocalisation !== undefined
+        //     && this.props.user.siteLocalisation.value !== undefined
+        //     && this.props.logo.logoDetail === undefined
+        //     && this.props.user.siteLocalisation.value === prevProps.user.siteLocalisation.value
 
-        ) {
+        // ) {
 
-            console.log('componentDidUpdate - OMSODEd')
+        //     console.log('componentDidUpdate - OMSODEd')
 
 
-            this.props.dispatch(act_getDetail_Logo(this.props.user.siteLocalisation.value))
-            .then(response => {
-                console.log('act_getDetail_Logo')
+        //     this.props.dispatch(act_getDetail_Logo(this.props.user.siteLocalisation.value))
+        //     .then(response => {
+        //         console.log('componentDidUpdate - act_getDetail_Logo')
 
-                const newFormData = populateFields(this.state.formdata, this.props.logo.logoDetail);
-                this.setState({
-                    formdata: newFormData
-                });
-            })
-        } 
+        //         const newFormData = populateFields(this.state.formdata, this.props.logo.logoDetail);
+        //         this.setState({
+        //             formdata: newFormData
+        //         });
+        //     })
+        // } 
+
+        // ===============================
+
+        // ===============================
 
         // if (
         //     this.props.logo.logoDetail !== undefined
@@ -149,15 +153,15 @@ class EditLogo extends Component {
         ) {
 
             this.props.dispatch(act_getDetail_Logo(this.props.user.siteLocalisation.value))
-            // .then(response => {
-            //     console.log('act_getDetail_Logo')
-            //     console.log(response)
-            //     console.log(this.props.logo.logoDetail)
-            //     const newFormData = populateFields(this.state.formdata, this.props.logo.logoDetail);
-            //     this.setState({
-            //         formdata: newFormData
-            //     });
-            // })
+            .then(response => {
+                console.log('componentDidMount - act_getDetail_Logo')
+                console.log(response)
+                console.log(this.props.logo.logoDetail)
+                const newFormData = populateFields(this.state.formdata, this.props.logo.logoDetail);
+                this.setState({
+                    formdata: newFormData
+                });
+            })
         } 
     }
 
