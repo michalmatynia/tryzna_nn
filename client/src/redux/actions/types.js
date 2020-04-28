@@ -49,6 +49,7 @@ export const REMOVE_MENU_ITEM = 'remove_menu_item';
 export const SET_PUBLISH_MENU = 'set_publish_menu';
 
 // - Logo
+export const LIST_LOGOS = 'list_logos';
 export const GET_LOGO_DETAIL = 'get_logo_detail';
 export const CLEAR_LOGO_DETAIL = 'clear_logo_detail';
 export const UPDATE_LOGO_DETAIL = 'update_logo_detail';

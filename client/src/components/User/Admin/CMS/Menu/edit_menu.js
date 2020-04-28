@@ -156,7 +156,7 @@ class EditMenu extends Component {
     componentDidUpdate(prevProps, prevState) {
 
         console.log('Component Did Update')
-        // console.log(this.props)
+        console.log(this.props)
         // console.log(prevProps)
         // console.log(this.state)
         // console.log(prevState)
@@ -217,7 +217,7 @@ class EditMenu extends Component {
                 .then(response => {
                     if (Object.keys(response.payload).length === 0) {
 
-                        // 2.a if there are not, add new
+                        // 2.a if there are no entities, add new
                         let dataToSubmit = generateData(this.state.formdata, 'menu');
                         dataToSubmit['language'] = this.props.user.siteLocalisation.value
 
@@ -241,7 +241,7 @@ class EditMenu extends Component {
                         // 2.b if there are just get detail
                         this.props.dispatch(act_getDetail_Menu(response.payload[0]._id))
                             .then(response2 => {
-                                console.log(response2)
+                                // console.log(response2)
                                 const newFormData = populateFields(this.state.formdata, this.props.menu.menuDetail);
 
                                 this.setState({

@@ -89,6 +89,7 @@ export function act_getDetail_Menu(id) {
 
     const request = axios.get(`${MENU_SERVER}/get_entity_by_id?_id=${id}`)
         .then(response => {
+            console.log('Response from Dispatch')
             console.log(response)
 
             return response.data

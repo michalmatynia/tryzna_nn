@@ -9,8 +9,6 @@ class Logo extends Component {
     state = {
     }
 
-
-
     componentDidUpdate(prevProps, prevState) {
 
         if ((
@@ -21,21 +19,28 @@ class Logo extends Component {
         }
 
     }
+
     componentDidMount() {
         this.props.dispatch(act_getDetail_Logo_Published(this.props.user.siteLocalisation.value))
 
     }
-    
+
     componentWillUnmount() {
         this.props.dispatch(act_clearDetail_Logo())
     }
 
 
     renderLogo = () => {
-        // console.log(this)
+         // console.log(this.props.logo.logoDetail)
         if (
             this.props.logo.logoDetail !== undefined
+            // && this.props.logo.logoDetail.images !== undefined
             && this.props.logo.logoDetail.images.length > 0) {
+                
+                console.log('HRERERER')
+                console.log(this.props)
+
+                // Object.keys(this.state.formdata.position.config.options).length === 0
 
             return this.props.logo.logoDetail.images[0].url
 
@@ -58,7 +63,7 @@ class Logo extends Component {
         return (
             <div className="featured_image"
                 style={{
-                    background: `url(${this.renderLogo()}) no-repeat`,
+                    // background: `url(${this.renderLogo()}) no-repeat`,
                     height: `60px`
 
                 }}>{this.renderLogoLine()}</div>

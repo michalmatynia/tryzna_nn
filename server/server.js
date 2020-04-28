@@ -875,6 +875,31 @@ app.post('/api/desc/update_entity', auth, admin, (req, res) => {
 //          Logo
 //=======================
 
+app.get('/api/menu/list_entities', (req, res) => {
+    let sortBy = req.query.sortBy ? req.query.sortBy : "updatedAt";
+    let limit = req.query.limit ? parseInt(req.query.limit) : 1000;
+
+    let allArgs = {};
+
+    for (const [key, value] of Object.entries(req.query)) {
+
+        if (key !== 'sortBy') {
+            allArgs[key] = value
+        }
+    }
+
+    Menu.
+        find(allArgs)
+        .sort([[sortBy]])
+        .limit(limit)
+        .exec((err, doc) => {
+
+            if (err) return res.status(400).send(err);
+            res.send(doc)
+        })
+
+})
+
 app.get('/api/logo/show_entity', (req, res) => {
 
     Logo.findOne({ language: req.query.language, publish: true }, (err, doc) => {

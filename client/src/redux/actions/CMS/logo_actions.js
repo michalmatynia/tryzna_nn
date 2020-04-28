@@ -6,20 +6,46 @@ import {
     SHOW_LOGO_DETAIL,
     UPLOAD_LOGO_IMAGE,
     REMOVE_LOGO_IMAGE,
-    ADD_LOGO
+    ADD_LOGO,
+    LIST_LOGOS
 
 } from '../types';
 
 import { LOGO_SERVER } from '../../../components/utils/misc';
+
+export function act_listLogos(lg, args = null) {
+
+    let listOfArgs = '';
+
+    if (args) {
+
+        for (const [key, value] of Object.entries(args)) {
+
+            listOfArgs += '&';
+            if (value) {
+                listOfArgs += key + '=' + value;
+            }
+        }
+
+    }
+
+    const request = axios.get(`${LOGO_SERVER}/list_entities?language=${lg}${listOfArgs}`)
+        .then(response => response.data)
+
+    return {
+        type: LIST_LOGOS,
+        payload: request
+    }
+}
 
 export function act_getDetail_Logo(lg) {
 
     let request = axios.get(`/${LOGO_SERVER}/get_entity?language=${lg}`)
         .then(response => {
 
-            console.log('getDetailLogo')
-            console.log(lg)
-            console.log(response)
+            // console.log('getDetailLogo')
+            // console.log(lg)
+            // console.log(response)
 
             return response.data
             // if (response.data === '' || response.data.error) {

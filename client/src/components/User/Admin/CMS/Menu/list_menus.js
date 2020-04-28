@@ -12,6 +12,7 @@ class ListMenus extends Component {
     }
     componentDidUpdate(prevProps, prevState) {
         if ((
+            
             this.props.user.siteLocalisation !== undefined
             && prevProps.user.siteLocalisation === undefined
         ) || (
