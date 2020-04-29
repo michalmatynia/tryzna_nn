@@ -67,8 +67,8 @@ export function act_clearDetail_Logo() {
 
 export function act_addLogo(language, args, dataToSubmit = null) {
 
-    console.log('in Action')
-    console.log(dataToSubmit)
+    // console.log('in Action')
+    // console.log(dataToSubmit)
 
     let listOfArgs = '';
 
@@ -83,7 +83,7 @@ export function act_addLogo(language, args, dataToSubmit = null) {
     const request = axios.post(`${LOGO_SERVER}/add_entity?language=${language}${listOfArgs}`, dataToSubmit)
         .then(response =>
             {
-                console.log(response)
+                // console.log(response)
                 return response.data
             });
 

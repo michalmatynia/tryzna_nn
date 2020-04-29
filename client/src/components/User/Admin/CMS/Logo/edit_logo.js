@@ -89,7 +89,7 @@ class EditLogo extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-
+        console.log('ComDidup')
         if (
             this.props.logo.logoDetail !== undefined
             && this.props.user.siteLocalisation !== undefined
@@ -117,24 +117,31 @@ class EditLogo extends Component {
                         this.props.dispatch(act_addLogo(this.props.user.siteLocalisation.value, args, dataToSubmit))
                             .then(response2 => {
                                 console.log('Add Logo')
+                                console.log(response2)
 
-                                //console.log(response2)
-
-                                this.props.dispatch(act_getDetail_Logo_by_Lg(this.props.user.siteLocalisation.value))
-                                    .then(response3 => {
-
-                                        // HEEERERERERERE
-                                        console.log('Extract')
-                                        //console.log(response3.payload)
-                                        // this.props.logo.logoDetail
-                                        console.log(this.props)
-                                        const newFormData = populateFields(this.state.formdata, this.props.logo.logoDetail);
+                                        const newFormData = populateFields(this.state.formdata, response2.payload.entity);
 
                                         this.setState({
                                             formdata: newFormData
                                         })
 
-                                    })
+                                //console.log(response2)
+
+                                // this.props.dispatch(act_getDetail_Logo_by_Lg(this.props.user.siteLocalisation.value))
+                                //     .then(response3 => {
+
+                                //         // HEEERERERERERE
+                                //         console.log('Extract')
+                                //         console.log(response3.payload)
+                                //         // this.props.logo.logoDetail
+                                //         console.log(this.props)
+                                //         const newFormData = populateFields(this.state.formdata, response3.payload);
+
+                                //         this.setState({
+                                //             formdata: newFormData
+                                //         })
+
+                                //     })
 
                             })
 
