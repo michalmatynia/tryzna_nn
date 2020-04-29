@@ -36,7 +36,7 @@ class Fileupload extends Component {
 
     showUploadedImages = () => (
         // console.log('frwouifnriwubfiu'),
-        // console.log(this.state),
+       // console.log(this.state),
 
         this.state.uploadedFiles.map(item => (
             <div className="dropzone_box"

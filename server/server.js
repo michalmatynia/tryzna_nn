@@ -875,7 +875,7 @@ app.post('/api/desc/update_entity', auth, admin, (req, res) => {
 //          Logo
 //=======================
 
-app.get('/api/menu/list_entities', (req, res) => {
+app.get('/api/logo/list_entities', (req, res) => {
     let sortBy = req.query.sortBy ? req.query.sortBy : "updatedAt";
     let limit = req.query.limit ? parseInt(req.query.limit) : 1000;
 
@@ -888,7 +888,7 @@ app.get('/api/menu/list_entities', (req, res) => {
         }
     }
 
-    Menu.
+    Logo.
         find(allArgs)
         .sort([[sortBy]])
         .limit(limit)
@@ -927,7 +927,10 @@ app.post('/api/logo/add_entity', (req, res) => {
 
     logo.save((error, doc) => {
         if (error) return res.json({ error });
-        res.status(200).json({ doc })
+        res.status(200).json({
+            success: true,
+            entity: doc
+        })
     })
 })
 

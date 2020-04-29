@@ -255,7 +255,7 @@ class EditMenu extends Component {
 
                 })
 
-            console.log('LG CHANGE Get Detail Menu')
+           // console.log('LG CHANGE Get Detail Menu')
             // console.log(response)
 
             const newFormData = populateFields(this.state.formdata, this.props.menu.menuDetail);

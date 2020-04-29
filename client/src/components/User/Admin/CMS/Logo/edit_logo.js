@@ -98,13 +98,15 @@ class EditLogo extends Component {
         ){
 
             // I. IF LANGUAGE CHANGE
+            console.log(this.state)
 
             // Get list of Logos
             let args = {}
 
             this.props.dispatch(act_listLogos(this.props.user.siteLocalisation.value, args))
                 .then(response => {
-                    console.log(response)
+                    // console.log('List Logos') - working
+                    // console.log(response)
                     if (Object.keys(response.payload).length === 0) {
 
                         // 2.a if there are no entities, add new
@@ -113,6 +115,8 @@ class EditLogo extends Component {
 
                         this.props.dispatch(act_addLogo(this.props.user.siteLocalisation.value, args, dataToSubmit))
                             .then(response2 => {
+
+                               // console.log(response2)
 
                                 this.props.dispatch(act_getDetail_Logo(response2.payload.entity._id))
                                     .then(response3 => {
@@ -146,61 +150,6 @@ class EditLogo extends Component {
             // 2. Create New
         }
 
-        // console.log('componentDidUpdate')
-        // if (
-        //     this.props.user.siteLocalisation !== undefined
-        //     && this.props.user.siteLocalisation.value !== undefined
-        //     && this.props.logo.logoDetail === undefined
-        //     && this.props.user.siteLocalisation.value === prevProps.user.siteLocalisation.value
-
-        // ) {
-
-        //     console.log('componentDidUpdate - OMSODEd')
-
-
-        //     this.props.dispatch(act_getDetail_Logo(this.props.user.siteLocalisation.value))
-        //     .then(response => {
-        //         console.log('componentDidUpdate - act_getDetail_Logo')
-
-        //         const newFormData = populateFields(this.state.formdata, this.props.logo.logoDetail);
-        //         this.setState({
-        //             formdata: newFormData
-        //         });
-        //     })
-        // } 
-
-        // ===============================
-
-        // ===============================
-
-        // if (
-        //     this.props.logo.logoDetail !== undefined
-        //     && this.props.user.siteLocalisation !== undefined
-        //     && prevProps.user.siteLocalisation !== undefined
-        // ) {
-
-        //     if (
-        //         // LANGUAGE CHANGE
-        //         this.props.user.siteLocalisation.value !== prevProps.user.siteLocalisation.value
-        //     ) {
-
-        //         this.props.dispatch(act_getDetail_Logo(this.props.user.siteLocalisation.value))
-        //             .then(response => {
-        //                 console.log('dispatch response')
-
-        //                 console.log(response)
-        //                 console.log(this.props.logo.logoDetail)
-
-        //                 // const newFormData = populateFields(this.state.formdata, this.props.logo.logoDetail);
-        //                 // this.setState({
-        //                 //     formdata: newFormData
-        //                 // });
-        //             })
-        //     }
-
-
-
-        // }
     }
     componentDidMount() {
 

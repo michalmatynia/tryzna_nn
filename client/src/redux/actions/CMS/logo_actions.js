@@ -40,7 +40,7 @@ export function act_listLogos(lg, args = null) {
 
 export function act_getDetail_Logo(lg) {
 
-    let request = axios.get(`/${LOGO_SERVER}/get_entity?language=${lg}`)
+    let request = axios.get(`${LOGO_SERVER}/get_entity?language=${lg}`)
         .then(response => {
 
             // console.log('getDetailLogo')
@@ -67,7 +67,7 @@ export function act_clearDetail_Logo() {
 
 export function act_addLogo(lg) {
 
-   const request = axios.post(`/${LOGO_SERVER}/add_entity?language=${lg}`)
+   const request = axios.post(`${LOGO_SERVER}/add_entity?language=${lg}`)
         .then(response => {
             return response.data
 
@@ -82,7 +82,7 @@ export function act_addLogo(lg) {
 
 export function act_getDetail_Logo_Published(lg) {
 
-    let request = axios.get(`/${LOGO_SERVER}/show_entity?language=${lg}&publish=true`)
+    let request = axios.get(`${LOGO_SERVER}/show_entity?language=${lg}&publish=true`)
         .then(response => {
             return response.data
 
@@ -100,7 +100,7 @@ export function act_updateDetail_Logo(dataToSubmit, lg, parent_id) {
 
     // console.log(parent_id)
 
-    const request = axios.post(`/${LOGO_SERVER}/update_entity?lg=${lg}&parent_id=${parent_id}`, dataToSubmit)
+    const request = axios.post(`${LOGO_SERVER}/update_entity?lg=${lg}&parent_id=${parent_id}`, dataToSubmit)
         .then(response => response.data.doc);
 
     return {
@@ -114,7 +114,7 @@ export function act_updateDetail_Logo(dataToSubmit, lg, parent_id) {
 
 export function act_uploadLogoImage(formData, axiosheaders) {
     // console.log(entity_id)
-    const request = axios.post(`/${LOGO_SERVER}/uploadimage`, formData, axiosheaders)
+    const request = axios.post(`${LOGO_SERVER}/uploadimage`, formData, axiosheaders)
         .then(response => {
             // console.log(response)
             return response.data;
@@ -128,7 +128,7 @@ export function act_uploadLogoImage(formData, axiosheaders) {
 
 export function act_removeLogoImage(image_id) {
 
-    const request = axios.get(`/${LOGO_SERVER}/removeimage?image_id=${image_id}`)
+    const request = axios.get(`${LOGO_SERVER}/removeimage?image_id=${image_id}`)
         .then(response => {
             return response.data;
         })
