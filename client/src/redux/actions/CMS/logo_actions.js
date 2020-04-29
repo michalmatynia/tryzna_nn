@@ -38,7 +38,7 @@ export function act_listLogos(lg, args = null) {
     }
 }
 
-export function act_getDetail_Logo(lg) {
+export function act_getDetail_Logo_by_Lg(lg) {
 
     let request = axios.get(`${LOGO_SERVER}/get_entity?language=${lg}`)
         .then(response => {
@@ -65,19 +65,47 @@ export function act_clearDetail_Logo() {
     }
 }
 
-export function act_addLogo(lg) {
+export function act_addLogo(language, args, dataToSubmit = null) {
 
-   const request = axios.post(`${LOGO_SERVER}/add_entity?language=${lg}`)
-        .then(response => {
-            return response.data
+    console.log('in Action')
+    console.log(dataToSubmit)
 
-        });
+    let listOfArgs = '';
+
+    for (const [key, value] of Object.entries(args)) {
+
+        listOfArgs += '&';
+        if (value) {
+            listOfArgs += key + '=' + value;
+        }
+    }
+
+    const request = axios.post(`${LOGO_SERVER}/add_entity?language=${language}${listOfArgs}`, dataToSubmit)
+        .then(response =>
+            {
+                console.log(response)
+                return response.data
+            });
 
     return {
         type: ADD_LOGO,
         payload: request
     }
 }
+
+// export function act_addLogo(lg) {
+
+//    const request = axios.post(`${LOGO_SERVER}/add_entity?language=${lg}`)
+//         .then(response => {
+//             return response.data
+
+//         });
+
+//     return {
+//         type: ADD_LOGO,
+//         payload: request
+//     }
+// }
 
 
 export function act_getDetail_Logo_Published(lg) {

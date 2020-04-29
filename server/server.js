@@ -921,18 +921,55 @@ app.get('/api/logo/get_entity', (req, res) => {
 
 });
 
+
+
 app.post('/api/logo/add_entity', (req, res) => {
 
-    const logo = new Logo({ lineOne: 'Some Example Description', language: req.query.language, publish: true });
+    const logo = new Logo(req.body);
 
-    logo.save((error, doc) => {
-        if (error) return res.json({ error });
-        res.status(200).json({
-            success: true,
-            entity: doc
-        })
+    logo.save((err, doc) => {
+
+        let allArgs = {};
+
+        for (const [key, value] of Object.entries(req.query)) {
+
+            if (key !== 'sortBy') {
+                allArgs[key] = value
+            }
+        }
+
+        Logo.
+            find(allArgs)
+            .sort({ createdAt: -1 })
+            .exec((err2, doc2) => {
+
+                console.log(doc2),
+                console.log(err2)
+  
+                if (err2) return res.json({ success: false, err2 });
+                res.status(200).json({
+                    success: true,
+                    entity: doc2
+                })
+
+            })
+
+
     })
 })
+
+// app.post('/api/logo/add_entity', (req, res) => {
+
+//     const logo = new Logo({ lineOne: 'Some Example Description', language: req.query.language, publish: true });
+
+//     logo.save((error, doc) => {
+//         if (error) return res.json({ error });
+//         res.status(200).json({
+//             success: true,
+//             entity: doc
+//         })
+//     })
+// })
 
 app.post('/api/logo/update_entity', auth, admin, (req, res) => {
 

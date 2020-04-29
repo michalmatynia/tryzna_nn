@@ -6,7 +6,7 @@ import { update, generateData, isFormValid, populateFields } from '../../../../u
 
 import { connect } from 'react-redux';
 
-import { act_getDetail_Logo, act_updateDetail_Logo, act_listLogos, act_addLogo } from '../../../../../redux/actions/CMS/logo_actions';
+import { act_getDetail_Logo_by_Lg, act_updateDetail_Logo, act_listLogos, act_addLogo } from '../../../../../redux/actions/CMS/logo_actions';
 import FileUpload from '../../../../utils/Form/CMS/fileupload_logo'
 
 class EditLogo extends Component {
@@ -98,15 +98,16 @@ class EditLogo extends Component {
         ){
 
             // I. IF LANGUAGE CHANGE
-            console.log(this.state)
+           // console.log(this.state)
+           console.log('INSIDE A')
 
             // Get list of Logos
             let args = {}
 
             this.props.dispatch(act_listLogos(this.props.user.siteLocalisation.value, args))
                 .then(response => {
-                    // console.log('List Logos') - working
-                    // console.log(response)
+                     console.log('List Logos')
+                    console.log(response)
                     if (Object.keys(response.payload).length === 0) {
 
                         // 2.a if there are no entities, add new
@@ -115,12 +116,19 @@ class EditLogo extends Component {
 
                         this.props.dispatch(act_addLogo(this.props.user.siteLocalisation.value, args, dataToSubmit))
                             .then(response2 => {
+                                console.log('Add Logo')
 
-                               // console.log(response2)
+                               console.log(response2)
 
-                                this.props.dispatch(act_getDetail_Logo(response2.payload.entity._id))
+                                this.props.dispatch(act_getDetail_Logo_by_Lg(this.props.user.siteLocalisation.value))
                                     .then(response3 => {
-                                        const newFormData = populateFields(this.state.formdata, this.props.logo.logoDetail);
+
+                                        // HEEERERERERERE
+                                        console.log('Extract')
+                                        console.log(response3.payload)
+                                        // this.props.logo.logoDetail
+                                        console.log(this.props)
+                                        const newFormData = populateFields(this.state.formdata, response3.payload);
 
                                         this.setState({
                                             formdata: newFormData
@@ -130,13 +138,38 @@ class EditLogo extends Component {
 
                             })
 
-                    } else {
+                            // ---------------------------
 
+                            // this.props.dispatch(act_getDetail_Logo_by_Lg(this.props.user.siteLocalisation.value))
+                            // .then(response2 => {
+                            //    console.log('Reached GetDetail')
+                            //     console.log(response2)
+                            //     const newFormData = populateFields(this.state.formdata, this.props.logo.logoDetail);
+
+                            //     this.setState({
+                            //         formdata: newFormData
+                            //     })
+
+                            // })
+
+                    } else if (
+                        this.props.logo.logoDetail !== undefined
+                        && this.props.user.siteLocalisation !== undefined
+                        && prevProps.user.siteLocalisation !== undefined
+                        && this.props.user.siteLocalisation.value === prevProps.user.siteLocalisation.value
+                    )
+                    {
+                        console.log('INSIDE B')
+                    }
+                    else {
+                        console.log('INSIDE C')
+                        // console.log(response)
                         // 2.b if there are just get detail
-                        this.props.dispatch(act_getDetail_Logo(response.payload[0]._id))
+                        this.props.dispatch(act_getDetail_Logo_by_Lg(this.props.user.siteLocalisation.value))
                             .then(response2 => {
+                               
                                 // console.log(response2)
-                                const newFormData = populateFields(this.state.formdata, this.props.menu.menuDetail);
+                                const newFormData = populateFields(this.state.formdata, this.props.logo.logoDetail);
 
                                 this.setState({
                                     formdata: newFormData
@@ -157,7 +190,7 @@ class EditLogo extends Component {
             this.props.user.siteLocalisation !== undefined
         ) {
 
-            this.props.dispatch(act_getDetail_Logo(this.props.user.siteLocalisation.value))
+            this.props.dispatch(act_getDetail_Logo_by_Lg(this.props.user.siteLocalisation.value))
             .then(response => {
                // console.log('componentDidMount - act_getDetail_Logo')
                 // console.log(response)
@@ -220,7 +253,7 @@ class EditLogo extends Component {
         this.setState({
             formdata: newFormData
         }
-            , () => { this.props.dispatch(act_getDetail_Logo(this.props.user.siteLocalisation.value)) }
+            , () => { this.props.dispatch(act_getDetail_Logo_by_Lg(this.props.user.siteLocalisation.value)) }
         )
     }
 
