@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const logoSchema = mongoose.Schema({
 
     lineOne: {
-        required: true,
+        required: false,
         type: String,
         maxlength: 100
     },
@@ -18,7 +18,7 @@ const logoSchema = mongoose.Schema({
         maxlength: 4
     },
     publish:{
-        required: true,
+        required: false,
         type: Boolean
     }
 },{timestamps:true});

@@ -928,6 +928,8 @@ app.post('/api/logo/add_entity', (req, res) => {
     const logo = new Logo(req.body);
 
     logo.save((err, doc) => {
+        console.log(err)
+        console.log(doc)
 
         let allArgs = {};
 
