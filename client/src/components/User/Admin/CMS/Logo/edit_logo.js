@@ -89,19 +89,22 @@ class EditLogo extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        console.log('ComDidup')
-        console.log(this.props.logo)
-
-        // Jesli a) nie ma bazy na liscie, klikniecie na jezyk
-        // b) Baza jest na liscie
-        // klikniecie bezposrednio na 
-
+        console.log('ComponentDidupdate - START')
+        console.log(this.props)
+        console.log(prevProps)
+        console.log(Object.keys(prevProps.logo.logoDetail).length)
+        console.log(Object.keys(this.props.logo.logoDetail).length)
+        
         if (
 
             this.props.user.siteLocalisation !== undefined
-            && prevProps.user.siteLocalisation !== undefined
-            && this.props.logo.adminGetLogos !== undefined
-            && this.props.logo.logoDetail === ''
+            // && prevProps.user.siteLocalisation !== undefined
+            // && this.props.logo.adminGetLogos !== undefined
+            && this.props.logo.logoDetail !== undefined
+            // && prevProps.logo.logoDetail !== undefined
+            // && this.props.logo.logoDetail === ""
+            // && this.props.logo.logoDetail !== prevProps.logo.logoDetail
+            && Object.keys(this.props.logo.logoDetail).length === 0
             // && this.props.user.siteLocalisation.value !== prevProps.user.siteLocalisation.value
         ) {
 
@@ -115,7 +118,7 @@ class EditLogo extends Component {
             //console.log('List Logos')
             // console.log(response)
             if (Object.keys(
-                this.props.logo.adminGetLogos).length === 0
+                this.props.logo.logoDetail).length === 0
             ) {
 
                 let dataToSubmit = generateData(this.state.formdata, 'logo');
@@ -124,16 +127,27 @@ class EditLogo extends Component {
                 this.props.dispatch(act_addLogo(this.props.user.siteLocalisation.value, args, dataToSubmit))
                     .then(response2 => {
                         console.log('Add Logo')
+                        console.log(this.props)
+                        console.log(prevProps)
 
-                        const newFormData = populateFields(this.state.formdata, response2.payload.entity);
+                        //  const newFormData = populateFields(this.state.formdata, response2.payload.entity);
 
-                        this.setState({
-                            formdata: newFormData
-                        })
+                        this.props.dispatch(act_getDetail_Logo_by_Lg(this.props.user.siteLocalisation.value))
+                            .then(response3 => {
+
+                                console.log('After Add Logo')
+                                console.log(response3)
+                                const newFormData = populateFields(this.state.formdata, this.props.logo.logoDetail);
+
+                                this.setState({
+                                    formdata: newFormData
+                                })
+
+                            })
 
                     })
 
-            } 
+            }
             // else if (
             //     (
             //         this.props.logo.logoDetail !== undefined
@@ -163,28 +177,29 @@ class EditLogo extends Component {
 
 
         }
-        else if (
-            this.props.logo.logoDetail !== undefined
-            && this.props.logo.logoDetail !== prevProps.logo.logoDetail
-            && this.props.user.siteLocalisation !== undefined
-            // && prevProps.user.siteLocalisation !== undefined
-            && this.props.user.siteLocalisation.value === prevProps.user.siteLocalisation.value
-            
-        ) {
+        // else if (
+        //     this.props.logo.logoDetail !== undefined
+        //     && this.props.logo.logoDetail !== ""
+        //     && this.props.logo.logoDetail !== prevProps.logo.logoDetail
+        //     && this.props.user.siteLocalisation !== undefined
+        //     // && prevProps.user.siteLocalisation !== undefined
+        //     && this.props.user.siteLocalisation.value === prevProps.user.siteLocalisation.value
 
-            console.log('INSIDE D')
-            this.props.dispatch(act_getDetail_Logo_by_Lg(this.props.user.siteLocalisation.value))
-                .then(response2 => {
+        // ) {
 
-                    // console.log(response2)
-                    const newFormData = populateFields(this.state.formdata, this.props.logo.logoDetail);
+        //     console.log('INSIDE D')
+        //     this.props.dispatch(act_getDetail_Logo_by_Lg(this.props.user.siteLocalisation.value))
+        //         .then(response2 => {
 
-                    this.setState({
-                        formdata: newFormData
-                    })
+        //             // console.log(response2)
+        //             const newFormData = populateFields(this.state.formdata, this.props.logo.logoDetail);
 
-                })
-        }
+        //             this.setState({
+        //                 formdata: newFormData
+        //             })
+
+        //         })
+        // }
 
     }
 
@@ -195,24 +210,20 @@ class EditLogo extends Component {
         ) {
             console.log('FWEFEWFEW')
 
-            let args = {}
-
-            // this.props.dispatch(act_listLogos(this.props.user.siteLocalisation.value, args))
-            //     // .then(
-            //     //     response => {
-            //     //         console.log(response)
-            //     //     }
-            //     // )
-
             this.props.dispatch(act_getDetail_Logo_by_Lg(this.props.user.siteLocalisation.value))
                 .then(response => {
-                    console.log('componentDidMount - act_getDetail_Logo')
-                    console.log(response)
+                    console.log('componentDidMount - act_getDetail_Logo');
+                    console.log(this.props);
+                    console.log(response);
                     // console.log(this.props.logo.logoDetail)
-                    // const newFormData = populateFields(this.state.formdata, this.props.logo.logoDetail);
-                    // this.setState({
-                    //     formdata: newFormData
-                    // });
+
+                    if (response.payload !== "") {
+                        const newFormData = populateFields(this.state.formdata, this.props.logo.logoDetail);
+                        this.setState({
+                            formdata: newFormData
+                        });
+                    }
+
                 })
         }
     }
