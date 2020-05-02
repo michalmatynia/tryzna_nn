@@ -55,6 +55,7 @@ export const CLEAR_LOGO_DETAIL = 'clear_logo_detail';
 export const UPDATE_LOGO_DETAIL = 'update_logo_detail';
 export const SHOW_LOGO_DETAIL = 'show_logo_detail';
 export const ADD_LOGO = 'add_logo';
+export const ADD_LOGO_AUTO = 'add_logo_auto';
 
 // -- Logo Image Handler
 export const REMOVE_LOGO_IMAGE = 'remove_logo_image';

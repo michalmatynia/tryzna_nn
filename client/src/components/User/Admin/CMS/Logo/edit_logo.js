@@ -6,7 +6,7 @@ import { update, generateData, isFormValid, populateFields } from '../../../../u
 
 import { connect } from 'react-redux';
 
-import { act_getDetail_Logo_by_Lg, act_updateDetail_Logo, act_listLogos, act_addLogo } from '../../../../../redux/actions/CMS/logo_actions';
+import { act_getDetail_Logo_by_Lg, act_updateDetail_Logo, act_listLogos, act_addLogo_Auto } from '../../../../../redux/actions/CMS/logo_actions';
 import FileUpload from '../../../../utils/Form/CMS/fileupload_logo'
 
 class EditLogo extends Component {
@@ -96,7 +96,6 @@ class EditLogo extends Component {
         console.log(Object.keys(this.props.logo.logoDetail).length)
         
         if (
-
             this.props.user.siteLocalisation !== undefined
             // && prevProps.user.siteLocalisation !== undefined
             // && this.props.logo.adminGetLogos !== undefined
@@ -110,112 +109,64 @@ class EditLogo extends Component {
 
             // I. IF LANGUAGE CHANGE
             // console.log(this.state)
-            console.log('INSIDE A')
+            console.log('Before Add Logo')
 
             // Get list of Logos
-            let args = {}
-
-            //console.log('List Logos')
-            // console.log(response)
-            if (Object.keys(
-                this.props.logo.logoDetail).length === 0
-            ) {
+         
 
                 let dataToSubmit = generateData(this.state.formdata, 'logo');
                 dataToSubmit['language'] = this.props.user.siteLocalisation.value
+                dataToSubmit['publish'] = true
 
-                this.props.dispatch(act_addLogo(this.props.user.siteLocalisation.value, args, dataToSubmit))
+                this.props.dispatch(act_addLogo_Auto(this.props.user.siteLocalisation.value, dataToSubmit))
                     .then(response2 => {
-                        console.log('Add Logo')
+                        console.log('INSIDE Add Logo')
                         console.log(this.props)
                         console.log(prevProps)
+                        console.log(response2)
 
-                        //  const newFormData = populateFields(this.state.formdata, response2.payload.entity);
-
-                        this.props.dispatch(act_getDetail_Logo_by_Lg(this.props.user.siteLocalisation.value))
-                            .then(response3 => {
-
-                                console.log('After Add Logo')
-                                console.log(response3)
-                                const newFormData = populateFields(this.state.formdata, this.props.logo.logoDetail);
-
-                                this.setState({
-                                    formdata: newFormData
-                                })
-
-                            })
+                        console.log('INSIDE D')
+                        const newFormData = populateFields(this.state.formdata, this.props.logo.logoDetail);
+                                
+                        this.setState({
+                            formdata: newFormData
+                        })
 
                     })
 
-            }
-            // else if (
-            //     (
-            //         this.props.logo.logoDetail !== undefined
-            //         && this.props.logo.logoDetail === prevProps.logo.logoDetail
-            //         && this.props.user.siteLocalisation.value === prevProps.user.siteLocalisation.value
-            //     ) || (
-            //         this.props.logo.logoDetail !== undefined
-            //         && this.props.user.siteLocalisation.value !== prevProps.user.siteLocalisation.value
-            //     )
-            // ) {
-            //     console.log('INSIDE C')
-            //     // console.log(response)
-
-            //     // 2.b if there are just get detail
-            //     this.props.dispatch(act_getDetail_Logo_by_Lg(this.props.user.siteLocalisation.value))
-            //         .then(response2 => {
-
-            //             // console.log(response2)
-            //             const newFormData = populateFields(this.state.formdata, this.props.logo.logoDetail);
-
-            //             this.setState({
-            //                 formdata: newFormData
-            //             })
-
-            //         })
-            // }
-
 
         }
-        // else if (
-        //     this.props.logo.logoDetail !== undefined
-        //     && this.props.logo.logoDetail !== ""
-        //     && this.props.logo.logoDetail !== prevProps.logo.logoDetail
-        //     && this.props.user.siteLocalisation !== undefined
-        //     // && prevProps.user.siteLocalisation !== undefined
-        //     && this.props.user.siteLocalisation.value === prevProps.user.siteLocalisation.value
+        else if (
+            this.props.user.siteLocalisation !== undefined
+            // && prevProps.user.siteLocalisation !== undefined
+            // && this.props.logo.adminGetLogos !== undefined
+            && this.props.logo.logoDetail !== undefined
+            // && prevProps.logo.logoDetail !== undefined
+            // && this.props.logo.logoDetail === ""
+            && this.props.logo.logoDetail !== prevProps.logo.logoDetail
+            // && Object.keys(prevProps.logo.logoDetail).length === 0
+            && Object.keys(this.props.logo.logoDetail).length === 1
+            // && this.props.user.siteLocalisation.value !== prevProps.user.siteLocalisation.value
 
-        // ) {
+        ) {
 
-        //     console.log('INSIDE D')
-        //     this.props.dispatch(act_getDetail_Logo_by_Lg(this.props.user.siteLocalisation.value))
-        //         .then(response2 => {
 
-        //             // console.log(response2)
-        //             const newFormData = populateFields(this.state.formdata, this.props.logo.logoDetail);
-
-        //             this.setState({
-        //                 formdata: newFormData
-        //             })
-
-        //         })
-        // }
 
     }
-
+    
+    }
     componentDidMount() {
 
         if (
             this.props.user.siteLocalisation !== undefined
         ) {
-            console.log('FWEFEWFEW')
+            console.log('ComponentDidMount')
 
             this.props.dispatch(act_getDetail_Logo_by_Lg(this.props.user.siteLocalisation.value))
                 .then(response => {
-                    console.log('componentDidMount - act_getDetail_Logo');
+                    console.log('INSIDE componentDidMount - act_getDetail_Logo');
                     console.log(this.props);
                     console.log(response);
-                    // console.log(this.props.logo.logoDetail)
 
                     if (response.payload !== "") {
                         const newFormData = populateFields(this.state.formdata, this.props.logo.logoDetail);

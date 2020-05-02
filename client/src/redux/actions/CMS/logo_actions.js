@@ -7,6 +7,7 @@ import {
     UPLOAD_LOGO_IMAGE,
     REMOVE_LOGO_IMAGE,
     ADD_LOGO,
+    ADD_LOGO_AUTO,
     LIST_LOGOS
 
 } from '../types';
@@ -93,6 +94,22 @@ export function act_addLogo(language, args, dataToSubmit = null) {
     }
 }
 
+export function act_addLogo_Auto(language, dataToSubmit = null) {
+
+
+    const request = axios.post(`${LOGO_SERVER}/add_entity_auto?language=${language}`, dataToSubmit)
+        .then(response =>
+            {
+                console.log('Add Auto Action')
+                console.log(response)
+                return response.data
+            });
+
+    return {
+        type: ADD_LOGO_AUTO,
+        payload: request
+    }
+}
 // export function act_addLogo(lg) {
 
 //    const request = axios.post(`${LOGO_SERVER}/add_entity?language=${lg}`)

@@ -6,6 +6,7 @@ import {
     UPLOAD_LOGO_IMAGE,
     REMOVE_LOGO_IMAGE,
     ADD_LOGO,
+    ADD_LOGO_AUTO,
     LIST_LOGOS
 
 
@@ -23,8 +24,10 @@ export default function (state = {}, action) {
             return { ...state, logoDetail: action.payload }
         case UPDATE_LOGO_DETAIL:
             return { ...state, logoDetail: action.payload }
+        case ADD_LOGO_AUTO:
+            return { ...state, logoDetail: action.payload }
         case ADD_LOGO:
-            return {...state, adminAddLogo: action.payload}
+            return { ...state, adminAddLogo: action.payload }
         case REMOVE_LOGO_IMAGE:
             return { ...state }
         case UPLOAD_LOGO_IMAGE:

@@ -914,6 +914,12 @@ app.get('/api/logo/show_entity', (req, res) => {
 app.get('/api/logo/get_entity', (req, res) => {
 
     Logo.findOne({ language: req.query.language }, (err, doc) => {
+
+        console.log('GET ENTITY')
+
+        console.log(err)
+        console.log(doc)
+
         if (err) return res.status(400).send(err);
         res.send(doc)
 
@@ -928,50 +934,27 @@ app.post('/api/logo/add_entity', (req, res) => {
     const logo = new Logo(req.body);
 
     logo.save((err, doc) => {
-        console.log(err)
-        console.log(doc)
 
-        let allArgs = {};
-
-        for (const [key, value] of Object.entries(req.query)) {
-
-            if (key !== 'sortBy') {
-                allArgs[key] = value
-            }
-        }
-
-        Logo.
-            find(allArgs)
-            .sort({ createdAt: -1 })
-            .exec((err2, doc2) => {
-
-                console.log(doc2),
-                console.log(err2)
-  
-                if (err2) return res.json({ success: false, err2 });
-                res.status(200).json({
-                    success: true,
-                    entity: doc2
-                })
-
-            })
+        if (err) return res.json({ err });
+        res.status(200).json({ doc })
 
 
     })
 })
 
-// app.post('/api/logo/add_entity', (req, res) => {
+app.post('/api/logo/add_entity_auto', (req, res) => {
 
-//     const logo = new Logo({ lineOne: 'Some Example Description', language: req.query.language, publish: true });
+    const logo = new Logo(req.body);
 
-//     logo.save((error, doc) => {
-//         if (error) return res.json({ error });
-//         res.status(200).json({
-//             success: true,
-//             entity: doc
-//         })
-//     })
-// })
+    logo.save((err, doc) => {
+        console.log(err)
+        console.log(doc)
+
+            if (err) return res.status(400).send(err);
+            res.status(200).send(doc)
+
+    })
+})
 
 app.post('/api/logo/update_entity', auth, admin, (req, res) => {
 
