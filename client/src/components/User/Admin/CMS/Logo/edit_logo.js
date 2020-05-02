@@ -6,7 +6,7 @@ import { update, generateData, isFormValid, populateFields } from '../../../../u
 
 import { connect } from 'react-redux';
 
-import { act_getDetail_Logo_by_Lg, act_updateDetail_Logo, act_listLogos, act_addLogo_Auto } from '../../../../../redux/actions/CMS/logo_actions';
+import { act_getDetail_Logo_by_Lg, act_updateDetail_Logo, act_addLogo_Auto } from '../../../../../redux/actions/CMS/logo_actions';
 import FileUpload from '../../../../utils/Form/CMS/fileupload_logo'
 
 class EditLogo extends Component {
@@ -92,10 +92,10 @@ class EditLogo extends Component {
         console.log('ComponentDidupdate - START')
         console.log(this.props)
         console.log(prevProps)
-        console.log(Object.keys(prevProps.logo.logoDetail).length)
+        // console.log(Object.keys(prevProps.logo.logoDetail).length)
         console.log(Object.keys(this.props.logo.logoDetail).length)
-        
-        if (
+
+        if ((
             this.props.user.siteLocalisation !== undefined
             // && prevProps.user.siteLocalisation !== undefined
             // && this.props.logo.adminGetLogos !== undefined
@@ -103,36 +103,43 @@ class EditLogo extends Component {
             // && prevProps.logo.logoDetail !== undefined
             // && this.props.logo.logoDetail === ""
             // && this.props.logo.logoDetail !== prevProps.logo.logoDetail
+            && this.props.user.siteLocalisation.value === prevProps.user.siteLocalisation.value
             && Object.keys(this.props.logo.logoDetail).length === 0
-            // && this.props.user.siteLocalisation.value !== prevProps.user.siteLocalisation.value
-        ) {
 
-            // I. IF LANGUAGE CHANGE
-            // console.log(this.state)
+        ) || (
+            this.props.user.siteLocalisation !== undefined
+            // && prevProps.user.siteLocalisation !== undefined
+            // && this.props.logo.adminGetLogos !== undefined
+            && this.props.logo.logoDetail !== undefined
+            // && prevProps.logo.logoDetail !== undefined
+            // && this.props.logo.logoDetail === ""
+            // && this.props.logo.logoDetail !== prevProps.logo.logoDetail
+            && this.props.user.siteLocalisation.value === prevProps.user.siteLocalisation.value
+            && Object.keys(this.props.logo.logoDetail).length === 0
+        )) {
+
+
             console.log('Before Add Logo')
 
-            // Get list of Logos
-         
+            let dataToSubmit = generateData(this.state.formdata, 'logo');
+            dataToSubmit['language'] = this.props.user.siteLocalisation.value
+            dataToSubmit['publish'] = true
 
-                let dataToSubmit = generateData(this.state.formdata, 'logo');
-                dataToSubmit['language'] = this.props.user.siteLocalisation.value
-                dataToSubmit['publish'] = true
+            this.props.dispatch(act_addLogo_Auto(this.props.user.siteLocalisation.value, dataToSubmit))
+                .then(response2 => {
+                    console.log('INSIDE Add Logo')
+                    console.log(this.props)
+                    console.log(prevProps)
+                    console.log(response2)
 
-                this.props.dispatch(act_addLogo_Auto(this.props.user.siteLocalisation.value, dataToSubmit))
-                    .then(response2 => {
-                        console.log('INSIDE Add Logo')
-                        console.log(this.props)
-                        console.log(prevProps)
-                        console.log(response2)
+                    console.log('INSIDE D')
+                    const newFormData = populateFields(this.state.formdata, this.props.logo.logoDetail);
 
-                        console.log('INSIDE D')
-                        const newFormData = populateFields(this.state.formdata, this.props.logo.logoDetail);
-                                
-                        this.setState({
-                            formdata: newFormData
-                        })
-
+                    this.setState({
+                        formdata: newFormData
                     })
+
+                })
 
 
         }
@@ -143,17 +150,31 @@ class EditLogo extends Component {
             && this.props.logo.logoDetail !== undefined
             // && prevProps.logo.logoDetail !== undefined
             // && this.props.logo.logoDetail === ""
-            && this.props.logo.logoDetail !== prevProps.logo.logoDetail
+            // && this.props.logo.logoDetail !== prevProps.logo.logoDetail
+            && this.props.user.siteLocalisation.value !== prevProps.user.siteLocalisation.value
             // && Object.keys(prevProps.logo.logoDetail).length === 0
-            && Object.keys(this.props.logo.logoDetail).length === 1
+            && Object.keys(this.props.logo.logoDetail).length > 0
             // && this.props.user.siteLocalisation.value !== prevProps.user.siteLocalisation.value
 
         ) {
+            console.log('B piggula');
+            this.props.dispatch(act_getDetail_Logo_by_Lg(this.props.user.siteLocalisation.value))
+                .then(response => {
+                    console.log('INSIDE componentDidUPDATE - Second choice');
+                    console.log(this.props);
+                    console.log(response);
 
+                    if (response.payload !== "") {
+                        const newFormData = populateFields(this.state.formdata, this.props.logo.logoDetail);
+                        this.setState({
+                            formdata: newFormData
+                        });
+                    }
 
+                })
 
-    }
-    
+        }
+
     }
     componentDidMount() {
 

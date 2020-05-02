@@ -14,6 +14,7 @@ import {
 
 import { LOGO_SERVER } from '../../../components/utils/misc';
 
+// This function is UNUSED
 export function act_listLogos(lg, args = null) {
 
     let listOfArgs = '';
@@ -110,19 +111,7 @@ export function act_addLogo_Auto(language, dataToSubmit = null) {
         payload: request
     }
 }
-// export function act_addLogo(lg) {
 
-//    const request = axios.post(`${LOGO_SERVER}/add_entity?language=${lg}`)
-//         .then(response => {
-//             return response.data
-
-//         });
-
-//     return {
-//         type: ADD_LOGO,
-//         payload: request
-//     }
-// }
 
 
 export function act_getDetail_Logo_Published(lg) {
