@@ -95,28 +95,18 @@ class EditLogo extends Component {
         // console.log(Object.keys(prevProps.logo.logoDetail).length)
         console.log(Object.keys(this.props.logo.logoDetail).length)
 
-        if ((
+        if (
             this.props.user.siteLocalisation !== undefined
             // && prevProps.user.siteLocalisation !== undefined
             // && this.props.logo.adminGetLogos !== undefined
             && this.props.logo.logoDetail !== undefined
             // && prevProps.logo.logoDetail !== undefined
             // && this.props.logo.logoDetail === ""
-            // && this.props.logo.logoDetail !== prevProps.logo.logoDetail
-            && this.props.user.siteLocalisation.value === prevProps.user.siteLocalisation.value
+            && this.props.logo.logoDetail !== prevProps.logo.logoDetail
+            // && this.props.user.siteLocalisation.value === prevProps.user.siteLocalisation.value
             && Object.keys(this.props.logo.logoDetail).length === 0
 
-        ) || (
-            this.props.user.siteLocalisation !== undefined
-            // && prevProps.user.siteLocalisation !== undefined
-            // && this.props.logo.adminGetLogos !== undefined
-            && this.props.logo.logoDetail !== undefined
-            // && prevProps.logo.logoDetail !== undefined
-            // && this.props.logo.logoDetail === ""
-            // && this.props.logo.logoDetail !== prevProps.logo.logoDetail
-            && this.props.user.siteLocalisation.value === prevProps.user.siteLocalisation.value
-            && Object.keys(this.props.logo.logoDetail).length === 0
-        )) {
+        ) {
 
 
             console.log('Before Add Logo')
