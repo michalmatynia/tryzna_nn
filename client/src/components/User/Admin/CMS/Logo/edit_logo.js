@@ -88,25 +88,53 @@ class EditLogo extends Component {
         }
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps) {
         console.log('ComponentDidupdate - START')
         console.log(this.props)
         console.log(prevProps)
-        // console.log(Object.keys(prevProps.logo.logoDetail).length)
         console.log(Object.keys(this.props.logo.logoDetail).length)
 
+ 
         if (
+            this.props.user.siteLocalisation !== undefined
+            && this.props.logo.logoDetail !== undefined
+            && prevProps.logo.logoDetail !== undefined
+            // && this.props.logo.logoDetail === ""
+            // && this.props.logo.logoDetail !== prevProps.logo.logoDetail
+            && this.props.user.siteLocalisation.value !== prevProps.user.siteLocalisation.value
+            // && Object.keys(prevProps.logo.logoDetail).length === 0
+            && Object.keys(this.props.logo.logoDetail).length > 0
+            // && this.props.user.siteLocalisation.value !== prevProps.user.siteLocalisation.value
+
+        ) {
+            console.log('B piggula');
+            this.props.dispatch(act_getDetail_Logo_by_Lg(this.props.user.siteLocalisation.value))
+                .then(response => {
+                    console.log('INSIDE componentDidUPDATE - Second choice');
+                    console.log(this.props);
+                    console.log(response);
+
+                    if (response.payload !== "") {
+                        const newFormData = populateFields(this.state.formdata, this.props.logo.logoDetail);
+                        this.setState({
+                            formdata: newFormData
+                        });
+                    }
+
+                })
+
+        } else if ((
             this.props.user.siteLocalisation !== undefined
             // && prevProps.user.siteLocalisation !== undefined
             // && this.props.logo.adminGetLogos !== undefined
             && this.props.logo.logoDetail !== undefined
             // && prevProps.logo.logoDetail !== undefined
-            // && this.props.logo.logoDetail === ""
-            && this.props.logo.logoDetail !== prevProps.logo.logoDetail
-            // && this.props.user.siteLocalisation.value === prevProps.user.siteLocalisation.value
-            && Object.keys(this.props.logo.logoDetail).length === 0
 
-        ) {
+        ) && (
+            (this.props.logo.logoDetail !== prevProps.logo.logoDetail && Object.keys(this.props.logo.logoDetail).length === 0)
+            || (Object.keys(this.props.logo.logoDetail).length !== 0 && this.props.user.siteLocalisation.value !== prevProps.user.siteLocalisation.value)
+        ))
+        {
 
 
             console.log('Before Add Logo')
@@ -131,37 +159,6 @@ class EditLogo extends Component {
 
                 })
 
-
-        }
-        else if (
-            this.props.user.siteLocalisation !== undefined
-            // && prevProps.user.siteLocalisation !== undefined
-            // && this.props.logo.adminGetLogos !== undefined
-            && this.props.logo.logoDetail !== undefined
-            // && prevProps.logo.logoDetail !== undefined
-            // && this.props.logo.logoDetail === ""
-            // && this.props.logo.logoDetail !== prevProps.logo.logoDetail
-            && this.props.user.siteLocalisation.value !== prevProps.user.siteLocalisation.value
-            // && Object.keys(prevProps.logo.logoDetail).length === 0
-            && Object.keys(this.props.logo.logoDetail).length > 0
-            // && this.props.user.siteLocalisation.value !== prevProps.user.siteLocalisation.value
-
-        ) {
-            console.log('B piggula');
-            this.props.dispatch(act_getDetail_Logo_by_Lg(this.props.user.siteLocalisation.value))
-                .then(response => {
-                    console.log('INSIDE componentDidUPDATE - Second choice');
-                    console.log(this.props);
-                    console.log(response);
-
-                    if (response.payload !== "") {
-                        const newFormData = populateFields(this.state.formdata, this.props.logo.logoDetail);
-                        this.setState({
-                            formdata: newFormData
-                        });
-                    }
-
-                })
 
         }
 

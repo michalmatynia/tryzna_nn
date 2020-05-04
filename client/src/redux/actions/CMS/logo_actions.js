@@ -45,9 +45,9 @@ export function act_getDetail_Logo_by_Lg(lg) {
     let request = axios.get(`${LOGO_SERVER}/get_entity?language=${lg}`)
         .then(response => {
 
-            console.log('getDetailLogo')
-            console.log(lg)
-            console.log(response)
+            // console.log('getDetailLogo')
+            // console.log(lg)
+            // console.log(response)
 
             return response.data
             // if (response.data === '' || response.data.error) {
