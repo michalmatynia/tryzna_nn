@@ -101,6 +101,22 @@ export function act_getDetail_Menu(id) {
         payload: request
     }
 }
+
+export function act_updateDetail_Menu(dataToSubmit, lg, parent_id) {
+
+    console.log('INSIDE UPDATE')
+    console.log(dataToSubmit)
+
+    const request = axios.post(`${MENU_SERVER}/update_entity?lg=${lg}&parent_id=${parent_id}`, dataToSubmit)
+        .then(response => response.data.doc);
+
+    return {
+        type: UPDATE_MENU_DETAIL,
+        payload: request
+    }
+}
+
+
 // --------------------- BELOW NOT DEVELOPED YET
 // DEVELOPING
 
@@ -158,15 +174,4 @@ export function act_getDetail_Menu_Published(current_lg) {
 }
 
 
-export function act_updateDetail_Menu(dataToSubmit, lg, parent_id) {
 
-    // console.log(dataToSubmit)
-
-    const request = axios.post(`${MENU_SERVER}/update_entity?lg=${lg}&parent_id=${parent_id}`, dataToSubmit)
-        .then(response => response.data.doc);
-
-    return {
-        type: UPDATE_MENU_DETAIL,
-        payload: request
-    }
-}

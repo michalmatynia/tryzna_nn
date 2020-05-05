@@ -158,22 +158,26 @@ class EditMenu extends Component {
         console.log('Component Did Update')
         console.log(this.props)
         console.log(prevProps)
+        console.log(this.state.formdata.position.config.options)
 
+        // 0. Get a Menu item and calculate position
 
-        // If I update
-
-        // If I change the language
-
-        if (
-            // this.props.menu.adminGetMenus !== undefined
+        if ((
             this.props.menu.menuDetail !== undefined
             && this.props.user.siteLocalisation !== undefined
-            && prevProps.user.siteLocalisation !== undefined
-            && this.props.user.siteLocalisation.value === prevProps.user.siteLocalisation.value
             && Object.keys(this.state.formdata.position.config.options).length === 0
-        ) {
 
-            // console.log('set position Options')
+            // && this.props.user.siteLocalisation.value === prevProps.user.siteLocalisation.value
+            // && Object.keys(this.state.formdata.position.config.options).length === 0
+            // && Object.keys(this.props.menu.adminGetMenus).length === 0
+
+        )
+            // && (
+            //         (this.props.logo.logoDetail !== prevProps.logo.logoDetail && Object.keys(this.props.logo.logoDetail).length === 0)
+            //         || (Object.keys(this.props.logo.logoDetail).length !== 0 && this.props.user.siteLocalisation.value !== prevProps.user.siteLocalisation.value)
+            //     )
+        ) {
+            console.log('INSIDE A - Set position')
 
             let line = [];
             let totalPos = [];
@@ -196,74 +200,20 @@ class EditMenu extends Component {
                 formdata: newFormData
             })
 
-            //     })
         }
 
 
-        else if (
 
-            this.props.menu.menuDetail !== undefined
-            && this.props.user.siteLocalisation !== undefined
-            && prevProps.user.siteLocalisation !== undefined
-            && this.props.user.siteLocalisation.value !== prevProps.user.siteLocalisation.value
+        // 1. If I update
 
-            // LANGUAGE CHANGE
-        ) {
+        // 2. If I change the language - I need to recalculate the List of Menus for a given Lg
 
-            let args = {}
-            args['linkTo'] = this.props.menu.menuDetail.linkTo
+        // 2. A If there is a Menu with the same Link
 
-
-            this.props.dispatch(act_listMenus(this.props.user.siteLocalisation.value, args))
-                .then(response => {
-                    if (Object.keys(response.payload).length === 0) {
-
-                        // 2.a if there are no entities, add new
-                        let dataToSubmit = generateData(this.state.formdata, 'menu');
-                        dataToSubmit['language'] = this.props.user.siteLocalisation.value
-
-                        this.props.dispatch(act_addMenu(this.props.user.siteLocalisation.value, args, dataToSubmit))
-                            .then(response2 => {
-
-                                this.props.dispatch(act_getDetail_Menu(response2.payload.entity._id))
-                                    .then(response3 => {
-                                        const newFormData = populateFields(this.state.formdata, this.props.menu.menuDetail);
-
-                                        this.setState({
-                                            formdata: newFormData
-                                        })
-
-                                    })
-
-                            })
-
-                    } else {
-
-                        // 2.b if there are just get detail
-                        this.props.dispatch(act_getDetail_Menu(response.payload[0]._id))
-                            .then(response2 => {
-                                // console.log(response2)
-                                const newFormData = populateFields(this.state.formdata, this.props.menu.menuDetail);
-
-                                this.setState({
-                                    formdata: newFormData
-                                })
-
-                            })
-                    }
+        // 2. B If there are no Menus with the same Link, Add new
 
 
 
-                })
-
-           // console.log('LG CHANGE Get Detail Menu')
-            // console.log(response)
-
-            const newFormData = populateFields(this.state.formdata, this.props.menu.menuDetail);
-            this.setState({
-                formdata: newFormData
-            });
-        }
 
     }
 
@@ -275,11 +225,16 @@ class EditMenu extends Component {
         ) {
 
             this.props.dispatch(act_getDetail_Menu(this.props.match.params.id))
-            .then(response => {
-                console.log('INSIDE ComponentDIDMount')
+            // .then(response => {
+            //     console.log('INSIDE ComponentDIDMount')
 
-                
-            })
+            //     if (response.payload !== "") {
+            //         const newFormData = populateFields(this.state.formdata, this.props.menu.menuDetail);
+            //         this.setState({
+            //             formdata: newFormData
+            //         });
+            //     }
+            // })
         }
 
     }
@@ -299,7 +254,7 @@ class EditMenu extends Component {
         let formIsValid = isFormValid(this.state.formdata, 'menu');
 
         if (formIsValid) {
-            this.props.dispatch(act_updateDetail_Menu(dataToSubmit, this.props.match.params.id))
+            this.props.dispatch(act_updateDetail_Menu(dataToSubmit, this.props.user.siteLocalisation, this.props.match.params.id))
                 .then(() => {
                     this.setState({
                         formSuccess: true

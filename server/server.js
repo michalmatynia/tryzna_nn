@@ -948,8 +948,8 @@ app.post('/api/logo/add_entity_auto', (req, res) => {
 
     logo.save((err, doc) => {
 
-            if (err) return res.status(400).send(err);
-            res.status(200).send(doc)
+        if (err) return res.status(400).send(err);
+        res.status(200).send(doc)
 
     })
 })
@@ -1135,7 +1135,7 @@ app.get('/api/menu/remove_entity', auth, (req, res) => {
             else {
 
                 Menu.
-                    find({language : docs.language})
+                    find({ language: docs.language })
                     .sort({ position: 1, createdAt: -1 })
                     .exec((err2, doc2) => {
 
@@ -1145,18 +1145,18 @@ app.get('/api/menu/remove_entity', auth, (req, res) => {
                             doc2.map(item => {
                                 i = i + 1;
 
-                                    Menu.findOneAndUpdate(
-                                        { _id: mongoose.Types.ObjectId(item._id) },
-                                        {
-                                            "$set": {
-                                                position: parseInt(i)
-                                            }
-                                        }, { new: true },
-                                        (err3, doc3) => {
-                                            if (err3) { return res.status(400).send(err3); }
+                                Menu.findOneAndUpdate(
+                                    { _id: mongoose.Types.ObjectId(item._id) },
+                                    {
+                                        "$set": {
+                                            position: parseInt(i)
                                         }
-                                    )
-                                
+                                    }, { new: true },
+                                    (err3, doc3) => {
+                                        if (err3) { return res.status(400).send(err3); }
+                                    }
+                                )
+
                             })
                         }
                     })
@@ -1184,7 +1184,22 @@ app.get('/api/menu/get_entity_by_id', (req, res) => {
 
 });
 
+app.post('/api/menu/update_entity', auth, admin, (req, res) => {
 
+    Menu.findOneAndUpdate(
+        { language: req.query.lg, _id: req.query.parent_id },
+        {
+            "$set": req.body
+        },
+        { new: true },
+        (err, doc) => {
+
+             console.log(doc)
+            if (err) return res.json({ success: false, err });
+            return res.status(200).send({ doc })
+        }
+    )
+});
 // ============================
 
 app.get('/api/slide/articles', (req, res) => {
