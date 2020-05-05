@@ -254,7 +254,13 @@ class EditMenu extends Component {
         let formIsValid = isFormValid(this.state.formdata, 'menu');
 
         if (formIsValid) {
-            this.props.dispatch(act_updateDetail_Menu(dataToSubmit, this.props.user.siteLocalisation, this.props.match.params.id))
+
+            // HEEEREEEEEEEE - doesn't update
+
+            let args = {}
+            args['parent_id'] = this.props.match.params.id
+
+            this.props.dispatch(act_updateDetail_Menu(this.props.user.siteLocalisation.value, args, dataToSubmit))
                 .then(() => {
                     this.setState({
                         formSuccess: true

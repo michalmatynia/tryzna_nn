@@ -1186,8 +1186,14 @@ app.get('/api/menu/get_entity_by_id', (req, res) => {
 
 app.post('/api/menu/update_entity', auth, admin, (req, res) => {
 
+    console.log('server side')
+    console.log(req.query)
+    console.log(req.body)
+
+    // mongoose.Types.ObjectId(req.query.parent_id
+
     Menu.findOneAndUpdate(
-        { language: req.query.lg, _id: req.query.parent_id },
+        { language: req.query.language, _id: req.query.parent_id },
         {
             "$set": req.body
         },
@@ -1195,6 +1201,7 @@ app.post('/api/menu/update_entity', auth, admin, (req, res) => {
         (err, doc) => {
 
              console.log(doc)
+             console.log(err)
             if (err) return res.json({ success: false, err });
             return res.status(200).send({ doc })
         }

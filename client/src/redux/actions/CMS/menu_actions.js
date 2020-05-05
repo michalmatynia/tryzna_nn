@@ -102,13 +102,24 @@ export function act_getDetail_Menu(id) {
     }
 }
 
-export function act_updateDetail_Menu(dataToSubmit, lg, parent_id) {
+export function act_updateDetail_Menu(language, args, dataToSubmit = null) {
 
-    console.log('INSIDE UPDATE')
-    console.log(dataToSubmit)
+    let listOfArgs = '';
 
-    const request = axios.post(`${MENU_SERVER}/update_entity?lg=${lg}&parent_id=${parent_id}`, dataToSubmit)
-        .then(response => response.data.doc);
+    for (const [key, value] of Object.entries(args)) {
+
+        listOfArgs += '&';
+        if (value) {
+            listOfArgs += key + '=' + value;
+        }
+    }
+
+    const request = axios.post(`${MENU_SERVER}/update_entity?language=${language}${listOfArgs}`, dataToSubmit)
+        .then(response => {
+
+            console.log('fffffffff')
+            console.log(response)
+            return response.data.doc});
 
     return {
         type: UPDATE_MENU_DETAIL,
