@@ -157,22 +157,23 @@ class EditMenu extends Component {
 
         console.log('Component Did Update')
         console.log(this.props)
-        // console.log(prevProps)
-        // console.log(this.state)
-        // console.log(prevState)
-        console.log(' ========')
+        console.log(prevProps)
+
+
+        // If I update
+
+        // If I change the language
+
         if (
-            this.props.menu.adminGetMenus !== undefined
-            && this.props.menu.menuDetail !== undefined
+            // this.props.menu.adminGetMenus !== undefined
+            this.props.menu.menuDetail !== undefined
             && this.props.user.siteLocalisation !== undefined
             && prevProps.user.siteLocalisation !== undefined
             && this.props.user.siteLocalisation.value === prevProps.user.siteLocalisation.value
             && Object.keys(this.state.formdata.position.config.options).length === 0
         ) {
-            // console.log('set position Options')
-            // console.log(this.props.menu.adminGetMenus)
 
-            // Set Position Field
+            // console.log('set position Options')
 
             let line = [];
             let totalPos = [];
@@ -267,11 +268,18 @@ class EditMenu extends Component {
     }
 
     componentDidMount() {
+
+        console.log('ComponentDidMount')
         if (
             this.props.user.siteLocalisation !== undefined
         ) {
 
             this.props.dispatch(act_getDetail_Menu(this.props.match.params.id))
+            .then(response => {
+                console.log('INSIDE ComponentDIDMount')
+
+                
+            })
         }
 
     }

@@ -89,7 +89,6 @@ class Fileupload extends Component {
         if (
             (props.reset || (props.logo.logoDetail === '' || props.logo.logoDetail === undefined)
             ) 
-            // && (props.logo.adminGetLogos === undefined || (props.logo.adminGetLogos !== undefined && Object.keys(this.props.logo.adminGetLogos).length === 0))
         ) {
             return state = {
                 uploadedFiles: []

@@ -89,10 +89,6 @@ class EditLogo extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        console.log('ComponentDidupdate - START')
-        console.log(this.props)
-        console.log(prevProps)
-        console.log(Object.keys(this.props.logo.logoDetail).length)
 
         if (
             this.props.user.siteLocalisation !== undefined
@@ -101,12 +97,8 @@ class EditLogo extends Component {
             && this.props.user.siteLocalisation.value !== prevProps.user.siteLocalisation.value
             && Object.keys(this.props.logo.logoDetail).length > 0
         ) {
-            console.log('B piggula');
             this.props.dispatch(act_getDetail_Logo_by_Lg(this.props.user.siteLocalisation.value))
                 .then(response => {
-                    console.log('INSIDE componentDidUPDATE - Second choice');
-                    console.log(this.props);
-                    console.log(response);
 
                     if (response.payload !== "") {
                         const newFormData = populateFields(this.state.formdata, this.props.logo.logoDetail);
@@ -125,20 +117,13 @@ class EditLogo extends Component {
                 || (Object.keys(this.props.logo.logoDetail).length !== 0 && this.props.user.siteLocalisation.value !== prevProps.user.siteLocalisation.value)
             )) {
 
-            console.log('Before Add Logo')
-
             let dataToSubmit = generateData(this.state.formdata, 'logo');
             dataToSubmit['language'] = this.props.user.siteLocalisation.value
             dataToSubmit['publish'] = true
 
             this.props.dispatch(act_addLogo_Auto(this.props.user.siteLocalisation.value, dataToSubmit))
                 .then(response2 => {
-                    console.log('INSIDE Add Logo')
-                    console.log(this.props)
-                    console.log(prevProps)
-                    console.log(response2)
-
-                    console.log('INSIDE D')
+ 
                     const newFormData = populateFields(this.state.formdata, this.props.logo.logoDetail);
 
                     this.setState({
@@ -156,13 +141,9 @@ class EditLogo extends Component {
         if (
             this.props.user.siteLocalisation !== undefined
         ) {
-            console.log('ComponentDidMount')
 
             this.props.dispatch(act_getDetail_Logo_by_Lg(this.props.user.siteLocalisation.value))
                 .then(response => {
-                    console.log('INSIDE componentDidMount - act_getDetail_Logo');
-                    console.log(this.props);
-                    console.log(response);
 
                     if (response.payload !== "") {
                         const newFormData = populateFields(this.state.formdata, this.props.logo.logoDetail);
@@ -245,12 +226,6 @@ class EditLogo extends Component {
                         <FormField
                             id={'lineOne'}
                             formdata={this.state.formdata.lineOne}
-                            change={(element) => this.updateForm(element)}
-                        />
-                        <div className="form_divider"></div>
-                        <FormField
-                            id={'publish'}
-                            formdata={this.state.formdata.publish}
                             change={(element) => this.updateForm(element)}
                         />
                         <div>

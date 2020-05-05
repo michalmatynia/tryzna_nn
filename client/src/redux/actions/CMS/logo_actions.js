@@ -101,8 +101,6 @@ export function act_addLogo_Auto(language, dataToSubmit = null) {
     const request = axios.post(`${LOGO_SERVER}/add_entity_auto?language=${language}`, dataToSubmit)
         .then(response =>
             {
-                console.log('Add Auto Action')
-                console.log(response)
                 return response.data
             });
 

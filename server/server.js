@@ -927,7 +927,7 @@ app.get('/api/logo/get_entity', (req, res) => {
 
 });
 
-
+// Not sure if normal ADD Entity for Logo is necessary
 
 app.post('/api/logo/add_entity', (req, res) => {
 
@@ -947,8 +947,6 @@ app.post('/api/logo/add_entity_auto', (req, res) => {
     const logo = new Logo(req.body);
 
     logo.save((err, doc) => {
-        console.log(err)
-        console.log(doc)
 
             if (err) return res.status(400).send(err);
             res.status(200).send(doc)

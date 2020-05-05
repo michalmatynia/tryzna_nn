@@ -31,22 +31,15 @@ class Logo extends Component {
 
 
     renderLogo = () => {
-         // console.log(this.props.logo.logoDetail)
         if (
             this.props.logo.logoDetail !== undefined
             && this.props.logo.logoDetail.images !== undefined
             && this.props.logo.logoDetail.images.length > 0) {
                 
-                // console.log('HRERERER')
-                // console.log(this.props)
-
-                // Object.keys(this.state.formdata.position.config.options).length === 0
 
             return this.props.logo.logoDetail.images[0].url
 
         } else {
-
-            // console.log('foinoindoewin')
 
             return '/images/image_not_availble.png'
         }
