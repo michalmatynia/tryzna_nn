@@ -200,7 +200,26 @@ class EditMenu extends Component {
                 formdata: newFormData
             })
 
+        } else if (
+            this.props.user.siteLocalisation !== undefined
+            && this.props.menu.menuDetail !== undefined
+            && this.props.user.siteLocalisation.value !== prevProps.user.siteLocalisation.value
+        ) {
+            console.log('Language Changed')
+        } else {
+
+            // Dlaczego jest 3 run update, sprawdzic czy Logo zachowuje sie tak samo, dac nothing jaka trzecia opcje
+
+            console.log('nothing')
         }
+        
+        // else if ((
+        //     this.props.user.siteLocalisation !== undefined
+        //     && this.props.menu.menuDetail !== undefined
+        // ) && (
+        //         (this.props.menu.menuDetail !== prevProps.menu.menuDetail && Object.keys(this.props.menu.menuDetail).length === 0)
+        //         || (Object.keys(this.props.menu.menuDetail).length !== 0 && this.props.user.siteLocalisation.value !== prevProps.user.siteLocalisation.value)
+        //     )){}
 
 
 
@@ -254,8 +273,6 @@ class EditMenu extends Component {
         let formIsValid = isFormValid(this.state.formdata, 'menu');
 
         if (formIsValid) {
-
-            // HEEEREEEEEEEE - doesn't update
 
             let args = {}
             args['parent_id'] = this.props.match.params.id
