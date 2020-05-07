@@ -85,12 +85,39 @@ export function act_removeMenuItem(id) {
     }
 }
 
-export function act_getDetail_Menu(id) {
+export function act_getDetail_by_Id_Menu(id) {
 
     const request = axios.get(`${MENU_SERVER}/get_entity_by_id?_id=${id}`)
         .then(response => {
-            console.log('act_GetDetail_Menu')
+            // console.log('act_GetDetail_Menu')
             // console.log(response)
+
+            return response.data
+
+        })
+
+    return {
+        type: GET_MENU_DETAIL,
+        payload: request
+    }
+}
+
+export function act_getDetail_by_Args_Menu(language, args) {
+
+    let listOfArgs = '';
+
+    for (const [key, value] of Object.entries(args)) {
+
+        listOfArgs += '&';
+        if (value) {
+            listOfArgs += key + '=' + value;
+        }
+    }
+
+    const request = axios.get(`${MENU_SERVER}/get_entity_by_args?language=${language}${listOfArgs}`)
+        .then(response => {
+            console.log('act_GetDetail_Menu')
+            console.log(response)
 
             return response.data
 
@@ -117,8 +144,8 @@ export function act_updateDetail_Menu(language, args, dataToSubmit = null) {
     const request = axios.post(`${MENU_SERVER}/update_entity?language=${language}${listOfArgs}`, dataToSubmit)
         .then(response => {
 
-            console.log('fffffffff')
-            console.log(response)
+            // console.log('fffffffff')
+            // console.log(response)
             return response.data.doc});
 
     return {

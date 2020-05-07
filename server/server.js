@@ -1184,11 +1184,31 @@ app.get('/api/menu/get_entity_by_id', (req, res) => {
 
 });
 
-app.post('/api/menu/update_entity', auth, admin, (req, res) => {
+app.get('/api/menu/get_entity_by_args', (req, res) => {
 
-    console.log('server side')
-    console.log(req.query)
-    console.log(req.body)
+    let allArgs = {};
+
+    for (const [key, value] of Object.entries(req.query)) {
+
+        if (key !== 'sortBy') {
+            allArgs[key] = value
+        }
+    }
+
+    Menu.
+        findOne(allArgs)
+        // .sort({ position: 1, createdAt: -1 })
+        .exec((err, doc) => {
+
+            console.log(err)
+            console.log(doc)
+            if (err) return res.status(400).send(err);
+            res.status(200).send(doc)
+        })
+
+});
+
+app.post('/api/menu/update_entity', auth, admin, (req, res) => {
 
     // mongoose.Types.ObjectId(req.query.parent_id
 
@@ -1200,8 +1220,6 @@ app.post('/api/menu/update_entity', auth, admin, (req, res) => {
         { new: true },
         (err, doc) => {
 
-             console.log(doc)
-             console.log(err)
             if (err) return res.json({ success: false, err });
             return res.status(200).send({ doc })
         }

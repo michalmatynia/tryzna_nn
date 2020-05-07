@@ -6,7 +6,7 @@ import { update, generateData, isFormValid, populateFields } from '../../../../u
 
 import { connect } from 'react-redux';
 
-import { act_getDetail_Menu, act_updateDetail_Menu, act_listMenus, act_addMenu } from '../../../../../redux/actions/CMS/menu_actions';
+import { act_getDetail_by_Args_Menu, act_getDetail_by_Id_Menu, act_updateDetail_Menu, act_listMenus, act_addMenu } from '../../../../../redux/actions/CMS/menu_actions';
 // import FileUpload from '../../../../utils/Form/CMS/fileupload_slide'
 
 class EditMenu extends Component {
@@ -206,13 +206,19 @@ class EditMenu extends Component {
             && this.props.user.siteLocalisation.value !== prevProps.user.siteLocalisation.value
         ) {
             console.log('Language Changed')
-        } else {
+            let args = {}
+            args['linkTo'] = this.props.menu.menuDetail.linkTo
+            // 2. If I change the language - I need to recalculate the List of Menus for a given Lg
+            this.props.dispatch(act_getDetail_by_Args_Menu(this.props.user.siteLocalisation.value, args))
 
-            // Dlaczego jest 3 run update, sprawdzic czy Logo zachowuje sie tak samo, dac nothing jaka trzecia opcje
+            // change function to add Args to search with the same link, NOOO this is just for position, need to search with the same link 
+            // this.props.dispatch(act_listMenus(this.props.user.siteLocalisation.value))
 
-            console.log('nothing')
+            console.log('show menus')
+            console.log(this.props)
+
         }
-        
+
         // else if ((
         //     this.props.user.siteLocalisation !== undefined
         //     && this.props.menu.menuDetail !== undefined
@@ -222,10 +228,6 @@ class EditMenu extends Component {
         //     )){}
 
 
-
-        // 1. If I update
-
-        // 2. If I change the language - I need to recalculate the List of Menus for a given Lg
 
         // 2. A If there is a Menu with the same Link
 
@@ -243,7 +245,7 @@ class EditMenu extends Component {
             this.props.user.siteLocalisation !== undefined
         ) {
 
-            this.props.dispatch(act_getDetail_Menu(this.props.match.params.id))
+            this.props.dispatch(act_getDetail_by_Id_Menu(this.props.match.params.id))
             // .then(response => {
             //     console.log('INSIDE ComponentDIDMount')
 
