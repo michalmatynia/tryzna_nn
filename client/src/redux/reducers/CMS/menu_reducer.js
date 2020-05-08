@@ -5,16 +5,13 @@ import {
     ADD_MENU,
     CLEAR_MENU,
     LIST_MENUS,
-    GET_MENUS,
     REMOVE_MENU_ITEM,
-    SET_PUBLISH_MENU
+    SET_VISIBLE_MENU
 
 } from '../../actions/types';
 
 export default function (state = {}, action) {
     switch (action.type) {
-        case GET_MENUS:
-            return { ...state, adminGetMenus: action.payload }
         case REMOVE_MENU_ITEM:
             return {
                 ...state
@@ -36,7 +33,7 @@ export default function (state = {}, action) {
             
         case LIST_MENUS:
             return { ...state, adminGetMenus: action.payload }
-        case SET_PUBLISH_MENU:
+        case SET_VISIBLE_MENU:
             return { ...state, adminGetMenus: action.payload }
         default:
             return state;

@@ -4,7 +4,7 @@ import MyButton from '../../../../utils/button';
 import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
-const ListMenuBlock = ({ list, removeItem, handlePublish }) => {
+const ListMenuBlock = ({ list, removeItem, handleVisible }) => {
 
 
     const renderItems = () => (
@@ -34,12 +34,12 @@ const ListMenuBlock = ({ list, removeItem, handlePublish }) => {
                         <FormControlLabel
                             control={
                                 <Switch
-                                    checked={item.publish}
-                                    onClick={() => handlePublish(item._id, item.publish)}
+                                    checked={item.visible}
+                                    onClick={() => handleVisible(item._id, item.visible)}
                                     color="primary"
                                 />
                             }
-                            label={item.publish ? "On" : "Off"}
+                            label={item.visible ? "On" : "Off"}
                             size="small"
                             labelPlacement="top"
                         />

@@ -6,9 +6,8 @@ import {
     ADD_MENU,
     CLEAR_MENU,
     LIST_MENUS,
-    GET_MENUS,
     REMOVE_MENU_ITEM,
-    SET_PUBLISH_MENU
+    SET_VISIBLE_MENU
 
 } from '../types';
 
@@ -144,8 +143,6 @@ export function act_updateDetail_Menu(language, args, dataToSubmit = null) {
     const request = axios.post(`${MENU_SERVER}/update_entity?language=${language}${listOfArgs}`, dataToSubmit)
         .then(response => {
 
-            // console.log('fffffffff')
-            // console.log(response)
             return response.data.doc});
 
     return {
@@ -155,40 +152,26 @@ export function act_updateDetail_Menu(language, args, dataToSubmit = null) {
 }
 
 
-// --------------------- BELOW NOT DEVELOPED YET
-// DEVELOPING
-
-
-export function act_getData_Menus(args) {
+export function act_setVisible_Menu(language, args=null, id, checked) {
 
     let listOfArgs = '';
-    let i = 0;
-    // console.log(args);
 
     for (const [key, value] of Object.entries(args)) {
-        i++;
-        if (i === 1) { listOfArgs += '?'; } else { listOfArgs += '&'; }
 
+        listOfArgs += '&';
         if (value) {
             listOfArgs += key + '=' + value;
         }
     }
 
-    const request = axios.get(`${MENU_SERVER}/list_entity${listOfArgs}`)
-        .then(response => response.data);
-    return {
-        type: GET_MENUS,
-        payload: request
-    }
-}
-
-export function act_setPublishMenu(id, checked) {
-
-    const request = axios.post(`${MENU_SERVER}/set_publish?id=${id}&checked=${checked}`)
-        .then(response => response.data);
+    const request = axios.post(`${MENU_SERVER}/set_visible?language=${language}${listOfArgs}`)
+        .then(response => {
+            console.log(response);
+            
+            return response.data });
 
     return {
-        type: SET_PUBLISH_MENU,
+        type: SET_VISIBLE_MENU,
         payload: request
     }
 }
@@ -199,7 +182,7 @@ export function act_setPublishMenu(id, checked) {
 
 export function act_getDetail_Menu_Published(current_lg) {
 
-    let request = axios.get(`${MENU_SERVER}/show_entity?lg=${current_lg}&publish=true`)
+    let request = axios.get(`${MENU_SERVER}/show_entity?lg=${current_lg}&visible=true`)
         .then(response => {
 
             return response.data

@@ -3,7 +3,7 @@ import UserLayout from '../../../../../hoc/user';
 import ListMenusBlock from '../Menu/list_menus_block';
 
 import { connect } from 'react-redux';
-import { act_listMenus, act_removeMenuItem, act_setPublishMenu } from '../../../../../redux/actions/CMS/menu_actions';
+import { act_listMenus, act_removeMenuItem, act_setVisible_Menu } from '../../../../../redux/actions/CMS/menu_actions';
 
 class ListMenus extends Component {
 
@@ -30,7 +30,6 @@ class ListMenus extends Component {
 
     componentDidMount() {
 
-
         if (
             this.props.user.siteLocalisation !== undefined
         ) {
@@ -47,10 +46,12 @@ class ListMenus extends Component {
 
     }
 
-    handlePublish = (id, checked) => {
+    handleVisible = (id, checked) => {
+        let args = {}
+        args['_id'] = id
+        args['checked'] = checked
 
-        // console.log(checked)
-        this.props.dispatch(act_setPublishMenu(id, checked))
+        this.props.dispatch(act_setVisible_Menu(this.props.user.siteLocalisation.value, args))
 
     }
 
@@ -64,7 +65,7 @@ class ListMenus extends Component {
                             type="cart"
                             list={this.props.menu.adminGetMenus}
                             removeItem={(id) => this.removeEntityFromDb(id)}
-                            handlePublish={(id, checked) => this.handlePublish(id, checked)}
+                            handleVisible={(id, checked) => this.handleVisible(id, checked)}
                         />
                     </div>
                 </div>

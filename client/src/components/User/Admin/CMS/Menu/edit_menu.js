@@ -129,12 +129,12 @@ class EditMenu extends Component {
                 showlabel: true
 
             },
-            publish: {
+            visible: {
                 element: 'select',
                 value: '',
                 config: {
-                    label: 'Publish',
-                    name: 'publish_input',
+                    label: 'Visible',
+                    name: 'visible_input',
                     options: [
                         { key: true, value: 'yes' },
                         { key: false, value: 'no' },
@@ -155,29 +155,10 @@ class EditMenu extends Component {
 
     componentDidUpdate(prevProps, prevState) {
 
-        console.log('Component Did Update')
-        console.log(this.props)
-        console.log(prevProps)
-        console.log(this.state.formdata.position.config.options)
-
-        // 0. Get a Menu item and calculate position
-
         if ((
             this.props.menu.menuDetail !== undefined
             && this.props.user.siteLocalisation !== undefined
-            && Object.keys(this.state.formdata.position.config.options).length === 0
-
-            // && this.props.user.siteLocalisation.value === prevProps.user.siteLocalisation.value
-            // && Object.keys(this.state.formdata.position.config.options).length === 0
-            // && Object.keys(this.props.menu.adminGetMenus).length === 0
-
-        )
-            // && (
-            //         (this.props.logo.logoDetail !== prevProps.logo.logoDetail && Object.keys(this.props.logo.logoDetail).length === 0)
-            //         || (Object.keys(this.props.logo.logoDetail).length !== 0 && this.props.user.siteLocalisation.value !== prevProps.user.siteLocalisation.value)
-            //     )
-        ) {
-            console.log('INSIDE A - Set position')
+            && Object.keys(this.state.formdata.position.config.options).length === 0  )) {
 
             let line = [];
             let totalPos = [];
@@ -188,9 +169,7 @@ class EditMenu extends Component {
                     i = i + 1;
                     line = { key: i, value: i }
                     totalPos.push(line)
-
                 })
-
             }
 
             const newFormData = populateFields(this.state.formdata, this.props.menu.menuDetail);
@@ -205,14 +184,13 @@ class EditMenu extends Component {
             && this.props.menu.menuDetail !== undefined
             && this.props.user.siteLocalisation.value !== prevProps.user.siteLocalisation.value
         ) {
-            console.log('Language Changed')
+
             let args = {}
             args['linkTo'] = this.props.menu.menuDetail.linkTo
-            // 2. If I change the language - I need to recalculate the List of Menus for a given Lg
+
             this.props.dispatch(act_getDetail_by_Args_Menu(this.props.user.siteLocalisation.value, args))
                 .then(response => {
-                    console.log('To jest odpowiedz')
-                    console.log(response)
+  
                     if (Object.keys(response.payload).length !== 0) {
 
                         this.props.dispatch(act_listMenus(this.props.user.siteLocalisation.value))
@@ -239,12 +217,8 @@ class EditMenu extends Component {
                                 })
                             })
 
-
-
                     } else {
 
-                        // Dodaj Nowy Menu Item
-                    // 2.a if there are no entities, add new
                     let dataToSubmit = generateData(this.state.formdata, 'menu');
                     dataToSubmit['language'] = this.props.user.siteLocalisation.value
 
@@ -263,33 +237,9 @@ class EditMenu extends Component {
 
                         })
 
-                        // =========
-
-
                     }
                 })
-
-            console.log('show menus')
-            console.log(this.props)
-
         }
-
-        // else if ((
-        //     this.props.user.siteLocalisation !== undefined
-        //     && this.props.menu.menuDetail !== undefined
-        // ) && (
-        //         (this.props.menu.menuDetail !== prevProps.menu.menuDetail && Object.keys(this.props.menu.menuDetail).length === 0)
-        //         || (Object.keys(this.props.menu.menuDetail).length !== 0 && this.props.user.siteLocalisation.value !== prevProps.user.siteLocalisation.value)
-        //     )){}
-
-
-
-        // 2. A If there is a Menu with the same Link
-
-        // 2. B If there are no Menus with the same Link, Add new
-
-
-
 
     }
 
@@ -384,8 +334,8 @@ class EditMenu extends Component {
                             change={(element) => this.updateForm(element)}
                         />
                         <FormField
-                            id={'publish'}
-                            formdata={this.state.formdata.publish}
+                            id={'visible'}
+                            formdata={this.state.formdata.visible}
                             change={(element) => this.updateForm(element)}
                         />
                         {this.state.formSuccess ?

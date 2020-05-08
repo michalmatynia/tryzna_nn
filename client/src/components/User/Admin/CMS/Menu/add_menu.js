@@ -131,12 +131,12 @@ class AddMenu extends Component {
                 showlabel: true
 
             },
-            publish: {
+            visible: {
                 element: 'select',
                 value: '',
                 config: {
-                    label: 'Publish',
-                    name: 'publish_input',
+                    label: 'Visible',
+                    name: 'visible_input',
                     options: [
                         { key: true, value: 'yes' },
                         { key: false, value: 'no' },
@@ -156,7 +156,7 @@ class AddMenu extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        // Set Language
+
         if ((
             this.props.user.siteLocalisation !== undefined
             && !this.state.formdata.language.value
@@ -175,7 +175,6 @@ class AddMenu extends Component {
             this.setState({
                 formdata: newFormData
             })
-
 
         }
 
@@ -212,7 +211,6 @@ class AddMenu extends Component {
 
             this.props.dispatch(act_listMenus(this.props.user.siteLocalisation.value, this.state.get_args))
                 .then(response => {
-                    //  console.log(response)
                     let line = [];
                     let totalPos = [];
                     let i = 0
@@ -229,7 +227,6 @@ class AddMenu extends Component {
 
                     i = totalPos.length + 1;
                     totalPos.push({ key: i, value: i })
-                    // console.log(totalPos.length)
                     const newFormData = {
                         ...this.state.formdata
                     }
@@ -306,7 +303,6 @@ class AddMenu extends Component {
         if (formIsValid) {
             this.props.dispatch(act_addMenu(this.props.user.siteLocalisation.value, this.state.get_args, dataToSubmit))
                 .then((response) => {
-                   //  console.log(response)
 
                     if (this.props.menu.adminAddMenu.success) {
                         this.resetFieldHandler();
@@ -358,8 +354,8 @@ class AddMenu extends Component {
                             change={(element) => this.updateForm(element)}
                         />
                         <FormField
-                            id={'publish'}
-                            formdata={this.state.formdata.publish}
+                            id={'visible'}
+                            formdata={this.state.formdata.visible}
                             change={(element) => this.updateForm(element)}
                         />
                         {this.state.formSuccess ?
