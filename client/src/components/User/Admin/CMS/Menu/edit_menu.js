@@ -313,8 +313,17 @@ class EditMenu extends Component {
 
         if (formIsValid) {
 
+            // console.log('HERERERERER');
+            
+            // console.log(this.props);
+            // console.log(this.state);
+            // console.log(prevProps);
+            
+
+
             let args = {}
             args['_id'] = this.props.match.params.id
+            args['previousPos'] = this.props.menu.menuDetail.position
 
             this.props.dispatch(act_updateDetail_Menu(this.props.user.siteLocalisation.value, args, dataToSubmit))
                 .then(() => {
