@@ -23,10 +23,6 @@ class ListMenus extends Component {
             )) {
 
             this.props.dispatch(act_listMenus(this.props.user.siteLocalisation.value))
-            .then(response => {
-                console.log(response)
-            })
-
 
         }
 

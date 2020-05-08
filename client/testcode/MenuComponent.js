@@ -111,3 +111,109 @@ componentDidUpdate(prevProps, prevState) {
     }
 
 }
+
+//= ========================
+
+     //     // ========== Recalculate position
+
+            // if (!err) {
+            //     Menu.
+            //         find({ language: req.query.language })
+            //         .sort({ position: 1, createdAt: -1 })
+            //         .exec((err2, doc2) => {
+            //             // console.log(doc2)
+            //             console.log('==========BEGIN============');
+
+            //             if (doc2.length > 1) {
+
+
+
+            //                 let i = 0;
+            //                 let found = false;
+            //                 doc2.map(item => {
+            //                     i = i + 1;
+
+            //                     console.log('EachItem')
+            //                     console.log(item)
+            //                     console.log(found);
+
+
+            //                     if (parseInt(req.body.position) === i && found === false && item._id.toString() !== req.query._id.toString()){
+            //                         console.log('INSIDE A1');
+            //                         console.log(found);
+
+            //                             Menu.findOneAndUpdate(
+            //                                 { _id: mongoose.Types.ObjectId(item._id) },
+            //                                 {
+            //                                     "$set": {
+            //                                         position: parseInt(i + 1) 
+            //                                     }
+            //                                 }, { new: true },
+            //                                 (err3, doc3) => {
+            //                                     console.log(err3);
+                                                
+            //                                 }
+            //                             )
+                                    
+
+            //                     } else if(item._id.toString() === req.query._id.toString()) {
+            //                         console.log('INSIDE A2');
+            //                         console.log(found);
+
+            //                         found = true
+            //                     } else if (parseInt(req.body.position) !== i && found === true) {
+            //                         console.log('INSIDE A3');
+            //                         console.log(found);
+                                    
+            //                         console.log(item.linkTo);
+
+
+            //                         Menu.findOneAndUpdate(
+            //                             { _id: mongoose.Types.ObjectId(item._id) },
+            //                             {
+            //                                 "$set": {
+            //                                     position: parseInt(i)
+            //                                 }
+            //                             }, { new: true },
+            //                             (err3, doc3) => {
+            //                             }
+            //                         )
+            //                     }
+            //                 })
+            //             }
+            //         })
+            // }
+            //     // ==========
+
+            Menu.
+            find(allArgs)
+            .sort({ position: 1, createdAt: -1 })
+            .exec((err2, doc2) => {
+
+                if (doc2.length > 1) {
+
+                    let i = 0;
+                    let found = false;
+                    doc2.map(item => {
+                        i = i + 1;
+
+                        if (item._id.toString() === menu._id.toString() && item.position === menu.position && found === false) {
+
+                            found = true
+
+                        } else if (found === true) {
+
+                            Menu.findOneAndUpdate(
+                                { _id: mongoose.Types.ObjectId(item._id) },
+                                {
+                                    "$set": {
+                                        position: parseInt(i)
+                                    }
+                                }, { new: true },
+                                (err3, doc3) => {
+                                }
+                            )
+                        }
+                    })
+                }
+            })

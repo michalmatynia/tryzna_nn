@@ -213,7 +213,7 @@ class EditMenu extends Component {
                 .then(response => {
                     console.log('To jest odpowiedz')
                     console.log(response)
-                    if (response.payload !== "") {
+                    if (Object.keys(response.payload).length !== 0) {
 
                         this.props.dispatch(act_listMenus(this.props.user.siteLocalisation.value))
                             .then(response2 => {
@@ -231,8 +231,6 @@ class EditMenu extends Component {
                                     })
                                 }
 
-                                // znajdz pozycje
-
                                 const newFormData = populateFields(this.state.formdata, this.props.menu.menuDetail);
                                 newFormData['position'].config.options = totalPos;
 
@@ -245,11 +243,31 @@ class EditMenu extends Component {
 
                     } else {
 
+                        // Dodaj Nowy Menu Item
+                    // 2.a if there are no entities, add new
+                    let dataToSubmit = generateData(this.state.formdata, 'menu');
+                    dataToSubmit['language'] = this.props.user.siteLocalisation.value
+
+                    this.props.dispatch(act_addMenu(this.props.user.siteLocalisation.value, args, dataToSubmit))
+                        .then(response2 => {
+
+                            this.props.dispatch(act_getDetail_by_Id_Menu(response2.payload.entity._id))
+                                .then(response3 => {
+                                    const newFormData = populateFields(this.state.formdata, this.props.menu.menuDetail);
+
+                                    this.setState({
+                                        formdata: newFormData
+                                    })
+
+                                })
+
+                        })
+
+                        // =========
+
+
                     }
                 })
-
-            // change function to add Args to search with the same link, NOOO this is just for position, need to search with the same link 
-            // this.props.dispatch(act_listMenus(this.props.user.siteLocalisation.value))
 
             console.log('show menus')
             console.log(this.props)
@@ -283,16 +301,6 @@ class EditMenu extends Component {
         ) {
 
             this.props.dispatch(act_getDetail_by_Id_Menu(this.props.match.params.id))
-            // .then(response => {
-            //     console.log('INSIDE ComponentDIDMount')
-
-            //     if (response.payload !== "") {
-            //         const newFormData = populateFields(this.state.formdata, this.props.menu.menuDetail);
-            //         this.setState({
-            //             formdata: newFormData
-            //         });
-            //     }
-            // })
         }
 
     }
@@ -312,13 +320,6 @@ class EditMenu extends Component {
         let formIsValid = isFormValid(this.state.formdata, 'menu');
 
         if (formIsValid) {
-
-            // console.log('HERERERERER');
-            
-            // console.log(this.props);
-            // console.log(this.state);
-            // console.log(prevProps);
-            
 
 
             let args = {}
