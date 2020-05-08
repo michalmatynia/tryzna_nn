@@ -314,7 +314,7 @@ class EditMenu extends Component {
         if (formIsValid) {
 
             let args = {}
-            args['parent_id'] = this.props.match.params.id
+            args['_id'] = this.props.match.params.id
 
             this.props.dispatch(act_updateDetail_Menu(this.props.user.siteLocalisation.value, args, dataToSubmit))
                 .then(() => {

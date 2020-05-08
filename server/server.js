@@ -1041,12 +1041,12 @@ app.post('/api/logo/uploadimage', auth, admin, formidable(), (req, res) => {
 //=======================
 
 app.get('/api/menu/list_entities', (req, res) => {
-    let sortBy = req.query.sortBy ? req.query.sortBy : { position: -1 };
+    let sortBy = req.query.sortBy ? req.query.sortBy : { position: 1 };
     let limit = req.query.limit ? parseInt(req.query.limit) : 1000;
 
     let allArgs = {};
 
-    console.log(sortBy)
+    // console.log(sortBy)
 
     for (const [key, value] of Object.entries(req.query)) {
 
@@ -1057,7 +1057,8 @@ app.get('/api/menu/list_entities', (req, res) => {
 
     Menu.
         find(allArgs)
-        .sort([[sortBy]])
+        // .sort({position : 1})
+        .sort(sortBy)
         .limit(limit)
         .exec((err, doc) => {
 
@@ -1207,6 +1208,9 @@ app.get('/api/menu/get_entity_by_args', (req, res) => {
 
 app.post('/api/menu/update_entity', auth, admin, (req, res) => {
 
+    // console.log('updateEntity')
+    // console.log(req)
+
     // Set Arguments to Object
     let allArgs = {};
 
@@ -1218,19 +1222,23 @@ app.post('/api/menu/update_entity', auth, admin, (req, res) => {
     }
 
     Menu.findOneAndUpdate(
-        { language: req.query.language, _id: req.query.parent_id },
+        { language: req.query.language, _id: req.query._id },
         {
             "$set": req.body
         },
         { new: true },
         (err, doc) => {
+            if (!err) {
             // ========== Recalculate position
             Menu.
                 find(allArgs)
-                .sort({ position: 1, createdAt: -1 })
+                .sort({ position: -1, createdAt: -1 })
                 .exec((err2, doc2) => {
-
+                    console.log(doc2)
+                    
                     if (doc2.length > 1) {
+
+                        
 
                         let i = 0;
                         let found = false;
@@ -1258,7 +1266,7 @@ app.post('/api/menu/update_entity', auth, admin, (req, res) => {
                     }
                 })
             // ==========
-
+        } 
 
             if (err) return res.json({ success: false, err });
             return res.status(200).send({ doc })
