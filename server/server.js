@@ -1104,7 +1104,6 @@ app.post('/api/menu/add_entity', (req, res) => {
                                         }
                                     }, { new: true },
                                     (err3, doc3) => {
-                                        console.log(err3);
 
                                     }
                                 )
@@ -1253,9 +1252,6 @@ app.post('/api/menu/update_entity', auth, admin, (req, res) => {
 });
 
 app.post('/api/menu/set_visible', auth, (req, res) => {
-
-    console.log(req.query);
-
 
     let checked = null
 
