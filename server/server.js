@@ -915,11 +915,6 @@ app.get('/api/logo/get_entity', (req, res) => {
 
     Logo.findOne({ language: req.query.language }, (err, doc) => {
 
-        console.log('GET ENTITY')
-
-        console.log(err)
-        console.log(doc)
-
         if (err) return res.status(400).send(err);
         res.send(doc)
 
@@ -1046,10 +1041,12 @@ app.post('/api/logo/uploadimage', auth, admin, formidable(), (req, res) => {
 //=======================
 
 app.get('/api/menu/list_entities', (req, res) => {
-    let sortBy = req.query.sortBy ? req.query.sortBy : "position";
+    let sortBy = req.query.sortBy ? req.query.sortBy : { position: -1 };
     let limit = req.query.limit ? parseInt(req.query.limit) : 1000;
 
     let allArgs = {};
+
+    console.log(sortBy)
 
     for (const [key, value] of Object.entries(req.query)) {
 
@@ -1200,8 +1197,8 @@ app.get('/api/menu/get_entity_by_args', (req, res) => {
         // .sort({ position: 1, createdAt: -1 })
         .exec((err, doc) => {
 
-            console.log(err)
-            console.log(doc)
+            // console.log(err)
+            // console.log(doc)
             if (err) return res.status(400).send(err);
             res.status(200).send(doc)
         })
@@ -1210,7 +1207,15 @@ app.get('/api/menu/get_entity_by_args', (req, res) => {
 
 app.post('/api/menu/update_entity', auth, admin, (req, res) => {
 
-    // mongoose.Types.ObjectId(req.query.parent_id
+    // Set Arguments to Object
+    let allArgs = {};
+
+    for (const [key, value] of Object.entries(req.query)) {
+
+        if (key !== 'sortBy') {
+            allArgs[key] = value
+        }
+    }
 
     Menu.findOneAndUpdate(
         { language: req.query.language, _id: req.query.parent_id },
@@ -1219,84 +1224,47 @@ app.post('/api/menu/update_entity', auth, admin, (req, res) => {
         },
         { new: true },
         (err, doc) => {
+            // ========== Recalculate position
+            Menu.
+                find(allArgs)
+                .sort({ position: 1, createdAt: -1 })
+                .exec((err2, doc2) => {
+
+                    if (doc2.length > 1) {
+
+                        let i = 0;
+                        let found = false;
+                        doc2.map(item => {
+                            i = i + 1;
+
+                            if (item._id.toString() === req.query._id.toString() && item.position === req.query.position && found === false) {
+
+                                found = true
+
+                            } else if (found === true) {
+
+                                Menu.findOneAndUpdate(
+                                    { _id: mongoose.Types.ObjectId(item._id) },
+                                    {
+                                        "$set": {
+                                            position: parseInt(i)
+                                        }
+                                    }, { new: true },
+                                    (err3, doc3) => {
+                                    }
+                                )
+                            }
+                        })
+                    }
+                })
+            // ==========
+
 
             if (err) return res.json({ success: false, err });
             return res.status(200).send({ doc })
         }
     )
 });
-// ============================
-
-app.get('/api/slide/articles', (req, res) => {
-    let order = req.query.order ? req.query.order : "asc";
-    let sortBy = req.query.sortBy ? req.query.sortBy : "_id";
-    let limit = req.query.limit ? parseInt(req.query.limit) : 100;
-
-    let findArgs = {};
-    // console.log(req.query)
-    if (req.query.publish) { findArgs['publish'] = req.query.publish }
-
-
-    Slide.
-        find(findArgs)
-        .sort([[sortBy, order]])
-        .limit(limit)
-        .exec((err, articles) => {
-            if (err) return res.status(400).send(err);
-            res.send(articles)
-        })
-
-})
-
-app.get('/api/menu/show_entity', (req, res) => {
-
-    Desc.findOne({ language: req.query.lg, publish: true }, (err, doc) => {
-
-        if (err) return res.status(400).send(err);
-        res.status(200).send(doc)
-
-    })
-
-});
-
-
-
-app.get('/api/product/articles', (req, res) => {
-    let order = req.query.order ? req.query.order : "asc";
-    let sortBy = req.query.sortBy ? req.query.sortBy : "_id";
-    let limit = req.query.limit ? parseInt(req.query.limit) : 100;
-
-    Product.find()
-        .populate('brand')
-        .populate('wood')
-        .sort([[sortBy, order]])
-        .limit(limit)
-        .exec((err, articles) => {
-            if (err) return res.status(400).send(err);
-            res.send(articles)
-        })
-
-})
-
-
-
-app.post('/api/desc/update_entity', auth, admin, (req, res) => {
-
-    Desc.findOneAndUpdate(
-        { language: req.query.lg, _id: req.query.parent_id },
-        {
-            "$set": req.body
-        },
-        { new: true },
-        (err, doc) => {
-
-            // console.log(doc)
-            if (err) return res.json({ success: false, err });
-            return res.status(200).send({ doc })
-        }
-    )
-});
-
 
 // ---
 

@@ -210,6 +210,43 @@ class EditMenu extends Component {
             args['linkTo'] = this.props.menu.menuDetail.linkTo
             // 2. If I change the language - I need to recalculate the List of Menus for a given Lg
             this.props.dispatch(act_getDetail_by_Args_Menu(this.props.user.siteLocalisation.value, args))
+                .then(response => {
+                    console.log('To jest odpowiedz')
+                    console.log(response)
+                    if (response.payload !== "") {
+
+                        this.props.dispatch(act_listMenus(this.props.user.siteLocalisation.value))
+                            .then(response2 => {
+
+                                let line = [];
+                                let totalPos = [];
+
+                                if (Object.keys(response2.payload).length !== 0) {
+
+                                    this.props.menu.adminGetMenus.forEach((item, i) => {
+                                        i = i + 1;
+                                        line = { key: i, value: i }
+                                        totalPos.push(line)
+
+                                    })
+                                }
+
+                                // znajdz pozycje
+
+                                const newFormData = populateFields(this.state.formdata, this.props.menu.menuDetail);
+                                newFormData['position'].config.options = totalPos;
+
+                                this.setState({
+                                    formdata: newFormData
+                                })
+                            })
+
+
+
+                    } else {
+
+                    }
+                })
 
             // change function to add Args to search with the same link, NOOO this is just for position, need to search with the same link 
             // this.props.dispatch(act_listMenus(this.props.user.siteLocalisation.value))
