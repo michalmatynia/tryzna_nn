@@ -13,7 +13,7 @@ class ListSlides extends Component {
 
     componentDidUpdate(prevProps, prevState) {
         if ((
-            
+
             this.props.user.siteLocalisation !== undefined
             && prevProps.user.siteLocalisation === undefined
         ) || (
@@ -41,10 +41,12 @@ class ListSlides extends Component {
     removeEntityFromDb = (id) => {
 
         // Check if remove is repositioning
+        let args = {}
 
         this.props.dispatch(act_removeItem_Slide(id))
             .then(response => {
-                this.props.dispatch(act_listSlides(this.props.user.siteLocalisation.value, this.state.get_args))
+
+                this.props.dispatch(act_listSlides(this.props.user.siteLocalisation.value, args))
             })
 
     }

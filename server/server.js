@@ -138,15 +138,81 @@ app.get('/api/slide/list_entities', (req, res) => {
         .limit(limit)
         .exec((err, doc) => {
 
-            console.log(err);
-            console.log(doc);
-            
             if (err) return res.status(400).send(err);
             res.send(doc)
         })
 })
 
+app.post('/api/slide/add_entity', (req, res) => {
 
+    const slide = new Slide(req.body);
+
+    slide.save((err, doc) => {
+
+        let allArgs = {};
+
+        for (const [key, value] of Object.entries(req.query)) {
+
+            if (key !== 'sortBy') {
+                allArgs[key] = value
+            }
+        }
+
+        if (!err) {
+            Slide.
+                find({ language: req.query.language })
+                .sort({ position: 1, createdAt: -1 })
+                .exec((err2, doc2) => {
+
+                    if (doc2.length > 1) {
+
+                        let i = 0;
+                        let found = false;
+                        doc2.map(item => {
+                            i = i + 1;
+
+                            if (parseInt(doc.position) === i && found === false && item._id.toString() !== doc._id.toString()) {
+
+                                Slide.findOneAndUpdate(
+                                    { _id: mongoose.Types.ObjectId(item._id) },
+                                    {
+                                        "$set": {
+                                            position: parseInt(i + 1)
+                                        }
+                                    }, { new: true },
+                                    (err3, doc3) => {
+
+                                    }
+                                )
+
+                            } else if (item._id.toString() === doc._id.toString()) {
+
+                                found = true
+                            } else if (parseInt(doc.position) !== i && found === true) {
+
+                                Slide.findOneAndUpdate(
+                                    { _id: mongoose.Types.ObjectId(item._id) },
+                                    {
+                                        "$set": {
+                                            position: parseInt(i)
+                                        }
+                                    }, { new: true },
+                                    (err3, doc3) => {
+                                    }
+                                )
+                            }
+                        })
+                    }
+                })
+        }
+
+        if (err) return res.json({ success: false, err });
+        res.status(200).json({
+            success: true,
+            entity: doc
+        })
+    })
+})
 // app.post('/api/slide/article', auth, admin, (req, res) => {
 
 //     const slide = new Slide(req.body);
@@ -180,47 +246,199 @@ app.get('/api/slide/list_entities', (req, res) => {
 //         })
 
 // })
-
-app.get('/api/slide/remove_slide', auth, (req, res) => {
+app.get('/api/menu/remove_entity', auth, (req, res) => {
 
     Slide.findOne({ _id: req.query._id }, (err, doc) => {
-
 
         image_ids = []
         images_ids = doc['images'].map(item => {
             cloudinary.uploader.destroy(item.public_id)
         })
     })
-    Slide.findOneAndDelete({ _id: req.query._id }, (err, docs) => {
-        Slide.
-            find()
-            .exec((err, docs) => {
+
+    Slide.
+        findOneAndDelete({ _id: req.query._id }, (err, docs) => {
+
+            if (err) { return res.status(400).send(err); }
+            else {
+
+                Slide.
+                    find({ language: docs.language })
+                    .sort({ position: 1, createdAt: -1 })
+                    .exec((err2, doc2) => {
+
+                        if (doc2.length >= 1) {
+
+                            let i = 0;
+                            doc2.map(item => {
+                                i = i + 1;
+
+                                Slide.findOneAndUpdate(
+                                    { _id: mongoose.Types.ObjectId(item._id) },
+                                    {
+                                        "$set": {
+                                            position: parseInt(i)
+                                        }
+                                    }, { new: true },
+                                    (err3, doc3) => {
+                                        if (err3) { return res.status(400).send(err3); }
+                                    }
+                                )
+
+                            })
+                        }
+                    })
+
                 res.send(docs)
-            })
-    })
+            }
+
+        })
+
 })
+// app.get('/api/slide/remove_slide', auth, (req, res) => {
+
+//     Slide.findOne({ _id: req.query._id }, (err, doc) => {
+
+
+//         image_ids = []
+//         images_ids = doc['images'].map(item => {
+//             cloudinary.uploader.destroy(item.public_id)
+//         })
+//     })
+//     Slide.findOneAndDelete({ _id: req.query._id }, (err, docs) => {
+//         Slide.
+//             find()
+//             .exec((err, docs) => {
+//                 res.send(docs)
+//             })
+//     })
+// })
 
 // Fetch Product by ID (Query String)
-app.get('/api/slide/articles_by_id', (req, res) => {
-    let type = req.query.type;
+// app.get('/api/slide/articles_by_id', (req, res) => {
+//     let type = req.query.type;
 
-    let items = req.query._id;
+//     let items = req.query._id;
 
-    if (type === "array") {
-        let ids = req.query._id.split(',');
-        items = [];
-        items = ids.map(item => {
-            return mongoose.Types.ObjectId(item)
-        })
+//     if (type === "array") {
+//         let ids = req.query._id.split(',');
+//         items = [];
+//         items = ids.map(item => {
+//             return mongoose.Types.ObjectId(item)
+//         })
+//     }
+
+//     Slide.
+//         find({ '_id': { $in: items } })
+//         .exec((err, docs) => {
+//             return res.status(200).send(docs)
+//         })
+// });
+
+app.get('/api/slide/get_entity_by_id', (req, res) => {
+
+    //console.log(req.query._id)
+
+    Slide.findOne({
+        _id: mongoose.Types.ObjectId(req.query._id)
+    }, (err, doc) => {
+
+        if (err) return res.status(400).send(err);
+        res.status(200).send(doc)
+
+    })
+
+});
+
+app.get('/api/slide/get_entity_by_args', (req, res) => {
+
+    let allArgs = {};
+
+    for (const [key, value] of Object.entries(req.query)) {
+
+        if (key !== 'sortBy') {
+            allArgs[key] = value
+        }
     }
 
     Slide.
-        find({ '_id': { $in: items } })
-        .exec((err, docs) => {
-            return res.status(200).send(docs)
+        findOne(allArgs)
+        // .sort({ position: 1, createdAt: -1 })
+        .exec((err, doc) => {
+
+            if (err) return res.status(400).send(err);
+            res.status(200).send(doc)
         })
+
 });
 
+app.post('/api/slide/update_entity', auth, admin, (req, res) => {
+
+    let allArgs = {};
+
+    for (const [key, value] of Object.entries(req.query)) {
+
+        if (key !== 'sortBy') {
+            allArgs[key] = value
+        }
+    }
+
+    Slide.findOneAndUpdate(
+        { language: req.query.language, _id: req.query._id },
+        {
+            "$set": req.body
+        },
+        { new: true },
+        (err, doc) => {
+
+            Slide.findOneAndUpdate(
+                { language: req.query.language, _id: { $ne: req.query._id }, position: req.body.position },
+                {
+                    "$set": {
+                        position: req.query.previousPos
+                    }
+                },
+                { new: true },
+                (err, doc) => { })
+
+            if (err) return res.json({ success: false, err });
+            return res.status(200).send({ doc })
+        }
+    )
+});
+
+app.post('/api/slide/set_visible', auth, (req, res) => {
+
+    let checked = null
+
+    if (req.query.checked === 'true') {
+        checked = false
+    } else {
+        checked = true
+    }
+
+    Slide.findOneAndUpdate(
+        { _id: req.query._id },
+        {
+            "$set": {
+                visible: checked
+            }
+        },
+        { new: true },
+        (err, doc) => {
+
+            Slide.
+                find({ language: req.query.language })
+                .sort({ position: 1, createdAt: -1 })
+                .exec((err, articles) => {
+                    if (err) return res.status(400).send(err);
+                    res.send(articles)
+                })
+        }
+    );
+})
+
+// ==============
 app.post('/api/slide/slide_update', auth, (req, res) => {
 
     // console.log(req.query.parent_id)
@@ -238,6 +456,8 @@ app.post('/api/slide/slide_update', auth, (req, res) => {
         }
     );
 })
+
+
 
 app.get('/api/slide/removeimage', auth, admin, (req, res) => {
 
@@ -1088,9 +1308,9 @@ app.get('/api/menu/list_entities', (req, res) => {
         .sort(sortBy)
         .limit(limit)
         .exec((err, doc) => {
- 
-            
-            
+
+
+
 
             if (err) return res.status(400).send(err);
             res.send(doc)
@@ -1304,7 +1524,7 @@ app.post('/api/menu/set_visible', auth, (req, res) => {
         (err, doc) => {
 
             Menu.
-                find({language: req.query.language})
+                find({ language: req.query.language })
                 .sort({ position: 1, createdAt: -1 })
                 .exec((err, articles) => {
                     if (err) return res.status(400).send(err);

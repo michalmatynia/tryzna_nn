@@ -10,10 +10,6 @@ import { act_addMenu, act_listMenus, act_clearMenu } from '../../../../../redux/
 class AddMenu extends Component {
 
     state = {
-        get_args:
-        {
-            sortBy: 'position'
-        },
         formError: false,
         formSuccess: false,
         formdata: {
@@ -208,8 +204,9 @@ class AddMenu extends Component {
                 && prevState.formdata.language.value !== ''
                 && prevState.formdata.position.value === ''
             )) {
-
-            this.props.dispatch(act_listMenus(this.props.user.siteLocalisation.value, this.state.get_args))
+            let args = {}
+            args['sortBy'] = 'position'
+            this.props.dispatch(act_listMenus(this.props.user.siteLocalisation.value, args))
                 .then(response => {
                     let line = [];
                     let totalPos = [];
@@ -301,7 +298,10 @@ class AddMenu extends Component {
         let formIsValid = isFormValid(this.state.formdata, 'menu');
 
         if (formIsValid) {
-            this.props.dispatch(act_addMenu(this.props.user.siteLocalisation.value, this.state.get_args, dataToSubmit))
+            let args = {}
+            args['sortBy'] = 'position'
+
+            this.props.dispatch(act_addMenu(this.props.user.siteLocalisation.value, args, dataToSubmit))
                 .then((response) => {
 
                     if (this.props.menu.adminAddMenu.success) {

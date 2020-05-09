@@ -6,7 +6,7 @@ import FormField from '../../../../utils/Form/formfield';
 import { update, generateData, isFormValid, resetFields } from '../../../../utils/Form/formActions';
 import FileUpload from '../../../../utils/Form/CMS/fileupload_slide'
 
-import { act_addSlide, act_clearSlide } from '../../../../../redux/actions/CMS/slides_actions';
+import { act_addSlide, act_clearSlide, act_listSlides } from '../../../../../redux/actions/CMS/slides_actions';
 
 class AddSlide extends Component {
 
@@ -50,12 +50,48 @@ class AddSlide extends Component {
                 showlabel: false
 
             },
-            publish: {
+            position: {
                 element: 'select',
                 value: '',
                 config: {
-                    label: 'Publish',
-                    name: 'publish_input',
+                    label: 'Position',
+                    name: 'position_input',
+                    options: []
+
+                },
+                validation: {
+                    required: false
+                },
+                valid: true,
+                touched: false,
+                validationMessage: '',
+                showlabel: true
+
+            },
+            language: {
+                element: 'mylabel',
+                value: '',
+                config: {
+                    label: 'Language',
+                    name: 'language_input',
+                    type: 'text',
+                    placeholder: 'Language goes here',
+                },
+                validation: {
+                    required: false
+                },
+                valid: true,
+                touched: false,
+                validationMessage: '',
+                showlabel: true
+
+            },
+            visible: {
+                element: 'select',
+                value: '',
+                config: {
+                    label: 'Visible',
+                    name: 'visible_input',
                     options: [
                         { key: true, value: 'yes' },
                         { key: false, value: 'no' },
@@ -85,6 +121,113 @@ class AddSlide extends Component {
 
             }
         }
+    }
+    componentDidUpdate(prevProps, prevState) {
+
+        if ((
+            this.props.user.siteLocalisation !== undefined
+            && !this.state.formdata.language.value
+        ) || (
+                this.props.user.siteLocalisation !== undefined
+                && prevProps.user.siteLocalisation !== undefined
+                && this.state.formdata.language.value
+                && prevProps.user.siteLocalisation.value !== this.props.user.siteLocalisation.value
+            )) {
+
+            const newFormData = {
+                ...this.state.formdata
+            }
+            newFormData['language'].value = this.props.user.siteLocalisation.value;
+
+            this.setState({
+                formdata: newFormData
+            })
+
+        }
+
+        if ((
+            this.props.slides.adminGetSlides === undefined
+            && this.props.user.siteLocalisation !== undefined
+            && prevProps.user.siteLocalisation !== undefined
+            && this.props.user.siteLocalisation.value === prevProps.user.siteLocalisation.value
+            && this.state.formdata.language.value !== ''
+            && this.state.formdata.position.value === ''
+            && prevState.formdata.language.value !== ''
+            && prevState.formdata.position.value === ''
+        ) || (
+                this.props.slides.adminGetSlides !== undefined
+                && this.props.user.siteLocalisation !== undefined
+                && prevProps.user.siteLocalisation !== undefined
+                && this.props.user.siteLocalisation.value !== prevProps.user.siteLocalisation.value
+                && this.state.formdata.language.value !== ''
+                && this.state.formdata.position.value !== ''
+                && prevState.formdata.language.value !== ''
+                && prevState.formdata.position.value !== ''
+            ) || (
+
+                this.props.slides.adminGetSlides !== undefined
+                && this.props.user.siteLocalisation !== undefined
+                && prevProps.user.siteLocalisation !== undefined
+                && this.props.user.siteLocalisation.value === prevProps.user.siteLocalisation.value
+                && this.state.formdata.language.value !== ''
+                && this.state.formdata.position.value === ''
+                && prevState.formdata.language.value !== ''
+                && prevState.formdata.position.value === ''
+            )) {
+            let args = {}
+            args['sortBy'] = 'position'
+            this.props.dispatch(act_listSlides(this.props.user.siteLocalisation.value, args))
+                .then(response => {
+                    let line = [];
+                    let totalPos = [];
+                    let i = 0
+                    if (Object.keys(response.payload).length !== 0) {
+
+                        response.payload.forEach((item, i) => {
+                            i = i + 1;
+                            line = { key: i, value: i }
+                            totalPos.push(line)
+
+                        })
+
+                    }
+
+                    i = totalPos.length + 1;
+                    totalPos.push({ key: i, value: i })
+                    const newFormData = {
+                        ...this.state.formdata
+                    }
+                    newFormData['position'].config.options = totalPos;
+                    newFormData['position'].value = totalPos.length;
+                    this.setState({
+                        formdata: newFormData
+                    })
+
+                })
+
+        }
+
+    }
+
+    componentDidMount() {
+
+        if (
+            this.props.user.siteLocalisation !== undefined
+        ) {
+            const newFormData = {
+                ...this.state.formdata
+            }
+            newFormData['language'].value = this.props.user.siteLocalisation.value;
+
+            this.setState({
+                formdata: newFormData
+            })
+        }
+    }
+
+    componentWillUnmount() {
+        this.props.dispatch(act_clearSlide('slides'))
+
     }
 
     updateFields = (newFormData) => {
@@ -118,6 +261,7 @@ class AddSlide extends Component {
         }, 3000)
     }
 
+
     submitForm = (event) => {
         event.preventDefault();
 
@@ -125,9 +269,12 @@ class AddSlide extends Component {
         let formIsValid = isFormValid(this.state.formdata, 'slides');
 
         if (formIsValid) {
-            this.props.dispatch(act_addSlide(dataToSubmit))
-                .then(() => {
-                    if (this.props.slides.adminAddSlide.success) {
+            let args = {}
+            args['sortBy'] = 'position'
+            this.props.dispatch(act_addSlide(this.props.user.siteLocalisation.value, args, dataToSubmit))
+                .then((response) => {
+
+                    if (this.props.menu.adminAddMenu.success) {
                         this.resetFieldHandler();
                     } else {
                         this.setState({ formError: true })
@@ -159,12 +306,15 @@ class AddSlide extends Component {
         return (
             <UserLayout>
                 <div>
-                    <h1>Add slides</h1>
+                    <h1><FormField
+                        id={'language'}
+                        formdata={this.state.formdata.language}
+                    />Add slides</h1>
                     <form onSubmit={(event) => this.SubmitForm(event)}>
                         <FileUpload
                             imagesHandler={(images) => this.imagesHandler(images)}
                             reset={this.state.formSuccess}
-                            parent_id = ''
+                            parent_id=''
                         />
                         <FormField
                             id={'lineOne'}
@@ -178,8 +328,13 @@ class AddSlide extends Component {
                         />
                         <div className="form_divider"></div>
                         <FormField
-                            id={'publish'}
-                            formdata={this.state.formdata.publish}
+                            id={'position'}
+                            formdata={this.state.formdata.position}
+                            change={(element) => this.updateForm(element)}
+                        />
+                        <FormField
+                            id={'visible'}
+                            formdata={this.state.formdata.visible}
                             change={(element) => this.updateForm(element)}
                         />
                         {this.state.formSuccess ?

@@ -275,7 +275,6 @@ class EditMenu extends Component {
 
         if (formIsValid) {
 
-
             let args = {}
             args['_id'] = this.props.match.params.id
             args['previousPos'] = this.props.menu.menuDetail.position
