@@ -27,6 +27,10 @@ const admin = [
         linkTo: '/admin/add_product'
     },
     {
+        name: 'Currency Rates',
+        linkTo: '/admin/currency_rates'
+    },
+    {
         name: 'Manage categories',
         linkTo: '/admin/manage_categories'
     },
@@ -67,14 +71,6 @@ const cms_links = [
     },
     {
         name: 'List portfolio',
-        linkTo: '/admin/list_slides'
-    },
-    {
-        name: 'Add album',
-        linkTo: '/admin/add_slide'
-    },
-    {
-        name: 'List album',
         linkTo: '/admin/list_slides'
     },
     {

@@ -3,7 +3,7 @@ import UserLayout from '../../../../../hoc/user';
 import ListMenusBlock from '../Menu/list_menus_block';
 
 import { connect } from 'react-redux';
-import { act_listMenus, act_removeMenuItem, act_setVisible_Menu } from '../../../../../redux/actions/CMS/menu_actions';
+import { act_listMenus, act_removeItem_Menu, act_setVisible_Menu } from '../../../../../redux/actions/CMS/menu_actions';
 
 class ListMenus extends Component {
 
@@ -39,7 +39,7 @@ class ListMenus extends Component {
 
     removeEntityFromDb = (id) => {
 
-        this.props.dispatch(act_removeMenuItem(id))
+        this.props.dispatch(act_removeItem_Menu(id))
             .then(response => {
                 this.props.dispatch(act_listMenus(this.props.user.siteLocalisation.value, this.state.get_args))
             })

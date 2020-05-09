@@ -6,7 +6,7 @@ import Desc from '../Description';
 
 import { connect } from 'react-redux';
 import { getProductsBySell, getProductsByArrival } from '../../redux/actions/products_actions';
-import { act_getData_Slides } from '../../redux/actions/CMS/slides_actions';
+import { act_listSlides } from '../../redux/actions/CMS/slides_actions';
 import { act_getDetail_Desc_Published } from '../../redux/actions/CMS/desc_actions';
 
 // Context
@@ -46,7 +46,7 @@ class Home extends Component {
 
         // Get Slides
         const args = this.state.get_slides
-        this.props.dispatch(act_getData_Slides(args));
+        this.props.dispatch(act_listSlides(args));
 
     }
 

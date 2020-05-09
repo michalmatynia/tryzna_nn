@@ -1,21 +1,21 @@
 import {
-    GET_SLIDES,
+    LIST_SLIDES,
     ADD_SLIDE,
     CLEAR_SLIDE,
-    REMOVE_SLIDE_ITEM,
-    REMOVE_SLIDE_IMAGE,
-    GET_SLIDE_DETAIL,
-    UPDATE_SLIDE_DETAIL,
-    UPLOAD_SLIDE_IMAGE,
-    SET_PUBLISH_SLIDE
+    REMOVE_ITEM_SLIDE,
+    REMOVE_IMAGE_SLIDE,
+    GET_DETAIL_SLIDE,
+    UPDATE_DETAIL_SLIDE,
+    UPLOAD_IMAGE_SLIDE,
+    SET_VISIBLE_SLIDE
 
 } from '../../actions/types';
 
 export default function (state = {}, action) {
     switch (action.type) {
-        case GET_SLIDES:
+        case LIST_SLIDES:
             return { ...state, adminGetSlides: action.payload }
-        case REMOVE_SLIDE_ITEM:
+        case REMOVE_ITEM_SLIDE:
             return {
                 ...state,
                 adminGetSlides: action.payload,
@@ -28,15 +28,15 @@ export default function (state = {}, action) {
             return {
                 ...state, adminAddSlide: action.payload
             }
-        case GET_SLIDE_DETAIL:
+        case GET_DETAIL_SLIDE:
             return { ...state, slideDetail: action.payload }
-        case UPDATE_SLIDE_DETAIL:
+        case UPDATE_DETAIL_SLIDE:
+            return { ...state, menuDetail: action.payload }
+        case REMOVE_IMAGE_SLIDE:
             return { ...state }
-        case REMOVE_SLIDE_IMAGE:
+        case UPLOAD_IMAGE_SLIDE:
             return { ...state }
-        case UPLOAD_SLIDE_IMAGE:
-            return { ...state }
-        case SET_PUBLISH_SLIDE:
+        case SET_VISIBLE_SLIDE:
             return { ...state, adminGetSlides: action.payload }
         default:
             return state;

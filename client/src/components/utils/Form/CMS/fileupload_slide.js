@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Dropzone from 'react-dropzone';
 import { connect } from 'react-redux';
-import { act_uploadSlideImage, act_removeSlideImage } from '../../../../redux/actions/CMS/slides_actions';
+import { act_uploadImage_Slide, act_removeImage_Slide } from '../../../../redux/actions/CMS/slides_actions';
 // import axios from 'axios';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -19,7 +19,7 @@ class Fileupload extends Component {
     
         onRemove = (image_id) => {
 
-            this.props.dispatch(act_removeSlideImage(image_id, this.props.parent_id))
+            this.props.dispatch(act_removeImage_Slide(image_id, this.props.parent_id))
                 .then(response => {
                     
                     let images = this.state.uploadedFiles.filter(item => {
@@ -66,9 +66,9 @@ class Fileupload extends Component {
     
             formData.append("file", files[0]);
 
-        this.props.dispatch(act_uploadSlideImage(formData, axiosconfig, this.props.parent_id))
+        this.props.dispatch(act_uploadImage_Slide(formData, axiosconfig, this.props.parent_id))
             .then(response => {
-                //console.log(this.state.uploadedFiles)
+
                 this.setState({
                     uploading: false,
                     uploadedFiles: [
@@ -88,7 +88,7 @@ class Fileupload extends Component {
             }
         }
         if (props.parent_id && props.slides.slideDetail !== undefined) {
-            //console.log(props)
+
             return state = {
                 uploadedFiles: props.slides.slideDetail.images,
             }

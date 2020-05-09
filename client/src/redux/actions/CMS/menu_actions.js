@@ -1,12 +1,12 @@
 import axios from 'axios';
 import {
-    GET_MENU_DETAIL,
-    UPDATE_MENU_DETAIL,
-    SHOW_MENU_DETAIL,
+    GET_DETAIL_MENU,
+    UPDATE_DETAIL_MENU,
+    SHOW_DETAIL_MENU,
     ADD_MENU,
     CLEAR_MENU,
     LIST_MENUS,
-    REMOVE_MENU_ITEM,
+    REMOVE_ITEM_MENU,
     SET_VISIBLE_MENU
 
 } from '../types';
@@ -71,7 +71,7 @@ export function act_addMenu(language, args, dataToSubmit = null) {
     }
 }
 
-export function act_removeMenuItem(id) {
+export function act_removeItem_Menu(id) {
 
     const request = axios.get(`${MENU_SERVER}/remove_entity?_id=${id}`)
         .then(response => {
@@ -79,7 +79,7 @@ export function act_removeMenuItem(id) {
         })
 
     return {
-        type: REMOVE_MENU_ITEM,
+        type: REMOVE_ITEM_MENU,
         payload: request
     }
 }
@@ -88,15 +88,13 @@ export function act_getDetail_by_Id_Menu(id) {
 
     const request = axios.get(`${MENU_SERVER}/get_entity_by_id?_id=${id}`)
         .then(response => {
-            // console.log('act_GetDetail_Menu')
-            // console.log(response)
 
             return response.data
 
         })
 
     return {
-        type: GET_MENU_DETAIL,
+        type: GET_DETAIL_MENU,
         payload: request
     }
 }
@@ -115,15 +113,13 @@ export function act_getDetail_by_Args_Menu(language, args) {
 
     const request = axios.get(`${MENU_SERVER}/get_entity_by_args?language=${language}${listOfArgs}`)
         .then(response => {
-            console.log('act_GetDetail_Menu')
-            console.log(response)
-
+  
             return response.data
 
         })
 
     return {
-        type: GET_MENU_DETAIL,
+        type: GET_DETAIL_MENU,
         payload: request
     }
 }
@@ -146,7 +142,7 @@ export function act_updateDetail_Menu(language, args, dataToSubmit = null) {
             return response.data.doc});
 
     return {
-        type: UPDATE_MENU_DETAIL,
+        type: UPDATE_DETAIL_MENU,
         payload: request
     }
 }
@@ -189,7 +185,7 @@ export function act_getDetail_Menu_Published(current_lg) {
         });
 
     return {
-        type: SHOW_MENU_DETAIL,
+        type: SHOW_DETAIL_MENU,
         payload: request
     }
 }

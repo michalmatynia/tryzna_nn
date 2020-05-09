@@ -6,7 +6,7 @@ import { update, generateData, isFormValid, populateFields } from '../../../../u
 
 import { connect } from 'react-redux';
 
-import { act_getDetail_Slide, act_updateDetail_Slide } from '../../../../../redux/actions/CMS/slides_actions';
+import { act_getDetail_by_Id_Slide, act_updateDetail_Slide } from '../../../../../redux/actions/CMS/slides_actions';
 import FileUpload from '../../../../utils/Form/CMS/fileupload_slide'
 
 class EditSlide extends Component {
@@ -95,7 +95,7 @@ class EditSlide extends Component {
 
         const id = this.props.match.params.id;
 
-        this.props.dispatch(act_getDetail_Slide(id))
+        this.props.dispatch(act_getDetail_by_Id_Slide(id))
             .then(() => {
                 const newFormData = populateFields(this.state.formdata, this.props.slides.slideDetail);
                 this.setState({
@@ -151,7 +151,7 @@ class EditSlide extends Component {
         this.setState({
             formdata: newFormData
         }
-            , () => { this.props.dispatch(act_getDetail_Slide(this.props.match.params.id)) }
+            , () => { this.props.dispatch(act_getDetail_by_Id_Slide(this.props.match.params.id)) }
         )
     }
 

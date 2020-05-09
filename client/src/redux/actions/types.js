@@ -38,13 +38,13 @@ export const UPDATE_SITE_DATA = 'update_site_data';
 
 // CMS
 // Menu
-export const UPDATE_MENU_DETAIL = 'update_menu_detail';
-export const SHOW_MENU_DETAIL = 'show_menu_detail';
-export const GET_MENU_DETAIL = 'get_menu_detail';
+export const UPDATE_DETAIL_MENU = 'update_menu_detail';
+export const SHOW_DETAIL_MENU = 'show_menu_detail';
+export const GET_DETAIL_MENU = 'get_menu_detail';
 export const ADD_MENU = 'add_menu';
 export const CLEAR_MENU = 'clear_menu';
 export const LIST_MENUS = 'list_menus';
-export const REMOVE_MENU_ITEM = 'remove_menu_item';
+export const REMOVE_ITEM_MENU = 'remove_menu_item';
 export const SET_VISIBLE_MENU = 'set_visible_menu';
 
 // - Logo
@@ -63,14 +63,14 @@ export const UPLOAD_LOGO_IMAGE = 'upload_logo_image';
 // - Slider
 export const ADD_SLIDE = 'add_slide';
 export const CLEAR_SLIDE = 'clear_slide';
-export const GET_SLIDES = 'get_slides';
+export const LIST_SLIDES = 'list_slides';
 // export const GET_SLIDES_BY_ARRIVAL_ALL = 'get_slides_by_arrival_all';
-export const REMOVE_SLIDE_ITEM = 'remove_slide_item';
-export const GET_SLIDE_DETAIL = 'get_slide_detail';
-export const UPDATE_SLIDE_DETAIL = 'update_slide_detail';
-export const REMOVE_SLIDE_IMAGE = 'remove_slide_image';
-export const UPLOAD_SLIDE_IMAGE = 'upload_slide_image';
-export const SET_PUBLISH_SLIDE = 'set_publish_slide';
+export const REMOVE_ITEM_SLIDE = 'remove_item_slide';
+export const GET_DETAIL_SLIDE = 'get_detail_slide';
+export const UPDATE_DETAIL_SLIDE = 'update_detail_slide';
+export const REMOVE_IMAGE_SLIDE = 'remove_image_slide';
+export const UPLOAD_IMAGE_SLIDE = 'upload_image_slide';
+export const SET_VISIBLE_SLIDE = 'set_visible_slide';
 
 // - Description
 export const GET_DESCRIPTION_DETAIL = 'get_description_detail';

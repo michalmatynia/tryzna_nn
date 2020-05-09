@@ -1,26 +1,26 @@
 import {
-    GET_MENU_DETAIL,
-    UPDATE_MENU_DETAIL,
-    SHOW_MENU_DETAIL,
+    GET_DETAIL_MENU,
+    UPDATE_DETAIL_MENU,
+    SHOW_DETAIL_MENU,
     ADD_MENU,
     CLEAR_MENU,
     LIST_MENUS,
-    REMOVE_MENU_ITEM,
+    REMOVE_ITEM_MENU,
     SET_VISIBLE_MENU
 
 } from '../../actions/types';
 
 export default function (state = {}, action) {
     switch (action.type) {
-        case REMOVE_MENU_ITEM:
+        case REMOVE_ITEM_MENU:
             return {
                 ...state
             }
-        case SHOW_MENU_DETAIL:
+        case SHOW_DETAIL_MENU:
             return { ...state, menuDetail: action.payload }
-        case GET_MENU_DETAIL:
+        case GET_DETAIL_MENU:
             return { ...state, menuDetail: action.payload }
-        case UPDATE_MENU_DETAIL:
+        case UPDATE_DETAIL_MENU:
             return { ...state, menuDetail: action.payload }
         case ADD_MENU:
             return {

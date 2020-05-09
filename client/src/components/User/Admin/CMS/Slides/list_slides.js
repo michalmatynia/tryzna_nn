@@ -3,7 +3,7 @@ import UserLayout from '../../../../../hoc/user';
 import ListSlidesBlock from '../Slides/list_slides_block';
 
 import { connect } from 'react-redux';
-import { act_getData_Slides, act_removeSlideItem, act_setPublishSlide } from '../../../../../redux/actions/CMS/slides_actions';
+import { act_listSlides, act_removeItem_Slide, act_setVisible_Slide } from '../../../../../redux/actions/CMS/slides_actions';
 
 class ListSlides extends Component {
 
@@ -19,21 +19,21 @@ class ListSlides extends Component {
     componentDidMount() {
 
         const args = this.state.get_slides
-        this.props.dispatch(act_getData_Slides(args));
+        this.props.dispatch(act_listSlides(args));
 
     }
 
     removeSlideFromDb = (id) => {
 
         // console.log(id)
-        this.props.dispatch(act_removeSlideItem(id))
+        this.props.dispatch(act_removeItem_Slide(id))
 
     }
 
     handlePublish = (id, checked) => {
 
         // console.log(checked)
-        this.props.dispatch(act_setPublishSlide(id, checked))
+        this.props.dispatch(act_setVisible_Slide(id, checked))
 
     }
 
