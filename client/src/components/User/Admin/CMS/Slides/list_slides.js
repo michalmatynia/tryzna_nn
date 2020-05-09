@@ -8,32 +8,53 @@ import { act_listSlides, act_removeItem_Slide, act_setVisible_Slide } from '../.
 class ListSlides extends Component {
 
     state = {
-        get_slides:
-        {
-            sortBy: 'createdAdd',
-            order: 'desc',
-            limit: '10'
+
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if ((
+            
+            this.props.user.siteLocalisation !== undefined
+            && prevProps.user.siteLocalisation === undefined
+        ) || (
+                this.props.user.siteLocalisation !== undefined
+                && prevProps.user.siteLocalisation !== undefined
+                && prevProps.user.siteLocalisation.value !== this.props.user.siteLocalisation.value
+
+            )) {
+
+            this.props.dispatch(act_listSlides(this.props.user.siteLocalisation.value))
+
         }
+
     }
 
     componentDidMount() {
 
-        const args = this.state.get_slides
-        this.props.dispatch(act_listSlides(args));
-
+        if (
+            this.props.user.siteLocalisation !== undefined
+        ) {
+            this.props.dispatch(act_listSlides(this.props.user.siteLocalisation.value))
+        }
     }
 
-    removeSlideFromDb = (id) => {
+    removeEntityFromDb = (id) => {
 
-        // console.log(id)
+        // Check if remove is repositioning
+
         this.props.dispatch(act_removeItem_Slide(id))
+            .then(response => {
+                this.props.dispatch(act_listSlides(this.props.user.siteLocalisation.value, this.state.get_args))
+            })
 
     }
 
-    handlePublish = (id, checked) => {
+    handleVisible = (id, checked) => {
+        let args = {}
+        args['_id'] = id
+        args['checked'] = checked
 
-        // console.log(checked)
-        this.props.dispatch(act_setVisible_Slide(id, checked))
+        this.props.dispatch(act_setVisible_Slide(this.props.user.siteLocalisation.value, args))
 
     }
 
@@ -46,8 +67,8 @@ class ListSlides extends Component {
                         <ListSlidesBlock
                             type="cart"
                             list={this.props.slides.adminGetSlides}
-                            removeItem={(id) => this.removeSlideFromDb(id)}
-                            handlePublish={(id, checked) => this.handlePublish(id, checked)}
+                            removeItem={(id) => this.removeEntityFromDb(id)}
+                            handleVisible={(id, checked) => this.handleVisible(id, checked)}
                         />
                     </div>
                 </div>

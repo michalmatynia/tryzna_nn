@@ -4,9 +4,9 @@ import MyButton from '../../../../utils/button';
 import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
-const ListSlidesBlock = ({ list, removeItem, handlePublish }) => {
+const ListSlidesBlock = ({ list, removeItem, handleVisible }) => {
 
-    const renderSlideImage = (list) => {
+    const renderImage_Slide = (list) => {
         // console.log(list)
         if (list.images.length > 0) {
             return list.images[0].url
@@ -25,7 +25,7 @@ const ListSlidesBlock = ({ list, removeItem, handlePublish }) => {
                     <div className="item">
                         <div
                             className="image"
-                            style={{ background: `url(${renderSlideImage(slide)}) no-repeat` }}
+                            style={{ background: `url(${renderImage_Slide(slide)}) no-repeat` }}
                         >
 
                         </div>
@@ -53,13 +53,13 @@ const ListSlidesBlock = ({ list, removeItem, handlePublish }) => {
                                 <Switch
                                     checked={slide.publish}
                                     // onChange={handleChange('checkedA')}
-                                    onClick={() => handlePublish(slide._id, slide.publish)}
+                                    onClick={() => handleVisible(slide._id, slide.publish)}
                                     // value="checkedA"
                                     // inputProps={{ 'aria-label': 'secondary checkbox' }}
                                     color="primary"
                                 />
                             }
-                            label={slide.publish ? "On" : "Off"}
+                            label={slide.visible ? "On" : "Off"}
                             size="small"
                             labelPlacement="top"
                         />

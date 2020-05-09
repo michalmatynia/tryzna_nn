@@ -38,10 +38,10 @@ class ListMenus extends Component {
     }
 
     removeEntityFromDb = (id) => {
-
+        let args = {}
         this.props.dispatch(act_removeItem_Menu(id))
             .then(response => {
-                this.props.dispatch(act_listMenus(this.props.user.siteLocalisation.value, this.state.get_args))
+                this.props.dispatch(act_listMenus(this.props.user.siteLocalisation.value, args))
             })
 
     }

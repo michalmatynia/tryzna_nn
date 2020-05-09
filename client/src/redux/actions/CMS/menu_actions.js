@@ -2,7 +2,6 @@ import axios from 'axios';
 import {
     GET_DETAIL_MENU,
     UPDATE_DETAIL_MENU,
-    SHOW_DETAIL_MENU,
     ADD_MENU,
     CLEAR_MENU,
     LIST_MENUS,
@@ -71,17 +70,30 @@ export function act_addMenu(language, args, dataToSubmit = null) {
     }
 }
 
-export function act_removeItem_Menu(id) {
+export function act_removeItem_Menu(language, args = null) {
+    let listOfArgs = '';
 
-    const request = axios.get(`${MENU_SERVER}/remove_entity?_id=${id}`)
-        .then(response => {
-            return response.data;
-        })
+    if (args) {
+
+        for (const [key, value] of Object.entries(args)) {
+
+            listOfArgs += '&';
+            if (value) {
+                listOfArgs += key + '=' + value;
+            }
+        }
+
+    }
+
+    const request = axios.get(`${MENU_SERVER}/remove_entity?language=${language}${listOfArgs}`)
+        .then(response => response.data)
 
     return {
         type: REMOVE_ITEM_MENU,
         payload: request
     }
+    // =============
+
 }
 
 export function act_getDetail_by_Id_Menu(id) {
@@ -171,24 +183,4 @@ export function act_setVisible_Menu(language, args=null, id, checked) {
         payload: request
     }
 }
-
-
-
-
-
-export function act_getDetail_Menu_Published(current_lg) {
-
-    let request = axios.get(`${MENU_SERVER}/show_entity?lg=${current_lg}&visible=true`)
-        .then(response => {
-
-            return response.data
-        });
-
-    return {
-        type: SHOW_DETAIL_MENU,
-        payload: request
-    }
-}
-
-
 

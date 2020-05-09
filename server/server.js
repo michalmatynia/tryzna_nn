@@ -118,39 +118,68 @@ app.get('api/user/download/:id', auth, admin, (req, res) => {
 //          SLIDES
 //=======================
 
-app.post('/api/slide/article', auth, admin, (req, res) => {
+app.get('/api/slide/list_entities', (req, res) => {
+    let sortBy = req.query.sortBy ? req.query.sortBy : { position: 1 };
+    let limit = req.query.limit ? parseInt(req.query.limit) : 1000;
 
-    const slide = new Slide(req.body);
+    let allArgs = {};
 
-    slide.save((err, doc) => {
-        if (err) return res.json({ success: false, err });
-        res.status(200).json({
-            success: true,
-            article: doc
-        })
-    })
-})
+    for (const [key, value] of Object.entries(req.query)) {
 
-app.get('/api/slide/articles', (req, res) => {
-    let order = req.query.order ? req.query.order : "asc";
-    let sortBy = req.query.sortBy ? req.query.sortBy : "_id";
-    let limit = req.query.limit ? parseInt(req.query.limit) : 100;
-
-    let findArgs = {};
-    // console.log(req.query)
-    if (req.query.publish) { findArgs['publish'] = req.query.publish }
-
+        if (key !== 'sortBy') {
+            allArgs[key] = value
+        }
+    }
 
     Slide.
-        find(findArgs)
-        .sort([[sortBy, order]])
+        find(allArgs)
+        // .sort({position : 1})
+        .sort(sortBy)
         .limit(limit)
-        .exec((err, articles) => {
-            if (err) return res.status(400).send(err);
-            res.send(articles)
-        })
+        .exec((err, doc) => {
 
+            console.log(err);
+            console.log(doc);
+            
+            if (err) return res.status(400).send(err);
+            res.send(doc)
+        })
 })
+
+
+// app.post('/api/slide/article', auth, admin, (req, res) => {
+
+//     const slide = new Slide(req.body);
+
+//     slide.save((err, doc) => {
+//         if (err) return res.json({ success: false, err });
+//         res.status(200).json({
+//             success: true,
+//             article: doc
+//         })
+//     })
+// })
+
+// app.get('/api/slide/articles', (req, res) => {
+//     let order = req.query.order ? req.query.order : "asc";
+//     let sortBy = req.query.sortBy ? req.query.sortBy : "_id";
+//     let limit = req.query.limit ? parseInt(req.query.limit) : 100;
+
+//     let findArgs = {};
+//     // console.log(req.query)
+//     if (req.query.publish) { findArgs['publish'] = req.query.publish }
+
+
+//     Slide.
+//         find(findArgs)
+//         .sort([[sortBy, order]])
+//         .limit(limit)
+//         .exec((err, articles) => {
+//             if (err) return res.status(400).send(err);
+//             res.send(articles)
+//         })
+
+// })
 
 app.get('/api/slide/remove_slide', auth, (req, res) => {
 
@@ -1059,6 +1088,9 @@ app.get('/api/menu/list_entities', (req, res) => {
         .sort(sortBy)
         .limit(limit)
         .exec((err, doc) => {
+ 
+            
+            
 
             if (err) return res.status(400).send(err);
             res.send(doc)

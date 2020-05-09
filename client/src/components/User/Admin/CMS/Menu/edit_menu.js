@@ -245,7 +245,6 @@ class EditMenu extends Component {
 
     componentDidMount() {
 
-        console.log('ComponentDidMount')
         if (
             this.props.user.siteLocalisation !== undefined
         ) {

@@ -40,14 +40,23 @@ class Home extends Component {
 
 
     componentDidMount() {
+    
 
         this.props.dispatch(getProductsBySell());
         this.props.dispatch(getProductsByArrival());
 
-        // Get Slides
-        const args = this.state.get_slides
-        this.props.dispatch(act_listSlides(args));
+        if (
+            this.props.user.siteLocalisation !== undefined
+        ) {
 
+            let args = {}
+            args['sortBy'] = 'createdAdd'
+            args['order'] = 'desc'
+            args['limit'] = 4
+            args['visible'] = true
+            this.props.dispatch(act_listSlides(this.props.user.siteLocalisation.value, args));
+        }
+        // Get Slides
     }
 
     render() {

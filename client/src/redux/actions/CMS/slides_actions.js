@@ -14,7 +14,7 @@ import {
 
 import { SLIDE_SERVER } from '../../../components/utils/misc';
 
-export function act_listSlides(lg, args = null) {
+export function act_listSlides(language, args = null) {
 
     let listOfArgs = '';
 
@@ -30,7 +30,7 @@ export function act_listSlides(lg, args = null) {
 
     }
 
-    const request = axios.get(`${SLIDE_SERVER}/list_entities?language=${lg}${listOfArgs}`)
+    const request = axios.get(`${SLIDE_SERVER}/list_entities?language=${language}${listOfArgs}`)
         .then(response => response.data)
 
     return {
