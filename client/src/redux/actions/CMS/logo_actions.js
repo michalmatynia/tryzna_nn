@@ -14,7 +14,7 @@ import {
 
 import { LOGO_SERVER } from '../../../components/utils/misc';
 
-export function act_listLogos(lg, args = null) {
+export function act_listLogos(language, args = null) {
 
     let listOfArgs = '';
     if (args) {
@@ -27,7 +27,7 @@ export function act_listLogos(lg, args = null) {
         }
     }
 
-    const request = axios.get(`${LOGO_SERVER}/list_entities?language=${lg}${listOfArgs}`)
+    const request = axios.get(`${LOGO_SERVER}/list_entities?language=${language}${listOfArgs}`)
         .then(response => response.data)
 
     return {

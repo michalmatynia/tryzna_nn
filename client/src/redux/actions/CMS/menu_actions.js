@@ -177,7 +177,6 @@ export function act_setVisible_Menu(language, args = null) {
 
     const request = axios.post(`${MENU_SERVER}/set_visible?language=${language}${listOfArgs}`)
         .then(response => {
-            console.log(response);
 
             return response.data
         });

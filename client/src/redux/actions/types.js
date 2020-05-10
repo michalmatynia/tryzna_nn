@@ -55,7 +55,7 @@ export const GET_DETAIL_LOGO = 'get_detail_logo';
 export const CLEAR_DETAIL_LOGO = 'clear_detail_logo';
 
 export const UPDATE_DETAIL_LOGO = 'update_detail_logo';
-
+export const SET_VISIBLE_LOGO = 'set_visible_logo';
 // -- Logo Image Handler
 export const REMOVE_IMAGE_LOGO = 'remove_image_logo';
 export const UPLOAD_IMAGE_LOGO = 'upload_image_logo';
@@ -74,5 +74,10 @@ export const UPLOAD_IMAGE_SLIDE = 'upload_image_slide';
 export const SET_VISIBLE_SLIDE = 'set_visible_slide';
 
 // - Description
-export const GET_DETAIL_DESCRIPTION = 'get_detail_description';
-export const UPDATE_DETAIL_DESCRIPTION = 'update_detail_description';
+export const ADD_DESC = 'add_desc';
+export const ADD_DESC_AUTO = 'add_desc_auto';
+export const LIST_DESC = 'list_desc';
+export const GET_DETAIL_DESC = 'get_detail_desc';
+export const CLEAR_DETAIL_DESC = 'clear_detail_desc';
+export const UPDATE_DETAIL_DESC= 'update_detail_desc';
+export const SET_VISIBLE_DESC = 'set_visible_desc';
