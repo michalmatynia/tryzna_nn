@@ -14,7 +14,6 @@ import {
 
 import { LOGO_SERVER } from '../../../components/utils/misc';
 
-// This function is UNUSED
 export function act_listLogos(lg, args = null) {
 
     let listOfArgs = '';

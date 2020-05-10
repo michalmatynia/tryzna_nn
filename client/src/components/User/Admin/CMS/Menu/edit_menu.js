@@ -6,7 +6,7 @@ import { update, generateData, isFormValid, populateFields } from '../../../../u
 
 import { connect } from 'react-redux';
 
-import { act_getDetail_by_Args_Menu, act_getDetail_by_Id_Menu, act_updateDetail_Menu, act_listMenus, act_addMenu, act_clearDetail } from '../../../../../redux/actions/CMS/menu_actions';
+import { act_getDetail_by_Args_Menu, act_getDetail_by_Id_Menu, act_updateDetail_Menu, act_listMenus, act_addMenu } from '../../../../../redux/actions/CMS/menu_actions';
 // import FileUpload from '../../../../utils/Form/CMS/fileupload_slide'
 
 class EditMenu extends Component {
@@ -254,10 +254,10 @@ class EditMenu extends Component {
 
     }
 
-    componentWillUnmount() {
-        this.props.dispatch(act_clearDetail('menu'))
+    // componentWillUnmount() {
+    //     this.props.dispatch(act_clearDetail('menu'))
 
-    }
+    // }
 
     updateForm = (element) => {
         const newFormdata = update(element, this.state.formdata, 'menu');

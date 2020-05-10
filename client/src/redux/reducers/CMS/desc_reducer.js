@@ -1,17 +1,14 @@
 import {
-    GET_DESCRIPTION_DETAIL,
-    UPDATE_DESCRIPTION_DETAIL,
-    SHOW_DESCRIPTION_DETAIL
+    GET_DETAIL_DESCRIPTION,
+    UPDATE_DETAIL_DESCRIPTION,
 
 } from '../../actions/types';
 
 export default function (state = {}, action) {
     switch (action.type) {
-        case SHOW_DESCRIPTION_DETAIL:
+        case GET_DETAIL_DESCRIPTION:
             return { ...state, descDetail: action.payload }
-        case GET_DESCRIPTION_DETAIL:
-            return { ...state, descDetail: action.payload }
-        case UPDATE_DESCRIPTION_DETAIL:
+        case UPDATE_DETAIL_DESCRIPTION:
             return { ...state, descDetail: action.payload }
         default:
             return state;

@@ -6,7 +6,7 @@ import { update, generateData, isFormValid, populateFields } from '../../../../u
 
 import { connect } from 'react-redux';
 
-import { act_getDetail_by_Args_Logo, act_clearDetail, act_updateDetail_Logo, act_addLogo_Auto } from '../../../../../redux/actions/CMS/logo_actions';
+import { act_getDetail_by_Args_Logo, act_updateDetail_Logo, act_addLogo_Auto } from '../../../../../redux/actions/CMS/logo_actions';
 import FileUpload from '../../../../utils/Form/CMS/fileupload_logo'
 
 class EditLogo extends Component {
@@ -166,9 +166,9 @@ class EditLogo extends Component {
                 })
         }
     }
-    componentWillUnmount() {
-        this.props.dispatch(act_clearDetail('logo'))
-    }
+    // componentWillUnmount() {
+    //     this.props.dispatch(act_clearDetail('logo'))
+    // }
 
     updateForm = (element) => {
         const newFormdata = update(element, this.state.formdata, 'logo');

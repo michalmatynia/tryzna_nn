@@ -1,69 +1,130 @@
 import axios from 'axios';
 import {
-    GET_DESCRIPTION_DETAIL,
-    UPDATE_DESCRIPTION_DETAIL,
-    SHOW_DESCRIPTION_DETAIL
-
+    GET_DETAIL_DESCRIPTION,
+    UPDATE_DETAIL_DESCRIPTION,
 } from '../types';
 
 import { DESC_SERVER } from '../../../components/utils/misc';
+export function act_listLogos(lg, args = null) {
 
+    let listOfArgs = '';
+    if (args) {
+        for (const [key, value] of Object.entries(args)) {
 
-export function act_getDetail_Desc(lg) {
-
-
-// console.log(lg)
-
-    let request = axios.get(`${DESC_SERVER}/get_entity?lg=${lg}`)
-    .then(response=>{
-        
-        if (response.data === '' || response.data.error) {
-           //  console.log('check')
-            request = axios.post(`${DESC_SERVER}/add_entity?lg=${lg}`)
-            .then(response2=>{
-                // console.log('rfefrefrefe')
-                // console.log(response2.data)
-                return response2.data.doc
-            })
-
-            return request
-        } else {
-            // console.log(response)
-            return response.data
+            if (value) {
+                listOfArgs += '&';
+                listOfArgs += key + '=' + value;
+            }
         }
-        // console.log(request)
-    });
+    }
+
+    const request = axios.get(`${LOGO_SERVER}/list_entities?language=${lg}${listOfArgs}`)
+        .then(response => response.data)
 
     return {
-        type: GET_DESCRIPTION_DETAIL,
+        type: LIST_LOGOS,
         payload: request
     }
 }
 
-export function act_getDetail_Desc_Published(current_lg) {
-    
-        let request = axios.get(`${DESC_SERVER}/show_entity?lg=${current_lg}&publish=true`)
-        .then(response=>{
-            
+export function act_clearDetail(currentType) {
+    switch (currentType) {
+        case 'logo':
+            return {
+                type: CLEAR_DETAIL_LOGO,
+                payload: ''
+            }
+        default:
+            return '';
+    }
+}
+export function act_getDetail_by_Args_Desc(language, args = null) {
+
+    let listOfArgs = '';
+    if (args) {
+        for (const [key, value] of Object.entries(args)) {
+
+            if (value) {
+                listOfArgs += '&';
+                listOfArgs += key + '=' + value;
+            }
+        }
+    }
+
+
+    const request = axios.get(`${DESC_SERVER}/get_entity_by_args?language=${language}${listOfArgs}`)
+        .then(response => {
+
+            return response.data
+
+        })
+
+    return {
+        type: GET_DETAIL_DESCRIPTION,
+        payload: request
+    }
+}
+
+
+export function act_addLogo(language, args = null, dataToSubmit = null) {
+
+    let listOfArgs = '';
+    if (args) {
+        for (const [key, value] of Object.entries(args)) {
+
+            if (value) {
+                listOfArgs += '&';
+                listOfArgs += key + '=' + value;
+            }
+        }
+    }
+
+    const request = axios.post(`${LOGO_SERVER}/add_entity?language=${language}${listOfArgs}`, dataToSubmit)
+        .then(response => {
             return response.data
         });
-    
-        return {
-            type: SHOW_DESCRIPTION_DETAIL,
-            payload: request
-        }
-    }
-
-
-export function act_updateDetail_Desc(dataToSubmit, lg, parent_id){
-
-    // console.log(dataToSubmit)
-
-    const request = axios.post(`${DESC_SERVER}/update_entity?lg=${lg}&parent_id=${parent_id}`, dataToSubmit )
-    .then(response => response.data.doc);
 
     return {
-        type: UPDATE_DESCRIPTION_DETAIL,
+        type: ADD_LOGO,
         payload: request
     }
 }
+
+export function act_addLogo_Auto(language, dataToSubmit = null) {
+
+    const request = axios.post(`${LOGO_SERVER}/add_entity_auto?language=${language}`, dataToSubmit)
+        .then(response => {
+            return response.data
+        });
+
+    return {
+        type: ADD_LOGO_AUTO,
+        payload: request
+    }
+}
+
+export function act_updateDetail_Logo(language, args = null, dataToSubmit = null) {
+
+    let listOfArgs = '';
+    if (args) {
+        for (const [key, value] of Object.entries(args)) {
+
+            if (value) {
+                listOfArgs += '&';
+                listOfArgs += key + '=' + value;
+            }
+        }
+    }
+
+    const request = axios.post(`${LOGO_SERVER}/update_entity?language=${language}${listOfArgs}`, dataToSubmit)
+        .then(response => {
+
+            return response.data.doc
+        });
+
+    return {
+        type: UPDATE_DETAIL_LOGO,
+        payload: request
+    }
+}
+

@@ -74,6 +74,5 @@ export const UPLOAD_IMAGE_SLIDE = 'upload_image_slide';
 export const SET_VISIBLE_SLIDE = 'set_visible_slide';
 
 // - Description
-export const GET_DESCRIPTION_DETAIL = 'get_description_detail';
-export const UPDATE_DESCRIPTION_DETAIL = 'update_description_detail';
-export const SHOW_DESCRIPTION_DETAIL = 'show_description_detail';
+export const GET_DETAIL_DESCRIPTION = 'get_detail_description';
+export const UPDATE_DETAIL_DESCRIPTION = 'update_detail_description';
