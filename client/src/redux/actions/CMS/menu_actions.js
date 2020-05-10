@@ -1,10 +1,10 @@
 import axios from 'axios';
 import {
-    GET_DETAIL_MENU,
-    UPDATE_DETAIL_MENU,
     ADD_MENU,
-    CLEAR_MENU,
     LIST_MENUS,
+    GET_DETAIL_MENU,
+    CLEAR_DETAIL_MENU,
+    UPDATE_DETAIL_MENU,
     REMOVE_ITEM_MENU,
     SET_VISIBLE_MENU
 
@@ -41,7 +41,7 @@ export function act_clearMenu(currentType) {
     switch (currentType) {
         case 'menu':
             return {
-                type: CLEAR_MENU,
+                type: CLEAR_DETAIL_MENU,
                 payload: ''
             }
         default:

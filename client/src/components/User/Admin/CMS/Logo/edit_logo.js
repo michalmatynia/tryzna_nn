@@ -6,7 +6,7 @@ import { update, generateData, isFormValid, populateFields } from '../../../../u
 
 import { connect } from 'react-redux';
 
-import { act_getDetail_Logo_by_Lg, act_updateDetail_Logo, act_addLogo_Auto } from '../../../../../redux/actions/CMS/logo_actions';
+import { act_getDetail_by_Args_Logo, act_clearDetail, act_updateDetail_Logo, act_addLogo_Auto } from '../../../../../redux/actions/CMS/logo_actions';
 import FileUpload from '../../../../utils/Form/CMS/fileupload_logo'
 
 class EditLogo extends Component {
@@ -33,12 +33,12 @@ class EditLogo extends Component {
                 showlabel: false
 
             },
-            publish: {
+            visible: {
                 element: 'select',
                 value: '',
                 config: {
-                    label: 'Publish',
-                    name: 'publish_input',
+                    label: 'Visible',
+                    name: 'visible_input',
                     options: [
                         { key: true, value: 'yes' },
                         { key: false, value: 'no' }
@@ -119,11 +119,11 @@ class EditLogo extends Component {
 
             let dataToSubmit = generateData(this.state.formdata, 'logo');
             dataToSubmit['language'] = this.props.user.siteLocalisation.value
-            dataToSubmit['publish'] = true
+            dataToSubmit['visible'] = true
 
             this.props.dispatch(act_addLogo_Auto(this.props.user.siteLocalisation.value, dataToSubmit))
                 .then(response2 => {
- 
+
                     const newFormData = populateFields(this.state.formdata, this.props.logo.logoDetail);
 
                     this.setState({
@@ -154,6 +154,9 @@ class EditLogo extends Component {
 
                 })
         }
+    }
+    componentWillUnmount() {
+        this.props.dispatch(act_clearDetail('logo'))
     }
 
     updateForm = (element) => {

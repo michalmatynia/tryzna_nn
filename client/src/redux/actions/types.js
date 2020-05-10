@@ -38,36 +38,37 @@ export const UPDATE_SITE_DATA = 'update_site_data';
 
 // CMS
 // Menu
-export const UPDATE_DETAIL_MENU = 'update_menu_detail';
-export const SHOW_DETAIL_MENU = 'show_menu_detail';
-export const GET_DETAIL_MENU = 'get_menu_detail';
 export const ADD_MENU = 'add_menu';
-export const CLEAR_MENU = 'clear_menu';
 export const LIST_MENUS = 'list_menus';
-export const REMOVE_ITEM_MENU = 'remove_menu_item';
+export const GET_DETAIL_MENU = 'get_detail_menu';
+export const CLEAR_DETAIL_MENU = 'clear_detail_menu';
+
+export const UPDATE_DETAIL_MENU = 'update_detail_menu';
+export const REMOVE_ITEM_MENU = 'remove_item_menu';
 export const SET_VISIBLE_MENU = 'set_visible_menu';
 
 // - Logo
-export const LIST_LOGOS = 'list_logos';
-export const GET_LOGO_DETAIL = 'get_logo_detail';
-export const CLEAR_LOGO_DETAIL = 'clear_logo_detail';
-export const UPDATE_LOGO_DETAIL = 'update_logo_detail';
-export const SHOW_LOGO_DETAIL = 'show_logo_detail';
 export const ADD_LOGO = 'add_logo';
 export const ADD_LOGO_AUTO = 'add_logo_auto';
+export const LIST_LOGOS = 'list_logos';
+export const GET_DETAIL_LOGO = 'get_detail_logo';
+export const CLEAR_DETAIL_LOGO = 'clear_detail_logo';
+
+export const UPDATE_DETAIL_LOGO = 'update_detail_logo';
 
 // -- Logo Image Handler
-export const REMOVE_LOGO_IMAGE = 'remove_logo_image';
-export const UPLOAD_LOGO_IMAGE = 'upload_logo_image';
+export const REMOVE_IMAGE_LOGO = 'remove_image_logo';
+export const UPLOAD_IMAGE_LOGO = 'upload_image_logo';
 
 // - Slider
 export const ADD_SLIDE = 'add_slide';
-export const CLEAR_SLIDE = 'clear_slide';
 export const LIST_SLIDES = 'list_slides';
-// export const GET_SLIDES_BY_ARRIVAL_ALL = 'get_slides_by_arrival_all';
-export const REMOVE_ITEM_SLIDE = 'remove_item_slide';
 export const GET_DETAIL_SLIDE = 'get_detail_slide';
+export const CLEAR_DETAIL_SLIDE = 'clear_detail_slide';
+// export const GET_SLIDES_BY_ARRIVAL_ALL = 'get_slides_by_arrival_all';
+
 export const UPDATE_DETAIL_SLIDE = 'update_detail_slide';
+export const REMOVE_ITEM_SLIDE = 'remove_item_slide';
 export const REMOVE_IMAGE_SLIDE = 'remove_image_slide';
 export const UPLOAD_IMAGE_SLIDE = 'upload_image_slide';
 export const SET_VISIBLE_SLIDE = 'set_visible_slide';

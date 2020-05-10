@@ -255,7 +255,7 @@ class EditMenu extends Component {
     }
 
     componentWillUnmount() {
-        this.props.dispatch(act_clearMenu('menu'))
+        this.props.dispatch(act_clearDetail('menu'))
 
     }
 

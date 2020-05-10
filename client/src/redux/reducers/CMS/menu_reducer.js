@@ -1,10 +1,9 @@
 import {
-    GET_DETAIL_MENU,
-    UPDATE_DETAIL_MENU,
-    SHOW_DETAIL_MENU,
     ADD_MENU,
-    CLEAR_MENU,
     LIST_MENUS,
+    GET_DETAIL_MENU,
+    CLEAR_DETAIL_MENU,
+    UPDATE_DETAIL_MENU,
     REMOVE_ITEM_MENU,
     SET_VISIBLE_MENU
 
@@ -16,8 +15,6 @@ export default function (state = {}, action) {
             return {
                 ...state
             }
-        case SHOW_DETAIL_MENU:
-            return { ...state, menuDetail: action.payload }
         case GET_DETAIL_MENU:
             return { ...state, menuDetail: action.payload }
         case UPDATE_DETAIL_MENU:
@@ -26,7 +23,7 @@ export default function (state = {}, action) {
             return {
                 ...state, adminAddMenu: action.payload
             }
-        case CLEAR_MENU:
+        case CLEAR_DETAIL_MENU:
             return {
                 ...state, adminAddMenu: action.payload
             }

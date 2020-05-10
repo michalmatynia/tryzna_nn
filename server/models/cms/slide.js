@@ -13,7 +13,17 @@ const slideSchema = mongoose.Schema({
         type: String,
         maxlength: 100
     },
-    publish:{
+    position:{
+        required: true,
+        type: Number,
+        maxlength: 4
+    },
+    language:{
+        required: true,
+        type: String,
+        maxlength: 4
+    },
+    visible:{
         required: true,
         type: Boolean
     },

@@ -158,6 +158,8 @@ app.post('/api/slide/add_entity', (req, res) => {
             }
         }
 
+        console.log(err);
+
         if (!err) {
             Slide.
                 find({ language: req.query.language })
@@ -439,24 +441,6 @@ app.post('/api/slide/set_visible', auth, (req, res) => {
 })
 
 // ==============
-app.post('/api/slide/slide_update', auth, (req, res) => {
-
-    // console.log(req.query.parent_id)
-    Slide.findOneAndUpdate(
-        { _id: req.query.parent_id },
-        {
-            "$set": req.body
-        },
-        { new: true },
-        (err, doc) => {
-            if (err) return res.json({ success: false, err });
-            return res.status(200).send({
-                success: true
-            })
-        }
-    );
-})
-
 
 
 app.get('/api/slide/removeimage', auth, admin, (req, res) => {
@@ -482,7 +466,6 @@ app.get('/api/slide/removeimage', auth, admin, (req, res) => {
         cloudinary.uploader.destroy(req.query.image_id, (error, result) => {
             if (error) return res.json({ success: false, error });
             res.status(200).send('ok');
-            // res.status(200).send('ok');
         })
     }
 
@@ -531,40 +514,6 @@ app.post('/api/slide/uploadimage', auth, admin, formidable(), (req, res) => {
     })
 })
 
-app.post('/api/slide/set_publish', auth, (req, res) => {
-
-    let checked = null
-
-    if (req.query.checked === 'true') {
-        checked = false
-    } else {
-        checked = true
-    }
-
-    Slide.findOneAndUpdate(
-        { _id: req.query.id },
-        {
-            "$set": {
-                publish: checked
-            }
-        },
-        { new: true },
-        (err, doc) => {
-
-            Slide.
-                find()
-                .exec((err, articles) => {
-                    if (err) return res.status(400).send(err);
-                    res.send(articles)
-                })
-
-            // if (err) return res.json({ success: false, err });
-            // return res.status(200).send({
-            //     success: true
-            // })
-        }
-    );
-})
 
 // ======================
 //          PRODUCTS
@@ -583,7 +532,6 @@ app.post('/api/product/shop', (req, res) => {
             if (key === 'price') {
                 findArgs[key] = {
 
-                    // This is Mongo Argument, Greater Than
                     $gte: req.body.filters[key][0],
                     $lte: req.body.filters[key][1]
                 }

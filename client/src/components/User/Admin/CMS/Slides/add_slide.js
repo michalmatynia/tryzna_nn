@@ -6,7 +6,7 @@ import FormField from '../../../../utils/Form/formfield';
 import { update, generateData, isFormValid, resetFields } from '../../../../utils/Form/formActions';
 import FileUpload from '../../../../utils/Form/CMS/fileupload_slide'
 
-import { act_addSlide, act_clearSlide, act_listSlides } from '../../../../../redux/actions/CMS/slides_actions';
+import { act_addSlide, act_clearDetail, act_listSlides } from '../../../../../redux/actions/CMS/slides_actions';
 
 class AddSlide extends Component {
 
@@ -226,7 +226,7 @@ class AddSlide extends Component {
     }
 
     componentWillUnmount() {
-        this.props.dispatch(act_clearSlide('slides'))
+        this.props.dispatch(act_clearDetail('slides'))
 
     }
 
@@ -274,7 +274,7 @@ class AddSlide extends Component {
             this.props.dispatch(act_addSlide(this.props.user.siteLocalisation.value, args, dataToSubmit))
                 .then((response) => {
 
-                    if (this.props.menu.adminAddMenu.success) {
+                    if (this.props.menu.adminAddSlide.success) {
                         this.resetFieldHandler();
                     } else {
                         this.setState({ formError: true })

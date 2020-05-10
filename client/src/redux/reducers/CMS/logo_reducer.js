@@ -1,36 +1,31 @@
 import {
-    GET_LOGO_DETAIL,
-    CLEAR_LOGO_DETAIL,
-    UPDATE_LOGO_DETAIL,
-    SHOW_LOGO_DETAIL,
-    UPLOAD_LOGO_IMAGE,
-    REMOVE_LOGO_IMAGE,
     ADD_LOGO,
     ADD_LOGO_AUTO,
-    LIST_LOGOS
-
-
+    LIST_LOGOS,
+    GET_DETAIL_LOGO,
+    CLEAR_DETAIL_LOGO,
+    UPDATE_DETAIL_LOGO,
+    UPLOAD_IMAGE_LOGO,
+    REMOVE_IMAGE_LOGO
 } from '../../actions/types';
 
 export default function (state = {}, action) {
     switch (action.type) {
         case LIST_LOGOS:
             return { ...state, adminGetLogos: action.payload }
-        case SHOW_LOGO_DETAIL:
+        case GET_DETAIL_LOGO:
             return { ...state, logoDetail: action.payload }
-        case GET_LOGO_DETAIL:
+        case CLEAR_DETAIL_LOGO:
             return { ...state, logoDetail: action.payload }
-        case CLEAR_LOGO_DETAIL:
-            return { ...state, logoDetail: action.payload }
-        case UPDATE_LOGO_DETAIL:
+        case UPDATE_DETAIL_LOGO:
             return { ...state, logoDetail: action.payload }
         case ADD_LOGO_AUTO:
             return { ...state, logoDetail: action.payload }
         case ADD_LOGO:
             return { ...state, adminAddLogo: action.payload }
-        case REMOVE_LOGO_IMAGE:
+        case REMOVE_IMAGE_LOGO:
             return { ...state }
-        case UPLOAD_LOGO_IMAGE:
+        case UPLOAD_IMAGE_LOGO:
             return { ...state }
         default:
             return state;

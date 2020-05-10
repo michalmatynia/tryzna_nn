@@ -16,6 +16,10 @@ const logoSchema = mongoose.Schema({
         required: true,
         type: String,
         maxlength: 4
+    },
+    visible:{
+        required: true,
+        type: Boolean
     }
 },{timestamps:true});
 

@@ -15,18 +15,28 @@ class Logo extends Component {
             this.props.user.siteLocalisation !== undefined
             && this.props.user.siteLocalisation !== prevProps.user.siteLocalisation
         )) {
-            this.props.dispatch(act_getDetail_Logo_Published(this.props.user.siteLocalisation.value))
+            let args = {}
+            args['visible'] = true
+            this.props.dispatch(act_getDetail_by_Args_Logo(this.props.user.siteLocalisation, args))
         }
 
     }
 
     componentDidMount() {
-        this.props.dispatch(act_getDetail_Logo_Published(this.props.user.siteLocalisation.value))
+
+        if (
+            this.props.user.siteLocalisation !== undefined
+        ) {
+
+            let args = {}
+            args['visible'] = true
+            this.props.dispatch(act_getDetail_by_Args_Logo(this.props.user.siteLocalisation, args))
+        }
 
     }
 
     componentWillUnmount() {
-        this.props.dispatch(act_clearDetail_Logo())
+        this.props.dispatch(act_clearDetail('logo'))
     }
 
 

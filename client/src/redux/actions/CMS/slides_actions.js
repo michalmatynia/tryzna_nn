@@ -1,12 +1,12 @@
 import axios from 'axios';
 import {
-    LIST_SLIDES,
     ADD_SLIDE,
-    CLEAR_SLIDE,
+    LIST_SLIDES,
+    GET_DETAIL_SLIDE,
+    CLEAR_DETAIL_SLIDE,
+    UPDATE_DETAIL_SLIDE,
     REMOVE_ITEM_SLIDE,
     REMOVE_IMAGE_SLIDE,
-    GET_DETAIL_SLIDE,
-    UPDATE_DETAIL_SLIDE,
     UPLOAD_IMAGE_SLIDE,
     SET_VISIBLE_SLIDE
 
@@ -39,11 +39,11 @@ export function act_listSlides(language, args = null) {
     }
 }
 
-export function act_clearSlide(currentType) {
+export function act_clearDetail(currentType) {
     switch (currentType) {
         case 'slides':
             return {
-                type: CLEAR_SLIDE,
+                type: CLEAR_DETAIL_SLIDE,
                 payload: ''
             }
         default:

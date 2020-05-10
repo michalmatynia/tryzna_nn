@@ -1,14 +1,14 @@
 import axios from 'axios';
 import {
-    GET_LOGO_DETAIL,
-    CLEAR_LOGO_DETAIL,
-    UPDATE_LOGO_DETAIL,
-    SHOW_LOGO_DETAIL,
-    UPLOAD_LOGO_IMAGE,
-    REMOVE_LOGO_IMAGE,
     ADD_LOGO,
     ADD_LOGO_AUTO,
-    LIST_LOGOS
+    LIST_LOGOS,
+    GET_DETAIL_LOGO,
+    CLEAR_DETAIL_LOGO,
+    UPDATE_DETAIL_LOGO,
+    UPLOAD_IMAGE_LOGO,
+    REMOVE_IMAGE_LOGO
+    
 
 } from '../types';
 
@@ -40,30 +40,40 @@ export function act_listLogos(lg, args = null) {
     }
 }
 
-export function act_getDetail_Logo_by_Lg(lg) {
-
-    let request = axios.get(`${LOGO_SERVER}/get_entity?language=${lg}`)
-        .then(response => {
-
-            // console.log('getDetailLogo')
-            // console.log(lg)
-            // console.log(response)
-
-            return response.data
-            // if (response.data === '' || response.data.error) {
-
-        });
-
-    return {
-        type: GET_LOGO_DETAIL,
-        payload: request
+export function act_clearDetail(currentType) {
+    switch (currentType) {
+        case 'logo':
+            return {
+                type: CLEAR_DETAIL_LOGO,
+                payload: ''
+            }
+        default:
+            return '';
     }
 }
 
-export function act_clearDetail_Logo() {
+export function act_getDetail_by_Args_Logo(language, args) {
+
+    let listOfArgs = '';
+
+    for (const [key, value] of Object.entries(args)) {
+
+        listOfArgs += '&';
+        if (value) {
+            listOfArgs += key + '=' + value;
+        }
+    }
+
+    const request = axios.get(`${LOGO_SERVER}/get_entity_by_args?language=${language}${listOfArgs}`)
+        .then(response => {
+
+            return response.data
+
+        })
+
     return {
-        type: CLEAR_LOGO_DETAIL,
-        payload: ''
+        type: GET_DETAIL_LOGO,
+        payload: request
     }
 }
 
@@ -82,7 +92,6 @@ export function act_addLogo(language, args, dataToSubmit = null) {
     const request = axios.post(`${LOGO_SERVER}/add_entity?language=${language}${listOfArgs}`, dataToSubmit)
         .then(response =>
             {
-                // console.log(response)
                 return response.data
             });
 
@@ -108,32 +117,13 @@ export function act_addLogo_Auto(language, dataToSubmit = null) {
 }
 
 
-
-export function act_getDetail_Logo_Published(lg) {
-
-    let request = axios.get(`${LOGO_SERVER}/show_entity?language=${lg}&publish=true`)
-        .then(response => {
-            return response.data
-
-        });
-
-    return {
-        type: SHOW_LOGO_DETAIL,
-        payload: request
-    }
-}
-
-
-
 export function act_updateDetail_Logo(dataToSubmit, lg, parent_id) {
-
-    // console.log(parent_id)
 
     const request = axios.post(`${LOGO_SERVER}/update_entity?lg=${lg}&parent_id=${parent_id}`, dataToSubmit)
         .then(response => response.data.doc);
 
     return {
-        type: UPDATE_LOGO_DETAIL,
+        type: UPDATE_DETAIL_LOGO,
         payload: request
     }
 }
@@ -150,7 +140,7 @@ export function act_uploadLogoImage(formData, axiosheaders) {
         })
 
     return {
-        type: UPLOAD_LOGO_IMAGE,
+        type: UPLOAD_IMAGE_LOGO,
         payload: request
     }
 }
@@ -163,7 +153,7 @@ export function act_removeLogoImage(image_id) {
         })
 
     return {
-        type: REMOVE_LOGO_IMAGE,
+        type: REMOVE_IMAGE_LOGO,
         payload: request
     }
 }
