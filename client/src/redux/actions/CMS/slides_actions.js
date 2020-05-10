@@ -17,18 +17,16 @@ import { SLIDE_SERVER } from '../../../components/utils/misc';
 export function act_listSlides(language, args = null) {
 
     let listOfArgs = '';
-
     if (args) {
-
         for (const [key, value] of Object.entries(args)) {
 
-            listOfArgs += '&';
             if (value) {
+                listOfArgs += '&';
                 listOfArgs += key + '=' + value;
             }
         }
-
     }
+
 
     const request = axios.get(`${SLIDE_SERVER}/list_entities?language=${language}${listOfArgs}`)
         .then(response => response.data)
@@ -51,15 +49,16 @@ export function act_clearDetail(currentType) {
     }
 }
 
-export function act_addSlide(language, args, dataToSubmit = null) {
+export function act_addSlide(language, args = null, dataToSubmit = null) {
 
     let listOfArgs = '';
+    if (args) {
+        for (const [key, value] of Object.entries(args)) {
 
-    for (const [key, value] of Object.entries(args)) {
-
-        listOfArgs += '&';
-        if (value) {
-            listOfArgs += key + '=' + value;
+            if (value) {
+                listOfArgs += '&';
+                listOfArgs += key + '=' + value;
+            }
         }
     }
 
@@ -142,17 +141,19 @@ export function act_getDetail_by_Id_Slide(id) {
     }
 }
 
-export function act_getDetail_by_Args_Slide(language, args) {
+export function act_getDetail_by_Args_Slide(language, args = null) {
 
     let listOfArgs = '';
+    if (args) {
+        for (const [key, value] of Object.entries(args)) {
 
-    for (const [key, value] of Object.entries(args)) {
-
-        listOfArgs += '&';
-        if (value) {
-            listOfArgs += key + '=' + value;
+            if (value) {
+                listOfArgs += '&';
+                listOfArgs += key + '=' + value;
+            }
         }
     }
+
 
     const request = axios.get(`${SLIDE_SERVER}/get_entity_by_args?language=${language}${listOfArgs}`)
         .then(response => {
@@ -168,17 +169,19 @@ export function act_getDetail_by_Args_Slide(language, args) {
 }
 
 
-export function act_updateDetail_Slide(language, args, dataToSubmit = null) {
+export function act_updateDetail_Slide(language, args = null, dataToSubmit = null) {
 
     let listOfArgs = '';
+    if (args) {
+        for (const [key, value] of Object.entries(args)) {
 
-    for (const [key, value] of Object.entries(args)) {
-
-        listOfArgs += '&';
-        if (value) {
-            listOfArgs += key + '=' + value;
+            if (value) {
+                listOfArgs += '&';
+                listOfArgs += key + '=' + value;
+            }
         }
     }
+
 
     const request = axios.post(`${SLIDE_SERVER}/update_entity?language=${language}${listOfArgs}`, dataToSubmit)
         .then(response => {
@@ -191,17 +194,19 @@ export function act_updateDetail_Slide(language, args, dataToSubmit = null) {
     }
 }
 
-export function act_setVisible_Slide(language, args=null, id, checked) {
+export function act_setVisible_Slide(language, args = null) {
 
     let listOfArgs = '';
+    if (args) {
+        for (const [key, value] of Object.entries(args)) {
 
-    for (const [key, value] of Object.entries(args)) {
-
-        listOfArgs += '&';
-        if (value) {
-            listOfArgs += key + '=' + value;
+            if (value) {
+                listOfArgs += '&';
+                listOfArgs += key + '=' + value;
+            }
         }
     }
+
 
     const request = axios.post(`${SLIDE_SERVER}/set_visible?language=${language}${listOfArgs}`)
         .then(response => {

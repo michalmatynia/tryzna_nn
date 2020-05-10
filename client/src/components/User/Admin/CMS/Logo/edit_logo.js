@@ -90,6 +90,9 @@ class EditLogo extends Component {
 
     componentDidUpdate(prevProps) {
 
+        console.log('ComponentDidUpdate');
+
+
         if (
             this.props.user.siteLocalisation !== undefined
             && this.props.logo.logoDetail !== undefined
@@ -97,8 +100,10 @@ class EditLogo extends Component {
             && this.props.user.siteLocalisation.value !== prevProps.user.siteLocalisation.value
             && Object.keys(this.props.logo.logoDetail).length > 0
         ) {
-            this.props.dispatch(act_getDetail_Logo_by_Lg(this.props.user.siteLocalisation.value))
+            this.props.dispatch(act_getDetail_by_Args_Logo(this.props.user.siteLocalisation.value))
                 .then(response => {
+                    console.log('INSIDE B');
+                    
 
                     if (response.payload !== "") {
                         const newFormData = populateFields(this.state.formdata, this.props.logo.logoDetail);
@@ -116,6 +121,7 @@ class EditLogo extends Component {
                 (this.props.logo.logoDetail !== prevProps.logo.logoDetail && Object.keys(this.props.logo.logoDetail).length === 0)
                 || (Object.keys(this.props.logo.logoDetail).length !== 0 && this.props.user.siteLocalisation.value !== prevProps.user.siteLocalisation.value)
             )) {
+                console.log('INSIDE C');
 
             let dataToSubmit = generateData(this.state.formdata, 'logo');
             dataToSubmit['language'] = this.props.user.siteLocalisation.value
@@ -137,14 +143,19 @@ class EditLogo extends Component {
 
     }
     componentDidMount() {
+        console.log('ComponentDidMount');
 
         if (
             this.props.user.siteLocalisation !== undefined
         ) {
 
-            this.props.dispatch(act_getDetail_Logo_by_Lg(this.props.user.siteLocalisation.value))
-                .then(response => {
+            console.log(this.props.user.siteLocalisation.value);
 
+            this.props.dispatch(act_getDetail_by_Args_Logo(this.props.user.siteLocalisation.value))
+                .then(response => {
+                    console.log('INSIDE A');
+                    console.log(response);
+                    
                     if (response.payload !== "") {
                         const newFormData = populateFields(this.state.formdata, this.props.logo.logoDetail);
                         this.setState({
@@ -174,8 +185,14 @@ class EditLogo extends Component {
         let formIsValid = isFormValid(this.state.formdata, 'logo');
 
         if (formIsValid) {
+            // this.props.user.siteLocalisation.value, args, dataToSubmit
+            let args = {}
+            args['_id'] = this.props.logo.logoDetail._id
+            // console.log(this.props.logo.logoDetail._id);
+            // console.log(this.props);
 
-            this.props.dispatch(act_updateDetail_Logo(dataToSubmit, this.props.user.siteLocalisation.value, this.props.logo.logoDetail._id))
+
+            this.props.dispatch(act_updateDetail_Logo(this.props.user.siteLocalisation.value, args, dataToSubmit))
                 .then(() => {
                     this.setState({
                         formSuccess: true
@@ -209,7 +226,7 @@ class EditLogo extends Component {
         this.setState({
             formdata: newFormData
         }
-            , () => { this.props.dispatch(act_getDetail_Logo_by_Lg(this.props.user.siteLocalisation.value)) }
+            , () => { this.props.dispatch(act_getDetail_by_Args_Logo(this.props.user.siteLocalisation.value)) }
         )
     }
 

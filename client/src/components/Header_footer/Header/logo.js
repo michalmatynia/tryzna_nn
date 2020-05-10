@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { act_getDetail_Logo_Published, act_clearDetail_Logo } from '../../../redux/actions/CMS/logo_actions';
+import { act_getDetail_by_Args_Logo, act_clearDetail } from '../../../redux/actions/CMS/logo_actions';
 import { connect } from 'react-redux';
 
 // Context
@@ -17,7 +17,7 @@ class Logo extends Component {
         )) {
             let args = {}
             args['visible'] = true
-            this.props.dispatch(act_getDetail_by_Args_Logo(this.props.user.siteLocalisation, args))
+            this.props.dispatch(act_getDetail_by_Args_Logo(this.props.user.siteLocalisation.value, args))
         }
 
     }
@@ -30,7 +30,7 @@ class Logo extends Component {
 
             let args = {}
             args['visible'] = true
-            this.props.dispatch(act_getDetail_by_Args_Logo(this.props.user.siteLocalisation, args))
+            this.props.dispatch(act_getDetail_by_Args_Logo(this.props.user.siteLocalisation.value, args))
         }
 
     }
@@ -45,12 +45,10 @@ class Logo extends Component {
             this.props.logo.logoDetail !== undefined
             && this.props.logo.logoDetail.images !== undefined
             && this.props.logo.logoDetail.images.length > 0) {
-                
 
             return this.props.logo.logoDetail.images[0].url
 
         } else {
-
             return '/images/image_not_availble.png'
         }
     }

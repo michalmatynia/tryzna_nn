@@ -158,7 +158,7 @@ app.post('/api/slide/add_entity', (req, res) => {
             }
         }
 
-        console.log(err);
+        // console.log(err);
 
         if (!err) {
             Slide.
@@ -1097,27 +1097,54 @@ app.get('/api/logo/list_entities', (req, res) => {
 
 })
 
-app.get('/api/logo/show_entity', (req, res) => {
+app.get('/api/logo/get_entity_by_args', (req, res) => {
 
-    Logo.findOne({ language: req.query.language, publish: true }, (err, doc) => {
+    let allArgs = {};
 
-        if (err) return res.status(400).send(err);
-        res.status(200).send(doc)
+    for (const [key, value] of Object.entries(req.query)) {
 
-    })
+        if (key !== 'sortBy') {
+            allArgs[key] = value
+        }
+    }
+    // console.logconsole.log(allArgs)
+
+    Logo.
+        findOne(allArgs)
+        // .sort({ position: 1, createdAt: -1 })
+        .exec((err, doc) => {
+
+           // console.log(err)
+           // console.log(doc);
+
+
+            if (err) return res.status(400).send(err);
+            res.status(200).send(doc)
+        })
 
 });
 
-app.get('/api/logo/get_entity', (req, res) => {
+// app.get('/api/logo/show_entity', (req, res) => {
 
-    Logo.findOne({ language: req.query.language }, (err, doc) => {
+//     Logo.findOne({ language: req.query.language, publish: true }, (err, doc) => {
 
-        if (err) return res.status(400).send(err);
-        res.send(doc)
+//         if (err) return res.status(400).send(err);
+//         res.status(200).send(doc)
 
-    })
+//     })
 
-});
+// });
+
+// app.get('/api/logo/get_entity', (req, res) => {
+
+//     Logo.findOne({ language: req.query.language }, (err, doc) => {
+
+//         if (err) return res.status(400).send(err);
+//         res.send(doc)
+
+//     })
+
+// });
 
 // Not sure if normal ADD Entity for Logo is necessary
 
@@ -1148,14 +1175,16 @@ app.post('/api/logo/add_entity_auto', (req, res) => {
 
 app.post('/api/logo/update_entity', auth, admin, (req, res) => {
 
+    // console.log(req.query);
+
     Logo.findOneAndUpdate(
-        { language: req.query.lg, _id: req.query.parent_id },
+        { language: req.query.language, _id: req.query._id },
         {
             "$set": req.body
         },
         { new: true },
         (err, doc) => {
-
+            // console.log(err);
             // console.log(doc)
             if (err) return res.json({ success: false, err });
             return res.status(200).send({ doc })

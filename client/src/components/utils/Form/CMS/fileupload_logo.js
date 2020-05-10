@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Dropzone from 'react-dropzone';
 import { connect } from 'react-redux';
-import { act_uploadLogoImage, act_removeLogoImage } from '../../../../redux/actions/CMS/logo_actions';
+import { act_uploadImage_Logo, act_removeImage_Logo } from '../../../../redux/actions/CMS/logo_actions';
 // import axios from 'axios';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -19,7 +19,7 @@ class Fileupload extends Component {
 
     onRemove = (image_id) => {
 
-        this.props.dispatch(act_removeLogoImage(image_id))
+        this.props.dispatch(act_removeImage_Logo(image_id))
             .then(response => {
 
                 let images = this.state.uploadedFiles.filter(item => {
@@ -69,7 +69,7 @@ class Fileupload extends Component {
 
         formData.append("file", files[0]);
 
-        this.props.dispatch(act_uploadLogoImage(formData, axiosconfig, this.props.parent_id))
+        this.props.dispatch(act_uploadImage_Logo(formData, axiosconfig, this.props.parent_id))
             .then(response => {
                 //console.log(this.state.uploadedFiles)
                 this.setState({

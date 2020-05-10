@@ -8,7 +8,7 @@ import {
     UPDATE_DETAIL_LOGO,
     UPLOAD_IMAGE_LOGO,
     REMOVE_IMAGE_LOGO
-    
+
 
 } from '../types';
 
@@ -18,17 +18,14 @@ import { LOGO_SERVER } from '../../../components/utils/misc';
 export function act_listLogos(lg, args = null) {
 
     let listOfArgs = '';
-
     if (args) {
-
         for (const [key, value] of Object.entries(args)) {
 
-            listOfArgs += '&';
             if (value) {
+                listOfArgs += '&';
                 listOfArgs += key + '=' + value;
             }
         }
-
     }
 
     const request = axios.get(`${LOGO_SERVER}/list_entities?language=${lg}${listOfArgs}`)
@@ -52,21 +49,23 @@ export function act_clearDetail(currentType) {
     }
 }
 
-export function act_getDetail_by_Args_Logo(language, args) {
+export function act_getDetail_by_Args_Logo(language, args = null) {
 
     let listOfArgs = '';
 
-    for (const [key, value] of Object.entries(args)) {
+    if (args) {
+        for (const [key, value] of Object.entries(args)) {
 
-        listOfArgs += '&';
-        if (value) {
-            listOfArgs += key + '=' + value;
+            if (value) {
+                listOfArgs += '&';
+                listOfArgs += key + '=' + value;
+            }
         }
     }
 
+
     const request = axios.get(`${LOGO_SERVER}/get_entity_by_args?language=${language}${listOfArgs}`)
         .then(response => {
-
             return response.data
 
         })
@@ -77,23 +76,23 @@ export function act_getDetail_by_Args_Logo(language, args) {
     }
 }
 
-export function act_addLogo(language, args, dataToSubmit = null) {
+export function act_addLogo(language, args = null, dataToSubmit = null) {
 
     let listOfArgs = '';
+    if (args) {
+        for (const [key, value] of Object.entries(args)) {
 
-    for (const [key, value] of Object.entries(args)) {
-
-        listOfArgs += '&';
-        if (value) {
-            listOfArgs += key + '=' + value;
+            if (value) {
+                listOfArgs += '&';
+                listOfArgs += key + '=' + value;
+            }
         }
     }
 
     const request = axios.post(`${LOGO_SERVER}/add_entity?language=${language}${listOfArgs}`, dataToSubmit)
-        .then(response =>
-            {
-                return response.data
-            });
+        .then(response => {
+            return response.data
+        });
 
     return {
         type: ADD_LOGO,
@@ -103,12 +102,10 @@ export function act_addLogo(language, args, dataToSubmit = null) {
 
 export function act_addLogo_Auto(language, dataToSubmit = null) {
 
-
     const request = axios.post(`${LOGO_SERVER}/add_entity_auto?language=${language}`, dataToSubmit)
-        .then(response =>
-            {
-                return response.data
-            });
+        .then(response => {
+            return response.data
+        });
 
     return {
         type: ADD_LOGO_AUTO,
@@ -116,22 +113,33 @@ export function act_addLogo_Auto(language, dataToSubmit = null) {
     }
 }
 
+export function act_updateDetail_Logo(language, args = null, dataToSubmit = null) {
 
-export function act_updateDetail_Logo(dataToSubmit, lg, parent_id) {
+    let listOfArgs = '';
+    if (args) {
+        for (const [key, value] of Object.entries(args)) {
 
-    const request = axios.post(`${LOGO_SERVER}/update_entity?lg=${lg}&parent_id=${parent_id}`, dataToSubmit)
-        .then(response => response.data.doc);
+            if (value) {
+                listOfArgs += '&';
+                listOfArgs += key + '=' + value;
+            }
+        }
+    }
+
+    const request = axios.post(`${LOGO_SERVER}/update_entity?language=${language}${listOfArgs}`, dataToSubmit)
+        .then(response => {
+
+            return response.data.doc
+        });
 
     return {
         type: UPDATE_DETAIL_LOGO,
         payload: request
     }
 }
-
-
 // Image Handler
 
-export function act_uploadLogoImage(formData, axiosheaders) {
+export function act_uploadImage_Logo(formData, axiosheaders) {
     // console.log(entity_id)
     const request = axios.post(`${LOGO_SERVER}/uploadimage`, formData, axiosheaders)
         .then(response => {
@@ -145,7 +153,7 @@ export function act_uploadLogoImage(formData, axiosheaders) {
     }
 }
 
-export function act_removeLogoImage(image_id) {
+export function act_removeImage_Logo(image_id) {
 
     const request = axios.get(`${LOGO_SERVER}/removeimage?image_id=${image_id}`)
         .then(response => {

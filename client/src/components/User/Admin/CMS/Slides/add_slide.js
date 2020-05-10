@@ -256,7 +256,7 @@ class AddSlide extends Component {
             this.setState({
                 formSuccess: false
             }, () => {
-                this.props.dispatch(act_clearSlide('slides'))
+                this.props.dispatch(act_clearDetail('slides'))
             })
         }, 3000)
     }

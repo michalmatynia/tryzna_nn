@@ -5,7 +5,7 @@ import UserLayout from '../../../../../hoc/user';
 import FormField from '../../../../utils/Form/formfield';
 import { update, generateData, isFormValid, resetFields } from '../../../../utils/Form/formActions';
 
-import { act_addMenu, act_listMenus, act_clearMenu } from '../../../../../redux/actions/CMS/menu_actions';
+import { act_addMenu, act_listMenus, act_clearDetail } from '../../../../../redux/actions/CMS/menu_actions';
 
 class AddMenu extends Component {
 
@@ -286,7 +286,7 @@ class AddMenu extends Component {
             this.setState({
                 formSuccess: false
             }, () => {
-                this.props.dispatch(act_clearMenu('menu'))
+                this.props.dispatch(act_clearDetail('menu'))
             })
         }, 3000)
     }

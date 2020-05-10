@@ -12,23 +12,21 @@ import {
 
 import { MENU_SERVER } from '../../../components/utils/misc';
 
-export function act_listMenus(lg, args = null) {
+export function act_listMenus(language, args = null) {
 
     let listOfArgs = '';
-
     if (args) {
-
         for (const [key, value] of Object.entries(args)) {
 
-            listOfArgs += '&';
             if (value) {
+                listOfArgs += '&';
                 listOfArgs += key + '=' + value;
             }
         }
-
     }
 
-    const request = axios.get(`${MENU_SERVER}/list_entities?language=${lg}${listOfArgs}`)
+
+    const request = axios.get(`${MENU_SERVER}/list_entities?language=${language}${listOfArgs}`)
         .then(response => response.data)
 
     return {
@@ -37,7 +35,7 @@ export function act_listMenus(lg, args = null) {
     }
 }
 
-export function act_clearMenu(currentType) {
+export function act_clearDetail(currentType) {
     switch (currentType) {
         case 'menu':
             return {
@@ -49,17 +47,19 @@ export function act_clearMenu(currentType) {
     }
 }
 
-export function act_addMenu(language, args, dataToSubmit = null) {
+export function act_addMenu(language, args = null, dataToSubmit = null) {
 
     let listOfArgs = '';
+    if (args) {
+        for (const [key, value] of Object.entries(args)) {
 
-    for (const [key, value] of Object.entries(args)) {
-
-        listOfArgs += '&';
-        if (value) {
-            listOfArgs += key + '=' + value;
+            if (value) {
+                listOfArgs += '&';
+                listOfArgs += key + '=' + value;
+            }
         }
     }
+
 
     const request = axios.post(`${MENU_SERVER}/add_entity?language=${language}${listOfArgs}`, dataToSubmit)
         .then(response => response.data);
@@ -71,18 +71,16 @@ export function act_addMenu(language, args, dataToSubmit = null) {
 }
 
 export function act_removeItem_Menu(language, args = null) {
+
     let listOfArgs = '';
-
     if (args) {
-
         for (const [key, value] of Object.entries(args)) {
 
-            listOfArgs += '&';
             if (value) {
+                listOfArgs += '&';
                 listOfArgs += key + '=' + value;
             }
         }
-
     }
 
     const request = axios.get(`${MENU_SERVER}/remove_entity?language=${language}${listOfArgs}`)
@@ -92,7 +90,6 @@ export function act_removeItem_Menu(language, args = null) {
         type: REMOVE_ITEM_MENU,
         payload: request
     }
-    // =============
 
 }
 
@@ -111,21 +108,23 @@ export function act_getDetail_by_Id_Menu(id) {
     }
 }
 
-export function act_getDetail_by_Args_Menu(language, args) {
+export function act_getDetail_by_Args_Menu(language, args = null) {
 
     let listOfArgs = '';
+    if (args) {
+        for (const [key, value] of Object.entries(args)) {
 
-    for (const [key, value] of Object.entries(args)) {
-
-        listOfArgs += '&';
-        if (value) {
-            listOfArgs += key + '=' + value;
+            if (value) {
+                listOfArgs += '&';
+                listOfArgs += key + '=' + value;
+            }
         }
     }
 
+
     const request = axios.get(`${MENU_SERVER}/get_entity_by_args?language=${language}${listOfArgs}`)
         .then(response => {
-  
+
             return response.data
 
         })
@@ -136,22 +135,24 @@ export function act_getDetail_by_Args_Menu(language, args) {
     }
 }
 
-export function act_updateDetail_Menu(language, args, dataToSubmit = null) {
+export function act_updateDetail_Menu(language, args = null, dataToSubmit = null) {
 
     let listOfArgs = '';
+    if (args) {
+        for (const [key, value] of Object.entries(args)) {
 
-    for (const [key, value] of Object.entries(args)) {
-
-        listOfArgs += '&';
-        if (value) {
-            listOfArgs += key + '=' + value;
+            if (value) {
+                listOfArgs += '&';
+                listOfArgs += key + '=' + value;
+            }
         }
     }
 
     const request = axios.post(`${MENU_SERVER}/update_entity?language=${language}${listOfArgs}`, dataToSubmit)
         .then(response => {
 
-            return response.data.doc});
+            return response.data.doc
+        });
 
     return {
         type: UPDATE_DETAIL_MENU,
@@ -160,23 +161,26 @@ export function act_updateDetail_Menu(language, args, dataToSubmit = null) {
 }
 
 
-export function act_setVisible_Menu(language, args=null, id, checked) {
+export function act_setVisible_Menu(language, args = null) {
 
     let listOfArgs = '';
+    if (args) {
+        for (const [key, value] of Object.entries(args)) {
 
-    for (const [key, value] of Object.entries(args)) {
-
-        listOfArgs += '&';
-        if (value) {
-            listOfArgs += key + '=' + value;
+            if (value) {
+                listOfArgs += '&';
+                listOfArgs += key + '=' + value;
+            }
         }
     }
+
 
     const request = axios.post(`${MENU_SERVER}/set_visible?language=${language}${listOfArgs}`)
         .then(response => {
             console.log(response);
-            
-            return response.data });
+
+            return response.data
+        });
 
     return {
         type: SET_VISIBLE_MENU,
