@@ -13,7 +13,7 @@ const descSchema = mongoose.Schema({
         type: String,
         maxlength: 4
     },
-    publish:{
+    visible:{
         required: true,
         type: Boolean
     }

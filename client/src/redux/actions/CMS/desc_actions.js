@@ -35,7 +35,7 @@ export function act_listDesc(language, args = null) {
 
 export function act_clearDetail(currentType) {
     switch (currentType) {
-        case 'desc':
+        case 'description':
             return {
                 type: CLEAR_DETAIL_DESC,
                 payload: ''
@@ -134,7 +134,7 @@ export function act_updateDetail_Desc(language, args = null, dataToSubmit = null
     }
 }
 
-export function act_setVisible_Menu(language, args = null) {
+export function act_setVisible_Desc(language, args = null) {
 
     let listOfArgs = '';
     if (args) {

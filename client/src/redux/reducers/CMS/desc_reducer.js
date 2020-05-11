@@ -11,19 +11,19 @@ import {
 export default function (state = {}, action) {
     switch (action.type) {
         case LIST_DESC:
-            return { ...state, adminGetLogos: action.payload }
+            return { ...state, adminGetDesc: action.payload }
         case GET_DETAIL_DESC:
-            return { ...state, logoDetail: action.payload }
+            return { ...state, descDetail: action.payload }
         case CLEAR_DETAIL_DESC:
-            return { ...state, logoDetail: action.payload }
+            return { ...state, descDetail: action.payload }
         case UPDATE_DETAIL_DESC:
-            return { ...state, logoDetail: action.payload }
+            return { ...state, descDetail: action.payload }
         case ADD_DESC_AUTO:
-            return { ...state, logoDetail: action.payload }
+            return { ...state, descDetail: action.payload }
         case ADD_DESC:
-            return { ...state, adminAddLogo: action.payload }
+            return { ...state, adminAddDesc: action.payload }
         case SET_VISIBLE_DESC:
-            return { ...state, adminGetMenus: action.payload }
+            return { ...state, adminGetDesc: action.payload }
         default:
             return state;
     }

@@ -440,9 +440,6 @@ app.post('/api/slide/set_visible', auth, (req, res) => {
     );
 })
 
-// ==============
-
-
 app.get('/api/slide/removeimage', auth, admin, (req, res) => {
 
     if (req.query.parent_id) {
@@ -1019,49 +1016,87 @@ app.post('/api/site/site_data', auth, admin, (req, res) => {
 //          Description
 //=======================
 
-app.get('/api/desc/show_entity', (req, res) => {
+app.get('/api/desc/list_entities', (req, res) => {
+    let sortBy = req.query.sortBy ? req.query.sortBy : "updatedAt";
+    let limit = req.query.limit ? parseInt(req.query.limit) : 1000;
 
-    Desc.findOne({ language: req.query.lg, publish: true }, (err, doc) => {
+    let allArgs = {};
 
-        if (err) return res.status(400).send(err);
-        res.status(200).send(doc)
+    for (const [key, value] of Object.entries(req.query)) {
 
-    })
+        if (key !== 'sortBy') {
+            allArgs[key] = value
+        }
+    }
 
-});
+    Desc.
+        find(allArgs)
+        .sort([[sortBy]])
+        .limit(limit)
+        .exec((err, doc) => {
 
-app.get('/api/desc/get_entity', (req, res) => {
+            if (err) return res.status(400).send(err);
+            res.send(doc)
+        })
 
-    Desc.findOne({ language: req.query.lg }, (err, doc) => {
+})
 
-        if (err) return res.status(400).send(err);
-        res.status(200).send(doc)
+app.get('/api/desc/get_entity_by_args', (req, res) => {
 
-    })
+    let allArgs = {};
+
+    for (const [key, value] of Object.entries(req.query)) {
+
+        if (key !== 'sortBy') {
+            allArgs[key] = value
+        }
+    }
+
+    Desc.
+        findOne(allArgs)
+        // .sort({ position: 1, createdAt: -1 })
+        .exec((err, doc) => {
+
+            if (err) return res.status(400).send(err);
+            res.status(200).send(doc)
+        })
 
 });
 
 app.post('/api/desc/add_entity', (req, res) => {
 
-    const desc = new Desc({ mainText: 'Some Example Description', language: req.query.lg, publish: true });
+    const desc = new Desc(req.body);
 
-    desc.save((error, doc) => {
-        if (error) return res.json({ error });
+    desc.save((err, doc) => {
+
+        if (err) return res.json({ err });
         res.status(200).json({ doc })
+
+
+    })
+})
+
+app.post('/api/desc/add_entity_auto', (req, res) => {
+
+    const desc = new Desc(req.body);
+
+    desc.save((err, doc) => {
+            
+        if (err) return res.status(400).send(err);
+        res.status(200).send(doc)
+
     })
 })
 
 app.post('/api/desc/update_entity', auth, admin, (req, res) => {
 
     Desc.findOneAndUpdate(
-        { language: req.query.lg, _id: req.query.parent_id },
+        { language: req.query.language, _id: req.query._id },
         {
             "$set": req.body
         },
         { new: true },
         (err, doc) => {
-
-            // console.log(doc)
             if (err) return res.json({ success: false, err });
             return res.status(200).send({ doc })
         }
@@ -1107,46 +1142,17 @@ app.get('/api/logo/get_entity_by_args', (req, res) => {
             allArgs[key] = value
         }
     }
-    // console.logconsole.log(allArgs)
 
     Logo.
         findOne(allArgs)
         // .sort({ position: 1, createdAt: -1 })
         .exec((err, doc) => {
 
-           // console.log(err)
-           // console.log(doc);
-
-
             if (err) return res.status(400).send(err);
             res.status(200).send(doc)
         })
 
 });
-
-// app.get('/api/logo/show_entity', (req, res) => {
-
-//     Logo.findOne({ language: req.query.language, publish: true }, (err, doc) => {
-
-//         if (err) return res.status(400).send(err);
-//         res.status(200).send(doc)
-
-//     })
-
-// });
-
-// app.get('/api/logo/get_entity', (req, res) => {
-
-//     Logo.findOne({ language: req.query.language }, (err, doc) => {
-
-//         if (err) return res.status(400).send(err);
-//         res.send(doc)
-
-//     })
-
-// });
-
-// Not sure if normal ADD Entity for Logo is necessary
 
 app.post('/api/logo/add_entity', (req, res) => {
 
@@ -1175,8 +1181,6 @@ app.post('/api/logo/add_entity_auto', (req, res) => {
 
 app.post('/api/logo/update_entity', auth, admin, (req, res) => {
 
-    // console.log(req.query);
-
     Logo.findOneAndUpdate(
         { language: req.query.language, _id: req.query._id },
         {
@@ -1184,8 +1188,6 @@ app.post('/api/logo/update_entity', auth, admin, (req, res) => {
         },
         { new: true },
         (err, doc) => {
-            // console.log(err);
-            // console.log(doc)
             if (err) return res.json({ success: false, err });
             return res.status(200).send({ doc })
         }

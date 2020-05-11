@@ -7,7 +7,7 @@ import Desc from '../Description';
 import { connect } from 'react-redux';
 import { getProductsBySell, getProductsByArrival } from '../../redux/actions/products_actions';
 import { act_listSlides } from '../../redux/actions/CMS/slides_actions';
-import { act_getDetail_Desc_Published } from '../../redux/actions/CMS/desc_actions';
+import { act_getDetail_by_Args_Desc } from '../../redux/actions/CMS/desc_actions';
 
 // Context
 
@@ -26,21 +26,34 @@ class Home extends Component {
 
     componentDidUpdate(prevProps, prevState) {
 
-        if (this.context !== undefined) {
-            if (this.context.value !== this.state.current_lg) {
-                this.setState({ current_lg: this.context.value })
-            } else if (this.context.value === this.state.current_lg
-                && prevState.current_lg !== this.state.current_lg) {
+        if (
+            this.props.user.siteLocalisation !== undefined
+            // && this.props.logo.logoDetail !== undefined
+            // && prevProps.logo.logoDetail !== undefined
+            && this.props.user.siteLocalisation !== prevProps.user.siteLocalisation
+            // && Object.keys(this.props.logo.logoDetail).length > 0
+        ) {
+            let args = {}
+            if (this.props.slides.slideDetail !== undefined) {
+                args = {}
+                args['sortBy'] = 'createdAdd'
+                args['order'] = 'desc'
+                args['limit'] = 4
+                args['visible'] = true
+                this.props.dispatch(act_listSlides(this.props.user.siteLocalisation.value, args));
+            }
 
-                this.props.dispatch(act_getDetail_Desc_Published(this.state.current_lg))
+            if (this.props.description.descDetail !== undefined) {
+                args = {}
+                args['visible'] = true
+                this.props.dispatch(act_getDetail_by_Args_Desc(this.props.user.siteLocalisation.value, args))
             }
         }
-
     }
 
 
     componentDidMount() {
-    
+
 
         this.props.dispatch(getProductsBySell());
         this.props.dispatch(getProductsByArrival());
@@ -55,6 +68,9 @@ class Home extends Component {
             args['limit'] = 4
             args['visible'] = true
             this.props.dispatch(act_listSlides(this.props.user.siteLocalisation.value, args));
+            args = {}
+            args['visible'] = true
+            this.props.dispatch(act_getDetail_by_Args_Desc(this.props.user.siteLocalisation.value, args))
         }
         // Get Slides
     }

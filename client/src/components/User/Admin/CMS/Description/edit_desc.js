@@ -6,7 +6,7 @@ import { update, generateData, isFormValid, populateFields } from '../../../../u
 
 import { connect } from 'react-redux';
 
-import { act_getDetail_Desc, act_updateDetail_Desc } from '../../../../../redux/actions/CMS/desc_actions';
+import { act_getDetail_by_Args_Desc, act_updateDetail_Desc, act_addDesc_Auto, act_clearDetail } from '../../../../../redux/actions/CMS/desc_actions';
 
 class EditSlide extends Component {
 
@@ -32,12 +32,12 @@ class EditSlide extends Component {
                 showlabel: false
 
             },
-            publish: {
+            visible: {
                 element: 'select',
                 value: '',
                 config: {
-                    label: 'Publish',
-                    name: 'publish_input',
+                    label: 'Visible',
+                    name: 'visible_input',
                     options: [
                         { key: true, value: 'yes' },
                         { key: false, value: 'no' },
@@ -76,36 +76,75 @@ class EditSlide extends Component {
 
     componentDidUpdate(prevProps) {
 
-        if (this.props.user.siteLocalisation !== undefined && prevProps.user.siteLocalisation !== undefined && this.props.user.siteLocalisation.value !== undefined && this.props.description !== undefined) {
-
-
-            if (prevProps.user.siteLocalisation.value !== this.props.user.siteLocalisation.value) {
-                this.props.dispatch(act_getDetail_Desc(this.props.user.siteLocalisation.value))
-                    .then((response) => {
+        if (
+            this.props.user.siteLocalisation !== undefined
+            && this.props.description.descDetail !== undefined
+            && prevProps.description.descDetail !== undefined
+            && this.props.user.siteLocalisation.value !== prevProps.user.siteLocalisation.value
+            && Object.keys(this.props.description.descDetail).length > 0
+        ) {
+            this.props.dispatch(act_getDetail_by_Args_Desc(this.props.user.siteLocalisation.value))
+                .then(response => {
+                    
+                    if (response.payload !== "") {
                         const newFormData = populateFields(this.state.formdata, this.props.description.descDetail);
                         this.setState({
                             formdata: newFormData
                         });
-                    })
-            }
+                    }
 
-        }
-    }
-    componentDidMount() {
-        if (
+                })
+
+        } else if ((
             this.props.user.siteLocalisation !== undefined
-            && this.props.user.siteLocalisation.value !== undefined
-        ) {
+            && this.props.description.descDetail !== undefined
+        ) && (
+                (this.props.description.descDetail !== prevProps.description.descDetail && Object.keys(this.props.description.descDetail).length === 0)
+                || (Object.keys(this.props.description.descDetail).length !== 0 && this.props.user.siteLocalisation.value !== prevProps.user.siteLocalisation.value)
+            )) {
 
-            this.props.dispatch(act_getDetail_Desc(this.props.user.siteLocalisation.value))
-                .then((response) => {
+            let dataToSubmit = generateData(this.state.formdata, 'description');
+            dataToSubmit['language'] = this.props.user.siteLocalisation.value
+            dataToSubmit['visible'] = true
+            dataToSubmit['mainText'] = 'Example Text'
 
-                    const newFormData = populateFields(this.state.formdata, response.payload);
+            this.props.dispatch(act_addDesc_Auto(this.props.user.siteLocalisation.value, dataToSubmit))
+                .then(response2 => {
+
+                    const newFormData = populateFields(this.state.formdata, this.props.description.descDetail);
+
                     this.setState({
                         formdata: newFormData
-                    });
+                    })
+
+                })
+
+
+        }
+
+    }
+
+    componentDidMount() {
+
+        if (
+            this.props.user.siteLocalisation !== undefined
+        ) {
+            this.props.dispatch(act_getDetail_by_Args_Desc(this.props.user.siteLocalisation.value))
+                .then(response => {
+
+                    if (response.payload !== "") {
+                        const newFormData = populateFields(this.state.formdata, this.props.description.descDetail);
+                        this.setState({
+                            formdata: newFormData
+                        });
+                    }
                 })
         }
+    }
+
+    componentWillUnmount() {
+        this.props.dispatch(act_clearDetail('description'))
+
     }
 
     updateForm = (element) => {
@@ -122,11 +161,13 @@ class EditSlide extends Component {
         let dataToSubmit = generateData(this.state.formdata, 'description');
         let formIsValid = isFormValid(this.state.formdata, 'description');
 
-        // console.log(this.props.description.descDetail)
-
-
         if (formIsValid) {
-            this.props.dispatch(act_updateDetail_Desc(dataToSubmit, this.props.user.siteLocalisation.value, this.props.description.descDetail._id))
+
+            let args = {}
+            args['_id'] = this.props.description.descDetail._id
+
+
+            this.props.dispatch(act_updateDetail_Desc(this.props.user.siteLocalisation.value, args, dataToSubmit))
                 .then(() => {
                     this.setState({
                         formSuccess: true
@@ -159,7 +200,6 @@ class EditSlide extends Component {
                             id={'language'}
                             formdata={this.state.formdata.language}
                         />Edit Description</h1>
-
                         <FormField
                             id={'mainText'}
                             formdata={this.state.formdata.mainText}
@@ -167,8 +207,8 @@ class EditSlide extends Component {
                         />
                         <div className="form_divider"></div>
                         <FormField
-                            id={'publish'}
-                            formdata={this.state.formdata.publish}
+                            id={'visible'}
+                            formdata={this.state.formdata.visible}
                             change={(element) => this.updateForm(element)}
                         />
                         <div>
