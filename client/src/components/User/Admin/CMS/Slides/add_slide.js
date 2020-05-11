@@ -101,7 +101,7 @@ class AddSlide extends Component {
                 validation: {
                     required: true
                 },
-                valid: false,
+                valid: true,
                 touched: false,
                 validationMessage: '',
                 showlabel: true
@@ -123,27 +123,33 @@ class AddSlide extends Component {
         }
     }
     componentDidUpdate(prevProps, prevState) {
+        console.log('ComponentDidUpdate');
 
-        if ((
-            this.props.user.siteLocalisation !== undefined
-            && !this.state.formdata.language.value
-        ) || (
-                this.props.user.siteLocalisation !== undefined
-                && prevProps.user.siteLocalisation !== undefined
-                && this.state.formdata.language.value
-                && prevProps.user.siteLocalisation.value !== this.props.user.siteLocalisation.value
-            )) {
+        console.log(this.state.formdata.images);
+        console.log(prevState.formdata.images);
 
-            const newFormData = {
-                ...this.state.formdata
-            }
-            newFormData['language'].value = this.props.user.siteLocalisation.value;
 
-            this.setState({
-                formdata: newFormData
-            })
 
-        }
+        // if ((
+        //     this.props.user.siteLocalisation !== undefined
+        //     && !this.state.formdata.language.value
+        // ) || (
+        //         this.props.user.siteLocalisation !== undefined
+        //         && prevProps.user.siteLocalisation !== undefined
+        //         && this.state.formdata.language.value
+        //         && prevProps.user.siteLocalisation.value !== this.props.user.siteLocalisation.value
+        //     )) {
+
+        //     const newFormData = {
+        //         ...this.state.formdata
+        //     }
+        //     newFormData['language'].value = this.props.user.siteLocalisation.value;
+
+        //     this.setState({
+        //         formdata: newFormData
+        //     })
+
+        // }
 
         if ((
             this.props.slides.adminGetSlides === undefined
@@ -178,6 +184,10 @@ class AddSlide extends Component {
             args['sortBy'] = 'position'
             this.props.dispatch(act_listSlides(this.props.user.siteLocalisation.value, args))
                 .then(response => {
+                    console.log('ComponentUpdateGetList');
+                    console.log(response);
+                    
+                    
                     let line = [];
                     let totalPos = [];
                     let i = 0
@@ -197,6 +207,10 @@ class AddSlide extends Component {
                     const newFormData = {
                         ...this.state.formdata
                     }
+
+                    console.log('recalculating position')
+                    console.log(newFormData);
+                    
                     newFormData['position'].config.options = totalPos;
                     newFormData['position'].value = totalPos.length;
                     this.setState({
@@ -217,8 +231,8 @@ class AddSlide extends Component {
             const newFormData = {
                 ...this.state.formdata
             }
-            newFormData['language'].value = this.props.user.siteLocalisation.value;
-            newFormData['visible'].value = true
+            // newFormData['language'].value = this.props.user.siteLocalisation.value;
+            // newFormData['visible'].value = true
 
             this.setState({
                 formdata: newFormData
@@ -246,8 +260,12 @@ class AddSlide extends Component {
     }
 
     resetFieldHandler = () => {
+        console.log('reset Field handler');
+        console.log(this.state.formdata);
+
 
         const newFormData = resetFields(this.state.formdata, 'slides');
+        newFormData['visible'].value = true
 
         this.setState({
             formdata: newFormData,
@@ -268,6 +286,10 @@ class AddSlide extends Component {
 
         let dataToSubmit = generateData(this.state.formdata, 'slides');
         dataToSubmit['visible'] = true
+        console.log('submitForm');
+
+        console.log(dataToSubmit);
+
 
         let formIsValid = isFormValid(this.state.formdata, 'slides');
 
@@ -276,6 +298,12 @@ class AddSlide extends Component {
             args['sortBy'] = 'position'
             this.props.dispatch(act_addSlide(this.props.user.siteLocalisation.value, args, dataToSubmit))
                 .then((response) => {
+                    console.log('inside addSlide');
+                    console.log(response);
+                    console.log(this.state);
+
+
+
 
                     if (this.props.slides.adminAddSlide.success) {
                         this.resetFieldHandler();
@@ -309,10 +337,7 @@ class AddSlide extends Component {
         return (
             <UserLayout>
                 <div>
-                    <h1><FormField
-                        id={'language'}
-                        formdata={this.state.formdata.language}
-                    />Add slides</h1>
+                    <h1>Add slides</h1>
                     <form onSubmit={(event) => this.SubmitForm(event)}>
                         <FileUpload
                             imagesHandler={(images) => this.imagesHandler(images)}

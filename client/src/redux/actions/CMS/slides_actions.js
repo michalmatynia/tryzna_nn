@@ -29,12 +29,7 @@ export function act_listSlides(language, args = null) {
 
 
     const request = axios.get(`${SLIDE_SERVER}/list_entities?language=${language}${listOfArgs}`)
-        .then(response => {
-            console.log('list entities');
-            
-            console.log(response);
-            
-            return response.data })
+        .then(response => response.data)
 
     return {
         type: LIST_SLIDES,

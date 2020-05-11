@@ -12,7 +12,6 @@ const ListSlidesBlock = ({ list, removeItem, handleVisible }) => {
             return list.images[0].url
         } else {
             return '/images/image_not_availble.png'
-
         }
     }
 

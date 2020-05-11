@@ -91,6 +91,10 @@ export const populateOptionFields = (formdata, arrayData = [], field) => {
 }
 
 export const resetFields = (formdata, formName) => {
+console.log('resetFields');
+
+console.log(formdata);
+
 
     const newFormdata = { ...formdata };
     for (let key in newFormdata) {

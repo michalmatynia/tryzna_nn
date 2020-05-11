@@ -14,6 +14,8 @@ class ListSlides extends Component {
     componentDidUpdate(prevProps, prevState) {
 
         console.log('componentDidUpdate');
+        console.log(this.props.slides.adminGetSlides);
+        
         
         if ((
 
