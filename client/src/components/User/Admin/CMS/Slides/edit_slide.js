@@ -246,7 +246,11 @@ class EditSlide extends Component {
         let formIsValid = isFormValid(this.state.formdata, 'slides');
 
         if (formIsValid) {
-            this.props.dispatch(act_updateDetail_Slide(dataToSubmit, this.props.match.params.id))
+            let args = {}
+            args['_id'] = this.props.match.params.id
+            args['previousPos'] = this.props.slides.slideDetail.position
+            
+            this.props.dispatch(act_updateDetail_Slide(this.props.user.siteLocalisation.value, args, dataToSubmit))
                 .then(() => {
                     this.setState({
                         formSuccess: true

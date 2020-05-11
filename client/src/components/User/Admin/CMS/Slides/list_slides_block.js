@@ -37,6 +37,9 @@ const ListSlidesBlock = ({ list, removeItem, handleVisible }) => {
                         <div>
                             {slide.lineTwo}
                         </div>
+                        <div>
+                            Position {slide.position}
+                        </div>
                     </div>
                     <div className="item btn">
                         <MyButton
@@ -51,9 +54,9 @@ const ListSlidesBlock = ({ list, removeItem, handleVisible }) => {
                         <FormControlLabel
                             control={
                                 <Switch
-                                    checked={slide.publish}
+                                    checked={slide.visible}
                                     // onChange={handleChange('checkedA')}
-                                    onClick={() => handleVisible(slide._id, slide.publish)}
+                                    onClick={() => handleVisible(slide._id, slide.visible)}
                                     // value="checkedA"
                                     // inputProps={{ 'aria-label': 'secondary checkbox' }}
                                     color="primary"

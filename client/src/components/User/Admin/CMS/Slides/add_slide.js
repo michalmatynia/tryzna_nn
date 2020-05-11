@@ -274,7 +274,7 @@ class AddSlide extends Component {
             this.props.dispatch(act_addSlide(this.props.user.siteLocalisation.value, args, dataToSubmit))
                 .then((response) => {
 
-                    if (this.props.menu.adminAddSlide.success) {
+                    if (this.props.slides.adminAddSlide.success) {
                         this.resetFieldHandler();
                     } else {
                         this.setState({ formError: true })

@@ -158,8 +158,6 @@ app.post('/api/slide/add_entity', (req, res) => {
             }
         }
 
-        // console.log(err);
-
         if (!err) {
             Slide.
                 find({ language: req.query.language })
@@ -207,6 +205,7 @@ app.post('/api/slide/add_entity', (req, res) => {
                     }
                 })
         }
+  
 
         if (err) return res.json({ success: false, err });
         res.status(200).json({
@@ -1081,7 +1080,7 @@ app.post('/api/desc/add_entity_auto', (req, res) => {
     const desc = new Desc(req.body);
 
     desc.save((err, doc) => {
-            
+
         if (err) return res.status(400).send(err);
         res.status(200).send(doc)
 
