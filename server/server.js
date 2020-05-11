@@ -119,6 +119,9 @@ app.get('api/user/download/:id', auth, admin, (req, res) => {
 //=======================
 
 app.get('/api/slide/list_entities', (req, res) => {
+
+    console.log('tetes');
+    
     let sortBy = req.query.sortBy ? req.query.sortBy : { position: 1 };
     let limit = req.query.limit ? parseInt(req.query.limit) : 1000;
 
@@ -137,6 +140,8 @@ app.get('/api/slide/list_entities', (req, res) => {
         .sort(sortBy)
         .limit(limit)
         .exec((err, doc) => {
+            console.log(err);
+            console.log(doc);
 
             if (err) return res.status(400).send(err);
             res.send(doc)
@@ -205,7 +210,7 @@ app.post('/api/slide/add_entity', (req, res) => {
                     }
                 })
         }
-  
+
 
         if (err) return res.json({ success: false, err });
         res.status(200).json({
@@ -247,7 +252,7 @@ app.post('/api/slide/add_entity', (req, res) => {
 //         })
 
 // })
-app.get('/api/menu/remove_entity', auth, (req, res) => {
+app.get('/api/slide/remove_entity', auth, (req, res) => {
 
     Slide.findOne({ _id: req.query._id }, (err, doc) => {
 
@@ -259,6 +264,7 @@ app.get('/api/menu/remove_entity', auth, (req, res) => {
 
     Slide.
         findOneAndDelete({ _id: req.query._id }, (err, docs) => {
+
 
             if (err) { return res.status(400).send(err); }
             else {

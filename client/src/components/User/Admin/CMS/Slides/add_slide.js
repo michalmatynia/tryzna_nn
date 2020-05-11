@@ -218,6 +218,7 @@ class AddSlide extends Component {
                 ...this.state.formdata
             }
             newFormData['language'].value = this.props.user.siteLocalisation.value;
+            newFormData['visible'].value = true
 
             this.setState({
                 formdata: newFormData
@@ -266,6 +267,8 @@ class AddSlide extends Component {
         event.preventDefault();
 
         let dataToSubmit = generateData(this.state.formdata, 'slides');
+        dataToSubmit['visible'] = true
+
         let formIsValid = isFormValid(this.state.formdata, 'slides');
 
         if (formIsValid) {

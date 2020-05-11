@@ -29,7 +29,12 @@ export function act_listSlides(language, args = null) {
 
 
     const request = axios.get(`${SLIDE_SERVER}/list_entities?language=${language}${listOfArgs}`)
-        .then(response => response.data)
+        .then(response => {
+            console.log('list entities');
+            
+            console.log(response);
+            
+            return response.data })
 
     return {
         type: LIST_SLIDES,
@@ -75,6 +80,10 @@ export function act_removeItem_Slide(id) {
 
     const request = axios.get(`${SLIDE_SERVER}/remove_entity?_id=${id}`)
         .then(response => {
+            console.log('action 1');
+            
+            console.log(response);
+            
             return response.data;
         })
 
