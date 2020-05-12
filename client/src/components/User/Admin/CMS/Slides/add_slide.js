@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import UserLayout from '../../../../../hoc/user';
 
 import FormField from '../../../../utils/Form/formfield';
-import { update, generateData, isFormValid, resetFields } from '../../../../utils/Form/formActions';
+import { update, generateData, isFormValid, resetFields, populatePositionField } from '../../../../utils/Form/formActions';
 import FileUpload from '../../../../utils/Form/CMS/fileupload_slide'
 
 import { act_addSlide, act_clearDetail, act_listSlides } from '../../../../../redux/actions/CMS/slides_actions';
@@ -136,132 +136,46 @@ class AddSlide extends Component {
             && prevProps.user.siteLocalisation !== undefined
         ) {
         // When Slide is Added 
-        if(
+        if((
             this.props.user.siteLocalisation.value === prevProps.user.siteLocalisation.value
             && this.state.formdata.language.value === ''
-        ) {
-            const newFormData = {
-                ...this.state.formdata
-            }
-            newFormData['language'].value = this.props.user.siteLocalisation.value;
+        ) || (
+            this.props.user.siteLocalisation.value !== prevProps.user.siteLocalisation.value
+            && this.state.formdata.language.value !== ''
+        )) {
 
-            this.setState({
-                formdata: newFormData
+
+            let args = {}
+            args['sortBy'] = 'position'
+            this.props.dispatch(act_listSlides(this.props.user.siteLocalisation.value, args))
+            .then(response => {
+                const newFormData = populatePositionField(this.state.formdata, response, this.props.user.siteLocalisation.value, 'position');
+                this.updateFields(newFormData)
+                //  console.log(this.props.products.brands)
             })
+
         }
 
         } // END OF Universal condition
 
-        // if ((
-        //     this.props.user.siteLocalisation !== undefined
-        //     && !this.state.formdata.language.value
-        // ) || (
-        //         this.props.user.siteLocalisation !== undefined
-        //         && prevProps.user.siteLocalisation !== undefined
-        //         && this.state.formdata.language.value
-        //         && prevProps.user.siteLocalisation.value !== this.props.user.siteLocalisation.value
-        //     )) {
-
-        //     const newFormData = {
-        //         ...this.state.formdata
-        //     }
-        //     newFormData['language'].value = this.props.user.siteLocalisation.value;
-
-        //     this.setState({
-        //         formdata: newFormData
-        //     })
-
-        // }
-
-        if ((
-            this.props.slides.adminGetSlides === undefined
-            && this.props.user.siteLocalisation !== undefined
-            && prevProps.user.siteLocalisation !== undefined
-            && this.props.user.siteLocalisation.value === prevProps.user.siteLocalisation.value
-            && this.state.formdata.language.value !== ''
-            && this.state.formdata.position.value === ''
-            && prevState.formdata.language.value !== ''
-            && prevState.formdata.position.value === ''
-        ) || (
-                this.props.slides.adminGetSlides !== undefined
-                && this.props.user.siteLocalisation !== undefined
-                && prevProps.user.siteLocalisation !== undefined
-                && this.props.user.siteLocalisation.value !== prevProps.user.siteLocalisation.value
-                && this.state.formdata.language.value !== ''
-                && this.state.formdata.position.value !== ''
-                && prevState.formdata.language.value !== ''
-                && prevState.formdata.position.value !== ''
-            ) || (
-
-                this.props.slides.adminGetSlides !== undefined
-                && this.props.user.siteLocalisation !== undefined
-                && prevProps.user.siteLocalisation !== undefined
-                && this.props.user.siteLocalisation.value === prevProps.user.siteLocalisation.value
-                && this.state.formdata.language.value !== ''
-                && this.state.formdata.position.value === ''
-                && prevState.formdata.language.value !== ''
-                && prevState.formdata.position.value === ''
-            )) {
-            let args = {}
-            args['sortBy'] = 'position'
-            this.props.dispatch(act_listSlides(this.props.user.siteLocalisation.value, args))
-                .then(response => {
-                    console.log('ComponentUpdateGetList');
-                    console.log(response);
-
-
-                    let line = [];
-                    let totalPos = [];
-                    let i = 0
-                    if (Object.keys(response.payload).length !== 0) {
-
-                        response.payload.forEach((item, i) => {
-                            i = i + 1;
-                            line = { key: i, value: i }
-                            totalPos.push(line)
-
-                        })
-
-                    }
-
-                    i = totalPos.length + 1;
-                    totalPos.push({ key: i, value: i })
-                    const newFormData = {
-                        ...this.state.formdata
-                    }
-
-                    // console.log('recalculating position')
-                    // console.log(newFormData);
-
-                    newFormData['position'].config.options = totalPos;
-                    newFormData['position'].value = totalPos.length;
-                    this.setState({
-                        formdata: newFormData
-                    })
-
-                })
-
-        }
-
     }
 
     componentDidMount() {
-
         if (
             this.props.user.siteLocalisation !== undefined
         ) {
-            const newFormData = {
-                ...this.state.formdata
-            }
-            newFormData['language'].value = this.props.user.siteLocalisation.value;
-            // newFormData['visible'].value = true
-            // newFormData['visible'].valid = true
 
-
-            this.setState({
-                formdata: newFormData
+            let args = {}
+            args['sortBy'] = 'position'
+            this.props.dispatch(act_listSlides(this.props.user.siteLocalisation.value, args))
+            .then(response => {
+                const newFormData = populatePositionField(this.state.formdata, response, this.props.user.siteLocalisation.value, 'position');
+                this.updateFields(newFormData)
+                //  console.log(this.props.products.brands)
             })
+
         }
+
     }
 
     componentWillUnmount() {

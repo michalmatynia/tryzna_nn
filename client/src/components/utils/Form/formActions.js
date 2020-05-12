@@ -95,6 +95,36 @@ export const populateOptionFields = (formdata, arrayData = [], field) => {
     return newFormdata;
 }
 
+export const populatePositionField = (formdata, response, language, field) => {
+
+    const totalPos = [];
+    let i = 0
+    if (Object.keys(response.payload).length !== 0) {
+
+        response.payload.forEach((item, i) => {
+            i = i + 1;
+            totalPos.push({ key: i, value: i })
+
+        })
+
+    }
+
+    i = totalPos.length + 1;
+    totalPos.push({ key: i, value: i })
+    const newFormData = {
+        ...formdata
+    }
+
+    newFormData[field].config.options = totalPos;
+    newFormData[field].value = totalPos.length;
+    //----
+    newFormData['language'].value = language;
+
+
+    return newFormData;
+}
+
+
 export const resetFields = (formdata, formName) => {
 
     const newFormdata = { ...formdata };
@@ -103,15 +133,15 @@ export const resetFields = (formdata, formName) => {
     for (let key in newFormdata) {
 
         // console.log(key);
-        
+
         if (key === 'images') {
             newFormdata[key].value = [];
-            
+
         } else {
             newFormdata[key].value = '';
         }
 
- //       newFormdata[key].valid = false;
+        //       newFormdata[key].valid = false;
         newFormdata[key].touched = false;
         newFormdata[key].validationMessage = '';
     }
@@ -122,9 +152,9 @@ export const resetFields = (formdata, formName) => {
 
 export const populateFields = (formData, fields) => {
 
-    for(let key in formData){
+    for (let key in formData) {
 
-        formData[key].value  = fields[key];
+        formData[key].value = fields[key];
         formData[key].valid = true;
         formData[key].touched = true;
         formData[key].validationMessage = '';
