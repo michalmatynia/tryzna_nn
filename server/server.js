@@ -210,6 +210,7 @@ app.post('/api/slide/add_entity', (req, res) => {
                     }
                 })
         }
+        console.log(err);
 
         console.log(doc);
         

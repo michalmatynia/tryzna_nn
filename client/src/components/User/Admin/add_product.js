@@ -207,6 +207,13 @@ class AddProduct extends Component {
         }
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        console.log('ComponentDidUpdate');
+
+        console.log(this.state.formdata.images);
+        console.log(prevState.formdata.images);
+    }
+
     updateFields = (newFormData) => {
         this.setState({
             formdata: newFormData

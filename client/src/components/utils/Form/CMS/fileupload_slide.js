@@ -89,7 +89,7 @@ class Fileupload extends Component {
                 uploadedFiles: []
             }
         }
-        if (props.parent_id && props.slides.slideDetail !== undefined) {
+        if (props.parent_id && (props.slides.slideDetail !== undefined || props.slides.slideDetail === '')) {
 
             return state = {
                 uploadedFiles: props.slides.slideDetail.images,

@@ -4,7 +4,8 @@ import FormControl from '@material-ui/core/FormControl';
 import NativeSelect from '@material-ui/core/NativeSelect';
 
 const FormField = ({ formdata, change, id }) => {
-
+    console.log('FormField');
+    
    // console.log(formdata)
 
     const showError = () => {

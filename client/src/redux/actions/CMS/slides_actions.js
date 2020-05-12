@@ -51,6 +51,11 @@ export function act_clearDetail(currentType) {
 
 export function act_addSlide(language, args = null, dataToSubmit = null) {
 
+    console.log('action addSlide');
+    console.log(dataToSubmit);
+    
+    
+
     let listOfArgs = '';
     if (args) {
         for (const [key, value] of Object.entries(args)) {
