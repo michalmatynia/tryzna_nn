@@ -56,13 +56,13 @@ class AddSlide extends Component {
                 config: {
                     label: 'Position',
                     name: 'position_input',
-                    options: []
+                    options: [{ key: 1, value: 1 }]
 
                 },
                 validation: {
                     required: false
                 },
-                valid: true,
+                valid: false,
                 touched: false,
                 validationMessage: '',
                 showlabel: true
@@ -70,11 +70,11 @@ class AddSlide extends Component {
             },
             language: {
                 element: 'mylabel',
-                value: '',
+                value: 'pl',
                 config: {
                     label: 'Language',
                     name: 'language_input',
-                    type: 'hidden',
+                    type: 'text',
                     placeholder: 'Language goes here',
                 },
                 validation: {
@@ -99,7 +99,7 @@ class AddSlide extends Component {
 
                 },
                 validation: {
-                    required: false
+                    required: true
                 },
                 valid: true,
                 touched: false,
@@ -125,32 +125,10 @@ class AddSlide extends Component {
     componentDidUpdate(prevProps, prevState) {
         console.log('ComponentDidUpdate');
 
-        console.log(this.state.formdata);
-        console.log(prevState.formdata);
-        console.log(this.props);
-        console.log(prevProps);
+        console.log(this.state.formdata.images);
+        console.log(prevState.formdata.images);
 
-        // Universal condition
-        if (
-            this.props.user.siteLocalisation !== undefined
-            && prevProps.user.siteLocalisation !== undefined
-        ) {
-        // When Slide is Added 
-        if(
-            this.props.user.siteLocalisation.value === prevProps.user.siteLocalisation.value
-            && this.state.formdata.language.value === ''
-        ) {
-            const newFormData = {
-                ...this.state.formdata
-            }
-            newFormData['language'].value = this.props.user.siteLocalisation.value;
 
-            this.setState({
-                formdata: newFormData
-            })
-        }
-
-        } // END OF Universal condition
 
         // if ((
         //     this.props.user.siteLocalisation !== undefined
@@ -173,75 +151,76 @@ class AddSlide extends Component {
 
         // }
 
-        if ((
-            this.props.slides.adminGetSlides === undefined
-            && this.props.user.siteLocalisation !== undefined
-            && prevProps.user.siteLocalisation !== undefined
-            && this.props.user.siteLocalisation.value === prevProps.user.siteLocalisation.value
-            && this.state.formdata.language.value !== ''
-            && this.state.formdata.position.value === ''
-            && prevState.formdata.language.value !== ''
-            && prevState.formdata.position.value === ''
-        ) || (
-                this.props.slides.adminGetSlides !== undefined
-                && this.props.user.siteLocalisation !== undefined
-                && prevProps.user.siteLocalisation !== undefined
-                && this.props.user.siteLocalisation.value !== prevProps.user.siteLocalisation.value
-                && this.state.formdata.language.value !== ''
-                && this.state.formdata.position.value !== ''
-                && prevState.formdata.language.value !== ''
-                && prevState.formdata.position.value !== ''
-            ) || (
+        // =========
+        // if ((
+        //     this.props.slides.adminGetSlides === undefined
+        //     && this.props.user.siteLocalisation !== undefined
+        //     && prevProps.user.siteLocalisation !== undefined
+        //     && this.props.user.siteLocalisation.value === prevProps.user.siteLocalisation.value
+        //     && this.state.formdata.language.value !== ''
+        //     && this.state.formdata.position.value === ''
+        //     && prevState.formdata.language.value !== ''
+        //     && prevState.formdata.position.value === ''
+        // ) || (
+        //         this.props.slides.adminGetSlides !== undefined
+        //         && this.props.user.siteLocalisation !== undefined
+        //         && prevProps.user.siteLocalisation !== undefined
+        //         && this.props.user.siteLocalisation.value !== prevProps.user.siteLocalisation.value
+        //         && this.state.formdata.language.value !== ''
+        //         && this.state.formdata.position.value !== ''
+        //         && prevState.formdata.language.value !== ''
+        //         && prevState.formdata.position.value !== ''
+        //     ) || (
 
-                this.props.slides.adminGetSlides !== undefined
-                && this.props.user.siteLocalisation !== undefined
-                && prevProps.user.siteLocalisation !== undefined
-                && this.props.user.siteLocalisation.value === prevProps.user.siteLocalisation.value
-                && this.state.formdata.language.value !== ''
-                && this.state.formdata.position.value === ''
-                && prevState.formdata.language.value !== ''
-                && prevState.formdata.position.value === ''
-            )) {
-            let args = {}
-            args['sortBy'] = 'position'
-            this.props.dispatch(act_listSlides(this.props.user.siteLocalisation.value, args))
-                .then(response => {
-                    console.log('ComponentUpdateGetList');
-                    console.log(response);
+        //         this.props.slides.adminGetSlides !== undefined
+        //         && this.props.user.siteLocalisation !== undefined
+        //         && prevProps.user.siteLocalisation !== undefined
+        //         && this.props.user.siteLocalisation.value === prevProps.user.siteLocalisation.value
+        //         && this.state.formdata.language.value !== ''
+        //         && this.state.formdata.position.value === ''
+        //         && prevState.formdata.language.value !== ''
+        //         && prevState.formdata.position.value === ''
+        //     )) {
+        //     let args = {}
+        //     args['sortBy'] = 'position'
+        //     this.props.dispatch(act_listSlides(this.props.user.siteLocalisation.value, args))
+        //         .then(response => {
+        //             console.log('ComponentUpdateGetList');
+        //             console.log(response);
+                    
+                    
+        //             let line = [];
+        //             let totalPos = [];
+        //             let i = 0
+        //             if (Object.keys(response.payload).length !== 0) {
 
+        //                 response.payload.forEach((item, i) => {
+        //                     i = i + 1;
+        //                     line = { key: i, value: i }
+        //                     totalPos.push(line)
 
-                    let line = [];
-                    let totalPos = [];
-                    let i = 0
-                    if (Object.keys(response.payload).length !== 0) {
+        //                 })
 
-                        response.payload.forEach((item, i) => {
-                            i = i + 1;
-                            line = { key: i, value: i }
-                            totalPos.push(line)
+        //             }
 
-                        })
+        //             i = totalPos.length + 1;
+        //             totalPos.push({ key: i, value: i })
+        //             const newFormData = {
+        //                 ...this.state.formdata
+        //             }
 
-                    }
+        //             console.log('recalculating position')
+        //             console.log(newFormData);
+                    
+        //             newFormData['position'].config.options = totalPos;
+        //             newFormData['position'].value = totalPos.length;
+        //             this.setState({
+        //                 formdata: newFormData
+        //             })
 
-                    i = totalPos.length + 1;
-                    totalPos.push({ key: i, value: i })
-                    const newFormData = {
-                        ...this.state.formdata
-                    }
+        //         })
 
-                    // console.log('recalculating position')
-                    // console.log(newFormData);
-
-                    newFormData['position'].config.options = totalPos;
-                    newFormData['position'].value = totalPos.length;
-                    this.setState({
-                        formdata: newFormData
-                    })
-
-                })
-
-        }
+        // }
 
     }
 
@@ -253,10 +232,8 @@ class AddSlide extends Component {
             const newFormData = {
                 ...this.state.formdata
             }
-            newFormData['language'].value = this.props.user.siteLocalisation.value;
+            // newFormData['language'].value = this.props.user.siteLocalisation.value;
             // newFormData['visible'].value = true
-            // newFormData['visible'].valid = true
-
 
             this.setState({
                 formdata: newFormData
@@ -264,16 +241,10 @@ class AddSlide extends Component {
         }
     }
 
-    componentWillUnmount() {
-        this.props.dispatch(act_clearDetail('slides'))
+    // componentWillUnmount() {
+    //     this.props.dispatch(act_clearDetail('slides'))
 
-    }
-
-    updateFields = (newFormData) => {
-        this.setState({
-            formdata: newFormData
-        })
-    }
+    // }
 
     updateForm = (element) => {
         const newFormdata = update(element, this.state.formdata, 'slides');
@@ -289,19 +260,23 @@ class AddSlide extends Component {
 
 
         const newFormData = resetFields(this.state.formdata, 'slides');
-        newFormData['visible'].value = true
+        console.log(newFormData);
+        
+        // newFormData['visible'].value = true
 
-        this.setState({
-            formdata: newFormData,
-            formSuccess: true
-        });
-        setTimeout(() => {
-            this.setState({
-                formSuccess: false
-            }, () => {
-                this.props.dispatch(act_clearDetail('slides'))
-            })
-        }, 3000)
+        // this.setState({
+        //     formdata: newFormData,
+        //     formSuccess: true
+        // });
+
+
+        // setTimeout(() => {
+        //     this.setState({
+        //         formSuccess: false
+        //     }, () => {
+        //         this.props.dispatch(act_clearDetail('slides'))
+        //     })
+        // }, 3000)
     }
 
 
@@ -309,20 +284,13 @@ class AddSlide extends Component {
         event.preventDefault();
 
         let dataToSubmit = generateData(this.state.formdata, 'slides');
-        // dataToSubmit['visible'].value = true
-
         // dataToSubmit['visible'] = true
-
-        console.log(this.state.formdata)
-        console.log(dataToSubmit)
+        console.log('submitForm-Prepared DataToSubmit');
+        console.log(this.state.formdata);
+        console.log(dataToSubmit);
 
 
         let formIsValid = isFormValid(this.state.formdata, 'slides');
-
-        console.log('Is the Form Valid?');
-
-        console.log(formIsValid);
-
 
         if (formIsValid) {
             let args = {}
@@ -333,11 +301,8 @@ class AddSlide extends Component {
                     console.log(response);
                     console.log(this.state);
 
-
-
-
                     if (this.props.slides.adminAddSlide.success) {
-                        this.resetFieldHandler();
+                       this.resetFieldHandler();
                     } else {
                         this.setState({ formError: true })
                     }

@@ -25,6 +25,8 @@ export const validate = (element, formdata = []) => {
 
 }
 
+// When a field is Touched, it is automatically Validated. Hidden and Untouched fields remain unvalidated
+
 export const update = (element, formdata, formName) => {
     const newFormdata = {
         ...formdata
@@ -53,27 +55,21 @@ export const update = (element, formdata, formName) => {
 }
 
 export const generateData = (formdata, formName) => {
-console.log('GenerateData');
-console.log(formdata);
-
-
 
     let dataToSubmit = {};
 
     for (let key in formdata) {
         if (key !== 'confirmPassword') {
-            console.log(formdata[key])
             dataToSubmit[key] = formdata[key].value;
         }
 
     }
 
-    console.log(dataToSubmit)
 
     return dataToSubmit;
 }
 
-// Checks if the valid param is all set to true
+// Checks if the valid param is everywhere set to true
 
 export const isFormValid = (formdata, formName) => {
     let formIsValid = true;
@@ -100,23 +96,22 @@ export const populateOptionFields = (formdata, arrayData = [], field) => {
 }
 
 export const resetFields = (formdata, formName) => {
-console.log('resetFields');
-
-console.log(formdata);
-
 
     const newFormdata = { ...formdata };
+
+
     for (let key in newFormdata) {
 
-        console.log(key);
+        // console.log(key);
         
         if (key === 'images') {
             newFormdata[key].value = [];
+            
         } else {
             newFormdata[key].value = '';
         }
 
-        newFormdata[key].value = '';
+ //       newFormdata[key].valid = false;
         newFormdata[key].touched = false;
         newFormdata[key].validationMessage = '';
     }
