@@ -222,6 +222,8 @@ app.post('/api/slide/add_entity', (req, res) => {
         })
     })
 })
+
+// TE SA POTRZEBNE DO SKLEPU ALE USUNAC POTEM
 // app.post('/api/slide/article', auth, admin, (req, res) => {
 
 //     const slide = new Slide(req.body);
@@ -410,6 +412,11 @@ app.post('/api/slide/update_entity', auth, admin, (req, res) => {
                 },
                 { new: true },
                 (err, doc) => { })
+
+                console.log(err);
+                console.log(doc);
+                
+                
 
             if (err) return res.json({ success: false, err });
             return res.status(200).send({ doc })

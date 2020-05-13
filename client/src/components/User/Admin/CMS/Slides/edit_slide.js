@@ -245,6 +245,11 @@ class EditSlide extends Component {
         let dataToSubmit = generateData(this.state.formdata, 'slides');
         let formIsValid = isFormValid(this.state.formdata, 'slides');
 
+        console.log('Submit Form');
+        console.log(dataToSubmit);
+        
+        
+
         if (formIsValid) {
             let args = {}
             args['_id'] = this.props.match.params.id
