@@ -16,55 +16,62 @@ class Fileupload extends Component {
         uploading: false
     }
 
-    
-        onRemove = (image_id) => {
 
-            this.props.dispatch(act_removeImage_Slide(image_id, this.props.parent_id))
-                .then(response => {
-                    
-                    let images = this.state.uploadedFiles.filter(item => {
-                        return item.public_id !== image_id;
-                    })
-  
-                    this.setState({
-                        uploadedFiles: images
-                    }, () => {
-                        this.props.imagesHandler(images)
-                    })
+    onRemove = (image_id) => {
+
+        this.props.dispatch(act_removeImage_Slide(image_id, this.props.parent_id))
+            .then(response => {
+
+                let images = this.state.uploadedFiles.filter(item => {
+                    return item.public_id !== image_id;
                 })
-        }
-    
-        showUploadedImages = () => (
 
-            this.state.uploadedFiles.map(item => (
-                <div className="dropzone_box"
-                    key={item.public_id}
-                >
-    
-                    <div
-                        className="wrap"
-                        style={{ background: `url(${item.url}) no-repeat` }}
-                    ><div className="delete_overlay">
-                            <FontAwesomeIcon
-                                icon={faTrash}
-                                onClick={() => this.onRemove(item.public_id)}
-                            />
-                        </div>
+                this.setState({
+                    uploadedFiles: images
+                }, () => {
+                    this.props.imagesHandler(images)
+                })
+            })
+    }
+
+    showUploadedImages = () => (
+
+        this.state.uploadedFiles.map(item => (
+            <div className="dropzone_box"
+                key={item.public_id}
+            >
+
+                <div
+                    className="wrap"
+                    style={{ background: `url(${item.url}) no-repeat` }}
+                ><div className="delete_overlay">
+                        <FontAwesomeIcon
+                            icon={faTrash}
+                            onClick={() => this.onRemove(item.public_id)}
+                        />
                     </div>
                 </div>
-            ))
-    
-        )
-    
-        onDrop = (files) => {
+            </div>
+        ))
 
-            this.setState({ uploading: true });
-            let formData = new FormData();
-            const axiosconfig = {
-                header: { 'content-type': 'multipart/form-data' }
-            }
-    
-            formData.append("file", files[0]);
+    )
+
+    onDrop = (files) => {
+
+        console.log('run On Drop');
+        console.log(files);
+        
+        
+        
+
+        this.setState({ uploading: true });
+        let formData = new FormData();
+        const axiosconfig = {
+            header: { 'content-type': 'multipart/form-data' }
+        }
+        console.log(this.state);
+
+        formData.append("file", files[0]);
 
         this.props.dispatch(act_uploadImage_Slide(formData, axiosconfig, this.props.parent_id))
             .then(response => {
@@ -76,15 +83,24 @@ class Fileupload extends Component {
                         response.payload
                     ]
                 }, () => {
+                    console.log('Callback inside on Drop-SetState');
+                    
+                    console.log(this.state.uploadedFiles)
                     this.props.imagesHandler(this.state.uploadedFiles)
                 })
             })
     }
 
     static getDerivedStateFromProps(props, state) {
+        // console.log('getDerived states from Props');
+        // console.log(props);
+        // console.log(state);
+
+// props.reset && (... || props.slides.slideDetail.images length = 0)
+// Object.keys(response.payload).length !== 0
         if (
-            // (props.reset || (props.slides.slideDetail === '' || props.slides.slideDetail === undefined) )
-            (props.reset)
+            (props.reset && ((props.slides.slideDetail !== undefined && Object.keys(props.slides.slideDetail.images).length === 0) || props.slides.slideDetail === '' || props.slides.slideDetail === undefined) )
+            //(props.reset)
 
         ) {
             return state = {
@@ -92,8 +108,9 @@ class Fileupload extends Component {
             }
         }
         if (props.parent_id && (props.slides.slideDetail !== undefined || props.slides.slideDetail === '')) {
-            console.log(props);
             
+            console.log('INSIDE getDerivedStates');
+            console.log(props)
 
             return state = {
                 uploadedFiles: props.slides.slideDetail.images,

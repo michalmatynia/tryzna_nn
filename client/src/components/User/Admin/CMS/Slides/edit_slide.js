@@ -126,6 +126,9 @@ class EditSlide extends Component {
 
     componentDidUpdate(prevProps, prevState) {
 
+        console.log('componentDidUpdate');
+        
+
         if ((
             this.props.slides.slideDetail !== undefined
             && this.props.user.siteLocalisation !== undefined
@@ -221,7 +224,6 @@ class EditSlide extends Component {
         if (
             this.props.user.siteLocalisation !== undefined
         ) {
-
             this.props.dispatch(act_getDetail_by_Id_Slide(this.props.match.params.id))
         }
 
@@ -250,8 +252,6 @@ class EditSlide extends Component {
         console.log('Submit Form');
         console.log(dataToSubmit);
 
-
-
         if (formIsValid) {
             let args = {}
             args['_id'] = this.props.match.params.id
@@ -278,22 +278,38 @@ class EditSlide extends Component {
         }
     }
 
+    // imagesHandler = (images) => {
+
+    //     this.props.dispatch(act_getDetail_by_Id_Slide(this.props.match.params.id))
+    //     .then(response => {
+
+    //         if (response.payload !== "") {
+    //             const newFormData = populateFields(this.state.formdata, this.props.slide.slideDetail);
+    //             this.setState({
+    //                 formdata: newFormData
+    //             });
+    //         }
+
+    //     })
+    // }
+
     imagesHandler = (images) => {
-        // console.log('Image handler - BEfore Dispatch');
-        // console.log(this.state);
-        // console.log(this.props);
+        console.log('Image handler - BEfore Dispatch');
+        console.log(this.state);
+        console.log(this.props);
+        console.log(images);
 
-        this.props.dispatch(act_getDetail_by_Id_Slide(this.props.match.params.id))
-        .then(response => {
+        const newFormData = {
+            ...this.state.formdata
+        }
+        newFormData['images'].value = images;
+        newFormData['images'].valid = true;
 
-            if (response.payload !== "") {
-                const newFormData = populateFields(this.state.formdata, this.props.slide.slideDetail);
-                this.setState({
-                    formdata: newFormData
-                });
-            }
-
-        })
+        this.setState({
+            formdata: newFormData
+        }
+            , () => { this.props.dispatch(act_getDetail_by_Id_Slide(this.props.match.params.id)) }
+        )
     }
 
     render() {
