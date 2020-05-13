@@ -69,7 +69,7 @@ class Fileupload extends Component {
 
         formData.append("file", files[0]);
 
-        this.props.dispatch(act_uploadImage_Logo(formData, axiosconfig, this.props.logo.logoDetail._id))
+        this.props.dispatch(act_uploadImage_Logo(formData, axiosconfig))
             .then(response => {
                 //console.log(this.state.uploadedFiles)
                 this.setState({

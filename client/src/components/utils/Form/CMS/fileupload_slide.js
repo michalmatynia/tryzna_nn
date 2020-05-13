@@ -83,13 +83,17 @@ class Fileupload extends Component {
 
     static getDerivedStateFromProps(props, state) {
         if (
-            (props.reset ) 
+            // (props.reset || (props.slides.slideDetail === '' || props.slides.slideDetail === undefined) )
+            (props.reset)
+
         ) {
             return state = {
                 uploadedFiles: []
             }
         }
         if (props.parent_id && (props.slides.slideDetail !== undefined || props.slides.slideDetail === '')) {
+            console.log(props);
+            
 
             return state = {
                 uploadedFiles: props.slides.slideDetail.images,

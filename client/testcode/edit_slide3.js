@@ -158,7 +158,7 @@ class EditSlide extends Component {
 
             let args = {}
 
-            // Tutaj powinien byc link do identycznym image Array
+            // Tutaj powinien byc link do identycznym image
             // args['linkTo'] = this.props.slides.slideDetail.linkTo
 
             this.props.dispatch(act_getDetail_by_Args_Slide(this.props.user.siteLocalisation.value, args))
@@ -249,14 +249,14 @@ class EditSlide extends Component {
 
         console.log('Submit Form');
         console.log(dataToSubmit);
-
-
+        
+        
 
         if (formIsValid) {
             let args = {}
             args['_id'] = this.props.match.params.id
             args['previousPos'] = this.props.slides.slideDetail.position
-
+            
             this.props.dispatch(act_updateDetail_Slide(this.props.user.siteLocalisation.value, args, dataToSubmit))
                 .then(() => {
                     this.setState({
@@ -279,21 +279,23 @@ class EditSlide extends Component {
     }
 
     imagesHandler = (images) => {
-        // console.log('Image handler - BEfore Dispatch');
-        // console.log(this.state);
-        // console.log(this.props);
+        console.log('Image handler - BEfore Dispatch');
+        console.log(this.state);
+        console.log(this.props);
 
-        this.props.dispatch(act_getDetail_by_Id_Slide(this.props.match.params.id))
-        .then(response => {
 
-            if (response.payload !== "") {
-                const newFormData = populateFields(this.state.formdata, this.props.slide.slideDetail);
-                this.setState({
-                    formdata: newFormData
-                });
-            }
 
-        })
+        const newFormData = {
+            ...this.state.formdata
+        }
+        newFormData['images'].value = images;
+        newFormData['images'].valid = true;
+
+        this.setState({
+            formdata: newFormData
+        }
+            , () => { this.props.dispatch(act_getDetail_by_Id_Slide(this.props.match.params.id)) }
+        )
     }
 
     render() {

@@ -216,24 +216,46 @@ class EditLogo extends Component {
 
     imagesHandler = (images) => {
 
-        // console.log('Images Handler');
-        // console.log(images);
-        // console.log(this.props);
+        console.log('Images Handler');
+        console.log(images);
+        console.log(this.props);
 
        // this.props.dispatch(act_getDetail_by_Args_Logo(this.props.user.siteLocalisation.value))
 
-       this.props.dispatch(act_getDetail_by_Id_Logo(this.props.logo.logoDetail._id))
-       // this.props.dispatch(act_getDetail_by_Args_Logo(this.props.user.siteLocalisation.value))
-       .then(response => {
 
-           if (response.payload !== "") {
-               const newFormData = populateFields(this.state.formdata, this.props.logo.logoDetail);
-               this.setState({
-                   formdata: newFormData
-               });
-           }
 
-       })
+        const newFormData = {
+            ...this.state.formdata
+        }
+        newFormData['images'].value = images;
+        newFormData['images'].valid = true;
+        console.log(newFormData);
+
+        // this.updateFields(newFormData)
+
+
+        this.setState({
+            formdata: newFormData
+        }
+            , () => {
+                console.log('Before Dispatch');
+                console.log(this.state);
+               // console.log(this.props.logo.logoDetail._id);
+                
+                this.props.dispatch(act_getDetail_by_Id_Logo(this.props.logo.logoDetail._id))
+                // this.props.dispatch(act_getDetail_by_Args_Logo(this.props.user.siteLocalisation.value))
+                .then(response => {
+
+                    if (response.payload !== "") {
+                        const newFormData = populateFields(this.state.formdata, this.props.logo.logoDetail);
+                        this.setState({
+                            formdata: newFormData
+                        });
+                    }
+
+                })
+            }
+        )
     }
 
     render() {
