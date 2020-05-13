@@ -57,7 +57,9 @@ class Fileupload extends Component {
     )
 
     onDrop = (files) => {
-
+        console.log('in Drop');
+        
+        console.log(this.props)
 
         this.setState({ uploading: true });
         let formData = new FormData();
@@ -67,7 +69,7 @@ class Fileupload extends Component {
 
         formData.append("file", files[0]);
 
-        this.props.dispatch(act_uploadImage_Logo(formData, axiosconfig, this.props.parent_id))
+        this.props.dispatch(act_uploadImage_Logo(formData, axiosconfig, this.props.logo.logoDetail._id))
             .then(response => {
                 //console.log(this.state.uploadedFiles)
                 this.setState({
@@ -83,16 +85,17 @@ class Fileupload extends Component {
     }
 
     static getDerivedStateFromProps(props, state) {
+        // console.log('FileUpload-Get Derived State')
+        // console.log(state)
+        // console.log(props)
 
         if (
-            (props.reset || (props.logo.logoDetail === '' || props.logo.logoDetail === undefined)) 
+            (props.reset || (props.logo.logoDetail === '' || props.logo.logoDetail === undefined))
         ) {
             return state = {
                 uploadedFiles: []
             }
-        } 
-
-        if (props.logo.logoDetail !== undefined && props.logo.adminGetLogos !== undefined) {
+        } else if (props.logo.logoDetail !== undefined) {
             return state = {
                 uploadedFiles: props.logo.logoDetail.images,
             }

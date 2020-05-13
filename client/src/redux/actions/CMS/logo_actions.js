@@ -75,6 +75,21 @@ export function act_getDetail_by_Args_Logo(language, args = null) {
     }
 }
 
+export function act_getDetail_by_Id_Logo(id) {
+
+    const request = axios.get(`${LOGO_SERVER}/get_entity_by_id?_id=${id}`)
+        .then(response => {
+
+            return response.data
+
+        })
+
+    return {
+        type: GET_DETAIL_LOGO,
+        payload: request
+    }
+}
+
 export function act_addLogo(language, args = null, dataToSubmit = null) {
 
     let listOfArgs = '';
@@ -114,6 +129,10 @@ export function act_addLogo_Auto(language, dataToSubmit = null) {
 
 export function act_updateDetail_Logo(language, args = null, dataToSubmit = null) {
 
+    // console.log('Update Action');
+    // console.log(dataToSubmit);
+    
+    
     let listOfArgs = '';
     if (args) {
         for (const [key, value] of Object.entries(args)) {
@@ -127,6 +146,7 @@ export function act_updateDetail_Logo(language, args = null, dataToSubmit = null
 
     const request = axios.post(`${LOGO_SERVER}/update_entity?language=${language}${listOfArgs}`, dataToSubmit)
         .then(response => {
+            console.log(response);
 
             return response.data.doc
         });
@@ -139,7 +159,7 @@ export function act_updateDetail_Logo(language, args = null, dataToSubmit = null
 // Image Handler
 
 export function act_uploadImage_Logo(formData, axiosheaders) {
-    // console.log(entity_id)
+
     const request = axios.post(`${LOGO_SERVER}/uploadimage`, formData, axiosheaders)
         .then(response => {
             // console.log(response)

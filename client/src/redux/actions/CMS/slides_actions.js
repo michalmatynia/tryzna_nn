@@ -51,11 +51,6 @@ export function act_clearDetail(currentType) {
 
 export function act_addSlide(language, args = null, dataToSubmit = null) {
 
-    console.log('action addSlide');
-    console.log(dataToSubmit);
-    
-    
-
     let listOfArgs = '';
     if (args) {
         for (const [key, value] of Object.entries(args)) {
@@ -180,6 +175,8 @@ export function act_getDetail_by_Args_Slide(language, args = null) {
 
 export function act_updateDetail_Slide(language, args = null, dataToSubmit = null) {
 
+
+
     let listOfArgs = '';
     if (args) {
         for (const [key, value] of Object.entries(args)) {
@@ -194,6 +191,7 @@ export function act_updateDetail_Slide(language, args = null, dataToSubmit = nul
 
     const request = axios.post(`${SLIDE_SERVER}/update_entity?language=${language}${listOfArgs}`, dataToSubmit)
         .then(response => {
+            
 
             return response.data.doc});
 

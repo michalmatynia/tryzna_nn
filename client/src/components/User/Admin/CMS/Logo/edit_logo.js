@@ -6,7 +6,7 @@ import { update, generateData, isFormValid, populateFields } from '../../../../u
 
 import { connect } from 'react-redux';
 
-import { act_getDetail_by_Args_Logo, act_updateDetail_Logo, act_addLogo_Auto } from '../../../../../redux/actions/CMS/logo_actions';
+import { act_getDetail_by_Args_Logo, act_updateDetail_Logo, act_addLogo_Auto, act_getDetail_by_Id_Logo } from '../../../../../redux/actions/CMS/logo_actions';
 import FileUpload from '../../../../utils/Form/CMS/fileupload_logo'
 
 class EditLogo extends Component {
@@ -79,7 +79,7 @@ class EditLogo extends Component {
                 validation: {
                     required: true
                 },
-                valid: false,
+                valid: true,
                 touched: false,
                 validationMessage: '',
                 showlabel: true
@@ -97,6 +97,10 @@ class EditLogo extends Component {
             && this.props.user.siteLocalisation.value !== prevProps.user.siteLocalisation.value
             && Object.keys(this.props.logo.logoDetail).length > 0
         ) {
+            console.log('Inside ComponentDidUpdate');
+
+
+
             this.props.dispatch(act_getDetail_by_Args_Logo(this.props.user.siteLocalisation.value))
                 .then(response => {
 
@@ -137,13 +141,19 @@ class EditLogo extends Component {
 
     }
     componentDidMount() {
-
+        //console.log(this.state);
+        //console.log(this.props);
+        //console.log(this.props.logo.logoDetail._id);
+        
         if (
             this.props.user.siteLocalisation !== undefined
         ) {
 
             this.props.dispatch(act_getDetail_by_Args_Logo(this.props.user.siteLocalisation.value))
                 .then(response => {
+                    console.log('ComponentDidMount After Dispatch');
+
+                    console.log(response);
 
                     if (response.payload !== "") {
                         const newFormData = populateFields(this.state.formdata, this.props.logo.logoDetail);
@@ -158,6 +168,11 @@ class EditLogo extends Component {
     // componentWillUnmount() {
     //     this.props.dispatch(act_clearDetail('logo'))
     // }
+    updateFields = (newFormData) => {
+        this.setState({
+            formdata: newFormData
+        })
+    }
 
     updateForm = (element) => {
         const newFormdata = update(element, this.state.formdata, 'logo');
@@ -201,21 +216,50 @@ class EditLogo extends Component {
 
     imagesHandler = (images) => {
 
+        // console.log('Images Handler');
+        // console.log(images);
+        // console.log(this.props);
+
+       // this.props.dispatch(act_getDetail_by_Args_Logo(this.props.user.siteLocalisation.value))
+
+
 
         const newFormData = {
             ...this.state.formdata
         }
         newFormData['images'].value = images;
         newFormData['images'].valid = true;
+        console.log(newFormData);
+
+        // this.updateFields(newFormData)
+
 
         this.setState({
             formdata: newFormData
         }
-            , () => { this.props.dispatch(act_getDetail_by_Args_Logo(this.props.user.siteLocalisation.value)) }
+            , () => {
+                console.log('Before Dispatch');
+                console.log(this.state);
+                console.log(this.props.logo.logoDetail._id);
+                
+                this.props.dispatch(act_getDetail_by_Id_Logo(this.props.logo.logoDetail._id))
+                // this.props.dispatch(act_getDetail_by_Args_Logo(this.props.user.siteLocalisation.value))
+                // .then(response => {
+
+                //     // if (response.payload !== "") {
+                //     //     const newFormData = populateFields(this.state.formdata, this.props.logo.logoDetail);
+                //     //     this.setState({
+                //     //         formdata: newFormData
+                //     //     });
+                //     // }
+
+                // })
+            }
         )
     }
 
     render() {
+        
         return (
             <UserLayout>
                 <div>
@@ -227,6 +271,8 @@ class EditLogo extends Component {
                         <FileUpload
                             imagesHandler={(images) => this.imagesHandler(images)}
                             reset={this.state.formSuccess}
+                           //  parent_id={(this.props.logo.logoDetail._id)}
+                         // parent_id={this.props.logo.logoDetail} 
                         />
                         <FormField
                             id={'lineOne'}

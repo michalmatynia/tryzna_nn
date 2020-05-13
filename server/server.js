@@ -324,26 +324,26 @@ app.get('/api/slide/remove_entity', auth, (req, res) => {
 //     })
 // })
 
-// Fetch Product by ID (Query String)
-// app.get('/api/slide/articles_by_id', (req, res) => {
-//     let type = req.query.type;
+// Fetch Product by ID (Query String) - SHOP FILTER SEARCH
+app.get('/api/slide/articles_by_id', (req, res) => {
+    let type = req.query.type;
 
-//     let items = req.query._id;
+    let items = req.query._id;
 
-//     if (type === "array") {
-//         let ids = req.query._id.split(',');
-//         items = [];
-//         items = ids.map(item => {
-//             return mongoose.Types.ObjectId(item)
-//         })
-//     }
+    if (type === "array") {
+        let ids = req.query._id.split(',');
+        items = [];
+        items = ids.map(item => {
+            return mongoose.Types.ObjectId(item)
+        })
+    }
 
-//     Slide.
-//         find({ '_id': { $in: items } })
-//         .exec((err, docs) => {
-//             return res.status(200).send(docs)
-//         })
-// });
+    Slide.
+        find({ '_id': { $in: items } })
+        .exec((err, docs) => {
+            return res.status(200).send(docs)
+        })
+});
 
 app.get('/api/slide/get_entity_by_id', (req, res) => {
 
@@ -1139,6 +1139,21 @@ app.get('/api/logo/list_entities', (req, res) => {
         })
 
 })
+
+app.get('/api/logo/get_entity_by_id', (req, res) => {
+
+    //console.log(req.query._id)
+
+    Logo.findOne({
+        _id: mongoose.Types.ObjectId(req.query._id)
+    }, (err, doc) => {
+
+        if (err) return res.status(400).send(err);
+        res.status(200).send(doc)
+
+    })
+
+});
 
 app.get('/api/logo/get_entity_by_args', (req, res) => {
 
