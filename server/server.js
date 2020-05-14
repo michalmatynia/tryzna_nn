@@ -411,7 +411,7 @@ app.post('/api/slide/update_entity', auth, admin, (req, res) => {
                     }
                 },
                 { new: true },
-                (err, doc) => { })
+                (err2, doc2) => { })
 
                 // console.log(err);
                 // console.log(doc);
@@ -468,6 +468,11 @@ app.get('/api/slide/removeimage', auth, admin, (req, res) => {
             },
             { new: true },
             (err, doc) => {
+
+                console.log(doc);
+                console.log(error);
+                
+                
                 cloudinary.uploader.destroy(req.query.image_id, (error) => {
                     if (error) return res.json({ success: false, error });
                     res.status(200).send('ok');

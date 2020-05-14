@@ -26,7 +26,7 @@ export default function (state = {}, action) {
             }
         case CLEAR_DETAIL_SLIDE:
             return {
-                ...state, adminAddSlide: action.payload
+                ...state, adminAddSlide: action.payload, slideDetail: action.payload
             }
         case GET_DETAIL_SLIDE:
             return { ...state, slideDetail: action.payload }

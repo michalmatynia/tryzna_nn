@@ -127,7 +127,7 @@ class EditSlide extends Component {
     componentDidUpdate(prevProps, prevState) {
 
         console.log('componentDidUpdate');
-        
+
 
         if ((
             this.props.slides.slideDetail !== undefined
@@ -299,9 +299,20 @@ class EditSlide extends Component {
         console.log(this.props);
         console.log(images);
 
+        if (this.props.slides.slideDetail !== undefined && this.props.slides.slideDetail !== "" && images !== null) {
+            images = [...this.props.slides.slideDetail.images, images]
+        } else if (this.props.slides.slideDetail !== undefined && this.props.slides.slideDetail !== "" && images === null) {
+            images = [...this.props.slides.slideDetail.images]
+        }
+        
+        // else {
+        //     images = this.props.slides.slideDetail.images
+        // }
+
         const newFormData = {
             ...this.state.formdata
         }
+
         newFormData['images'].value = images;
         newFormData['images'].valid = true;
 
@@ -323,6 +334,7 @@ class EditSlide extends Component {
                             imagesHandler={(images) => this.imagesHandler(images)}
                             reset={this.state.formSuccess}
                             parent_id={this.props.match.params.id}
+                        // entity={this.props.slides.slideDetail}
                         />
                         <FormField
                             id={'lineOne'}
