@@ -263,27 +263,40 @@ class AddSlide extends Component {
         }
     }
 
-    imagesHandler = (images, type) => {
-        console.log('ImagesHandler');
-
+    removeImagesHandler = (images) => {
+        console.log('removeImagesHandler');
         console.log(images);
-        console.log(type);
+
 
         const newFormData = { ...this.state.formdata };
 
-        if (images !== null && type === "add") {
-            newFormData['images'].value.push(images)
-        } else if (type === "remove") {
-            newFormData['images'].value.filter(item => {
-                return item.public_id !== images.public_id;
+        newFormData['images'].value.filter(item => {
+            return item.public_id !== images.public_id;
 
-            })
+        })
+        console.log(newFormData);
+
+        newFormData['images'].valid = true;
+        this.updateFields(newFormData)
+
+    }
+
+   addImagesHandler = (images) => {
+        console.log('addImagesHandler');
+
+        console.log(images);
+
+        const newFormData = { ...this.state.formdata };
+
+        if (images !== null) {
+            console.log('hererererer');
+            
+            newFormData['images'].value.push(images)
         }
 
         console.log(newFormData);
 
         newFormData['images'].valid = true;
-
         this.updateFields(newFormData)
 
     }
@@ -297,7 +310,8 @@ class AddSlide extends Component {
                     <h1>Add slides</h1>
                     <form onSubmit={(event) => this.SubmitForm(event)}>
                         <FileUpload
-                            imagesHandler={(images,type) => this.imagesHandler(images, type)}
+                            removeImagesHandler={(images) => this.removeImagesHandler(images)}
+                            addImagesHandler={(images) => this.addImagesHandler(images)}
                             reset={this.state.formSuccess}
                             parent_id=''
                             images_add={this.state.formdata.images}

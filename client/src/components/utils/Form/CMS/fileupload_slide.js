@@ -46,11 +46,11 @@ class Fileupload extends Component {
             this.props.dispatch(act_removeImage_Slide(image_id, this.props.parent_id))
                 .then(response => {
 
-                    this.props.imagesHandler(image_id, 'remove')
+                    this.props.removeImagesHandler(image_id)
 
                 })
         } else {
-            this.props.imagesHandler(image_id, 'remove')
+            this.props.removeImagesHandler(image_id)
 
         }
 
@@ -114,10 +114,7 @@ class Fileupload extends Component {
                     uploading: false
                 }, () => {
                     console.log('Callback inside on Drop-SetState');
-
-                    let type = 'add'
-
-                    this.props.imagesHandler(response.payload, type)
+                    this.props.addImagesHandler(response.payload)
 
                 })
 
