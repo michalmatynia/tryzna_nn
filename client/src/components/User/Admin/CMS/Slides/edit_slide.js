@@ -266,7 +266,7 @@ class EditSlide extends Component {
                             this.setState({
                                 formSuccess: false
                             })
-                        }, 2000)
+                        }, 500)
                     })
                 })
 
@@ -299,28 +299,37 @@ class EditSlide extends Component {
         console.log(this.props);
         console.log(images);
 
-        if (this.props.slides.slideDetail !== undefined && this.props.slides.slideDetail !== "" && images !== null) {
-            images = [...this.props.slides.slideDetail.images, images]
-        } else if (this.props.slides.slideDetail !== undefined && this.props.slides.slideDetail !== "" && images === null) {
-            images = [...this.props.slides.slideDetail.images]
-        }
-        
+        // if (this.props.slides.slideDetail !== undefined && this.props.slides.slideDetail !== "" && images !== null) {
+        //     images = [...this.props.slides.slideDetail.images, images]
+        // } else if (this.props.slides.slideDetail !== undefined && this.props.slides.slideDetail !== "" && images === null) {
+        //     images = this.props.slides.slideDetail.images
+        // }
+        this.props.dispatch(act_getDetail_by_Id_Slide(this.props.match.params.id))
+        .then(response3 => {
+            const newFormData = populateFields(this.state.formdata, this.props.slides.slideDetail);
+
+            this.setState({
+                formdata: newFormData
+            })
+
+        })
+
         // else {
         //     images = this.props.slides.slideDetail.images
         // }
 
-        const newFormData = {
-            ...this.state.formdata
-        }
+        // const newFormData = {
+        //     ...this.state.formdata
+        // }
 
-        newFormData['images'].value = images;
-        newFormData['images'].valid = true;
+        // newFormData['images'].value = images;
+        // newFormData['images'].valid = true;
 
-        this.setState({
-            formdata: newFormData
-        }
-            , () => { this.props.dispatch(act_getDetail_by_Id_Slide(this.props.match.params.id)) }
-        )
+        // this.setState({
+        //     formdata: newFormData
+        // }
+        //     , () => {  }
+        // )
     }
 
     render() {

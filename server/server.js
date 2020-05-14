@@ -210,6 +210,8 @@ app.post('/api/slide/add_entity', (req, res) => {
                     }
                 })
         }
+
+        console.log('added entity')
         console.log(err);
 
         console.log(doc);
@@ -470,7 +472,7 @@ app.get('/api/slide/removeimage', auth, admin, (req, res) => {
             (err, doc) => {
 
                 console.log(doc);
-                console.log(error);
+                console.log(err);
                 
                 
                 cloudinary.uploader.destroy(req.query.image_id, (error) => {
