@@ -38,41 +38,64 @@ class Fileupload extends Component {
     //         })
     // }
     onRemove = (image_id) => {
+        let type = 'remove'
 
-        this.props.dispatch(act_removeImage_Slide(image_id, this.props.parent_id))
-            .then(response => {
 
-                this.props.imagesHandler()
 
-            })
+        if (this.props.parent_id !== "") {
+            this.props.dispatch(act_removeImage_Slide(image_id, this.props.parent_id))
+                .then(response => {
+
+                    this.props.imagesHandler(image_id, type)
+
+                })
+        } else {
+            this.props.imagesHandler(image_id, type)
+
+        }
+
+
     }
-    showUploadedImages = () => (
+    showUploadedImages = () => {
+        console.log('Show Images');
 
-        // console.log('show uploaded'),
-        // console.log(this.props),
-        (this.props.slides.slideDetail !== undefined && this.props.slides.slideDetail !== "" && Object.keys(this.props.slides.slideDetail.images).length !== 0) ?
-        this.props.slides.slideDetail.images.map(item => (
-            <div className="dropzone_box"
-                key={item.public_id}
-            >
+        console.log(this.props);
 
-                <div
-                    className="wrap"
-                    style={{ background: `url(${item.url}) no-repeat` }}
-                ><div className="delete_overlay">
-                        <FontAwesomeIcon
-                            icon={faTrash}
-                            onClick={() => this.onRemove(item.public_id)}
-                        />
+        let entityimages = {}
+
+        this.props.parent_id !== "" ? entityimages = this.props.slides.slideDetail.images : entityimages = this.props.images_add.value
+
+        console.log(entityimages);
+
+
+        return (
+            (this.props.slides.slideDetail !== undefined && this.props.slides.slideDetail !== "" && Object.keys(this.props.slides.slideDetail.images).length !== 0)
+                || (Object.keys(this.props.images_add).length !== 0 && this.props.parent_id === "")
+                ?
+                entityimages.map(item => (
+                    <div className="dropzone_box"
+                        key={item.public_id}
+                    >
+
+                        <div
+                            className="wrap"
+                            style={{ background: `url(${item.url}) no-repeat` }}
+                        ><div className="delete_overlay">
+                                <FontAwesomeIcon
+                                    icon={faTrash}
+                                    onClick={() => this.onRemove(item.public_id)}
+                                />
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-        ))
-        : null
+                ))
+                : null
+        )
 
-    )
+
+    }
     onDrop = (files) => {
-
+        let type = 'add'
         console.log('run On Drop');
         console.log(files);
 
@@ -88,12 +111,12 @@ class Fileupload extends Component {
         this.props.dispatch(act_uploadImage_Slide(formData, axiosconfig, this.props.parent_id))
             .then(response => {
                 console.log('inside upload image');
-               this.setState({
+                this.setState({
                     uploading: false
                 }, () => {
                     console.log('Callback inside on Drop-SetState');
 
-                    this.props.imagesHandler(response.payload)
+                    this.props.imagesHandler(response.payload, type)
 
                 })
 
@@ -129,49 +152,6 @@ class Fileupload extends Component {
     //         })
     // }
 
-
-    static getDerivedStateFromProps(props, state) {
-        console.log('getDerived states from Props');
-        console.log(props);
-        console.log(state);
-
-        // if (
-        //     props.reset
-        //     || (Object.keys(state.uploadedFiles).length === 0 && props.slides.slideDetail !== undefined && Object.keys(props.slides.slideDetail.images).length === 0)
-        //     || (
-        //         // (props.slides.slideDetail !== undefined && Object.keys(props.slides.slideDetail.images).length === 0)
-        //         props.slides.slideDetail === '' && !props.parent_id
-        //     )
-        //     // || (Object.keys(state.uploadedFiles).length !== 0 && props.slides.slideDetail !== undefined && Object.keys(props.slides.slideDetail.images).length === 0)
-        //     //(props.reset)
-
-        // ) {
-        //     console.log('INSIDE GDS RESET');
-
-        //     return state = {
-        //         uploadedFiles: []
-        //     }
-        // }
-        // if (
-        //     props.parent_id
-        //     && (props.slides.slideDetail !== undefined || props.slides.slideDetail === '')
-        //     && (
-        //         (Object.keys(state.uploadedFiles).length !== 0 && Object.keys(props.slides.slideDetail.images) === 0)
-        //         || (Object.keys(state.uploadedFiles).length === 0 && Object.keys(props.slides.slideDetail.images) !== 0)
-        //     )
-        // ) {
-
-        //     console.log('INSIDE getDerivedStates');
-        //     // console.log(props)
-
-        //     return state = {
-        //         uploadedFiles: props.slides.slideDetail.images,
-        //     }
-        // }
-
-        return null
-    }
-
     render() {
         return (
             <div>
@@ -196,9 +176,9 @@ class Fileupload extends Component {
                                 </section>
                             )}
                         </Dropzone>
-                        {
-                            this.props.slides.slideDetail !== undefined ?
-                        this.showUploadedImages() : null
+                        {// console.log(this.props),
+                            this.props.slides.slideDetail !== undefined || (Object.keys(this.props.images_add).length !== 0 && this.props.parent_id === "") ?
+                                this.showUploadedImages() : null
                         }
                         {
                             this.state.uploading ?

@@ -305,7 +305,7 @@ class EditSlide extends Component {
         //     images = this.props.slides.slideDetail.images
         // }
         this.props.dispatch(act_getDetail_by_Id_Slide(this.props.match.params.id))
-        .then(response3 => {
+        .then(response => {
             const newFormData = populateFields(this.state.formdata, this.props.slides.slideDetail);
 
             this.setState({
@@ -343,6 +343,7 @@ class EditSlide extends Component {
                             imagesHandler={(images) => this.imagesHandler(images)}
                             reset={this.state.formSuccess}
                             parent_id={this.props.match.params.id}
+                            images_add={{}}
                         // entity={this.props.slides.slideDetail}
                         />
                         <FormField

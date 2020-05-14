@@ -126,35 +126,35 @@ class AddSlide extends Component {
         console.log('ComponentDidUpdate');
 
         console.log(this.state.formdata);
-        console.log(prevState.formdata);
-        console.log(this.props);
-        console.log(prevProps);
+        // console.log(prevState.formdata);
+        // console.log(this.props);
+        // console.log(prevProps);
 
         // Universal condition
         if (
             this.props.user.siteLocalisation !== undefined
             && prevProps.user.siteLocalisation !== undefined
         ) {
-        // When Slide is Added 
-        if((
-            this.props.user.siteLocalisation.value === prevProps.user.siteLocalisation.value
-            && this.state.formdata.language.value === ''
-        ) || (
-            this.props.user.siteLocalisation.value !== prevProps.user.siteLocalisation.value
-            && this.state.formdata.language.value !== ''
-        )) {
+            // When Slide is Added 
+            if ((
+                this.props.user.siteLocalisation.value === prevProps.user.siteLocalisation.value
+                && this.state.formdata.language.value === ''
+            ) || (
+                    this.props.user.siteLocalisation.value !== prevProps.user.siteLocalisation.value
+                    && this.state.formdata.language.value !== ''
+                )) {
 
 
-            let args = {}
-            args['sortBy'] = 'position'
-            this.props.dispatch(act_listSlides(this.props.user.siteLocalisation.value, args))
-            .then(response => {
-                const newFormData = populatePositionField(this.state.formdata, response, this.props.user.siteLocalisation.value, 'position');
-                this.updateFields(newFormData)
-                //  console.log(this.props.products.brands)
-            })
+                let args = {}
+                args['sortBy'] = 'position'
+                this.props.dispatch(act_listSlides(this.props.user.siteLocalisation.value, args))
+                    .then(response => {
+                        const newFormData = populatePositionField(this.state.formdata, response, this.props.user.siteLocalisation.value, 'position');
+                        this.updateFields(newFormData)
+                        //  console.log(this.props.products.brands)
+                    })
 
-        }
+            }
 
         } // END OF Universal condition
 
@@ -168,11 +168,11 @@ class AddSlide extends Component {
             let args = {}
             args['sortBy'] = 'position'
             this.props.dispatch(act_listSlides(this.props.user.siteLocalisation.value, args))
-            .then(response => {
-                const newFormData = populatePositionField(this.state.formdata, response, this.props.user.siteLocalisation.value, 'position');
-                this.updateFields(newFormData)
-                //  console.log(this.props.products.brands)
-            })
+                .then(response => {
+                    const newFormData = populatePositionField(this.state.formdata, response, this.props.user.siteLocalisation.value, 'position');
+                    this.updateFields(newFormData)
+                    //  console.log(this.props.products.brands)
+                })
 
         }
     }
@@ -226,15 +226,15 @@ class AddSlide extends Component {
 
         // dataToSubmit['visible'] = true
 
-        console.log(this.state.formdata)
-        console.log(dataToSubmit)
+        // console.log(this.state.formdata)
+        // console.log(dataToSubmit)
 
 
         let formIsValid = isFormValid(this.state.formdata, 'slides');
 
-        console.log('Is the Form Valid?');
+        // console.log('Is the Form Valid?');
 
-        console.log(formIsValid);
+        // console.log(formIsValid);
 
 
         if (formIsValid) {
@@ -263,30 +263,45 @@ class AddSlide extends Component {
         }
     }
 
-    imagesHandler = (images) => {
-        const newFormData = {
-            ...this.state.formdata
+    imagesHandler = (images, type) => {
+        console.log('ImagesHandler');
+
+        console.log(images);
+        console.log(type);
+
+        const newFormData = { ...this.state.formdata };
+
+        if (images !== null && type === "add") {
+            newFormData['images'].value.push(images)
+        } else if (type === "remove") {
+            newFormData['images'].value.filter(item => {
+                return item.public_id !== images.public_id;
+
+            })
         }
-        newFormData['images'].value = images;
+
+        console.log(newFormData);
+
         newFormData['images'].valid = true;
 
-        this.setState({
-            formdata: newFormData
-        })
+        this.updateFields(newFormData)
+
     }
 
 
 
     render() {
+        let type
         return (
             <UserLayout>
                 <div>
                     <h1>Add slides</h1>
                     <form onSubmit={(event) => this.SubmitForm(event)}>
                         <FileUpload
-                            imagesHandler={(images) => this.imagesHandler(images)}
+                            imagesHandler={(images) => this.imagesHandler(images, type)}
                             reset={this.state.formSuccess}
                             parent_id=''
+                            images_add={this.state.formdata.images}
                         />
                         <FormField
                             id={'lineOne'}
