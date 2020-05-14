@@ -413,8 +413,8 @@ app.post('/api/slide/update_entity', auth, admin, (req, res) => {
                 { new: true },
                 (err, doc) => { })
 
-                console.log(err);
-                console.log(doc);
+                // console.log(err);
+                // console.log(doc);
                 
                 
 

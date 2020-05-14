@@ -60,11 +60,8 @@ class Fileupload extends Component {
 
         console.log('run On Drop');
         console.log(files);
-        
-        
-        
 
-        // this.setState({ uploading: true });
+        this.setState({ uploading: true });
         let formData = new FormData();
         const axiosconfig = {
             header: { 'content-type': 'multipart/form-data' }
@@ -76,50 +73,90 @@ class Fileupload extends Component {
         this.props.dispatch(act_uploadImage_Slide(formData, axiosconfig, this.props.parent_id))
             .then(response => {
                 console.log('inside upload image');
-                
-                const newUploadedData = [...this.state.uploadedFiles, response.payload]
 
+                // let newUploadedData = [...this.state.uploadedFiles, response.payload]
+                //  let newUploadedData = [...this.state.uploadedFiles, response.payload]
+
+
+                //    this.setState(prevState => ({
+                //     uploadedFiles: 'pip',
+                //     uploading: false
+                // }), () => {
+                //     this.props.imagesHandler(this.state.uploadedFiles)
+                // })
+                // ==========
                 this.setState({
-                    uploadedFiles: [1,2,3],
+                    uploadedFiles: [...this.state.uploadedFiles, response.payload],
                     uploading: false
                 }, () => {
                     console.log('Callback inside on Drop-SetState');
-                    // tu powinien response payload wjechac
-                    console.log(this.state.uploadedFiles)
-                    console.log(this.state);
-                    
-                    // console.log(typeof(this.state.uploadedFiles));
-                    console.log(response);
-                    console.log(this.props);
-                    
-                    let test = [...this.state.uploadedFiles, response.payload]
-                    console.log(test);
-                    
+
                     this.props.imagesHandler(this.state.uploadedFiles)
 
-                    // this.props.imagesHandler(this.state.uploadedFiles)
                 })
+
+                // ===========
+                // this.setState({
+                //    // uploadedFiles = [...this.state.uploadedFiles, response.payload],
+
+                //     uploadedFiles: [...this.state.uploadedFiles, 'dsd'],
+                //     uploading: false
+                // }, () => {
+                //     console.log('Callback inside on Drop-SetState');
+                //     // tu powinien response payload wjechac
+                //     console.log(this.state.uploadedFiles)
+                //     console.log(this.state);
+
+                //     // console.log(typeof(this.state.uploadedFiles));
+                //     console.log(response);
+                //     console.log(this.props);
+
+                //     let test = [...this.state.uploadedFiles, response.payload]
+                //     console.log(test);
+                //     console.log(newUploadedData);
+
+
+                //     this.props.imagesHandler(this.state.uploadedFiles)
+
+                //     // this.props.imagesHandler(this.state.uploadedFiles)
+                // })
             })
     }
 
+
     static getDerivedStateFromProps(props, state) {
         console.log('getDerived states from Props');
-        // console.log(props);
-        // console.log(state);
+        console.log(props);
+        console.log(state);
 
         if (
-            (props.reset || ((props.slides.slideDetail !== undefined && Object.keys(props.slides.slideDetail.images).length === 0) || props.slides.slideDetail === '' || props.slides.slideDetail === undefined) )
+            props.reset
+            || (Object.keys(state.uploadedFiles).length === 0 && props.slides.slideDetail !== undefined && Object.keys(props.slides.slideDetail.images).length === 0)
+            || (
+                // (props.slides.slideDetail !== undefined && Object.keys(props.slides.slideDetail.images).length === 0)
+                props.slides.slideDetail === '' && props.slides.slideDetail === undefined
+            )
+            // || (Object.keys(state.uploadedFiles).length !== 0 && props.slides.slideDetail !== undefined && Object.keys(props.slides.slideDetail.images).length === 0)
             //(props.reset)
 
         ) {
+            console.log('INSIDE GDS RESET');
+
             return state = {
                 uploadedFiles: []
             }
         }
-        if (props.parent_id && (props.slides.slideDetail !== undefined || props.slides.slideDetail === '')) {
-            
+        if (
+            props.parent_id
+            && (props.slides.slideDetail !== undefined || props.slides.slideDetail === '')
+            && (
+                (Object.keys(state.uploadedFiles).length !== 0 && Object.keys(props.slides.slideDetail.images) === 0)
+                || (Object.keys(state.uploadedFiles).length === 0 && Object.keys(props.slides.slideDetail.images) !== 0)
+            )
+        ) {
+
             console.log('INSIDE getDerivedStates');
-            console.log(props)
+            // console.log(props)
 
             return state = {
                 uploadedFiles: props.slides.slideDetail.images,
