@@ -38,7 +38,7 @@ class Fileupload extends Component {
     //         })
     // }
     onRemove = (image_id) => {
-        let type = 'remove'
+        // let type = 'remove'
 
 
 
@@ -46,11 +46,11 @@ class Fileupload extends Component {
             this.props.dispatch(act_removeImage_Slide(image_id, this.props.parent_id))
                 .then(response => {
 
-                    this.props.imagesHandler(image_id, type)
+                    this.props.imagesHandler(image_id, 'remove')
 
                 })
         } else {
-            this.props.imagesHandler(image_id, type)
+            this.props.imagesHandler(image_id, 'remove')
 
         }
 
@@ -95,7 +95,6 @@ class Fileupload extends Component {
 
     }
     onDrop = (files) => {
-        let type = 'add'
         console.log('run On Drop');
         console.log(files);
 
@@ -115,6 +114,8 @@ class Fileupload extends Component {
                     uploading: false
                 }, () => {
                     console.log('Callback inside on Drop-SetState');
+
+                    let type = 'add'
 
                     this.props.imagesHandler(response.payload, type)
 

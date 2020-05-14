@@ -291,14 +291,13 @@ class AddSlide extends Component {
 
 
     render() {
-        let type
         return (
             <UserLayout>
                 <div>
                     <h1>Add slides</h1>
                     <form onSubmit={(event) => this.SubmitForm(event)}>
                         <FileUpload
-                            imagesHandler={(images) => this.imagesHandler(images, type)}
+                            imagesHandler={(images,type) => this.imagesHandler(images, type)}
                             reset={this.state.formSuccess}
                             parent_id=''
                             images_add={this.state.formdata.images}
