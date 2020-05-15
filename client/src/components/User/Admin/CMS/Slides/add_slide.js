@@ -270,18 +270,27 @@ class AddSlide extends Component {
 
         const newFormData = { ...this.state.formdata };
 
-        newFormData['images'].value.filter(item => {
-            return item.public_id !== images.public_id;
+        let reducedNewFormData = newFormData['images'].value.filter(item => {
+            console.log(item);
+
+            return item.public_id !== images;
 
         })
-        console.log(newFormData);
 
+        // NIE USUNAL !!!!!!!!!!
+        // return empty [] array if only one objets
+        console.log(reducedNewFormData);
+
+        //        jeli wiecej niz jeden ocalic co jest jesloi 1 usunac
+        //      console.log((Object.keys(this.props.images_add).length !== 0);
+
+        newFormData['images'].value = reducedNewFormData
         newFormData['images'].valid = true;
         this.updateFields(newFormData)
 
     }
 
-   addImagesHandler = (images) => {
+    addImagesHandler = (images) => {
         console.log('addImagesHandler');
 
         console.log(images);
@@ -290,7 +299,7 @@ class AddSlide extends Component {
 
         if (images !== null) {
             console.log('hererererer');
-            
+
             newFormData['images'].value.push(images)
         }
 

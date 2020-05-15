@@ -292,8 +292,19 @@ class EditSlide extends Component {
 
     //     })
     // }
+    removeImagesHandler = (images) => {
 
-    imagesHandler = (images) => {
+        this.props.dispatch(act_getDetail_by_Id_Slide(this.props.match.params.id))
+        .then(response => {
+            const newFormData = populateFields(this.state.formdata, this.props.slides.slideDetail);
+
+            this.setState({
+                formdata: newFormData
+            })
+
+        })
+    }
+    addImagesHandler = (images) => {
         console.log('Image handler - BEfore Dispatch');
         console.log(this.state);
         console.log(this.props);
@@ -340,7 +351,8 @@ class EditSlide extends Component {
                     <form onSubmit={(event) => this.submitForm()}>
                         <h1>Edit Slide</h1>
                         <FileUpload
-                            imagesHandler={(images) => this.imagesHandler(images)}
+                            addImagesHandler={(images) => this.addImagesHandler(images)}
+                            removeImagesHandler={(images) => this.removeImagesHandler(images)}
                             reset={this.state.formSuccess}
                             parent_id={this.props.match.params.id}
                             images_add={{}}
