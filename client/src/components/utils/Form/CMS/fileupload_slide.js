@@ -32,7 +32,6 @@ class Fileupload extends Component {
 
     }
     showUploadedImages = () => {
-        console.log('bug');
 
         let entityimages = {}
 

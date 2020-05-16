@@ -86,7 +86,7 @@ export function act_addSlide(language, args = null, dataToSubmit = null) {
 
 export function act_removeItem_Slide(id) {
 
-    const request = axios.get(`${SLIDE_SERVER}/remove_entity?_id=${id}`)
+    const request = axios.get(`${SLIDE_SERVER}/remove_entity_from_list?_id=${id}`)
         .then(response => {
             console.log('action 1');
             

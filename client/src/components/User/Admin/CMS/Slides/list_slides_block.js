@@ -16,6 +16,7 @@ const ListSlidesBlock = ({ list, removeItem, handleVisible }) => {
     }
 
     const renderItems = () => (
+console.log(list),
 
 
         list ?
