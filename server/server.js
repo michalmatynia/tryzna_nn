@@ -138,8 +138,6 @@ app.get('/api/slide/list_entities', (req, res) => {
         .sort(sortBy)
         .limit(limit)
         .exec((err, doc) => {
-           // console.log(err);
-           // console.log(doc);
 
             if (err) return res.status(400).send(err);
             res.send(doc)
@@ -147,8 +145,6 @@ app.get('/api/slide/list_entities', (req, res) => {
 })
 
 app.post('/api/slide/add_entity', (req, res) => {
-
-    console.log(req.body);
     
     const slide = new Slide(req.body);
 
@@ -211,11 +207,6 @@ app.post('/api/slide/add_entity', (req, res) => {
                 })
         }
 
-        console.log('added entity')
-        console.log(err);
-
-        console.log(doc);
-        
 
         if (err) return res.json({ success: false, err });
         res.status(200).json({

@@ -15,32 +15,7 @@ class Fileupload extends Component {
         uploading: false
     }
 
-
-    // onRemove = (image_id) => {
-
-    //     this.props.dispatch(act_removeImage_Slide(image_id, this.props.parent_id))
-    //         .then(response => {
-
-    //             console.log('inside REmove');
-    //             console.log(response);
-
-    //             let images = this.state.uploadedFiles.filter(item => {
-    //                 return item.public_id !== image_id;
-    //             })
-
-    //             console.log(images)
-
-    //             this.setState({
-    //                 uploadedFiles: images
-    //             }, () => {
-    //                 this.props.imagesHandler(images)
-    //             })
-    //         })
-    // }
     onRemove = (image_id) => {
-        // let type = 'remove'
-
-
 
         if (this.props.parent_id !== "") {
             this.props.dispatch(act_removeImage_Slide(image_id, this.props.parent_id))
@@ -57,15 +32,11 @@ class Fileupload extends Component {
 
     }
     showUploadedImages = () => {
-        console.log('Show Images');
-
-        console.log(this.props);
+        console.log('bug');
 
         let entityimages = {}
 
         this.props.parent_id !== "" ? entityimages = this.props.slides.slideDetail.images : entityimages = this.props.images_add.value
-
-        console.log(entityimages);
 
 
         return (
@@ -95,15 +66,12 @@ class Fileupload extends Component {
 
     }
     onDrop = (files) => {
-        console.log('run On Drop');
-        console.log(files);
 
         this.setState({ uploading: true });
         let formData = new FormData();
         const axiosconfig = {
             header: { 'content-type': 'multipart/form-data' }
         }
-        console.log(this.state);
 
         formData.append("file", files[0]);
 
@@ -120,35 +88,6 @@ class Fileupload extends Component {
 
             })
     }
-    // onDrop = (files) => {
-
-    //     console.log('run On Drop');
-    //     console.log(files);
-
-    //     this.setState({ uploading: true });
-    //     let formData = new FormData();
-    //     const axiosconfig = {
-    //         header: { 'content-type': 'multipart/form-data' }
-    //     }
-    //     console.log(this.state);
-
-    //     formData.append("file", files[0]);
-
-    //     this.props.dispatch(act_uploadImage_Slide(formData, axiosconfig, this.props.parent_id))
-    //         .then(response => {
-    //             console.log('inside upload image');
-
-    //             this.setState({
-    //                 uploadedFiles: [...this.state.uploadedFiles, response.payload],
-    //                 uploading: false
-    //             }, () => {
-    //                 console.log('Callback inside on Drop-SetState');
-
-    //                 this.props.imagesHandler(this.state.uploadedFiles)
-
-    //             })
-    //         })
-    // }
 
     render() {
         return (
@@ -174,7 +113,7 @@ class Fileupload extends Component {
                                 </section>
                             )}
                         </Dropzone>
-                        {// console.log(this.props),
+                        {
                             this.props.slides.slideDetail !== undefined || (Object.keys(this.props.images_add).length !== 0 && this.props.parent_id === "") ?
                                 this.showUploadedImages() : null
                         }

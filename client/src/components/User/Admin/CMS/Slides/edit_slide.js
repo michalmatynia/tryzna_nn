@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import UserLayout from '../../../../../hoc/user';
 
 import FormField from '../../../../utils/Form/formfield';
-import { update, generateData, isFormValid, populateFields } from '../../../../utils/Form/formActions';
+import { update, generateData, isFormValid, populateFields, populatePositionField } from '../../../../utils/Form/formActions';
 
 import { connect } from 'react-redux';
 
-import { act_getDetail_by_Id_Slide, act_getDetail_by_Args_Slide, act_updateDetail_Slide, act_clearDetail, act_listSlides, act_addSlide } from '../../../../../redux/actions/CMS/slides_actions';
+import { act_getDetail_by_Id_Slide, act_getDetail_by_Args_Slide, act_updateDetail_Slide, act_clearDetail, act_clearList, act_listSlides, act_addSlide } from '../../../../../redux/actions/CMS/slides_actions';
 import FileUpload from '../../../../utils/Form/CMS/fileupload_slide'
 
 class EditSlide extends Component {
@@ -110,8 +110,6 @@ class EditSlide extends Component {
             },
             images: {
                 value: [],
-
-
                 validation: {
                     required: false
                 },
@@ -126,96 +124,83 @@ class EditSlide extends Component {
 
     componentDidUpdate(prevProps, prevState) {
 
-        console.log('componentDidUpdate');
 
-
-        if ((
+        // Universal Rule
+        if (
             this.props.slides.slideDetail !== undefined
             && this.props.user.siteLocalisation !== undefined
-            && Object.keys(this.state.formdata.position.config.options).length === 0)) {
-
-            let line = [];
-            let totalPos = [];
-
-            if (Object.keys(this.props.slides.adminGetSlides).length !== 0) {
-
-                this.props.slides.adminGetSlides.forEach((item, i) => {
-                    i = i + 1;
-                    line = { key: i, value: i }
-                    totalPos.push(line)
-                })
-            }
-
-            const newFormData = populateFields(this.state.formdata, this.props.slides.slideDetail);
-            newFormData['position'].config.options = totalPos;
-
-            this.setState({
-                formdata: newFormData
-            })
-
-        } else if (
-            this.props.user.siteLocalisation !== undefined
-            && this.props.slides.slideDetail !== undefined
-            && this.props.user.siteLocalisation.value !== prevProps.user.siteLocalisation.value
         ) {
 
-            let args = {}
+            console.log('INSIDEA');
+            console.log(this.state.formdata);
 
-            // Tutaj powinien byc link do identycznym image Array
-            // args['linkTo'] = this.props.slides.slideDetail.linkTo
+            if (
+                Object.keys(this.state.formdata.position.config.options).length === 0) {
 
-            this.props.dispatch(act_getDetail_by_Args_Slide(this.props.user.siteLocalisation.value, args))
-                .then(response => {
 
-                    if (Object.keys(response.payload).length !== 0) {
 
-                        this.props.dispatch(act_listSlides(this.props.user.siteLocalisation.value))
-                            .then(response2 => {
+                let args = {}
+                args['sortBy'] = 'position'
+                this.props.dispatch(act_listSlides(this.props.user.siteLocalisation.value, args))
+                    .then(response => {
 
-                                let line = [];
-                                let totalPos = [];
 
-                                if (Object.keys(response2.payload).length !== 0) {
+                        let newFormData = populateFields(this.state.formdata, this.props.slides.slideDetail);
+                        // console.log('sdsd');
 
-                                    this.props.slides.adminGetSlides.forEach((item, i) => {
-                                        i = i + 1;
-                                        line = { key: i, value: i }
-                                        totalPos.push(line)
+                        // console.log(this.props.slides.slideDetail);
+                        // console.log(newFormData);
 
-                                    })
-                                }
+                        newFormData = populatePositionField(newFormData, response, this.props.user.siteLocalisation.value, 'position', 'edit');
+                        this.updateFields(newFormData)
+                    })
 
-                                const newFormData = populateFields(this.state.formdata, this.props.slides.slideDetail);
-                                newFormData['position'].config.options = totalPos;
+            } else if (
+                this.props.user.siteLocalisation.value !== prevProps.user.siteLocalisation.value
+            ) {
+                console.log('INSIDEB');
 
-                                this.setState({
-                                    formdata: newFormData
+                let args = {}
+                this.props.dispatch(act_getDetail_by_Args_Slide(this.props.user.siteLocalisation.value, args))
+                    .then(response => {
+
+                        if (Object.keys(response.payload).length !== 0) {
+
+                            let args = {}
+                            args['sortBy'] = 'position'
+                            this.props.dispatch(act_listSlides(this.props.user.siteLocalisation.value, args))
+                                .then(response => {
+                                    let newFormData = populateFields(this.state.formdata, this.props.slides.slideDetail);
+
+                                    newFormData = populatePositionField(newFormData, response, this.props.user.siteLocalisation.value, 'position');
+                                    this.updateFields(newFormData)
                                 })
-                            })
 
-                    } else {
+                        } else {
 
-                        let dataToSubmit = generateData(this.state.formdata, 'slides');
-                        dataToSubmit['language'] = this.props.user.siteLocalisation.value
+                            let dataToSubmit = generateData(this.state.formdata, 'slides');
+                            dataToSubmit['language'] = this.props.user.siteLocalisation.value
+                            // Here add with identical images
+                            this.props.dispatch(act_addSlide(this.props.user.siteLocalisation.value, args, dataToSubmit))
+                                .then(response2 => {
 
-                        this.props.dispatch(act_addSlide(this.props.user.siteLocalisation.value, args, dataToSubmit))
-                            .then(response2 => {
+                                    this.props.dispatch(act_getDetail_by_Id_Slide(response2.payload.entity._id))
+                                        .then(response3 => {
+                                            let newFormData = populateFields(this.state.formdata, this.props.slides.slideDetail);
 
-                                this.props.dispatch(act_getDetail_by_Id_Slide(response2.payload.entity._id))
-                                    .then(response3 => {
-                                        const newFormData = populateFields(this.state.formdata, this.props.slides.slideDetail);
+                                            newFormData = populatePositionField(newFormData, response, this.props.user.siteLocalisation.value, 'position');
+                                            this.updateFields(newFormData)
 
-                                        this.setState({
-                                            formdata: newFormData
+
                                         })
 
-                                    })
+                                })
 
-                            })
-
-                    }
-                })
+                        }
+                    })
+            }
         }
+        // END OF Universal Rule
 
     }
 
@@ -231,11 +216,18 @@ class EditSlide extends Component {
 
     componentWillUnmount() {
         this.props.dispatch(act_clearDetail('slides'))
-
+        this.props.dispatch(act_clearList('slides'))
     }
 
+    updateFields = (newFormData) => {
+        this.setState({
+            formdata: newFormData
+        })
+    }
 
     updateForm = (element) => {
+
+
         const newFormdata = update(element, this.state.formdata, 'slides');
         this.setState({
             formError: false,
@@ -248,9 +240,6 @@ class EditSlide extends Component {
 
         let dataToSubmit = generateData(this.state.formdata, 'slides');
         let formIsValid = isFormValid(this.state.formdata, 'slides');
-
-        console.log('Submit Form');
-        console.log(dataToSubmit);
 
         if (formIsValid) {
             let args = {}
@@ -278,69 +267,31 @@ class EditSlide extends Component {
         }
     }
 
-    // imagesHandler = (images) => {
-
-    //     this.props.dispatch(act_getDetail_by_Id_Slide(this.props.match.params.id))
-    //     .then(response => {
-
-    //         if (response.payload !== "") {
-    //             const newFormData = populateFields(this.state.formdata, this.props.slide.slideDetail);
-    //             this.setState({
-    //                 formdata: newFormData
-    //             });
-    //         }
-
-    //     })
-    // }
     removeImagesHandler = (images) => {
 
+
         this.props.dispatch(act_getDetail_by_Id_Slide(this.props.match.params.id))
-        .then(response => {
-            const newFormData = populateFields(this.state.formdata, this.props.slides.slideDetail);
+            .then(response => {
+                const newFormData = populateFields(this.state.formdata, this.props.slides.slideDetail);
 
-            this.setState({
-                formdata: newFormData
+                this.setState({
+                    formdata: newFormData
+                })
+
             })
-
-        })
     }
     addImagesHandler = (images) => {
-        console.log('Image handler - BEfore Dispatch');
-        console.log(this.state);
-        console.log(this.props);
-        console.log(images);
 
-        // if (this.props.slides.slideDetail !== undefined && this.props.slides.slideDetail !== "" && images !== null) {
-        //     images = [...this.props.slides.slideDetail.images, images]
-        // } else if (this.props.slides.slideDetail !== undefined && this.props.slides.slideDetail !== "" && images === null) {
-        //     images = this.props.slides.slideDetail.images
-        // }
         this.props.dispatch(act_getDetail_by_Id_Slide(this.props.match.params.id))
-        .then(response => {
-            const newFormData = populateFields(this.state.formdata, this.props.slides.slideDetail);
+            .then(response => {
+                const newFormData = populateFields(this.state.formdata, this.props.slides.slideDetail);
 
-            this.setState({
-                formdata: newFormData
+                this.setState({
+                    formdata: newFormData
+                })
+
             })
 
-        })
-
-        // else {
-        //     images = this.props.slides.slideDetail.images
-        // }
-
-        // const newFormData = {
-        //     ...this.state.formdata
-        // }
-
-        // newFormData['images'].value = images;
-        // newFormData['images'].valid = true;
-
-        // this.setState({
-        //     formdata: newFormData
-        // }
-        //     , () => {  }
-        // )
     }
 
     render() {

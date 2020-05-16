@@ -95,7 +95,7 @@ export const populateOptionFields = (formdata, arrayData = [], field) => {
     return newFormdata;
 }
 
-export const populatePositionField = (formdata, response, language, field) => {
+export const populatePositionField = (formdata, response, language, field, type) => {
 
     const totalPos = [];
     let i = 0
@@ -116,7 +116,11 @@ export const populatePositionField = (formdata, response, language, field) => {
     }
 
     newFormData[field].config.options = totalPos;
-    newFormData[field].value = totalPos.length;
+
+    type === 'edit' ?
+    newFormData[field].value = totalPos.length :
+    newFormData[field].value = totalPos.length 
+
     //----
     newFormData['language'].value = language;
 
@@ -153,6 +157,9 @@ export const resetFields = (formdata, formName) => {
 export const populateFields = (formData, fields) => {
 
     for (let key in formData) {
+// console.log(formData);
+// console.log(fields);
+
 
         formData[key].value = fields[key];
         formData[key].valid = true;

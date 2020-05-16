@@ -65,6 +65,8 @@ export const ADD_SLIDE = 'add_slide';
 export const LIST_SLIDES = 'list_slides';
 export const GET_DETAIL_SLIDE = 'get_detail_slide';
 export const CLEAR_DETAIL_SLIDE = 'clear_detail_slide';
+export const CLEAR_LIST_SLIDE = 'clear_list_slide';
+
 // export const GET_SLIDES_BY_ARRIVAL_ALL = 'get_slides_by_arrival_all';
 
 export const UPDATE_DETAIL_SLIDE = 'update_detail_slide';

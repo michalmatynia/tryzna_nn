@@ -6,7 +6,7 @@ import FormField from '../../../../utils/Form/formfield';
 import { update, generateData, isFormValid, resetFields, populatePositionField } from '../../../../utils/Form/formActions';
 import FileUpload from '../../../../utils/Form/CMS/fileupload_slide'
 
-import { act_addSlide, act_clearDetail, act_listSlides } from '../../../../../redux/actions/CMS/slides_actions';
+import { act_addSlide, act_clearDetail, act_clearList, act_listSlides } from '../../../../../redux/actions/CMS/slides_actions';
 
 class AddSlide extends Component {
 
@@ -123,14 +123,7 @@ class AddSlide extends Component {
         }
     }
     componentDidUpdate(prevProps, prevState) {
-        console.log('ComponentDidUpdate');
 
-        console.log(this.state.formdata);
-        // console.log(prevState.formdata);
-        // console.log(this.props);
-        // console.log(prevProps);
-
-        // Universal condition
         if (
             this.props.user.siteLocalisation !== undefined
             && prevProps.user.siteLocalisation !== undefined
@@ -151,7 +144,6 @@ class AddSlide extends Component {
                     .then(response => {
                         const newFormData = populatePositionField(this.state.formdata, response, this.props.user.siteLocalisation.value, 'position');
                         this.updateFields(newFormData)
-                        //  console.log(this.props.products.brands)
                     })
 
             }
@@ -171,7 +163,6 @@ class AddSlide extends Component {
                 .then(response => {
                     const newFormData = populatePositionField(this.state.formdata, response, this.props.user.siteLocalisation.value, 'position');
                     this.updateFields(newFormData)
-                    //  console.log(this.props.products.brands)
                 })
 
         }
@@ -179,6 +170,7 @@ class AddSlide extends Component {
 
     componentWillUnmount() {
         this.props.dispatch(act_clearDetail('slides'))
+        this.props.dispatch(act_clearList('slides'))
 
     }
 
@@ -197,9 +189,6 @@ class AddSlide extends Component {
     }
 
     resetFieldHandler = () => {
-        // console.log('reset Field handler');
-        // console.log(this.state.formdata);
-
 
         const newFormData = resetFields(this.state.formdata, 'slides');
         newFormData['visible'].value = true
@@ -222,31 +211,14 @@ class AddSlide extends Component {
         event.preventDefault();
 
         let dataToSubmit = generateData(this.state.formdata, 'slides');
-        // dataToSubmit['visible'].value = true
-
-        // dataToSubmit['visible'] = true
-
-        // console.log(this.state.formdata)
-        // console.log(dataToSubmit)
-
 
         let formIsValid = isFormValid(this.state.formdata, 'slides');
-
-        // console.log('Is the Form Valid?');
-
-        // console.log(formIsValid);
-
 
         if (formIsValid) {
             let args = {}
             args['sortBy'] = 'position'
             this.props.dispatch(act_addSlide(this.props.user.siteLocalisation.value, args, dataToSubmit))
                 .then((response) => {
-                    // console.log('inside addSlide');
-                    // console.log(response);
-                    // console.log(this.state);
-
-
 
 
                     if (this.props.slides.adminAddSlide.success) {
@@ -264,9 +236,6 @@ class AddSlide extends Component {
     }
 
     removeImagesHandler = (images) => {
-        console.log('removeImagesHandler');
-        console.log(images);
-
 
         const newFormData = { ...this.state.formdata };
 
@@ -277,13 +246,6 @@ class AddSlide extends Component {
 
         })
 
-        // NIE USUNAL !!!!!!!!!!
-        // return empty [] array if only one objets
-        console.log(reducedNewFormData);
-
-        //        jeli wiecej niz jeden ocalic co jest jesloi 1 usunac
-        //      console.log((Object.keys(this.props.images_add).length !== 0);
-
         newFormData['images'].value = reducedNewFormData
         newFormData['images'].valid = true;
         this.updateFields(newFormData)
@@ -291,19 +253,13 @@ class AddSlide extends Component {
     }
 
     addImagesHandler = (images) => {
-        console.log('addImagesHandler');
-
-        console.log(images);
 
         const newFormData = { ...this.state.formdata };
 
         if (images !== null) {
-            console.log('hererererer');
 
             newFormData['images'].value.push(images)
         }
-
-        console.log(newFormData);
 
         newFormData['images'].valid = true;
         this.updateFields(newFormData)

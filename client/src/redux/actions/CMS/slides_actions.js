@@ -4,6 +4,7 @@ import {
     LIST_SLIDES,
     GET_DETAIL_SLIDE,
     CLEAR_DETAIL_SLIDE,
+    CLEAR_LIST_SLIDE,
     UPDATE_DETAIL_SLIDE,
     REMOVE_ITEM_SLIDE,
     REMOVE_IMAGE_SLIDE,
@@ -42,6 +43,18 @@ export function act_clearDetail(currentType) {
         case 'slides':
             return {
                 type: CLEAR_DETAIL_SLIDE,
+                payload: ''
+            }
+        default:
+            return '';
+    }
+}
+
+export function act_clearList(currentType) {
+    switch (currentType) {
+        case 'slides':
+            return {
+                type: CLEAR_LIST_SLIDE,
                 payload: ''
             }
         default:

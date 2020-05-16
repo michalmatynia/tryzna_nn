@@ -3,7 +3,7 @@ import UserLayout from '../../../../../hoc/user';
 import ListSlidesBlock from '../Slides/list_slides_block';
 
 import { connect } from 'react-redux';
-import { act_listSlides, act_removeItem_Slide, act_setVisible_Slide } from '../../../../../redux/actions/CMS/slides_actions';
+import { act_listSlides, act_removeItem_Slide, act_setVisible_Slide, act_clearList } from '../../../../../redux/actions/CMS/slides_actions';
 
 class ListSlides extends Component {
 
@@ -40,6 +40,11 @@ class ListSlides extends Component {
         ) {
             this.props.dispatch(act_listSlides(this.props.user.siteLocalisation.value))
         }
+    }
+
+    componentWillUnmount() {
+        this.props.dispatch(act_clearList('slides'))
+
     }
 
     removeEntityFromDb = (id) => {

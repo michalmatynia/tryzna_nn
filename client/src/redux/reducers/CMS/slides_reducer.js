@@ -2,6 +2,7 @@ import {
     LIST_SLIDES,
     ADD_SLIDE,
     CLEAR_DETAIL_SLIDE,
+    CLEAR_LIST_SLIDE,
     REMOVE_ITEM_SLIDE,
     REMOVE_IMAGE_SLIDE,
     GET_DETAIL_SLIDE,
@@ -27,6 +28,10 @@ export default function (state = {}, action) {
         case CLEAR_DETAIL_SLIDE:
             return {
                 ...state, adminAddSlide: action.payload, slideDetail: action.payload
+            }
+        case CLEAR_LIST_SLIDE:
+            return {
+                ...state, adminGetSlides: action.payload
             }
         case GET_DETAIL_SLIDE:
             return { ...state, slideDetail: action.payload }
