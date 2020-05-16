@@ -23,6 +23,14 @@ const admin = [
         linkTo: '/admin/site_info'
     },
     {
+        name: 'Add language',
+        linkTo: '/admin/add_language'
+    },
+    {
+        name: 'List languages',
+        linkTo: '/admin/list_languages'
+    },
+    {
         name: 'Add products',
         linkTo: '/admin/add_product'
     },

@@ -9,7 +9,7 @@ export const ON_SUCCESS_BUY_USER = 'on_success_buy_user';
 export const UPDATE_DATA_USER = 'update_data_user';
 export const CLEAR_UPDATE_USER_DATA = 'clear_update_user_data';
 
-// Language
+// USER COOKIES
 export const SET_COOKIE_USER = 'set_cookie_user';
 export const SET_SITELOCALISATION_USER = 'set_sitelocalisation_user';
 
@@ -35,6 +35,21 @@ export const CLEAR_PRODUCT_DETAIL = 'clear_product_detail';
 // Site
 export const GET_SITE_DATA = 'get_site_data';
 export const UPDATE_SITE_DATA = 'update_site_data';
+
+// Language
+export const ADD_LANGUAGE = 'add_language';
+export const LIST_LANGUAGES = 'list_languages';
+export const GET_DETAIL_LANGUAGE = 'get_detail_language';
+export const CLEAR_DETAIL_LANGUAGE = 'clear_detail_language';
+export const CLEAR_LIST_LANGUAGE = 'clear_list_language';
+
+// export const GET_LANGUAGES_BY_ARRIVAL_ALL = 'get_LANGUAGEs_by_arrival_all';
+
+export const UPDATE_DETAIL_LANGUAGE = 'update_detail_language';
+export const REMOVE_ITEM_LANGUAGE = 'remove_item_language';
+export const REMOVE_IMAGE_LANGUAGE = 'remove_image_language';
+export const UPLOAD_IMAGE_LANGUAGE = 'upload_image_language';
+export const SET_VISIBLE_LANGUAGE = 'set_visible_language';
 
 // CMS
 // Menu

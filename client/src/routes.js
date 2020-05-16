@@ -22,6 +22,12 @@ import UpdateProfile from './components/User/update_profile';
 import ManageSite from './components/User/Admin/manage_site';
 import AddFile from './components/User/Admin/add_file';
 
+// SYSTEM
+// Language
+import AddLanguage from './components/User/Admin/CMS/Languages/add_language';
+import EditLanguage from './components/User/Admin/CMS/Languages/edit_language';
+import ListLanguages from './components/User/Admin/CMS/Languages/list_languages';
+
 // CMS Managment
 // Menu
 import AddMenu from './components/User/Admin/CMS/Menu/add_menu';
@@ -35,7 +41,6 @@ import EditSlide from './components/User/Admin/CMS/Slides/edit_slide';
 import ListSlides from './components/User/Admin/CMS/Slides/list_slides';
 // Description
 import EditDesc from './components/User/Admin/CMS/Description/edit_desc';
-
 
 import PageNotFound from './components/utils/page_not_found';
 
@@ -52,6 +57,10 @@ const Routes = () => {
         <Route path="/admin/manage_categories" exact component={Auth(ManageCategories, true)} />
         <Route path="/admin/site_info" exact component={Auth(ManageSite, true)} />
         <Route path="/admin/add_file" exact component={Auth(AddFile, true)} />
+
+        <Route path="/admin/add_language" exact component={Auth(AddLanguage, true)} />
+        <Route path="/admin/list_languages" exact component={Auth(ListLanguages, true)} />
+        <Route path="/admin/edit_language/:id" exact component={Auth(EditLanguage, true)} />
 
         <Route path="/admin/add_menu" exact component={Auth(AddMenu, true)} />
         <Route path="/admin/edit_menu/:id" exact component={Auth(EditMenu, true)} />
