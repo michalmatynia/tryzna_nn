@@ -123,19 +123,26 @@ class EditSlide extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
+        console.log('ComponentUpdate');
 
 
         // Universal Rule
-        if (
-            this.props.slides.slideDetail !== undefined
-            && this.props.user.siteLocalisation !== undefined
-        ) {
 
-            console.log('INSIDEA');
-            console.log(this.state.formdata);
+
+        if (this.props.slides.slideDetail !== undefined
+            && this.props.user.siteLocalisation !== undefined) {
+
+                console.log('INSIDEA');
+                console.log(this.state.formdata);
+
+                console.log(this.props);
+                
+
+
 
             if (
-                Object.keys(this.state.formdata.position.config.options).length === 0) {
+                Object.keys(this.state.formdata.position.config.options).length === 0
+                && this.state.formdata.position.value === '') {
 
 
 
@@ -146,10 +153,15 @@ class EditSlide extends Component {
 
 
                         let newFormData = populateFields(this.state.formdata, this.props.slides.slideDetail);
-                        // console.log('sdsd');
+                        console.log('sdsd');
 
-                        // console.log(this.props.slides.slideDetail);
-                        // console.log(newFormData);
+                        console.log(newFormData);
+                        console.log(this.props.slides.slideDetail);
+                        console.log(this.state.formdata);
+
+                        // TERAZ TUTAJ
+                        // zbadac czy this.state.formdata sie zmienia na zywo
+                        // jesli nie, wziac co jest i zastosowac
 
                         newFormData = populatePositionField(newFormData, response, this.props.user.siteLocalisation.value, 'position', 'edit');
                         this.updateFields(newFormData)
@@ -199,13 +211,19 @@ class EditSlide extends Component {
                         }
                     })
             }
+
+            // END OF Universal Rule
+
         }
-        // END OF Universal Rule
+
+
 
     }
 
     componentDidMount() {
+        console.log('ComponentMount');
 
+        console.log(this.state.formdata);
         if (
             this.props.user.siteLocalisation !== undefined
         ) {

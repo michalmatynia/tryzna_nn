@@ -97,6 +97,11 @@ export const populateOptionFields = (formdata, arrayData = [], field) => {
 
 export const populatePositionField = (formdata, response, language, field, type) => {
 
+    console.log('PopulatePosition');
+    
+console.log(formdata);
+
+
     const totalPos = [];
     let i = 0
     if (Object.keys(response.payload).length !== 0) {
@@ -109,17 +114,27 @@ export const populatePositionField = (formdata, response, language, field, type)
 
     }
 
-    i = totalPos.length + 1;
-    totalPos.push({ key: i, value: i })
-    const newFormData = {
+    if (type === 'add') {
+        i = totalPos.length + 1;
+        totalPos.push({ key: i, value: i })
+    }
+
+    let newFormData = {
         ...formdata
     }
 
     newFormData[field].config.options = totalPos;
 
-    type === 'edit' ?
-    newFormData[field].value = totalPos.length :
+    // objac gore
+if (type === 'add') {
     newFormData[field].value = totalPos.length 
+}
+else if (type === 'edit') {
+    newFormData[field].value = formdata[field].value
+
+}
+
+ 
 
     //----
     newFormData['language'].value = language;

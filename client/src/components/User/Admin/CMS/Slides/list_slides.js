@@ -3,7 +3,7 @@ import UserLayout from '../../../../../hoc/user';
 import ListSlidesBlock from '../Slides/list_slides_block';
 
 import { connect } from 'react-redux';
-import { act_listSlides, act_removeItem_Slide, act_setVisible_Slide, act_clearList } from '../../../../../redux/actions/CMS/slides_actions';
+import { act_listSlides, act_removeItem_Slide, act_setVisible_Slide, act_clearList, act_clearDetail } from '../../../../../redux/actions/CMS/slides_actions';
 
 class ListSlides extends Component {
 
@@ -44,6 +44,7 @@ class ListSlides extends Component {
 
     componentWillUnmount() {
         this.props.dispatch(act_clearList('slides'))
+        this.props.dispatch(act_clearDetail('slides'))
 
     }
 
