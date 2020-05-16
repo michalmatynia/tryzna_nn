@@ -146,6 +146,10 @@ app.get('/api/slide/list_entities', (req, res) => {
 
 app.post('/api/slide/add_entity', (req, res) => {
     
+// I need to get the list of languages
+// for Each language, create a slide
+
+
     const slide = new Slide(req.body);
 
     slide.save((err, doc) => {
@@ -341,8 +345,6 @@ app.get('/api/slide/articles_by_id', (req, res) => {
 });
 
 app.get('/api/slide/get_entity_by_id', (req, res) => {
-
-    //console.log(req.query._id)
 
     Slide.findOne({
         _id: mongoose.Types.ObjectId(req.query._id)

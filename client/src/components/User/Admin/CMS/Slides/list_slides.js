@@ -12,9 +12,6 @@ class ListSlides extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-
-        // console.log('componentDidUpdate');
-        // console.log(this.props.slides.adminGetSlides);
         
         if ((
 
@@ -56,14 +53,10 @@ class ListSlides extends Component {
 
         this.props.dispatch(act_removeItem_Slide(id))
             .then(response => {
-
-                // console.log('INSIDE 1');
-                // console.log(response);
                 
                 this.props.dispatch(act_listSlides(this.props.user.siteLocalisation.value, args))
                 .then(response2 => {
-                    // console.log('INSIDE 2');
-                    // console.log(response2);
+  
                     
                 })
             })

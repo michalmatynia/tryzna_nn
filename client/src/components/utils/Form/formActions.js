@@ -98,8 +98,8 @@ export const populateOptionFields = (formdata, arrayData = [], field) => {
 export const populatePositionField = (formdata, response, language, field, type) => {
 
     console.log('PopulatePosition');
-    
-console.log(formdata);
+
+    console.log(formdata);
 
 
     const totalPos = [];
@@ -126,15 +126,13 @@ console.log(formdata);
     newFormData[field].config.options = totalPos;
 
     // objac gore
-if (type === 'add') {
-    newFormData[field].value = totalPos.length 
-}
-else if (type === 'edit') {
-    newFormData[field].value = formdata[field].value
+    if (type === 'add') {
+        newFormData[field].value = totalPos.length
+    }
+    else if (type === 'edit') {
+        newFormData[field].value = formdata[field].value
 
-}
-
- 
+    }
 
     //----
     newFormData['language'].value = language;
@@ -172,8 +170,8 @@ export const resetFields = (formdata, formName) => {
 export const populateFields = (formData, fields) => {
 
     for (let key in formData) {
-// console.log(formData);
-// console.log(fields);
+        // console.log(formData);
+        // console.log(fields);
 
 
         formData[key].value = fields[key];

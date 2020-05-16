@@ -142,7 +142,7 @@ class AddSlide extends Component {
                 args['sortBy'] = 'position'
                 this.props.dispatch(act_listSlides(this.props.user.siteLocalisation.value, args))
                     .then(response => {
-                        const newFormData = populatePositionField(this.state.formdata, response, this.props.user.siteLocalisation.value, 'position');
+                        const newFormData = populatePositionField(this.state.formdata, response, this.props.user.siteLocalisation.value, 'position', 'add');
                         this.updateFields(newFormData)
                     })
 
@@ -161,7 +161,7 @@ class AddSlide extends Component {
             args['sortBy'] = 'position'
             this.props.dispatch(act_listSlides(this.props.user.siteLocalisation.value, args))
                 .then(response => {
-                    const newFormData = populatePositionField(this.state.formdata, response, this.props.user.siteLocalisation.value, 'position');
+                    const newFormData = populatePositionField(this.state.formdata, response, this.props.user.siteLocalisation.value, 'position', 'add');
                     this.updateFields(newFormData)
                 })
 

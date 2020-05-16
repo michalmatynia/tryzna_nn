@@ -129,20 +129,6 @@ export function act_uploadImage_Slide(formData, axiosheaders, parent_id) {
     }
 }
 
-// export function act_getDetail_Slide(id) {
-
-//     const request = axios.get(`/${SLIDE_SERVER}/articles_by_id?_id=${id}&type=single`)
-//     .then(response=>{
-
-//         return response.data[0]
-//     });
-
-//     return {
-//         type: GET_DETAIL_SLIDE,
-//         payload: request
-//     }
-// }
-
 export function act_getDetail_by_Id_Slide(id) {
 
     const request = axios.get(`${SLIDE_SERVER}/get_entity_by_id?_id=${id}`)

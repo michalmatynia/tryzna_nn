@@ -153,15 +153,7 @@ class EditSlide extends Component {
 
 
                         let newFormData = populateFields(this.state.formdata, this.props.slides.slideDetail);
-                        console.log('sdsd');
-
-                        console.log(newFormData);
-                        console.log(this.props.slides.slideDetail);
-                        console.log(this.state.formdata);
-
-                        // TERAZ TUTAJ
-                        // zbadac czy this.state.formdata sie zmienia na zywo
-                        // jesli nie, wziac co jest i zastosowac
+      
 
                         newFormData = populatePositionField(newFormData, response, this.props.user.siteLocalisation.value, 'position', 'edit');
                         this.updateFields(newFormData)
