@@ -5,7 +5,7 @@ const ListNationsBlock = ({ list, removeItem, handleVisible }) => {
 
     const renderImage_Nation = (list) => {
         // console.log(list)
-        if (list.flag.length > 0) {
+        if (list.flag !== undefined && list.flag.length > 0) {
             return list.flag
         } else {
             return '/images/image_not_availble.png'
@@ -13,8 +13,6 @@ const ListNationsBlock = ({ list, removeItem, handleVisible }) => {
     }
 
     const renderItems = () => (
-
-console.log(list),
 
         list ?
             list.map((item, i) => (

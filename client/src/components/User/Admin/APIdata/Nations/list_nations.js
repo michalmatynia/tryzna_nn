@@ -66,8 +66,9 @@ class ListNations extends Component {
 
     syncDataSet = (event) => {
         event.preventDefault();
+
         let args = {}
-        this.props.dispatch(act_syncDataSet(args))
+        this.props.dispatch(act_syncDataSet(args, this.props.APIdataset.listNations))
 
         // let dataToSubmit = generateData(this.state.formdata, 'menu');
         // let formIsValid = isFormValid(this.state.formdata, 'menu');
@@ -111,8 +112,6 @@ class ListNations extends Component {
 }
 
 const mapStateToProps = (state) => {
-
-    console.log(state);
 
     return {
         APIdataset: state.APIdataset

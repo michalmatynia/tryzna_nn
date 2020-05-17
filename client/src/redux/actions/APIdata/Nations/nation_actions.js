@@ -71,7 +71,7 @@ export function act_clearList(currentType) {
     }
 }
 
-export function act_syncDataSet(args = null) {
+export function act_syncDataSet(args = null, myDataSet) {
     let listOfArgs = '';
     let i = 1;
     if (args) {
@@ -93,17 +93,12 @@ export function act_syncDataSet(args = null) {
     const request = axios.get(`https://restcountries.eu/rest/v2/all`)
         .then(response => {
 
-            response.data.forEach((item) => {
-console.log(item);
+            axios.post(`${NATION_SERVER}/sync_entity?${listOfArgs}`, response.data)
+            .then(response => {
+                // console.log(response);
+            });
 
-                // Check if item in the database
-                // check if country code exists
 
-                axios.post(`${NATION_SERVER}/sync_entity?${listOfArgs}`, 'tsst')
-                    .then(response => {
-                        // console.log(response);
-                    });
-            })
 
             // if (value) {
 

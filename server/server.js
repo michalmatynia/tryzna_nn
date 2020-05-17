@@ -24,7 +24,7 @@ mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json({limit: '900kb'}));
+app.use(bodyParser.json({ limit: '2000kb' }));
 app.use(cookieParser());
 
 // Production version
@@ -117,7 +117,7 @@ app.get('api/user/download/:id', auth, admin, (req, res) => {
 //     NATION
 //=======================
 app.get('/api/nation/list_entities', (req, res) => {
-    
+
     let sortBy = req.query.sortBy ? req.query.sortBy : { position: 1 };
     let limit = req.query.limit ? parseInt(req.query.limit) : 1000;
 
@@ -144,122 +144,38 @@ app.get('/api/nation/list_entities', (req, res) => {
 })
 
 app.post('/api/nation/sync_entity', (req, res) => {
-    
 
-    let allArgs = {};
-    
-    for (const [key, value] of Object.entries(req.query)) {
-
-        if (key !== 'sortBy') {
-            allArgs[key] = value
-        }
-    }
-
-// Parse Data
-console.log(req.body);
+    // Parse Data
+    // For Each Country
+    req.body.forEach((item) => {
 
 
-// res.body.forEach((item, i) => {
+        Nation.findOneAndUpdate(
+            { name: item.name },
+            {
+                "$set": item
+            }, { new: true },
+            (err, doc) => {
 
-//     console.log(item);
-    
-//     // i = i + 1;
-//     // line = { key: i, value: i }
-//     // totalPos.push(line)
+                if (!doc) {
+                    const nation = new Nation(item);
 
-// })
-// for (let key in res.body) {
+                    nation.save((err2, doc2) => {
 
-//     // console.log(key);
+                    })
 
-//     if (key === 'images') {
-//         newFormdata[key].value = [];
+                }
 
-//     } else {
-//         newFormdata[key].value = '';
-//     }
+            }
+        )
 
-//     //       newFormdata[key].valid = false;
-//     newFormdata[key].touched = false;
-//     newFormdata[key].validationMessage = '';
-// }
-
-
-// OLD FUNCTION
-    // 
-    // I need to get the list of languages
-    // for Each language, create a slide
-    
-    
-        // const slide = new Slide(req.body);
-    
-        // slide.save((err, doc) => {
-    
-        //     let allArgs = {};
-    
-        //     for (const [key, value] of Object.entries(req.query)) {
-    
-        //         if (key !== 'sortBy') {
-        //             allArgs[key] = value
-        //         }
-        //     }
-    
-        //     if (!err) {
-        //         Slide.
-        //             find({ language: req.query.language })
-        //             .sort({ position: 1, createdAt: -1 })
-        //             .exec((err2, doc2) => {
-    
-        //                 if (doc2.length > 1) {
-    
-        //                     let i = 0;
-        //                     let found = false;
-        //                     doc2.map(item => {
-        //                         i = i + 1;
-    
-        //                         if (parseInt(doc.position) === i && found === false && item._id.toString() !== doc._id.toString()) {
-    
-        //                             Slide.findOneAndUpdate(
-        //                                 { _id: mongoose.Types.ObjectId(item._id) },
-        //                                 {
-        //                                     "$set": {
-        //                                         position: parseInt(i + 1)
-        //                                     }
-        //                                 }, { new: true },
-        //                                 (err3, doc3) => {
-    
-        //                                 }
-        //                             )
-    
-        //                         } else if (item._id.toString() === doc._id.toString()) {
-    
-        //                             found = true
-        //                         } else if (parseInt(doc.position) !== i && found === true) {
-    
-        //                             Slide.findOneAndUpdate(
-        //                                 { _id: mongoose.Types.ObjectId(item._id) },
-        //                                 {
-        //                                     "$set": {
-        //                                         position: parseInt(i)
-        //                                     }
-        //                                 }, { new: true },
-        //                                 (err3, doc3) => {
-        //                                 }
-        //                             )
-        //                         }
-        //                     })
-        //                 }
-        //             })
-        //     }
-    
-    
-        //     if (err) return res.json({ success: false, err });
-        //     res.status(200).json({
-        //         success: true,
-        //         entity: doc
-        //     })
-        // })
     })
+
+    return res.status(200).json({
+        success: true
+    })
+
+})
 
 // ======================
 //     SITE SETTINGS
@@ -270,7 +186,7 @@ console.log(req.body);
 //=======================
 
 app.get('/api/language/list_entities', (req, res) => {
-    
+
     let sortBy = req.query.sortBy ? req.query.sortBy : { position: 1 };
     let limit = req.query.limit ? parseInt(req.query.limit) : 1000;
 
@@ -300,7 +216,7 @@ app.get('/api/language/list_entities', (req, res) => {
 //=======================
 
 app.get('/api/slide/list_entities', (req, res) => {
-    
+
     let sortBy = req.query.sortBy ? req.query.sortBy : { position: 1 };
     let limit = req.query.limit ? parseInt(req.query.limit) : 1000;
 
@@ -326,9 +242,9 @@ app.get('/api/slide/list_entities', (req, res) => {
 })
 
 app.post('/api/slide/add_entity', (req, res) => {
-    
-// I need to get the list of languages
-// for Each language, create a slide
+
+    // I need to get the list of languages
+    // for Each language, create a slide
 
 
     const slide = new Slide(req.body);
@@ -438,7 +354,7 @@ app.post('/api/slide/add_entity', (req, res) => {
 app.get('/api/slide/remove_entity_from_list', auth, (req, res) => {
 
     console.log(req.body);
-    
+
 
     Slide.findOne({ _id: req.query._id }, (err, doc) => {
 
@@ -594,10 +510,10 @@ app.post('/api/slide/update_entity', auth, admin, (req, res) => {
                 { new: true },
                 (err2, doc2) => { })
 
-                // console.log(err);
-                // console.log(doc);
-                
-                
+            // console.log(err);
+            // console.log(doc);
+
+
 
             if (err) return res.json({ success: false, err });
             return res.status(200).send({ doc })
@@ -652,8 +568,8 @@ app.get('/api/slide/removeimage', auth, admin, (req, res) => {
 
                 console.log(doc);
                 console.log(err);
-                
-                
+
+
                 cloudinary.uploader.destroy(req.query.image_id, (error) => {
                     if (error) return res.json({ success: false, error });
                     res.status(200).send('ok');
