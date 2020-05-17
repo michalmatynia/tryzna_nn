@@ -23,6 +23,10 @@ const admin = [
         linkTo: '/admin/site_info'
     },
     {
+        name: 'API List nations',
+        linkTo: '/admin/api/list_nations'
+    },
+    {
         name: 'Add language',
         linkTo: '/admin/add_language'
     },

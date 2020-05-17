@@ -22,11 +22,15 @@ import UpdateProfile from './components/User/update_profile';
 import ManageSite from './components/User/Admin/manage_site';
 import AddFile from './components/User/Admin/add_file';
 
+// API
+// Nation
+import ApiListNations from './components/User/Admin/APIdata/Nations/list_nations';
+
 // SYSTEM
 // Language
-import AddLanguage from './components/User/Admin/CMS/Languages/add_language';
-import EditLanguage from './components/User/Admin/CMS/Languages/edit_language';
-import ListLanguages from './components/User/Admin/CMS/Languages/list_languages';
+import AddLanguage from './components/User/Admin/system/Languages/add_language';
+import EditLanguage from './components/User/Admin/system/Languages/edit_language';
+import ListLanguages from './components/User/Admin/system/Languages/list_languages';
 
 // CMS Managment
 // Menu
@@ -52,6 +56,9 @@ const Routes = () => {
         <Route path="/user/dashboard" exact component={Auth(UserDashboard, true)} />
         <Route path="/user/cart" exact component={Auth(UserCart, true)} />
         <Route path="/user/user_profile" exact component={Auth(UpdateProfile, true)} />
+
+        
+        <Route path="/admin/api/list_nations" exact component={Auth(ApiListNations, true)} />
 
         <Route path="/admin/add_product" exact component={Auth(AddProduct, true)} />
         <Route path="/admin/manage_categories" exact component={Auth(ManageCategories, true)} />

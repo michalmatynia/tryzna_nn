@@ -15,21 +15,27 @@ import {
 
 import { LANGUAGE_SERVER } from '../../../components/utils/misc';
 
-export function act_listLanguages(language, args = null) {
+export function act_listLanguages(args = null) {
 
     let listOfArgs = '';
+    let i = 1;
     if (args) {
         for (const [key, value] of Object.entries(args)) {
 
             if (value) {
-                listOfArgs += '&';
+
+                if (i !== 1) {
+                    listOfArgs += '&';
+                }
+
+                i = i + 1
                 listOfArgs += key + '=' + value;
             }
         }
     }
 
 
-    const request = axios.get(`${LANGUAGE_SERVER}/list_entities?language=${language}${listOfArgs}`)
+    const request = axios.get(`${LANGUAGE_SERVER}/list_entities?${listOfArgs}`)
         .then(response => response.data)
 
     return {
@@ -62,20 +68,26 @@ export function act_clearList(currentType) {
     }
 }
 
-export function act_addLanguage(language, args = null, dataToSubmit = null) {
+export function act_addLanguage(args = null, dataToSubmit = null) {
 
     let listOfArgs = '';
+    let i = 1;
     if (args) {
         for (const [key, value] of Object.entries(args)) {
 
             if (value) {
-                listOfArgs += '&';
+
+                if (i !== 1) {
+                    listOfArgs += '&';
+                }
+
+                i = i + 1
                 listOfArgs += key + '=' + value;
             }
         }
     }
 
-    const request = axios.post(`${LANGUAGE_SERVER}/add_entity?language=${language}${listOfArgs}`, dataToSubmit)
+    const request = axios.post(`${LANGUAGE_SERVER}/add_entity?${listOfArgs}`, dataToSubmit)
         .then(response => response.data);
 
     return {
@@ -88,7 +100,7 @@ export function act_removeItem_Language(id) {
 
     const request = axios.get(`${LANGUAGE_SERVER}/remove_entity_from_list?_id=${id}`)
         .then(response => {
-            
+
             return response.data;
         })
 
@@ -187,9 +199,10 @@ export function act_updateDetail_Language(language, args = null, dataToSubmit = 
 
     const request = axios.post(`${LANGUAGE_SERVER}/update_entity?language=${language}${listOfArgs}`, dataToSubmit)
         .then(response => {
-            
 
-            return response.data.doc});
+
+            return response.data.doc
+        });
 
     return {
         type: UPDATE_DETAIL_LANGUAGE,
@@ -213,8 +226,9 @@ export function act_setVisible_Language(language, args = null) {
 
     const request = axios.post(`${LANGUAGE_SERVER}/set_visible?language=${language}${listOfArgs}`)
         .then(response => {
-            
-            return response.data });
+
+            return response.data
+        });
 
     return {
         type: SET_VISIBLE_LANGUAGE,

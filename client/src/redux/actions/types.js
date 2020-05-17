@@ -13,6 +13,18 @@ export const CLEAR_UPDATE_USER_DATA = 'clear_update_user_data';
 export const SET_COOKIE_USER = 'set_cookie_user';
 export const SET_SITELOCALISATION_USER = 'set_sitelocalisation_user';
 
+// API
+// Nation
+export const API_ADD_NATION = 'add_slide';
+export const API_LIST_NATIONS = 'list_slides';
+export const API_GET_DETAIL_NATION = 'get_detail_slide';
+export const API_CLEAR_DETAIL_NATION = 'clear_detail_slide';
+export const API_CLEAR_LIST_NATION = 'clear_list_slide';
+export const API_UPDATE_DETAIL_NATION = 'update_detail_slide';
+export const API_REMOVE_ITEM_NATION = 'remove_item_slide';
+export const API_REMOVE_IMAGE_NATION = 'remove_image_slide';
+export const API_UPLOAD_IMAGE_NATION = 'upload_image_slide';
+
 // Products Main Page visibility
 export const GET_PRODUCTS_BY_SELL = 'get_products_by_sell';
 export const GET_PRODUCTS_BY_ARRIVAL = 'get_products_by_arrival';
