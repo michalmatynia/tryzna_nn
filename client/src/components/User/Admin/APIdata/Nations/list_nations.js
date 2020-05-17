@@ -75,14 +75,14 @@ class ListNations extends Component {
             <UserLayout>
                 <div>
                     <h1>List Nations</h1>
-                    <div className="user_cart">
+                    {/* <div className="user_cart">
                         <ListNationsBlock
                             type="cart"
                             list={this.props.nations.apiListNations}
                             removeItem={(id) => this.removeEntityFromDb(id)}
                             handleVisible={(id, checked) => this.handleVisible(id, checked)}
                         />
-                    </div>
+                    </div> */}
                 </div>
             </UserLayout>
 

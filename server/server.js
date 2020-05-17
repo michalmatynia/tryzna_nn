@@ -44,6 +44,10 @@ const { Wood } = require('./models/taxonomy/wood');
 const { Product } = require('./models/product');
 const { Payment } = require('./models/payment');
 const { Site } = require('./models/site');
+
+// API
+const { Nation } = require('./models/APIdata/nation');
+
 // Models - CMS
 const { Menu } = require('./models/cms/menu');
 const { Logo } = require('./models/cms/logo');
@@ -109,6 +113,34 @@ app.get('api/user/download/:id', auth, admin, (req, res) => {
     res.download(file)
 })
 
+// ======================
+//     NATION
+//=======================
+app.get('/api/nation/list_entities', (req, res) => {
+    
+    let sortBy = req.query.sortBy ? req.query.sortBy : { position: 1 };
+    let limit = req.query.limit ? parseInt(req.query.limit) : 1000;
+
+    let allArgs = {};
+
+    for (const [key, value] of Object.entries(req.query)) {
+
+        if (key !== 'sortBy') {
+            allArgs[key] = value
+        }
+    }
+
+    Nation.
+        find(allArgs)
+        // .sort({position : 1})
+        .sort(sortBy)
+        .limit(limit)
+        .exec((err, doc) => {
+
+            if (err) return res.status(400).send(err);
+            res.send(doc)
+        })
+})
 // ======================
 //     SITE SETTINGS
 //=======================

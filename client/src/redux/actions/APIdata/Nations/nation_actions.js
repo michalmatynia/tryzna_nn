@@ -1,21 +1,20 @@
 import axios from 'axios';
 import {
-    ADD_LANGUAGE,
-    LIST_LANGUAGES,
-    GET_DETAIL_LANGUAGE,
-    CLEAR_DETAIL_LANGUAGE,
-    CLEAR_LIST_LANGUAGE,
-    UPDATE_DETAIL_LANGUAGE,
-    REMOVE_ITEM_LANGUAGE,
-    REMOVE_IMAGE_LANGUAGE,
-    UPLOAD_IMAGE_LANGUAGE,
-    SET_VISIBLE_LANGUAGE
+    API_ADD_NATION,
+    API_LIST_NATIONS,
+    API_GET_DETAIL_NATION,
+    API_CLEAR_DETAIL_NATION,
+    API_CLEAR_LIST_NATION,
+    API_UPDATE_DETAIL_NATION,
+    API_REMOVE_ITEM_NATION,
+    API_REMOVE_IMAGE_NATION,
+    API_UPLOAD_IMAGE_NATION,
 
-} from '../types';
+} from '../../types';
 
-import { LANGUAGE_SERVER } from '../../../components/utils/misc';
+import { NATION_SERVER } from '../../../../components/utils/misc';
 
-export function act_listLanguages(args = null) {
+export function act_api_listNations(args = null) {
 
     let listOfArgs = '';
     let i = 1;
@@ -28,27 +27,26 @@ export function act_listLanguages(args = null) {
                     listOfArgs += '&';
                 }
 
-                i = i + 1
+                i++
                 listOfArgs += key + '=' + value;
             }
         }
     }
 
-
-    const request = axios.get(`${LANGUAGE_SERVER}/list_entities?${listOfArgs}`)
+    const request = axios.get(`${NATION_SERVER}/list_entities?${listOfArgs}`)
         .then(response => response.data)
 
     return {
-        type: LIST_LANGUAGES,
+        type: API_LIST_NATIONS,
         payload: request
     }
 }
 
 export function act_clearDetail(currentType) {
     switch (currentType) {
-        case 'languages':
+        case 'nation':
             return {
-                type: CLEAR_DETAIL_LANGUAGE,
+                type: API_CLEAR_DETAIL_NATION,
                 payload: ''
             }
         default:
@@ -58,9 +56,9 @@ export function act_clearDetail(currentType) {
 
 export function act_clearList(currentType) {
     switch (currentType) {
-        case 'languages':
+        case 'nation':
             return {
-                type: CLEAR_LIST_LANGUAGE,
+                type: API_CLEAR_LIST_NATION,
                 payload: ''
             }
         default:
@@ -68,7 +66,7 @@ export function act_clearList(currentType) {
     }
 }
 
-export function act_addLanguage(args = null, dataToSubmit = null) {
+export function act_api_addNation(args = null, dataToSubmit = null) {
 
     let listOfArgs = '';
     let i = 1;
@@ -81,66 +79,66 @@ export function act_addLanguage(args = null, dataToSubmit = null) {
                     listOfArgs += '&';
                 }
 
-                i = i + 1
+                i++
                 listOfArgs += key + '=' + value;
             }
         }
     }
 
-    const request = axios.post(`${LANGUAGE_SERVER}/add_entity?${listOfArgs}`, dataToSubmit)
+    const request = axios.post(`${NATION_SERVER}/add_entity?${listOfArgs}`, dataToSubmit)
         .then(response => response.data);
 
     return {
-        type: ADD_LANGUAGE,
+        type: API_ADD_NATION,
         payload: request
     }
 }
 
-export function act_removeItem_Language(id) {
+export function act_api_removeItem_Nation(id) {
 
-    const request = axios.get(`${LANGUAGE_SERVER}/remove_entity_from_list?_id=${id}`)
+    const request = axios.get(`${NATION_SERVER}/remove_entity_from_list?_id=${id}`)
         .then(response => {
 
             return response.data;
         })
 
     return {
-        type: REMOVE_ITEM_LANGUAGE,
+        type: API_REMOVE_ITEM_NATION,
         payload: request
     }
 }
 
 
-export function act_removeImage_Language(image_id, parent_id) {
+export function act_api_removeImage_Nation(image_id, parent_id) {
 
-    const request = axios.get(`${LANGUAGE_SERVER}/removeimage?image_id=${image_id}&parent_id=${parent_id}`)
+    const request = axios.get(`${NATION_SERVER}/removeimage?image_id=${image_id}&parent_id=${parent_id}`)
         .then(response => {
             return response.data;
         })
 
     return {
-        type: REMOVE_IMAGE_LANGUAGE,
+        type: API_REMOVE_IMAGE_NATION,
         payload: request
     }
 }
 
-export function act_uploadImage_Language(formData, axiosheaders, parent_id) {
+export function act_api_uploadImage_Nation(formData, axiosheaders, parent_id) {
 
-    const request = axios.post(`${LANGUAGE_SERVER}/uploadimage?parent_id=${parent_id}`, formData, axiosheaders)
+    const request = axios.post(`${NATION_SERVER}/uploadimage?parent_id=${parent_id}`, formData, axiosheaders)
         .then(response => {
 
             return response.data;
         })
 
     return {
-        type: UPLOAD_IMAGE_LANGUAGE,
+        type: API_UPLOAD_IMAGE_NATION,
         payload: request
     }
 }
 
-export function act_getDetail_by_Id_Language(id) {
+export function act_api_getDetail_by_Id_Nation(id) {
 
-    const request = axios.get(`${LANGUAGE_SERVER}/get_entity_by_id?_id=${id}`)
+    const request = axios.get(`${NATION_SERVER}/get_entity_by_id?_id=${id}`)
         .then(response => {
 
             return response.data
@@ -148,26 +146,33 @@ export function act_getDetail_by_Id_Language(id) {
         })
 
     return {
-        type: GET_DETAIL_LANGUAGE,
+        type: API_GET_DETAIL_NATION,
         payload: request
     }
 }
 
-export function act_getDetail_by_Args_Language(language, args = null) {
+export function act_api_getDetail_by_Args_Nation(args = null) {
+
 
     let listOfArgs = '';
+    let i = 1;
     if (args) {
         for (const [key, value] of Object.entries(args)) {
 
             if (value) {
-                listOfArgs += '&';
+
+                if (i !== 1) {
+                    listOfArgs += '&';
+                }
+
+                i++
                 listOfArgs += key + '=' + value;
             }
         }
     }
 
 
-    const request = axios.get(`${LANGUAGE_SERVER}/get_entity_by_args?language=${language}${listOfArgs}`)
+    const request = axios.get(`${NATION_SERVER}/get_entity_by_args?${listOfArgs}`)
         .then(response => {
 
             return response.data
@@ -175,29 +180,32 @@ export function act_getDetail_by_Args_Language(language, args = null) {
         })
 
     return {
-        type: GET_DETAIL_LANGUAGE,
+        type: API_GET_DETAIL_NATION,
         payload: request
     }
 }
 
 
-export function act_updateDetail_Language(language, args = null, dataToSubmit = null) {
-
-
+export function act_api_updateDetail_Nation(args = null, dataToSubmit = null) {
 
     let listOfArgs = '';
+    let i = 1;
     if (args) {
         for (const [key, value] of Object.entries(args)) {
 
             if (value) {
-                listOfArgs += '&';
+
+                if (i !== 1) {
+                    listOfArgs += '&';
+                }
+
+                i++
                 listOfArgs += key + '=' + value;
             }
         }
     }
 
-
-    const request = axios.post(`${LANGUAGE_SERVER}/update_entity?language=${language}${listOfArgs}`, dataToSubmit)
+    const request = axios.post(`${NATION_SERVER}/update_entity?${listOfArgs}`, dataToSubmit)
         .then(response => {
 
 
@@ -205,34 +213,10 @@ export function act_updateDetail_Language(language, args = null, dataToSubmit = 
         });
 
     return {
-        type: UPDATE_DETAIL_LANGUAGE,
+        type: API_UPDATE_DETAIL_NATION,
         payload: request
     }
 }
 
-export function act_setVisible_Language(language, args = null) {
 
-    let listOfArgs = '';
-    if (args) {
-        for (const [key, value] of Object.entries(args)) {
-
-            if (value) {
-                listOfArgs += '&';
-                listOfArgs += key + '=' + value;
-            }
-        }
-    }
-
-
-    const request = axios.post(`${LANGUAGE_SERVER}/set_visible?language=${language}${listOfArgs}`)
-        .then(response => {
-
-            return response.data
-        });
-
-    return {
-        type: SET_VISIBLE_LANGUAGE,
-        payload: request
-    }
-}
 
