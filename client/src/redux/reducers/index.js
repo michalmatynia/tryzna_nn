@@ -5,7 +5,7 @@ import site from './site_reducer';
 
 // API
 // Nations
-import apiNations from '../reducers/APIdata/Nations/nation_reducer';
+import APIdataset from './APIdata/dataset_reducer';
 
 // SYSTEM
 // Language
@@ -19,7 +19,7 @@ import slides from '../reducers/CMS/slides_reducer';
 
 const rootReducer = combineReducers({
     user,
-    apiNations,
+    APIdataset,
     products,
     slides,
     languages,

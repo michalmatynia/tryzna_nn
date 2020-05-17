@@ -3,60 +3,54 @@ import UserLayout from '../../../../../hoc/user';
 import ListNationsBlock from '../Nations/list_nations_block';
 
 import { connect } from 'react-redux';
-import { act_api_listNations, act_api_removeItem_Nation, act_clearList, act_clearDetail } from '../../../../../redux/actions/APIdata/Nations/nation_actions';
+import { act_listNations, act_removeItem_Nation, act_syncDataSet, act_clearList, act_clearDetail } from '../../../../../redux/actions/APIdata/Nations/nation_actions';
 
 class ListNations extends Component {
 
     state = {
-
+        ten: 0
     }
 
-    // componentDidUpdate(prevProps, prevState) {
-        
-    //     if ((
+    componentDidUpdate(prevProps, prevState) {
+        console.log('Update');
 
-    //         this.props.user.siteLocalisation !== undefined
-    //         && prevProps.user.siteLocalisation === undefined
-    //     ) || (
-    //             this.props.user.siteLocalisation !== undefined
-    //             && prevProps.user.siteLocalisation !== undefined
-    //             && prevProps.user.siteLocalisation.value !== this.props.user.siteLocalisation.value
+        //         console.log(this.props);
 
-    //         )) {
+        //         let args = {}
 
-    //         this.props.dispatch(act_api_listNations(this.props.user.siteLocalisation.value))
+        // if (this.props.APIdataset.listNations === undefined) {
+        //     this.props.dispatch(act_listNations(args))
 
-    //     }
+        // }
 
-    // }
+
+    }
 
     componentDidMount() {
         let args = {}
 
-        this.props.dispatch(act_api_listNations(args))
+        this.props.dispatch(act_listNations(args))
 
     }
 
     componentWillUnmount() {
-        this.props.dispatch(act_clearList('api_nations'))
-        this.props.dispatch(act_clearDetail('api_nations'))
+        this.props.dispatch(act_clearList('nation'))
+        this.props.dispatch(act_clearDetail('nation'))
 
     }
 
     removeEntityFromDb = (id) => {
-        // console.log('Remooou');
 
-        // Check if remove is repositioning
         let args = {}
 
-        this.props.dispatch(act_api_removeItem_Nation(id))
+        this.props.dispatch(act_removeItem_Nation(id))
             .then(response => {
-                
-                this.props.dispatch(act_api_listNations(args))
-                .then(response2 => {
-  
-                    
-                })
+
+                this.props.dispatch(act_listNations(args))
+                    .then(response2 => {
+
+
+                    })
             })
 
     }
@@ -70,19 +64,44 @@ class ListNations extends Component {
 
     // }
 
+    syncDataSet = (event) => {
+        event.preventDefault();
+        let args = {}
+        this.props.dispatch(act_syncDataSet(args))
+
+        // let dataToSubmit = generateData(this.state.formdata, 'menu');
+        // let formIsValid = isFormValid(this.state.formdata, 'menu');
+
+        // if (formIsValid) {
+        //     let args = {}
+        //     args['sortBy'] = 'position'
+
+        //     this.props.dispatch(act_addMenu(this.props.user.siteLocalisation.value, args, dataToSubmit))
+        //         .then((response) => {
+
+        //             if (this.props.menu.adminAddMenu.success) {
+        //                 this.resetFieldHandler();
+        //             } else {
+        //                 this.setState({ formError: true })
+        //             }
+        //         })
+        // } 
+    }
+
     render() {
         return (
             <UserLayout>
                 <div>
+                    <button onClick={(event) => this.syncDataSet(event)}>Sync</button>
+
                     <h1>List Nations</h1>
-                    {/* <div className="user_cart">
+                    <div className="user_cart">
                         <ListNationsBlock
                             type="cart"
-                            list={this.props.nations.apiListNations}
+                            list={this.props.APIdataset.listNations}
                             removeItem={(id) => this.removeEntityFromDb(id)}
-                            handleVisible={(id, checked) => this.handleVisible(id, checked)}
                         />
-                    </div> */}
+                    </div>
                 </div>
             </UserLayout>
 
@@ -92,8 +111,11 @@ class ListNations extends Component {
 }
 
 const mapStateToProps = (state) => {
+
+    console.log(state);
+
     return {
-        nations: state.nations
+        APIdataset: state.APIdataset
     }
 }
 

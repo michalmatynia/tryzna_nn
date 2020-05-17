@@ -24,7 +24,7 @@ mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '900kb'}));
 app.use(cookieParser());
 
 // Production version
@@ -134,6 +134,7 @@ app.get('/api/nation/list_entities', (req, res) => {
         find(allArgs)
         // .sort({position : 1})
         .sort(sortBy)
+
         .limit(limit)
         .exec((err, doc) => {
 
@@ -141,6 +142,125 @@ app.get('/api/nation/list_entities', (req, res) => {
             res.send(doc)
         })
 })
+
+app.post('/api/nation/sync_entity', (req, res) => {
+    
+
+    let allArgs = {};
+    
+    for (const [key, value] of Object.entries(req.query)) {
+
+        if (key !== 'sortBy') {
+            allArgs[key] = value
+        }
+    }
+
+// Parse Data
+console.log(req.body);
+
+
+// res.body.forEach((item, i) => {
+
+//     console.log(item);
+    
+//     // i = i + 1;
+//     // line = { key: i, value: i }
+//     // totalPos.push(line)
+
+// })
+// for (let key in res.body) {
+
+//     // console.log(key);
+
+//     if (key === 'images') {
+//         newFormdata[key].value = [];
+
+//     } else {
+//         newFormdata[key].value = '';
+//     }
+
+//     //       newFormdata[key].valid = false;
+//     newFormdata[key].touched = false;
+//     newFormdata[key].validationMessage = '';
+// }
+
+
+// OLD FUNCTION
+    // 
+    // I need to get the list of languages
+    // for Each language, create a slide
+    
+    
+        // const slide = new Slide(req.body);
+    
+        // slide.save((err, doc) => {
+    
+        //     let allArgs = {};
+    
+        //     for (const [key, value] of Object.entries(req.query)) {
+    
+        //         if (key !== 'sortBy') {
+        //             allArgs[key] = value
+        //         }
+        //     }
+    
+        //     if (!err) {
+        //         Slide.
+        //             find({ language: req.query.language })
+        //             .sort({ position: 1, createdAt: -1 })
+        //             .exec((err2, doc2) => {
+    
+        //                 if (doc2.length > 1) {
+    
+        //                     let i = 0;
+        //                     let found = false;
+        //                     doc2.map(item => {
+        //                         i = i + 1;
+    
+        //                         if (parseInt(doc.position) === i && found === false && item._id.toString() !== doc._id.toString()) {
+    
+        //                             Slide.findOneAndUpdate(
+        //                                 { _id: mongoose.Types.ObjectId(item._id) },
+        //                                 {
+        //                                     "$set": {
+        //                                         position: parseInt(i + 1)
+        //                                     }
+        //                                 }, { new: true },
+        //                                 (err3, doc3) => {
+    
+        //                                 }
+        //                             )
+    
+        //                         } else if (item._id.toString() === doc._id.toString()) {
+    
+        //                             found = true
+        //                         } else if (parseInt(doc.position) !== i && found === true) {
+    
+        //                             Slide.findOneAndUpdate(
+        //                                 { _id: mongoose.Types.ObjectId(item._id) },
+        //                                 {
+        //                                     "$set": {
+        //                                         position: parseInt(i)
+        //                                     }
+        //                                 }, { new: true },
+        //                                 (err3, doc3) => {
+        //                                 }
+        //                             )
+        //                         }
+        //                     })
+        //                 }
+        //             })
+        //     }
+    
+    
+        //     if (err) return res.json({ success: false, err });
+        //     res.status(200).json({
+        //         success: true,
+        //         entity: doc
+        //     })
+        // })
+    })
+
 // ======================
 //     SITE SETTINGS
 //=======================

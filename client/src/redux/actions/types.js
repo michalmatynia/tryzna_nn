@@ -15,15 +15,15 @@ export const SET_SITELOCALISATION_USER = 'set_sitelocalisation_user';
 
 // API
 // Nation
-export const API_ADD_NATION = 'api_add_nation';
-export const API_LIST_NATIONS = 'api_list_nations';
-export const API_GET_DETAIL_NATION = 'api_get_detail_nation';
-export const API_CLEAR_DETAIL_NATION = 'api_clear_detail_nation';
-export const API_CLEAR_LIST_NATION = 'api_clear_list_nation';
-export const API_UPDATE_DETAIL_NATION = 'api_update_detail_nation';
-export const API_REMOVE_ITEM_NATION = 'api_remove_item_nation';
-export const API_REMOVE_IMAGE_NATION = 'api_remove_image_nation';
-export const API_UPLOAD_IMAGE_NATION = 'api_upload_image_nation';
+export const ADD_NATION = 'add_nation';
+export const LIST_NATIONS = 'list_nations';
+export const GET_DETAIL_NATION = 'get_detail_nation';
+export const CLEAR_DETAIL_NATION = 'clear_detail_nation';
+export const CLEAR_LIST_NATION = 'clear_list_nation';
+export const UPDATE_DETAIL_NATION = 'update_detail_nation';
+export const REMOVE_ITEM_NATION = 'remove_item_nation';
+export const REMOVE_IMAGE_NATION = 'remove_image_nation';
+export const UPLOAD_IMAGE_NATION = 'upload_image_nation';
 
 // Products Main Page visibility
 export const GET_PRODUCTS_BY_SELL = 'get_products_by_sell';

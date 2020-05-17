@@ -3,18 +3,19 @@ import MyButton from '../../../../utils/button';
 
 const ListNationsBlock = ({ list, removeItem, handleVisible }) => {
 
-    const renderImage_Nation = (list) => {
-        // console.log(list)
-        if (list.flag.length > 0) {
-            return list.flag
-        } else {
-            return '/images/image_not_availble.png'
-        }
-    }
+    // const renderImage_Nation = (list) => {
+    //     // console.log(list)
+    //     if (list.images.length > 0) {
+    //         return list.images[0].url
+    //     } else {
+    //         return '/images/image_not_availble.png'
+    //     }
+    // }
 
     const renderItems = () => (
 
 console.log(list),
+
 
         list ?
             list.map((item, i) => (
@@ -22,14 +23,14 @@ console.log(list),
                     <div className="item">
                         <div
                             className="image"
-                            style={{ background: `url(${renderImage_Nation(item)}) no-repeat` }}
+                           // style={{ background: `url(${renderImage_Nation(item)}) no-repeat` }}
                         >
 
                         </div>
                     </div>
                     <div className="item">
                         <div>
-                            {item.name}
+                            {item.lineOne}
                         </div>
                         <div>
                             {item.lineTwo}
