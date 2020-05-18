@@ -15,16 +15,13 @@ export const SET_SITELOCALISATION_USER = 'set_sitelocalisation_user';
 
 // API
 // Nation
-export const ADD_NATION = 'add_nation';
 export const LIST_NATIONS = 'list_nations';
 export const GET_DETAIL_NATION = 'get_detail_nation';
 export const CLEAR_DETAIL_NATION = 'clear_detail_nation';
 export const CLEAR_LIST_NATION = 'clear_list_nation';
 export const UPDATE_DETAIL_NATION = 'update_detail_nation';
 export const REMOVE_ITEM_NATION = 'remove_item_nation';
-export const REMOVE_IMAGE_NATION = 'remove_image_nation';
-export const UPLOAD_IMAGE_NATION = 'upload_image_nation';
-
+export const SYNC_ENTITY_NATION = 'sync_entity_nation'; 
 // Products Main Page visibility
 export const GET_PRODUCTS_BY_SELL = 'get_products_by_sell';
 export const GET_PRODUCTS_BY_ARRIVAL = 'get_products_by_arrival';

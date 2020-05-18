@@ -1,13 +1,11 @@
 import {
-ADD_NATION,
 LIST_NATIONS,
 CLEAR_DETAIL_NATION,
 CLEAR_LIST_NATION,
 REMOVE_ITEM_NATION,
-REMOVE_IMAGE_NATION,
 GET_DETAIL_NATION,
 UPDATE_DETAIL_NATION,
-UPLOAD_IMAGE_NATION
+SYNC_ENTITY_NATION
 } from '../../actions/types';
 
 export default function (state = {}, action) {
@@ -18,10 +16,6 @@ export default function (state = {}, action) {
             return {
                 ...state,
                 listNations: action.payload,
-            }
-        case ADD_NATION:
-            return {
-                ...state, addedNation: action.payload
             }
         case CLEAR_DETAIL_NATION:
             return {
@@ -35,10 +29,8 @@ export default function (state = {}, action) {
             return { ...state, detailNation: action.payload }
         case UPDATE_DETAIL_NATION:
             return { ...state, detailNation: action.payload }
-        case REMOVE_IMAGE_NATION:
-            return { ...state }
-        case UPLOAD_IMAGE_NATION:
-            return { ...state }
+        case SYNC_ENTITY_NATION:
+            return { ...state, listNations: action.payload }
         default:
             return state;
     }

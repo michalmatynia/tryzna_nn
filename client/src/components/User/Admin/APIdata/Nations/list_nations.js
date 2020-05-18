@@ -12,18 +12,9 @@ class ListNations extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        console.log('Update');
+        let args = {}
 
-        //         console.log(this.props);
-
-        //         let args = {}
-
-        // if (this.props.APIdataset.listNations === undefined) {
-        //     this.props.dispatch(act_listNations(args))
-
-        // }
-
-
+        this.props.dispatch(act_listNations(args))
     }
 
     componentDidMount() {
@@ -40,53 +31,21 @@ class ListNations extends Component {
     }
 
     removeEntityFromDb = (id) => {
+        console.log(id);
 
         let args = {}
-
-        this.props.dispatch(act_removeItem_Nation(id))
-            .then(response => {
-
-                this.props.dispatch(act_listNations(args))
-                    .then(response2 => {
-
-
-                    })
-            })
+        args['_id'] = id
+        this.props.dispatch(act_removeItem_Nation(args))
 
     }
-
-    // handleVisible = (id, checked) => {
-    //     let args = {}
-    //     args['_id'] = id
-    //     args['checked'] = checked
-
-    //     this.props.dispatch(act_setVisible_Slide(args))
-
-    // }
 
     syncDataSet = (event) => {
         event.preventDefault();
 
-        let args = {}
-        this.props.dispatch(act_syncDataSet(args, this.props.APIdataset.listNations))
+        this.props.dispatch(act_syncDataSet())
+            .then((response) => {
 
-        // let dataToSubmit = generateData(this.state.formdata, 'menu');
-        // let formIsValid = isFormValid(this.state.formdata, 'menu');
-
-        // if (formIsValid) {
-        //     let args = {}
-        //     args['sortBy'] = 'position'
-
-        //     this.props.dispatch(act_addMenu(this.props.user.siteLocalisation.value, args, dataToSubmit))
-        //         .then((response) => {
-
-        //             if (this.props.menu.adminAddMenu.success) {
-        //                 this.resetFieldHandler();
-        //             } else {
-        //                 this.setState({ formError: true })
-        //             }
-        //         })
-        // } 
+            })
     }
 
     render() {

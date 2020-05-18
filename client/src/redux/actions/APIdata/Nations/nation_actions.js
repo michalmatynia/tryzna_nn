@@ -1,14 +1,12 @@
 import axios from 'axios';
 import {
-    ADD_NATION,
     LIST_NATIONS,
     GET_DETAIL_NATION,
     CLEAR_DETAIL_NATION,
     CLEAR_LIST_NATION,
     UPDATE_DETAIL_NATION,
     REMOVE_ITEM_NATION,
-    REMOVE_IMAGE_NATION,
-    UPLOAD_IMAGE_NATION,
+    SYNC_ENTITY_NATION
 
 } from '../../types';
 
@@ -35,9 +33,7 @@ export function act_listNations(args = null) {
 
     const request = axios.get(`${NATION_SERVER}/list_entities?${listOfArgs}`)
         .then(response => {
-            console.log(response.data);
-
-
+    
             return response.data
         })
 
@@ -71,56 +67,26 @@ export function act_clearList(currentType) {
     }
 }
 
-export function act_syncDataSet(args = null, myDataSet) {
-    let listOfArgs = '';
-    let i = 1;
-    if (args) {
-        for (const [key, value] of Object.entries(args)) {
-
-            if (value) {
-
-                if (i !== 1) {
-                    listOfArgs += '&';
-                }
-
-                i++
-                listOfArgs += key + '=' + value;
-            }
-        }
-    }
-
+export function act_syncDataSet() {
 
     const request = axios.get(`https://restcountries.eu/rest/v2/all`)
         .then(response => {
 
-            axios.post(`${NATION_SERVER}/sync_entity?${listOfArgs}`, response.data)
+            axios.post(`${NATION_SERVER}/sync_entity`, response.data)
             .then(response => {
                 // console.log(response);
             });
 
-
-
-            // if (value) {
-
-            //     if (i !== 1) {
-            //         listOfArgs += '&';
-            //     }
-
-            //     i++
-            //     listOfArgs += key + '=' + value;
-            // }
-
-
-
         });
 
     return {
-        type: ADD_NATION,
+        type: SYNC_ENTITY_NATION,
         payload: request
     }
 }
 
-export function act_addNation(args = null, dataToSubmit = null) {
+
+export function act_removeItem_Nation(args = null) {
 
     let listOfArgs = '';
     let i = 1;
@@ -139,18 +105,7 @@ export function act_addNation(args = null, dataToSubmit = null) {
         }
     }
 
-    const request = axios.post(`${NATION_SERVER}/add_entity?${listOfArgs}`, dataToSubmit)
-        .then(response => response.data);
-
-    return {
-        type: ADD_NATION,
-        payload: request
-    }
-}
-
-export function act_removeItem_Nation(id) {
-
-    const request = axios.get(`${NATION_SERVER}/remove_entity_from_list?_id=${id}`)
+    const request = axios.get(`${NATION_SERVER}/remove_entity_from_list?${listOfArgs}`)
         .then(response => {
 
             return response.data;
@@ -162,33 +117,6 @@ export function act_removeItem_Nation(id) {
     }
 }
 
-
-export function act_removeImage_Nation(image_id, parent_id) {
-
-    const request = axios.get(`${NATION_SERVER}/removeimage?image_id=${image_id}&parent_id=${parent_id}`)
-        .then(response => {
-            return response.data;
-        })
-
-    return {
-        type: REMOVE_IMAGE_NATION,
-        payload: request
-    }
-}
-
-export function act_uploadImage_Nation(formData, axiosheaders, parent_id) {
-
-    const request = axios.post(`${NATION_SERVER}/uploadimage?parent_id=${parent_id}`, formData, axiosheaders)
-        .then(response => {
-
-            return response.data;
-        })
-
-    return {
-        type: UPLOAD_IMAGE_NATION,
-        payload: request
-    }
-}
 
 export function act_getDetail_by_Id_Nation(id) {
 

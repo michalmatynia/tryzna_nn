@@ -145,8 +145,18 @@ app.get('/api/nation/list_entities', (req, res) => {
 
 app.post('/api/nation/sync_entity', (req, res) => {
 
-    // Parse Data
-    // For Each Country
+    let sort = req.query.sort ? req.query.sort : { name: 1 };
+    let limit = req.query.limit ? parseInt(req.query.limit) : 1000;
+
+    let allArgs = {};
+
+    for (const [key, value] of Object.entries(req.query)) {
+
+        if (key !== 'sort' && key !== 'limit' && key !== '_id') {
+            allArgs[key] = value
+        }
+    }
+
     req.body.forEach((item) => {
 
 
@@ -171,9 +181,46 @@ app.post('/api/nation/sync_entity', (req, res) => {
 
     })
 
-    return res.status(200).json({
-        success: true
-    })
+    Nation.
+        find(allArgs)
+        // .sort({position : 1})
+        .sort(sort)
+        .limit(limit)
+        .exec((err2, doc2) => {
+            if (err2) return res.status(400).send(err2);
+            res.send(doc2)
+        })
+
+})
+
+app.get('/api/nation/remove_entity_from_list', auth, (req, res) => {
+
+    let sort = req.query.sort ? req.query.sort : { name: 1 };
+    let limit = req.query.limit ? parseInt(req.query.limit) : 1000;
+
+    let allArgs = {};
+
+    for (const [key, value] of Object.entries(req.query)) {
+
+        if (key !== 'sort' && key !== 'limit' && key !== '_id') {
+            allArgs[key] = value
+        }
+    }
+
+    Nation.
+        findOneAndDelete({ _id: req.query._id }, (err, docs) => {
+
+            Nation.
+                find(allArgs)
+                // .sort({position : 1})
+                .sort(sort)
+                .limit(limit)
+                .exec((err2, doc2) => {
+                    if (err2) return res.status(400).send(err2);
+                    res.send(doc2)
+                })
+
+        })
 
 })
 
@@ -509,10 +556,6 @@ app.post('/api/slide/update_entity', auth, admin, (req, res) => {
                 },
                 { new: true },
                 (err2, doc2) => { })
-
-            // console.log(err);
-            // console.log(doc);
-
 
 
             if (err) return res.json({ success: false, err });
@@ -878,8 +921,6 @@ app.post('/api/user/register', (req, res) => {
 app.post('/api/user/login', (req, res) => {
 
     User.findOne({ 'email': req.body.email }, (err, user) => {
-
-
 
         if (!user) { return res.json({ loginSuccess: false, message: "Auth failed, email not found" }); } else {
 
