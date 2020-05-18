@@ -33,7 +33,7 @@ export function act_listNations(args = null) {
 
     const request = axios.get(`${NATION_SERVER}/list_entities?${listOfArgs}`)
         .then(response => {
-    
+ 
             return response.data
         })
 
@@ -73,9 +73,9 @@ export function act_syncDataSet() {
         .then(response => {
 
             axios.post(`${NATION_SERVER}/sync_entity`, response.data)
-            .then(response => {
-                // console.log(response);
-            });
+                .then(response => {
+                    // console.log(response);
+                });
 
         });
 
@@ -104,6 +104,7 @@ export function act_removeItem_Nation(args = null) {
             }
         }
     }
+    
 
     const request = axios.get(`${NATION_SERVER}/remove_entity_from_list?${listOfArgs}`)
         .then(response => {

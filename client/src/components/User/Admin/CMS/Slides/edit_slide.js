@@ -123,22 +123,12 @@ class EditSlide extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        console.log('ComponentUpdate');
-
 
         // Universal Rule
 
 
         if (this.props.slides.slideDetail !== undefined
             && this.props.user.siteLocalisation !== undefined) {
-
-                console.log('INSIDEA');
-                console.log(this.state.formdata);
-
-                console.log(this.props);
-                
-
-
 
             if (
                 Object.keys(this.state.formdata.position.config.options).length === 0
@@ -162,7 +152,6 @@ class EditSlide extends Component {
             } else if (
                 this.props.user.siteLocalisation.value !== prevProps.user.siteLocalisation.value
             ) {
-                console.log('INSIDEB');
 
                 let args = {}
                 this.props.dispatch(act_getDetail_by_Args_Slide(this.props.user.siteLocalisation.value, args))
@@ -213,9 +202,7 @@ class EditSlide extends Component {
     }
 
     componentDidMount() {
-        console.log('ComponentMount');
 
-        console.log(this.state.formdata);
         if (
             this.props.user.siteLocalisation !== undefined
         ) {

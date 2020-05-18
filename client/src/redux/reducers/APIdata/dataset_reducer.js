@@ -15,7 +15,6 @@ export default function (state = {}, action) {
         case REMOVE_ITEM_NATION:
             return {
                 ...state,
-                listNations: action.payload,
             }
         case CLEAR_DETAIL_NATION:
             return {
@@ -30,7 +29,7 @@ export default function (state = {}, action) {
         case UPDATE_DETAIL_NATION:
             return { ...state, detailNation: action.payload }
         case SYNC_ENTITY_NATION:
-            return { ...state, listNations: action.payload }
+            return { ...state }
         default:
             return state;
     }

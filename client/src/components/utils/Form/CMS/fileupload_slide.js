@@ -76,11 +76,9 @@ class Fileupload extends Component {
 
         this.props.dispatch(act_uploadImage_Slide(formData, axiosconfig, this.props.parent_id))
             .then(response => {
-                console.log('inside upload image');
                 this.setState({
                     uploading: false
                 }, () => {
-                    console.log('Callback inside on Drop-SetState');
                     this.props.addImagesHandler(response.payload)
 
                 })

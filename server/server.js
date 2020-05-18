@@ -118,23 +118,21 @@ app.get('api/user/download/:id', auth, admin, (req, res) => {
 //=======================
 app.get('/api/nation/list_entities', (req, res) => {
 
-    let sortBy = req.query.sortBy ? req.query.sortBy : { position: 1 };
+    let sort = req.query.sortBy ? req.query.sortBy : { name: 1 };
     let limit = req.query.limit ? parseInt(req.query.limit) : 1000;
 
     let allArgs = {};
 
     for (const [key, value] of Object.entries(req.query)) {
 
-        if (key !== 'sortBy') {
+        if (key !== 'sort' && key !== 'limit' && key !== '_id') {
             allArgs[key] = value
         }
     }
 
     Nation.
         find(allArgs)
-        // .sort({position : 1})
-        .sort(sortBy)
-
+        .sort(sort)
         .limit(limit)
         .exec((err, doc) => {
 
@@ -179,46 +177,51 @@ app.post('/api/nation/sync_entity', (req, res) => {
             }
         )
 
+
+
+    })
+    res.status(200).json({
+        success: true
     })
 
-    Nation.
-        find(allArgs)
-        // .sort({position : 1})
-        .sort(sort)
-        .limit(limit)
-        .exec((err2, doc2) => {
-            if (err2) return res.status(400).send(err2);
-            res.send(doc2)
-        })
+    // Nation.
+    //     find(allArgs)
+    //     // .sort({position : 1})
+    //     .sort(sort)
+    //     .limit(limit)
+    //     .exec((err2, doc2) => {
+    //         if (err2) return res.status(400).send(err2);
+    //         res.send(doc2)
+    //     })
 
 })
 
 app.get('/api/nation/remove_entity_from_list', auth, (req, res) => {
 
-    let sort = req.query.sort ? req.query.sort : { name: 1 };
-    let limit = req.query.limit ? parseInt(req.query.limit) : 1000;
+    // let sort = req.query.sort ? req.query.sort : { name: 1 };
+    // let limit = req.query.limit ? parseInt(req.query.limit) : 1000;
 
-    let allArgs = {};
+    // let allArgs = {};
 
-    for (const [key, value] of Object.entries(req.query)) {
+    // for (const [key, value] of Object.entries(req.query)) {
 
-        if (key !== 'sort' && key !== 'limit' && key !== '_id') {
-            allArgs[key] = value
-        }
-    }
+    //     if (key !== 'sort' && key !== 'limit' && key !== '_id') {
+    //         allArgs[key] = value
+    //     }
+    // }
 
     Nation.
         findOneAndDelete({ _id: req.query._id }, (err, docs) => {
 
-            Nation.
-                find(allArgs)
-                // .sort({position : 1})
-                .sort(sort)
-                .limit(limit)
-                .exec((err2, doc2) => {
-                    if (err2) return res.status(400).send(err2);
-                    res.send(doc2)
-                })
+            // Nation.
+            //     find(allArgs)
+            //     // .sort({position : 1})
+            //     .sort(sort)
+            //     .limit(limit)
+            //     .exec((err2, doc2) => {
+                    if (err) return res.status(400).send(err);
+                    res.send(docs)
+            //     })
 
         })
 
@@ -399,8 +402,6 @@ app.post('/api/slide/add_entity', (req, res) => {
 
 // })
 app.get('/api/slide/remove_entity_from_list', auth, (req, res) => {
-
-    console.log(req.body);
 
 
     Slide.findOne({ _id: req.query._id }, (err, doc) => {
@@ -608,9 +609,6 @@ app.get('/api/slide/removeimage', auth, admin, (req, res) => {
             },
             { new: true },
             (err, doc) => {
-
-                console.log(doc);
-                console.log(err);
 
 
                 cloudinary.uploader.destroy(req.query.image_id, (error) => {
